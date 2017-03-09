@@ -1,0 +1,22 @@
+{
+    "@context": {
+	"qb": "http://purl.org/linked-data/cube#",
+	"sdmx-dimension": "http://purl.org/linked-data/sdmx/2009/dimension#",
+	"sdmx-code": "http://purl.org/linked-data/sdmx/2009/code#",
+	"t2q": "http://publishmydata.com/def/table2qb/"
+    },
+    "qb:dataset": {
+        "@id": "http://example.com/data/population-estimates",
+        "t2q:slug": "popest",
+        "qb:structure": {
+            "qb:component": [
+                { "t2q:header": "GeographyCode", "qb:dimension": "sdmx-dimension:refArea", "t2q:value-prefix": "http://statistics.gov.uk/id/geographic-instance/" },
+                { "t2q:header": "DateCode", "qb:dimension": "sdmx-dimension:refPeriod" },
+                { "t2q:header": "Measurement", "qb:dimension": "qb:measureType" },
+                { "t2q:header": "Value", "qb:measure": null },
+                { "t2q:header": "Age", "qb:dimension": "sdmx-dimension:age" },
+                { "t2q:header": "Gender", "qb:dimension": "custom-dimension:gender" }
+            ]
+        }
+    }
+}

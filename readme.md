@@ -35,11 +35,12 @@ Strict mode takes a table and a json-ld configuration. This configuration specif
 - component: the component property e.g. sdmx-dim:refArea
 - component-type: could be infered from the vocab, but specifying it here would allow us to remove that dependency i.e. qb:dimension, qb:measure, or qb:dimension
 - value-prefix: if provided, applies to all values in the column, otherwise (i.e. if you want to use different prefixes within a column) the values should already include prefixes
+- value: if provided, applies a default value for that component to every observation
 
 The configuration might also include things like:
 
 - dataset-uri: where this already exists (i.e. for updates)
-- dataset-slug: used to namespace the qb entities to avoid collision (usually taken by looking-up the name from the 
+- dataset-slug: used to namespace the qb entities to avoid collision (usually taken by looking-up the name from the database)
 
 Relaxed mode just requires a table. It prepares the table and correspondig configuration for strict mode.
 
@@ -56,7 +57,7 @@ Relaxed mode may also need to generate associated data (i.e. codelists/ vocabula
 - creates concept schemes e.g. for new dimension-values
 - creates arbitrary reference data e.g. time intervals
 
-For example see relaxed mode input as per [relaxed-input.csv](./relaxed-input.csv). This would prepare some inputs for strict mode as per [strict-input.csv](./strict-input.csv) and [strict-input.json](./strict-input.json).
+There are a couple of [examples](./examples) of relaxed-input.csv which would lead to strict-input.csv and strict-input.json.
 
 ## Challenges
 
@@ -97,7 +98,7 @@ We generally see two scenarios:
 
 In the import case, we generate the dataset-uri (and slugs for the URIs of all the included qb entities) from a dataset name. Generally the validation is quite loose as what is provided is what should be inserted.
 
-In the update case, we already have a dataset-uri that should be used, in order to namespace entity URIs we require a slug (which we take be querying the dataset name). New data must be validated against existing data.
+In the update case, we already have a dataset-uri that should be used, in order to namespace entity URIs we require a slug (which we have so far found by querying the dataset name). New data must be validated against existing data.
 
 Whereas the import case may be standalone. The update case requires that we query a database to configure the pipeline.
 

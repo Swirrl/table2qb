@@ -115,7 +115,7 @@ Even more desirable, will be a means of adopting existing reference data, so the
 
 ### Scottish Government - sns-graft
 
-The upload format we've previously given SG, is basically the relaxed-mode variant. Relaxed mode input as per [relaxed-input.csv](./relaxed-input.csv). This would prepare some inputs for strict mode as per [strict-input.csv](./strict-input.csv) and [strict-input.json](./strict-input.json).
+The upload format we've previously given SG, is basically the relaxed-mode variant. Relaxed mode input as per [relaxed-input.csv](./examples/age-gender/relaxed-input.csv). This would prepare some inputs for strict mode as per [strict-input.csv](./examples/age-gender/strict-input.csv) and [strict-input.json](./examples/age-gender/strict-input.json).
 
 We'll want to extract some of the logic/ heuristics out from sns-graft into the relaxed pipeline.
 

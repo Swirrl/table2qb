@@ -1,0 +1,66 @@
+{
+  "@context": ["http://www.w3.org/ns/csvw", {
+    "@language": "en",
+    "@base": "http://example.org/",
+    "year": "http://reference.data.gov.uk/id/year/",
+    "gss": "http://statistics.gov.uk/id/geographic-instance/",
+    "measure": ":def/measure-property/",
+    "unit": ":def/concept/measurement-unit/",
+    "age": ":def/concept/age/",
+    "dimension": ":def/dimension/",
+    "sdmx-code": "http://purl.org/linked-data/sdmx/2009/code#",
+    "sdmx-dimension": "http://purl.org/linked-data/sdmx/2009/dimension#",
+    "qb": "http://purl.org/linked-data/cube#"
+  }],
+  "url": "relaxed-input.csv",
+  "dc:title": "Age and Gender",
+  "tableScheme": {
+    "columns": [{
+      "name": "GeographyCode",
+      "titles": "Geography Code",
+      "dc:description": "The GSS Code",
+      "datatype": "string",
+      "propertyUrl": "sdmx-dimension:refArea",
+      "valueUrl": "gss:{GeographyCode}"
+    },{
+      "name": "DateCode",
+      "titles": "Date Code",
+      "datatype": "string",
+      "propertyUrl": "sdmx-dimension:refPeriod",
+      "valueUrl": "{DateCode}"
+    },{
+      "name": "Measurement",
+      "titles": "Measure Property",
+      "datatype": "string",
+      "propertyUrl": "qb:measureType",
+      "valueUrl": "{Measurement}"
+    },{
+      "name": "Units",
+      "titles": "Measurement Unit",
+      "datatype": "string",
+      "propertyUrl": "sdmx-attribute:unitMeasure",
+      "valueUrl": "{Units}"
+    },{
+      "name": "Value",
+      "titles": "Observation Value",
+      "datatype": "number",
+      "propertyUrl": "{Measurement}"
+    },{
+      "name": "Age",
+      "datatype": "string",
+      "propertyUrl": "sdmx-dimension:age",
+      "valueUrl": "{Age}"
+    },{
+      "name": "Gender",
+      "datatype": "string",
+      "propertyUrl": "dimension:gender",
+      "valueUrl": "{Gender}"
+    },{
+      "name": "DataSet",
+      "virtual": true,
+      "propertyUrl": "qb:dataSet",
+      "valueUrl": ":/data/population-estimates"
+    }],
+    "aboutUrl": ":/data/population-estimates/geography/{GeographyCode}/{DateCode}/{Age}/{Gender}/{Measurement}/{Units}"
+  }
+}

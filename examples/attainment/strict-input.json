@@ -7,7 +7,7 @@
     "t2q": "http://publishmydata.com/def/table2qb/",
     "educ": "http://statistics.gov.scot/def/edu/",
     "est": "http://statistics.gov.scot/id/education/establishment",
-    "grp": "http://statistics.gov.scot/id/education/establishment-group"
+    "grp": "http://statistics.gov.scot/id/education/establishment-group",
     "comparator": "http://statistics.gov.scot/def/education/comparator",
     "distribution": "http://statistics.gov.scot/def/education/attainment-distribution/",
     "custom-dimension": "http://statistics.gov.scot/def/dimension/"

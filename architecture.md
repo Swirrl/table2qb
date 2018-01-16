@@ -18,8 +18,8 @@ More specifically the process would be as follows:
 - *Data loading*:
   - *Preparation*: 
     - Identify Components: mapping from a column name to a cube component (e.g. "Date" => `smdx:refPeriod`)
-    - Identify URIs: transform strings to URIs based upon transformations (converted in the table) or `csvw:valueUrl` templates (conversion in csvw step) (see #3 [RFC6570](https://tools.ietf.org/html/rfc6570) for template spec).
-    - Validate cells: check if codes are present in codelists, find missing values (blank cells)
+    - Transform URIs and Literals: transform strings to URIs or literals based upon transformations (converted in the table) or `csvw:valueUrl` templates (conversion in csvw step) (see #3 [RFC6570](https://tools.ietf.org/html/rfc6570) for template spec).
+    - Validate Cells: check if codes are present in codelists, find missing values (blank cells)
     - Extract Marginals: collect codes enumerating cube extent (how we currently use `qb:codeList`)
   - *Conversion*: the above will furnish us with a cleaned csv file and a csvw-metadata json file that may be feed into a csvw pipeline to create RDF
 
@@ -73,3 +73,5 @@ We could correct this by:
  
 - using `qb:codeList` correctly, it would be specified when creating the `qb:DimensionProperty` and the cell content would use this for validation
 - attaching `pmd:codesUsed` to the `qb:ComponentSpec` (which, unlike the dimension, is cube-specific). This would be created/ updated when preparing the data (Extract Marginals).
+
+These marginals could get quite unwieldy, perhaps we'd want to load them immediately into a draft (rather than serialising them as json-ld to be loaded as part of the csv2rdf step).

@@ -23,6 +23,7 @@ More specifically the process would be as follows:
     - Extract Marginals: collect codes enumerating cube extent (how we currently use `qb:codeList`)
   - *Conversion*: the above will furnish us with a cleaned csv file and a csvw-metadata json file that may be feed into a csvw pipeline to create RDF
 
+[Here's a example](./example.md) of what this might look like.
 
 ## Implications of Implementing csv2rdf
 

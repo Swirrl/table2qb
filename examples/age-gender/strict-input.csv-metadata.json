@@ -12,8 +12,20 @@
     "sdmx-dimension": "http://purl.org/linked-data/sdmx/2009/dimension#",
     "qb": "http://purl.org/linked-data/cube#"
   }],
+  "@id": "http://example.com/data/population-estimates",
   "url": "relaxed-input.csv",
   "dc:title": "Age and Gender",
+  "qb:structure": {
+      "qb:component": [
+          { "qb:dimension": "sdmx-dimension:refArea" },
+          { "qb:dimension": "sdmx-dimension:refPeriod" },
+          { "qb:dimension": "qb:measureType" },
+          { "qb:measure": "???" },
+          { "qb:attribute": "sdmx-attribute:unitMeasure" },
+          { "qb:dimension": "sdmx-dimension:age" },
+          { "qb:dimension": "dimension:gender" }
+      ]
+  },
   "tableScheme": {
     "columns": [{
       "name": "GeographyCode",

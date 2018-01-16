@@ -105,11 +105,15 @@ At this stage we can either rely on URI templates e.g.
 ```json
 {
         "tableSchema": {
-                "columns": [
-                        {"name": "period", "titles": "Year", "propertyUrl":"sdmx-dimension:refPeriod", valueUrl: "http://reference.data.gov.uk/id/year/{year}"}
-		]
+                "columns": [{
+			   "name": "period",
+			   "titles": "Year",
+			   "propertyUrl":"sdmx-dimension:refPeriod",
+			   "valueUrl": "http://reference.data.gov.uk/id/year/{year}"
+		}]
 	}
 }
+```
 
 Or, for more complex transformations, we could convert the table cells instead, e.g. using CURIEs (where `PREFIX @year: <http://reference.data.gov.uk/id/year/>`):
 

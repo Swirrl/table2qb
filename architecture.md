@@ -1,0 +1,63 @@
+# table2qb Architecture Proposal
+
+This proposal draws on comments on the [spec](./specification.md) (#1, #2) which suggest we should adopt the [csvw](https://www.w3.org/TR/tabular-data-model/) approach to metadata (i.e. json-ld with a csvw vocab). This effectively leads us to writing a [csv2rdf](https://www.w3.org/TR/csv2rdf/) implementation.
+
+## Overview
+
+A couple of principles have been uncontroversial:
+- Reference data (including both properties and codes) should be loaded before the data is loaded.
+- A data table will go through a preparatory stage that builds up metadata/ URIs before loading.
+- The transformation of the data table will use both the cleaned data and the json metadata
+
+More specifically the process would be as follows:
+
+- *Metadata Loading*:
+  - Create components: `qb:DimensionProperty`, `qb:AttributeProperty` and `qb:MeasureProperty`
+  - Create codelists: `skos:ConceptScheme`, `owl:Class`
+  - Create lookups: this stage could also allow us to specify commonly used headers `csvw:titles` (e.g. `"Date"`) and how they ought to relate to an internal variable name `csvw:name` (e.g. `period`) and `propertyUrl` (e.g. `sdmx:refPeriod`)
+- *Data loading*:
+  - *Preparation*: 
+    - Identify Components: mapping from a column name to a cube component (e.g. "Date" => `smdx:refPeriod`)
+    - Identify URIs: transform strings to URIs based upon transformations (converted in the table) or `csvw:valueUrl` templates (conversion in csvw step) (see #3 [RFC6570](https://tools.ietf.org/html/rfc6570) for template spec).
+    - Validate cells: check if codes are present in codelists, find missing values (blank cells)
+    - Extract Marginals: collect codes enumerating cube extent (how we currently use `qb:codeList`)
+  - *Conversion*: the above will furnish us with a cleaned csv file and a csvw-metadata json file that may be feed into a csvw pipeline to create RDF
+
+
+## Implications of Implementing csv2rdf
+
+If we adopt the [csv2rdf](https://www.w3.org/TR/csv2rdf/) approach we will effectively build csvw-graft, a clojure implementation of the spec. We only really need to support [minimal mode](https://www.w3.org/TR/csv2rdf/#dfn-minimal-mode) i.e. just converting the cells. By contrast [standard mode](https://www.w3.org/TR/csv2rdf/#dfn-standard-mode) produces lots of bookkeepping output (i.e. how the source cells relate to the rdf) - this may be useful for auditting (describing provenance) and tracking input errors in future.
+
+We would also need to support the transformation of json-ld included in the csvw-metadata. In particular, the [rdf-cube example](https://github.com/w3c/csvw/blob/gh-pages/examples/rdf-data-cube-example.md) includes the DSD in the foo.csv-metadata.json as json-ld. This is probably a non-trivial undertaking (includes i/o for json and CURIE expansion etc. This also means maintaining compatibility with edn (#4) will be harder (unless we create edn-ld).
+
+
+## URI slugs
+
+This requirement is ubiquitous (for us) but isn't dealt with satisfactorily in the csvw specs. It is typically assumed that variable inputs to URI templates are already URI encoded (mostly IDs from other systems). By contrast we find ourselves slugifying strings very often (either for legibility, because there is no pre-existing unique identifier, or simply because the string *is* the identifier).
+
+The specs provide for something called a [transformation definition](https://www.w3.org/TR/2015/REC-tabular-metadata-20151217/#dfn-transformation-definition) as part of the csvw tabular metadata spec. This is a bit clunky to use as you need to provide:
+
+- url: to a script that MUST be fetched (typically specified relative to the location of the csv)
+- targetFormat: a uri for the media-type (and slug doesn't appear to be assigned by IANA)
+- scriptFormat: another media-type uri (`application/vnd.swirrl.grafter.edn`?!)
+
+We really don't want to have to go and do all this just for a simple slugify transformation.
+
+It doesn't look like the URI templates provide for this either [RFC6570](https://tools.ietf.org/html/rfc6570). The spec does reserve the `$` operator for external use but if we use this for slugging then we won't be interoperable with others implementing csvw using the basic RFC6570.
+
+We could side-step this (i.e. without violating the spec) by having the slugifying happen in the preparatory step. We can create copies of the relevant columns (as we do at the moment) e.g. `date-slug`.
+
+
+## Moving from `qb:codeList` to (e.g) `pmd:codesUsed`
+
+There's value in attaching collections (skos:ConceptSchemes) of codes to cubes for two purposes:
+
+- a code list - defines the full range of permissible values for a coded property (indeed this could be the amalgamation of multiple other code lists (e.g. local-authorities + wards). This is useful for validation or visualisation (where gaps are significant).
+- a cube marginal - defines the range of used values for that property (i.e. only those that can be found in the observations). This provides indexes for tools (cube viewer) or performance etc.
+
+We're currently using `qb:codeList` to attach a list of used codes (the cube marginal) to the relevant `qb:ComponentSpecification` (although the spec declares the `rdfs:range` of this property to be `qb:CodedProperty` i.e. the dimension).
+
+We could correct this by:
+ 
+- using `qb:codeList` correctly, it would be specified when creating the `qb:DimensionProperty` and the cell content would use this for validation
+- attaching `pmd:codesUsed` to the `qb:ComponentSpec` (which, unlike the dimension, is cube-specific). This would be created/ updated when preparing the data (Extract Marginals).

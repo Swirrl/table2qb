@@ -13,8 +13,8 @@ More specifically the process would be as follows:
 
 - *Metadata Loading*:
   - Create components: `qb:DimensionProperty`, `qb:AttributeProperty` and `qb:MeasureProperty`
-  - Create codelists: `skos:ConceptScheme`, `owl:Class`
-  - Create lookups: this stage could also allow us to specify commonly used headers `csvw:titles` (e.g. `"Date"`) and how they ought to relate to an internal variable name `csvw:name` (e.g. `period`) and `propertyUrl` (e.g. `sdmx:refPeriod`)
+  - Create codelists: `skos:ConceptScheme`, `owl:Class` (these would be related to the above via `qb:codeList` at this stage)
+  - Create conventions: common mappings from string headers in csv to a default configuration
 - *Data loading*:
   - *Preparation*: 
     - Identify Components: mapping from a column name to a cube component (e.g. "Date" => `smdx:refPeriod`)
@@ -29,6 +29,18 @@ More specifically the process would be as follows:
 If we adopt the [csv2rdf](https://www.w3.org/TR/csv2rdf/) approach we will effectively build csvw-graft, a clojure implementation of the spec. We only really need to support [minimal mode](https://www.w3.org/TR/csv2rdf/#dfn-minimal-mode) i.e. just converting the cells. By contrast [standard mode](https://www.w3.org/TR/csv2rdf/#dfn-standard-mode) produces lots of bookkeepping output (i.e. how the source cells relate to the rdf) - this may be useful for auditting (describing provenance) and tracking input errors in future.
 
 We would also need to support the transformation of json-ld included in the csvw-metadata. In particular, the [rdf-cube example](https://github.com/w3c/csvw/blob/gh-pages/examples/rdf-data-cube-example.md) includes the DSD in the foo.csv-metadata.json as json-ld. This is probably a non-trivial undertaking (includes i/o for json and CURIE expansion etc. This also means maintaining compatibility with edn (#4) will be harder (unless we create edn-ld).
+
+
+## Conventions/ Rules
+
+As above these would map commonly used headers `csvw:titles` (e.g. `["Date","Dates","Year"]` etc) to an internal identifier `csvw:name` (e.g. `period`) that would in term describe:
+- the `propertyUrl` for the `qb:ComponentProperty` (e.g. a dimension property like `sdmx:refPeriod`) (and thus a `qb:codeList`)
+- a `valueURL` for converting the value/ slug into an object URI (e.g. a URI template like "http://purl.org/linked-data/sdmx/2009/code#{gender}")
+- a transformation function (for more complex `* -> URI` operations - e.g. turning a Datetime into an Interval or enum->uri lookups)
+- some validation functions
+- a `qb:order` for the component (useful for core dimensions) - otherwise the position in the csv would be used
+
+We should probably start by specifying this in clojure (or maybe even edn) although we may later want to make this user-configurable. Ultimately these conventions should be what standardises client-specific requirements and should be what takes the majority of time required to build pipelines in future.
 
 
 ## URI slugs

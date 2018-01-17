@@ -9,11 +9,15 @@ Year,Count
 2017,20
 ```
 
+Note this is ["tidy data"](http://vita.had.co.nz/papers/tidy-data.pdf): (normalised to) one observation per row, one column per variable (component) - a date dimension, and a count measure.
+
+There is also an overview of the [architecture](./architecture.md) (which also has a more detailed treatment of a few issues) and a summary of the [specification](./specification.md) (written much earlier but may still help to explain the problems and requirements that have brought us to this point).
+
 ## 1. Load metadata
 
-### 1.1 Create Component
+### 1.1 Create Components
 
-Load the sdmx/ qb vocabularies (which include a definition of `sdmx-dimension:refPeriod`)
+Load the sdmx/ qb vocabularies (which include a definition of `sdmx-dimension:refPeriod` for the date dimension).
 
 Create the "count" measure-property; either via a UI or a pipeline with something like the following csv upload:
 
@@ -22,7 +26,7 @@ Measure
 count
 ```
 
-This would create a property (e.g. `eg:count`), label, and class (for the `rdfs:range` of the property) in a measures ontology.
+This would create a labelled property (e.g. `eg:count`) and class (for the `rdfs:range` of the property) in a measures ontology.
 
 ### 1.2 Create Codelists
 
@@ -38,9 +42,11 @@ http://reference.data.gov.uk/id/year/2018
 
 This example isn't really very insightful, it would make more sense for codes which don't already exist as linked-data (i.e. where labels and notations exist but no URIs).
 
+We'd likely also want a way to related codelists to dimensions (i.e. to specify `?dim qb:codeList ?concept_scheme`).
+
 ### 1.3 Create Conventions
 
-This might just be an edn file like:
+This will probably be server-side configuration for the time being, but it could one day be user-configurable. For now, this might just be an edn file like:
 
 ```edn
 (def components
@@ -55,8 +61,11 @@ This might just be an edn file like:
   {"year": "http://reference.data.gov.uk/id/year/{year}"})
 
 (def component-value-transformations
-  {"count": gec/parseNumber})
+  {"count": ::grafter.extra.cell.string/parseNumber})
 ```
+
+
+
 
 ## 2. Load Data
 
@@ -94,7 +103,7 @@ Using the above conventions and the table headers we can establish the lion's sh
 }
 ```
 
-This gives us the basis for the DSD and the mapping from the table to RDF.
+This gives us the basis for the `qb:DataStructureDefinition`, `qb:ComponentSpecifications` and the mapping from the table to RDF that will allow us to create a `qb:Observation` from each row.
 
 We probably ought to include more "@id" values (subject uris) for the intermediate resources like the `qb:ComponentSpecification` (rather than having these be blank nodes).
 
@@ -128,7 +137,7 @@ Similarly we would transform literals at this stage (e.g. parsing strings to num
 
 #### 2.1.3 Validate Cells
 
-This step would compare the transformed URIs to codelists, or the literals to other rules (e.g. count cannot be missing or negative).
+This step would compare the transformed URIs to codelists, or the literals to other rules (e.g. count cannot be missing or negative). Much of this should follow from the above configuration.
 
 #### 2.1.3 Extract Marginals
 
@@ -155,4 +164,4 @@ NB: In contrast with the dimension's `qb:codeList`, the `pmd:usedCodes` list doe
 
 ### 2.2 Conversion
 
-The json metadata should now be sufficient to load with a csv2rdf pipeline.
+The json metadata should now be sufficient to load with a csv2rdf pipeline. Note that the [cswv qb example](https://github.com/w3c/csvw/blob/gh-pages/examples/rdf-data-cube-example.md) suggests that the json-ld metadata be quite terse leaving the remaining statements (i.e. to set rdf-types like the `<row-x> a qb:Observation` etc) to be filled out through [cube normalisation](https://www.w3.org/TR/vocab-data-cube/#normalize) (fyi: [grafter.extra.validation.cube/normalise-cube](https://github.com/Swirrl/grafter-extra/blob/master/src/grafter/extra/validation/cube.clj#L22-L26)).

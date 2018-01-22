@@ -29,8 +29,7 @@ More specifically the process would be as follows:
 
 If we adopt the [csv2rdf](https://www.w3.org/TR/csv2rdf/) approach we will effectively build csvw-graft, a clojure implementation of the spec. We only really need to support [minimal mode](https://www.w3.org/TR/csv2rdf/#dfn-minimal-mode) i.e. just converting the cells. By contrast [standard mode](https://www.w3.org/TR/csv2rdf/#dfn-standard-mode) produces lots of bookkeepping output (i.e. how the source cells relate to the rdf) - this may be useful for auditting (describing provenance) and tracking input errors in future.
 
-We would also need to support the transformation of json-ld included in the csvw-metadata. In particular, the [rdf-cube example](https://github.com/w3c/csvw/blob/gh-pages/examples/rdf-data-cube-example.md) includes the DSD in the foo.csv-metadata.json as json-ld. This is probably a non-trivial undertaking (includes i/o for json and CURIE expansion etc. This also means maintaining compatibility with edn (#4) will be harder (unless we create edn-ld).
-
+We would also need to support the transformation of json-ld included in the csvw-metadata. In particular, the [rdf-cube example](https://github.com/w3c/csvw/blob/gh-pages/examples/rdf-data-cube-example.md) includes the DSD in the foo.csv-metadata.json as json-ld. This can probably be done using RDF4j/grafter for json and CURIE expansion etc.
 
 ## Conventions/ Rules
 

@@ -50,18 +50,18 @@ This will probably be server-side configuration for the time being, but it could
 
 ```edn
 (def components
-  {"Year": "year",
-   "Count": "count"})
+  {"Year" "year",
+   "Count" "count"})
 
 (def component-properties
-  {"year": "sdmx-dim:refPeriod",
-   "count": "eg:count"})
+  {"year" "sdmx-dim:refPeriod",
+   "count" "eg:count"})
 
 (def component-valueUrls
-  {"year": "http://reference.data.gov.uk/id/year/{year}"})
+  {"year" "http://reference.data.gov.uk/id/year/{year}"})
 
 (def component-value-transformations
-  {"count": ::grafter.extra.cell.string/parseNumber})
+  {"count" ::grafter.extra.cell.string/parseNumber})
 ```
 
 

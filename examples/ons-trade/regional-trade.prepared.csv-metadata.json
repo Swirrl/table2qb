@@ -23,7 +23,7 @@
           { "qb:dimension": "dimension:flow" }
       ]
   },
-  "tableScheme": {
+  "tableSchema": {
     "columns": [{
       "name": "geography",
       "titles": "GeographyCode",

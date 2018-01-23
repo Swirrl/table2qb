@@ -37,7 +37,7 @@
    Where a single csvw:name is provided, the update should be made in place.
    Where a pair of csvw:names are provided, the value in the first is where the argument should be found and the second where the result should be placed"
   {:value ::grafter.extra.cell.string/parseNumber
-   [:measure :measure-slug] ::grafter.extra.cell.uri/slugize
-   [:unit :unit-slug] ::reference.to.something.that.can/slugize-gbp
-   [:sit :sitc-slug] ::grafter.extra.cell.uri/slugize
-   [:flow :flow-slug] ::grafter.extra.cell.uri/slugize})
+   :measure ::grafter.extra.cell.uri/slugize
+   :unit ::reference.to.something.that.can/slugize-gbp
+   :sitc ::grafter.extra.cell.uri/slugize
+   :flow ::grafter.extra.cell.uri/slugize})

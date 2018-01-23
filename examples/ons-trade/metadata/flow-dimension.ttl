@@ -1,0 +1,5 @@
+<http://statistics.data.gov.uk/def/dimension/flow> a <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> , <http://purl.org/linked-data/cube#DimensionProperty> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "Flow" ;
+	<http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://statistics.data.gov.uk/ontology/dimensions> ;
+	<http://www.w3.org/2000/01/rdf-schema#range> <http://statistics.data.gov.uk/def/code/Flow> .
+

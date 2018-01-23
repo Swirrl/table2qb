@@ -1,0 +1,68 @@
+<http://statistics.data.gov.uk/def/code-list/regional-trade-by-sitc/sitc-section> a <http://www.w3.org/2004/02/skos/core#ConceptScheme> ;
+  <http://www.w3.org/2004/02/skos/core#member> <http://statistics.data.gov.uk/def/concept/sitc-section/0-food-and-live-animals> , <http://statistics.data.gov.uk/def/concept/sitc-section/1-beverages-and-tobacco> , <http://statistics.data.gov.uk/def/concept/sitc-section/2-crude-materials> , <http://statistics.data.gov.uk/def/concept/sitc-section/3-mineral-fuels> , <http://statistics.data.gov.uk/def/concept/sitc-section/4-animal-and-vegetable-oils> , <http://statistics.data.gov.uk/def/concept/sitc-section/5-chemicals> , <http://statistics.data.gov.uk/def/concept/sitc-section/6-manufactured-goods> , <http://statistics.data.gov.uk/def/concept/sitc-section/7-machinery-and-transport> , <http://statistics.data.gov.uk/def/concept/sitc-section/8-miscellaneous-manufactures> , <http://statistics.data.gov.uk/def/concept/sitc-section/9-other-commodities-nes> , <http://statistics.data.gov.uk/def/concept/sitc-section/total> .
+
+<http://statistics.data.gov.uk/def/concept/sitc-section/0-food-and-live-animals> a <http://www.w3.org/2004/02/skos/core#Concept> , <http://statistics.data.gov.uk/def/code/SitcSection> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "0 Food and Live Animals" ;
+	<http://www.w3.org/2004/02/skos/core#inScheme> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#topConceptOf> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "0 Food and Live Animals" .
+
+<http://statistics.data.gov.uk/def/concept/sitc-section/1-beverages-and-tobacco> a <http://www.w3.org/2004/02/skos/core#Concept> , <http://statistics.data.gov.uk/def/code/SitcSection> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "1 Beverages and Tobacco" ;
+	<http://www.w3.org/2004/02/skos/core#inScheme> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#topConceptOf> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "1 Beverages and Tobacco" .
+
+<http://statistics.data.gov.uk/def/concept/sitc-section/2-crude-materials> a <http://www.w3.org/2004/02/skos/core#Concept> , <http://statistics.data.gov.uk/def/code/SitcSection> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "2 Crude Materials" ;
+	<http://www.w3.org/2004/02/skos/core#inScheme> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#topConceptOf> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "2 Crude Materials" .
+
+<http://statistics.data.gov.uk/def/concept/sitc-section/3-mineral-fuels> a <http://www.w3.org/2004/02/skos/core#Concept> , <http://statistics.data.gov.uk/def/code/SitcSection> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "3 Mineral Fuels" ;
+	<http://www.w3.org/2004/02/skos/core#inScheme> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#topConceptOf> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "3 Mineral Fuels" .
+
+<http://statistics.data.gov.uk/def/concept/sitc-section/4-animal-and-vegetable-oils> a <http://www.w3.org/2004/02/skos/core#Concept> , <http://statistics.data.gov.uk/def/code/SitcSection> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "4 Animal and Vegetable Oils" ;
+	<http://www.w3.org/2004/02/skos/core#inScheme> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#topConceptOf> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "4 Animal and Vegetable Oils" .
+
+<http://statistics.data.gov.uk/def/concept/sitc-section/5-chemicals> a <http://www.w3.org/2004/02/skos/core#Concept> , <http://statistics.data.gov.uk/def/code/SitcSection> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "5 Chemicals" ;
+	<http://www.w3.org/2004/02/skos/core#inScheme> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#topConceptOf> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "5 Chemicals" .
+
+<http://statistics.data.gov.uk/def/concept/sitc-section/6-manufactured-goods> a <http://www.w3.org/2004/02/skos/core#Concept> , <http://statistics.data.gov.uk/def/code/SitcSection> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "6 Manufactured Goods" ;
+	<http://www.w3.org/2004/02/skos/core#inScheme> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#topConceptOf> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "6 Manufactured Goods" .
+
+<http://statistics.data.gov.uk/def/concept/sitc-section/7-machinery-and-transport> a <http://www.w3.org/2004/02/skos/core#Concept> , <http://statistics.data.gov.uk/def/code/SitcSection> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "7 Machinery and Transport" ;
+	<http://www.w3.org/2004/02/skos/core#inScheme> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#topConceptOf> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "7 Machinery and Transport" .
+
+<http://statistics.data.gov.uk/def/concept/sitc-section/8-miscellaneous-manufactures> a <http://www.w3.org/2004/02/skos/core#Concept> , <http://statistics.data.gov.uk/def/code/SitcSection> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "8 Miscellaneous Manufactures" ;
+	<http://www.w3.org/2004/02/skos/core#inScheme> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#topConceptOf> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "8 Miscellaneous Manufactures" .
+
+<http://statistics.data.gov.uk/def/concept/sitc-section/9-other-commodities-nes> a <http://www.w3.org/2004/02/skos/core#Concept> , <http://statistics.data.gov.uk/def/code/SitcSection> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "9 Other commodities nes" ;
+	<http://www.w3.org/2004/02/skos/core#inScheme> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#topConceptOf> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "9 Other commodities nes" .
+
+<http://statistics.data.gov.uk/def/concept/sitc-section/total> a <http://www.w3.org/2004/02/skos/core#Concept> , <http://statistics.data.gov.uk/def/code/SitcSection> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "Total" ;
+	<http://www.w3.org/2004/02/skos/core#inScheme> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#topConceptOf> <http://statistics.data.gov.uk/def/concept-scheme/sitc-section> ;
+	<http://www.w3.org/2004/02/skos/core#prefLabel> "Total" .

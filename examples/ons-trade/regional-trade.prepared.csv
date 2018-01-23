@@ -1,0 +1,23 @@
+GeographyCode,DateCode,Measurement,Units,Value,SITC Section,Flow,measure-slug,unit-slug,sitc-slug,flow-slug
+K02000001,2016,Value,£ million,9448,0 Food and Live Animals,Export,value,gbp-million,0-food-and-live-animals,export
+K02000001,2016,Value,£ million,4965,1 Beverages and Tobacco,Export,value,gbp-million,1-beverages-and-tobacco,export
+K02000001,2016,Value,£ million,4175,2 Crude Materials,Export,value,gbp-million,2-crude-materials,export
+K02000001,2016,Value,£ million,13627,3 Mineral Fuels,Export,value,gbp-million,3-mineral-fuels,export
+K02000001,2016,Value,£ million,313,4 Animal and Vegetable Oils,Export,value,gbp-million,4-animal-and-vegetable-oils,export
+K02000001,2016,Value,£ million,38787,5 Chemicals,Export,value,gbp-million,5-chemicals,export
+K02000001,2016,Value,£ million,19329,6 Manufactured Goods,Export,value,gbp-million,6-manufactured-goods,export
+K02000001,2016,Value,£ million,86417,7 Machinery and Transport,Export,value,gbp-million,7-machinery-and-transport,export
+K02000001,2016,Value,£ million,30239,8 Miscellaneous Manufactures,Export,value,gbp-million,8-miscellaneous-manufactures,export
+K02000001,2016,Value,£ million,3720,9 Other commodities nes,Export,value,gbp-million,9-other-commodities-nes,export
+K02000001,2016,Value,£ million,211020,Total,Export,value,gbp-million,total,export
+K02000001,2016,Value,£ million,25851,0 Food and Live Animals,Import,value,gbp-million,0-food-and-live-animals,import
+K02000001,2016,Value,£ million,4074,1 Beverages and Tobacco,Import,value,gbp-million,1-beverages-and-tobacco,import
+K02000001,2016,Value,£ million,6780,2 Crude Materials,Import,value,gbp-million,2-crude-materials,import
+K02000001,2016,Value,£ million,19767,3 Mineral Fuels,Import,value,gbp-million,3-mineral-fuels,import
+K02000001,2016,Value,£ million,846,4 Animal and Vegetable Oils,Import,value,gbp-million,4-animal-and-vegetable-oils,import
+K02000001,2016,Value,£ million,39963,5 Chemicals,Import,value,gbp-million,5-chemicals,import
+K02000001,2016,Value,£ million,33404,6 Manufactured Goods,Import,value,gbp-million,6-manufactured-goods,import
+K02000001,2016,Value,£ million,125667,7 Machinery and Transport,Import,value,gbp-million,7-machinery-and-transport,import
+K02000001,2016,Value,£ million,49584,8 Miscellaneous Manufactures,Import,value,gbp-million,8-miscellaneous-manufactures,import
+K02000001,2016,Value,£ million,4610,9 Other commodities nes,Import,value,gbp-million,9-other-commodities-nes,import
+K02000001,2016,Value,£ million,310545,Total,Import,value,gbp-million,total,import

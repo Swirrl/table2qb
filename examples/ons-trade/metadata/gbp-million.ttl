@@ -1,0 +1,7 @@
+<http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million> a <http://purl.org/linked-data/sdmx/2009/concept#unitMeasure> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "£ million" ;
+	<http://www.w3.org/2004/02/skos/core#inScheme> <http://statistics.data.gov.uk/def/concept-scheme/measurement-units> ;
+	<http://www.w3.org/2004/02/skos/core#topConceptOf> <http://statistics.data.gov.uk/def/concept-scheme/measurement-units> .
+
+<http://statistics.data.gov.uk/def/concept-scheme/measurement-units> a <http://www.w3.org/2004/02/skos/core#ConceptScheme> ;
+  <http://www.w3.org/2004/02/skos/core#hasTopConcept> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million> .

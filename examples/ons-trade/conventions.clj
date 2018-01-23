@@ -19,7 +19,7 @@
    :date sdmx-dimension:refPeriod
    :measure sdmx-dimension:measureType
    :unit sdmx-attribute:unitMeasure
-   :value (->url "http://statistics.data.gov.uk/def/measure-properties/{measure-slug}")
+   :value (->url "http://statistics.data.gov.uk/def/measure-properties/{measure}")
    :sitc (->url "http://statistics.data.gov.uk/def/dimension/sitcSection")
    :flow (->url "http://statistics.data.gov.uk/def/dimension/flow")})
 
@@ -27,10 +27,10 @@
   "Mapping from csvw:name to a uri template for the cell values"
   {:geography "http://statistics.data.gov.uk/id/statistical-geography/{geography}"
    :date "http://reference.data.gov.uk/id/year/{date}"
-   :measure "http://statistics.data.gov.uk/def/measure-properties/{measure-slug}"
-   :unit "http://statistics.data.gov.uk/def/concept/measurement-unit/{unit-slug}"
-   :sitc "http://statistics.data.gov.uk/def/concept/sitc-section/{sitc-slug}"
-   :flow "http://statistics.data.gov.uk/def/concept/flow/{flow-slug}"})
+   :measure "http://statistics.data.gov.uk/def/measure-properties/{measure}"
+   :unit "http://statistics.data.gov.uk/def/concept/measurement-unit/{unit}"
+   :sitc "http://statistics.data.gov.uk/def/concept/sitc-section/{sitc}"
+   :flow "http://statistics.data.gov.uk/def/concept/flow/{flow}"})
 
 (def component-value-transformations
   "Mapping from csvw:name to a reference to a transformation function.

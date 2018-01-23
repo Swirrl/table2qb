@@ -9,3 +9,5 @@
 gem install linkeddata
 rdf serialize --input-format tabular regional-trade.slugged.csv --output-format ttl
 ```
+
+This produces the output in [regional-trade.ttl](./regional-trade.ttl).

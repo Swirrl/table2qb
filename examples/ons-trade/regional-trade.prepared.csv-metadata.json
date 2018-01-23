@@ -1,38 +1,31 @@
 {
-  "@context": ["http://www.w3.org/ns/csvw", {
-    "@language": "en",
-    "@base": "http://statistics.data.gov.uk/",
-    "dimension": "http://statistics.data.gov.uk/def/dimension/",
-    "sdmx-code": "http://purl.org/linked-data/sdmx/2009/code#",
-    "sdmx-dimension": "http://purl.org/linked-data/sdmx/2009/dimension#",
-    "qb": "http://purl.org/linked-data/cube#"
-  }],
-  "@id": "http://example.com/data/regional-trade",
+  "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
+  "@id": "http://statistics.data.gov.uk/data/regional-trade",
   "url": "regional-trade.prepared.csv",
   "dc:title": "Regional Trade",
   "qb:structure": {
       "qb:component": [
-          { "qb:dimension": "sdmx-dimension:refArea" },
-          { "qb:dimension": "sdmx-dimension:refPeriod" },
+          { "qb:dimension": "http://purl.org/linked-data/sdmx/2009/dimension#refArea" },
+          { "qb:dimension": "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod" },
           { "qb:dimension": "qb:measureType" },
           { "qb:measure": "http://statistics.data.gov.uk/def/measure-properties/value" },
           { "qb:attribute": "sdmx-attribute:unitMeasure" },
-          { "qb:dimension": "dimension:sitcSection" },
-          { "qb:dimension": "dimension:flow" }
+          { "qb:dimension": "http://statistics.data.gov.uk/def/dimension/sitcSection" },
+          { "qb:dimension": "http://statistics.data.gov.uk/def/dimension/flow" }
       ]
   },
-  "tableScheme": {
+  "tableSchema": {
     "columns": [{
       "name": "geography",
       "titles": "GeographyCode",
       "datatype": "string",
-      "propertyUrl": "sdmx-dimension:refArea",
+      "propertyUrl": "http://purl.org/linked-data/sdmx/2009/dimension#refArea",
       "valueUrl": "http://statistics.data.gov.uk/id/statistical-geography/{geography}"
     },{
       "name": "date",
-      "titles": "Date Code",
+      "titles": "DateCode",
       "datatype": "string",
-      "propertyUrl": "sdmx-dimension:refPeriod",
+      "propertyUrl": "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod",
       "valueUrl": "http://reference.data.gov.uk/id/year/{date}"
     },{
       "name": "measure",
@@ -44,7 +37,7 @@
       "name": "unit",
       "titles": "Units",
       "datatype": "string",
-      "propertyUrl": "sdmx-attribute:unitMeasure",
+      "propertyUrl": "http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure",
       "valueUrl": "http://statistics.data.gov.uk/def/concept/measurement-unit/{unit-slug}"
     },{
       "name": "value",
@@ -55,20 +48,20 @@
       "name": "sitc",
       "titles": "SITC Section",
       "datatype": "string",
-      "propertyUrl": "dimension:sitcSection",
+      "propertyUrl": "http://statistics.data.gov.uk/def/dimension/sitcSection",
       "valueUrl": "http://statistics.data.gov.uk/def/concept/sitc-section/{sitc-slug}"
     },{
       "name": "flow",
       "titles": "Flow",
       "datatype": "string",
-      "propertyUrl": "dimension:flow",
+      "propertyUrl": "http://statistics.data.gov.uk/def/dimension/flow",
       "valueUrl": "http://statistics.data.gov.uk/def/concept/flow/{flow-slug}"
     },{
       "name": "DataSet",
       "virtual": true,
       "propertyUrl": "qb:dataSet",
-      "valueUrl": ":/data/regional-trade"
+      "valueUrl": "http://statistics.data.gov.uk/data/regional-trade"
     }],
-    "aboutUrl": ":/data/regional-trade/geography/{geography}/{date}/{sitc-slug}/{flow-slug}/{measure-slug}/{unit-slug}"
+    "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/geography/{geography}/{date}/{sitc-slug}/{flow-slug}/{measure-slug}/{unit-slug}"
   }
 }

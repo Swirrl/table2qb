@@ -9,6 +9,12 @@ A couple of principles have been uncontroversial:
 - A data table will go through a preparatory stage that builds up metadata/ URIs before loading.
 - The transformation of the data table will use both the cleaned data and the json metadata
 
+The workflow might look like this:
+
+![workflow diagram](workflow.png?raw=true)
+
+See this [slide show](https://docs.google.com/presentation/d/1-wPkjdhzAejKpvf2BVwEblsAbRiff8g0nYt1Hb1BUcQ/edit#slide=id.g2e1ff91010_0_0) for the editable diagram.
+
 More specifically the process would be as follows:
 
 - *Metadata Loading*:
@@ -23,7 +29,7 @@ More specifically the process would be as follows:
     - Extract Marginals: collect codes enumerating cube extent (how we currently use `qb:codeList`)
   - *Conversion*: the above will furnish us with a cleaned csv file and a csvw-metadata json file that may be feed into a csvw pipeline to create RDF
 
-[Here's a example](./example.md) of what this might look like.
+[Here's a example](./example.md) of how this might work.
 
 ## Implications of Implementing csv2rdf
 

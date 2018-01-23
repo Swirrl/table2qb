@@ -4,15 +4,17 @@
   "url": "regional-trade.slugged.csv",
   "dc:title": "Regional Trade",
   "qb:structure": {
-      "qb:component": [
-          { "qb:dimension": "http://purl.org/linked-data/sdmx/2009/dimension#refArea" },
-          { "qb:dimension": "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod" },
-          { "qb:dimension": "qb:measureType" },
-          { "qb:measure": "http://statistics.data.gov.uk/def/measure-properties/value" },
-          { "qb:attribute": "sdmx-attribute:unitMeasure" },
-          { "qb:dimension": "http://statistics.data.gov.uk/def/dimension/sitcSection" },
-          { "qb:dimension": "http://statistics.data.gov.uk/def/dimension/flow" }
-      ]
+    "@id": "http://statistics.data.gov.uk/data/regional-trade/structure",
+    "@type": "qb:DataStructureDefinition",
+    "qb:component": [
+      { "qb:dimension": "http://purl.org/linked-data/sdmx/2009/dimension#refArea" },
+      { "qb:dimension": "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod" },
+      { "qb:dimension": "qb:measureType" },
+      { "qb:measure": "http://statistics.data.gov.uk/def/measure-properties/value" },
+      { "qb:attribute": "http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure" },
+      { "qb:dimension": "http://statistics.data.gov.uk/def/dimension/sitcSection" },
+      { "qb:dimension": "http://statistics.data.gov.uk/def/dimension/flow" }
+    ]
   },
   "tableSchema": {
     "columns": [{

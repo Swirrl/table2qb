@@ -1,7 +1,7 @@
 {
   "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
   "@id": "http://statistics.data.gov.uk/data/regional-trade",
-  "url": "regional-trade.prepared.csv",
+  "url": "regional-trade.slugged.csv",
   "dc:title": "Regional Trade",
   "qb:structure": {
       "qb:component": [
@@ -32,36 +32,36 @@
       "titles": "Measurement",
       "datatype": "string",
       "propertyUrl": "qb:measureType",
-      "valueUrl": "http://statistics.data.gov.uk/def/measure-properties/{measure-slug}"
+      "valueUrl": "http://statistics.data.gov.uk/def/measure-properties/{measure}"
     },{
       "name": "unit",
       "titles": "Units",
       "datatype": "string",
       "propertyUrl": "http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure",
-      "valueUrl": "http://statistics.data.gov.uk/def/concept/measurement-unit/{unit-slug}"
+      "valueUrl": "http://statistics.data.gov.uk/def/concept/measurement-unit/{unit}"
     },{
       "name": "value",
       "titles": "Value",
       "datatype": "number",
-      "propertyUrl": "http://statistics.data.gov.uk/def/measure-properties/{measure-slug}"
+      "propertyUrl": "http://statistics.data.gov.uk/def/measure-properties/{measure}"
     },{
       "name": "sitc",
       "titles": "SITC Section",
       "datatype": "string",
       "propertyUrl": "http://statistics.data.gov.uk/def/dimension/sitcSection",
-      "valueUrl": "http://statistics.data.gov.uk/def/concept/sitc-section/{sitc-slug}"
+      "valueUrl": "http://statistics.data.gov.uk/def/concept/sitc-section/{sitc}"
     },{
       "name": "flow",
       "titles": "Flow",
       "datatype": "string",
       "propertyUrl": "http://statistics.data.gov.uk/def/dimension/flow",
-      "valueUrl": "http://statistics.data.gov.uk/def/concept/flow/{flow-slug}"
+      "valueUrl": "http://statistics.data.gov.uk/def/concept/flow/{flow}"
     },{
       "name": "DataSet",
       "virtual": true,
       "propertyUrl": "qb:dataSet",
       "valueUrl": "http://statistics.data.gov.uk/data/regional-trade"
     }],
-    "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/geography/{geography}/{date}/{sitc-slug}/{flow-slug}/{measure-slug}/{unit-slug}"
+    "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/geography/{geography}/{date}/{sitc}/{flow}/{measure}/{unit}"
   }
 }

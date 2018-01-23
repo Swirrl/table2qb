@@ -4,7 +4,8 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/0-food-and-live-animals/export/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/0-food-and-live-animals/export/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -13,7 +14,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/0-food-and-live-animals>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 9.448e3 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/0-food-and-live-animals/import/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/0-food-and-live-animals/import/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -22,7 +24,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/0-food-and-live-animals>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 2.5851e4 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/1-beverages-and-tobacco/export/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/1-beverages-and-tobacco/export/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -31,7 +34,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/1-beverages-and-tobacco>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 4.965e3 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/1-beverages-and-tobacco/import/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/1-beverages-and-tobacco/import/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -40,7 +44,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/1-beverages-and-tobacco>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 4.074e3 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/2-crude-materials/export/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/2-crude-materials/export/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -49,7 +54,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/2-crude-materials>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 4.175e3 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/2-crude-materials/import/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/2-crude-materials/import/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -58,7 +64,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/2-crude-materials>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 6.78e3 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/3-mineral-fuels/export/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/3-mineral-fuels/export/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -67,7 +74,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/3-mineral-fuels>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 1.3627e4 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/3-mineral-fuels/import/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/3-mineral-fuels/import/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -76,7 +84,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/3-mineral-fuels>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 1.9767e4 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/4-animal-and-vegetable-oils/export/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/4-animal-and-vegetable-oils/export/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -85,7 +94,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/4-animal-and-vegetable-oils>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 3.13e2 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/4-animal-and-vegetable-oils/import/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/4-animal-and-vegetable-oils/import/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -94,7 +104,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/4-animal-and-vegetable-oils>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 8.46e2 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/5-chemicals/export/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/5-chemicals/export/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -103,7 +114,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/5-chemicals>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 3.8787e4 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/5-chemicals/import/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/5-chemicals/import/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -112,7 +124,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/5-chemicals>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 3.9963e4 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/6-manufactured-goods/export/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/6-manufactured-goods/export/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -121,7 +134,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/6-manufactured-goods>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 1.9329e4 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/6-manufactured-goods/import/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/6-manufactured-goods/import/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -130,7 +144,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/6-manufactured-goods>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 3.3404e4 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/7-machinery-and-transport/export/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/7-machinery-and-transport/export/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -139,7 +154,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/7-machinery-and-transport>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 8.6417e4 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/7-machinery-and-transport/import/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/7-machinery-and-transport/import/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -148,7 +164,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/7-machinery-and-transport>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 1.25667e5 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/8-miscellaneous-manufactures/export/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/8-miscellaneous-manufactures/export/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -157,7 +174,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/8-miscellaneous-manufactures>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 3.0239e4 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/8-miscellaneous-manufactures/import/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/8-miscellaneous-manufactures/import/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -166,7 +184,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/8-miscellaneous-manufactures>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 4.9584e4 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/9-other-commodities-nes/export/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/9-other-commodities-nes/export/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -175,7 +194,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/9-other-commodities-nes>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 3.72e3 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/9-other-commodities-nes/import/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/9-other-commodities-nes/import/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -184,7 +204,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/9-other-commodities-nes>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 4.61e3 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/total/export/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/total/export/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -193,7 +214,8 @@
    <http://statistics.data.gov.uk/def/dimension/sitcSection> <http://statistics.data.gov.uk/def/concept/sitc-section/total>;
    <http://statistics.data.gov.uk/def/measure-properties/value> 2.1102e5 .
 
-<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/total/import/value/gbp-million> <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
+<http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/total/import/value/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://purl.org/linked-data/cube#dataSet> <http://statistics.data.gov.uk/data/regional-trade>;
    <http://purl.org/linked-data/cube#measureType> <http://statistics.data.gov.uk/def/measure-properties/value>;
    <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> <http://statistics.data.gov.uk/def/concept/measurement-unit/gbp-million>;
    <http://purl.org/linked-data/sdmx/2009/dimension#refArea> <http://statistics.data.gov.uk/id/statistical-geography/K02000001>;
@@ -203,7 +225,7 @@
    <http://statistics.data.gov.uk/def/measure-properties/value> 3.10545e5 .
 
 <http://statistics.data.gov.uk/data/regional-trade/structure> a <http://purl.org/linked-data/cube#DataStructureDefinition>;
-   <http://purl.org/linked-data/cube#component> [ <http://purl.org/linked-data/cube#measure> "http://statistics.data.gov.uk/def/measure-properties/value"@en],  [ <http://purl.org/linked-data/cube#dimension> "http://statistics.data.gov.uk/def/dimension/flow"@en],  [ <http://purl.org/linked-data/cube#dimension> "http://purl.org/linked-data/sdmx/2009/dimension#refArea"@en],  [ <http://purl.org/linked-data/cube#dimension> "qb:measureType"@en],  [ <http://purl.org/linked-data/cube#dimension> "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"@en],  [ <http://purl.org/linked-data/cube#dimension> "http://statistics.data.gov.uk/def/dimension/sitcSection"@en],  [ <http://purl.org/linked-data/cube#attribute> "http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure"@en] .
+   <http://purl.org/linked-data/cube#component> [ <http://purl.org/linked-data/cube#dimension> "http://statistics.data.gov.uk/def/dimension/flow"@en],  [ <http://purl.org/linked-data/cube#dimension> "http://statistics.data.gov.uk/def/dimension/sitcSection"@en],  [ <http://purl.org/linked-data/cube#dimension> "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"@en],  [ <http://purl.org/linked-data/cube#dimension> "qb:measureType"@en],  [ <http://purl.org/linked-data/cube#dimension> "http://purl.org/linked-data/sdmx/2009/dimension#refArea"@en],  [ <http://purl.org/linked-data/cube#measure> "http://statistics.data.gov.uk/def/measure-properties/value"@en],  [ <http://purl.org/linked-data/cube#attribute> "http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure"@en] .
 
  [
      a csvw:TableGroup;
@@ -213,44 +235,9 @@
        <http://purl.org/linked-data/cube#structure> <http://statistics.data.gov.uk/data/regional-trade/structure>;
        csvw:row [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/1-beverages-and-tobacco/export/value/gbp-million>;
-         csvw:rownum 2;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=3>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/total/import/value/gbp-million>;
-         csvw:rownum 22;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=23>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/4-animal-and-vegetable-oils/export/value/gbp-million>;
-         csvw:rownum 5;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=6>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/0-food-and-live-animals/export/value/gbp-million>;
-         csvw:rownum 1;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=2>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/5-chemicals/export/value/gbp-million>;
-         csvw:rownum 6;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=7>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/5-chemicals/import/value/gbp-million>;
-         csvw:rownum 17;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=18>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/8-miscellaneous-manufactures/export/value/gbp-million>;
-         csvw:rownum 9;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=10>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/7-machinery-and-transport/export/value/gbp-million>;
-         csvw:rownum 8;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=9>
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/2-crude-materials/import/value/gbp-million>;
+         csvw:rownum 14;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=15>
        ],  [
          a csvw:Row;
          csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/2-crude-materials/export/value/gbp-million>;
@@ -258,24 +245,19 @@
          csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=4>
        ],  [
          a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/3-mineral-fuels/import/value/gbp-million>;
+         csvw:rownum 15;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=16>
+       ],  [
+         a csvw:Row;
          csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/0-food-and-live-animals/import/value/gbp-million>;
          csvw:rownum 12;
          csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=13>
        ],  [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/6-manufactured-goods/export/value/gbp-million>;
-         csvw:rownum 7;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=8>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/6-manufactured-goods/import/value/gbp-million>;
-         csvw:rownum 18;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=19>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/3-mineral-fuels/export/value/gbp-million>;
-         csvw:rownum 4;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=5>
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/8-miscellaneous-manufactures/export/value/gbp-million>;
+         csvw:rownum 9;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=10>
        ],  [
          a csvw:Row;
          csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/9-other-commodities-nes/export/value/gbp-million>;
@@ -283,19 +265,19 @@
          csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=11>
        ],  [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/4-animal-and-vegetable-oils/import/value/gbp-million>;
-         csvw:rownum 16;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=17>
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/1-beverages-and-tobacco/export/value/gbp-million>;
+         csvw:rownum 2;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=3>
        ],  [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/3-mineral-fuels/import/value/gbp-million>;
-         csvw:rownum 15;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=16>
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/3-mineral-fuels/export/value/gbp-million>;
+         csvw:rownum 4;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=5>
        ],  [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/8-miscellaneous-manufactures/import/value/gbp-million>;
-         csvw:rownum 20;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=21>
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/0-food-and-live-animals/export/value/gbp-million>;
+         csvw:rownum 1;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=2>
        ],  [
          a csvw:Row;
          csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/total/export/value/gbp-million>;
@@ -303,9 +285,39 @@
          csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=12>
        ],  [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/2-crude-materials/import/value/gbp-million>;
-         csvw:rownum 14;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=15>
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/5-chemicals/import/value/gbp-million>;
+         csvw:rownum 17;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=18>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/6-manufactured-goods/export/value/gbp-million>;
+         csvw:rownum 7;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=8>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/4-animal-and-vegetable-oils/export/value/gbp-million>;
+         csvw:rownum 5;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=6>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/4-animal-and-vegetable-oils/import/value/gbp-million>;
+         csvw:rownum 16;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=17>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/7-machinery-and-transport/export/value/gbp-million>;
+         csvw:rownum 8;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=9>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/total/import/value/gbp-million>;
+         csvw:rownum 22;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=23>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/5-chemicals/export/value/gbp-million>;
+         csvw:rownum 6;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=7>
        ],  [
          a csvw:Row;
          csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/9-other-commodities-nes/import/value/gbp-million>;
@@ -313,20 +325,30 @@
          csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=22>
        ],  [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/1-beverages-and-tobacco/import/value/gbp-million>;
-         csvw:rownum 13;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=14>
-       ],  [
-         a csvw:Row;
          csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/7-machinery-and-transport/import/value/gbp-million>;
          csvw:rownum 19;
          csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=20>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/6-manufactured-goods/import/value/gbp-million>;
+         csvw:rownum 18;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=19>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/8-miscellaneous-manufactures/import/value/gbp-million>;
+         csvw:rownum 20;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=21>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/geography/K02000001/2016/1-beverages-and-tobacco/import/value/gbp-million>;
+         csvw:rownum 13;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=14>
        ];
        csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv>
      ];
      prov:wasGeneratedBy [
        a prov:Activity;
-       prov:endedAtTime "2018-01-23T17:49:49+01:00"^^xsd:dateTime;
+       prov:endedAtTime "2018-01-23T18:18:56+01:00"^^xsd:dateTime;
        prov:qualifiedUsage [
          a prov:Usage;
          prov:entity <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv>;
@@ -336,7 +358,7 @@
          prov:entity <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv-metadata.json>;
          prov:hadRole csvw:tabularMetadata
        ];
-       prov:startedAtTime "2018-01-23T17:49:46+01:00"^^xsd:dateTime;
+       prov:startedAtTime "2018-01-23T18:18:54+01:00"^^xsd:dateTime;
        prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
      ]
  ] .

@@ -63,6 +63,11 @@
       "virtual": true,
       "propertyUrl": "qb:dataSet",
       "valueUrl": "http://statistics.data.gov.uk/data/regional-trade"
+    },{
+      "name": "Observation",
+      "virtual": true,
+      "propertyUrl": "rdf:type",
+      "valueUrl": "qb:Observation"
     }],
     "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/geography/{geography}/{date}/{sitc}/{flow}/{measure}/{unit}"
   }

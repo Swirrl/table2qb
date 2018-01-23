@@ -1,10 +1,8 @@
 {
   "@context": ["http://www.w3.org/ns/csvw", {
     "@language": "en",
-    "@base": "http://example.org/",
-    "measure": ":def/measure-property/",
-    "unit": ":def/concept/measurement-unit/",
-    "dimension": ":def/dimension/",
+    "@base": "http://statistics.data.gov.uk/",
+    "dimension": "http://statistics.data.gov.uk/def/dimension/",
     "sdmx-code": "http://purl.org/linked-data/sdmx/2009/code#",
     "sdmx-dimension": "http://purl.org/linked-data/sdmx/2009/dimension#",
     "qb": "http://purl.org/linked-data/cube#"

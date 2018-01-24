@@ -1,0 +1,13 @@
+
+<http://statistics.data.gov.uk/def/measure-properties/value> a <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> , <http://purl.org/linked-data/cube#MeasureProperty> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "Value" ;
+	<http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://statistics.data.gov.uk/def/ontology/measure-properties> ;
+	<http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://purl.org/linked-data/sdmx/2009/measure#obsValue> .
+
+<http://statistics.data.gov.uk/def/measure-properties/net-mass> a <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> , <http://purl.org/linked-data/cube#MeasureProperty> ;
+	<http://www.w3.org/2000/01/rdf-schema#label> "Net Mass" ;
+	<http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://statistics.data.gov.uk/def/ontology/measure-properties> ;
+	<http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://purl.org/linked-data/sdmx/2009/measure#obsValue> .
+
+<http://statistics.data.gov.uk/def/ontology/measure-properties> a <http://www.w3.org/2002/07/owl#Ontology> ;
+  <http://www.w3.org/2000/01/rdf-schema#label> "Measures Ontology" .

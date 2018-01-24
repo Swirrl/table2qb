@@ -12,7 +12,7 @@ Components:
   - [Flow Directions](./flow-dimension.ttl)
   - Measure Type (included in qb spec)
 - measures:
-  - [Value](./value-measure.ttl)
+  - [Measures Ontology](./measures.ttl): "Value" and "Net Mass"
 - attributes:
   - [SDMX Measurement Unit](./sdmx-attribute.ttl)
 
@@ -22,4 +22,4 @@ Codes and Codelists:
 - [The UK Statistical Geography and Ontology](./uk.ttl)
 - [SITC Sections Concepts and Scheme](./sitc-sections.ttl)
 - [Flow Directions Concepts and Scheme](./flow-directions.ttl)
-- [GBP-million Unit and Scheme](./gbp-million.ttl)
+- [Measurements Units Scheme](./units.ttl): "GBP-million", and "Tonnes"

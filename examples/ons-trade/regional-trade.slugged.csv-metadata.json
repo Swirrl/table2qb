@@ -11,6 +11,7 @@
       { "qb:dimension": "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod" },
       { "qb:dimension": "qb:measureType" },
       { "qb:measure": "http://statistics.data.gov.uk/def/measure-properties/value" },
+      { "qb:measure": "http://statistics.data.gov.uk/def/measure-properties/net-mass" },
       { "qb:attribute": "http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure" },
       { "qb:dimension": "http://statistics.data.gov.uk/def/dimension/sitcSection" },
       { "qb:dimension": "http://statistics.data.gov.uk/def/dimension/flow" }

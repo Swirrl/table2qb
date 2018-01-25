@@ -1,6 +1,7 @@
 # CSVW Table2QB Design Notes
 
-Notes from a design & architecture discussion between RiMo and RiRo [2018-01-24 Wed].
+Notes from a design & architecture discussion between @RicSwirrl and
+@RickMoynihan `[2018-01-24 Wed]`.  Written up by @RickMoynihan.
 
 The ideas are probably not fundamentally different from Robins work.
 This document is intended to help align perspectives and facilitate
@@ -11,7 +12,6 @@ discussion.
 These notes are concerned primarily with the Table2QB phase, though
 touch on other aspects, e.g. a prep phase, and dataset/vocab creation.
 It is assumed that these phases have occured as pre-requisites.
-
 
 ## Outline
 
@@ -68,7 +68,66 @@ therefore propose using `prov-o` to represent simultaneously:
   of data as additional metadata which may also be published.
 
 @Robsteranium mentioned on slack that CSVW/table2rdf has similar
-provisions for using `prov` in standard mode.
+provisions for using `prov` in standard mode, so we may wish to
+consider aligning these perspectives.  Though @RicSwirrl and I
+discussed
 
 Here we assume the [prep phase](#prep-phase) has already happened.  
+
+## Wrapping Applications
+
+We envision implementing several different wrapping applications, that
+wrap the core `table2qb` function and expose its core functionality to
+support different environments, usecases and contexts.
+
+In addition to the applications, we also envision a component
+currently called the "Side Effector" who's job is to apply the
+declarations made by the pipeline process to the world.  Such tasks
+include:
+
+- Loading triples materialised in the previous steps into the database
+- Uploading the `input.csv` (and probably its accompanying
+  `tabular-metadata.jsonld`) to a place on the web where it can later
+  be published.
+
+This process is necessarily bespoke to Swirrl/PMD, as it will require
+configuration & credentials for web services we use such as S3,
+drafter, and knowledge of the protocols involved.
+
+The set of functions included in the Side Effectors will likely be
+published in a `table2qb-app-helper` project.
+
+## Command Line Wrapper
+
+The command line wrapper (name `qb-tool.jar` is placeholder) will be
+usable like so (open to bike shedding command line interface):
+
+```
+$ qb-tool.jar help
+
+QB Tool Help:
+
+   # Transform a `tabular-metadata.jsonld` to a set of RDF graphs 
+   
+   transform tabular-metadata from <web|pmd|filesystem> <source-tabular-metadata.jsonld> to <pmd|filesystem> <destination> [options]
+
+   # Load RDF from a prior transform run with the supplied loader
+
+   load tabular-metadata from <pmd|filesystem> <source> to <pmd|filesystem> <destination> [options]
+   
+   # Validate the transformed RDF output
+
+   validate from <pmd|filesystem> <source> to <pmd|filestem> <report-destination>
+
+```
+
+### qb-tool transform 
+
+
+
+```
+$ qb-tool.jar append :all input.csv tabular-metadata.jsonld output.trig
+```
+
+### PMD / HTTP Wrapper
 

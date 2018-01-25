@@ -107,21 +107,25 @@ $ qb-tool.jar help
 
 QB Tool Help:
 
-   # Transform a `tabular-metadata.jsonld` to a set of RDF graphs 
+   # Translate a `tabular-metadata.jsonld` and its corresponding CSV to a set of RDF graphs 
    
-   transform tabular-metadata from <web|pmd|filesystem> <source-tabular-metadata.jsonld> to <pmd|filesystem> <destination> [options]
+   translate tabular-metadata from <web|pmd|filesystem> <source-tabular-metadata.jsonld> to <pmd|filesystem> <destination> [options]
 
-   # Load RDF from a prior transform run with the supplied loader
+   # Load RDF from a prior translate run with the supplied loader
 
    load tabular-metadata from <pmd|filesystem> <source> to <pmd|filesystem> <destination> [options]
    
-   # Validate the transformed RDF output
+   # Validate the translated RDF output
 
    validate from <pmd|filesystem> <source> to <pmd|filestem> <report-destination>
 
 ```
 
-### qb-tool transform 
+### qb-tool translate
+
+This tool takes
+a [tabular-metadata.jsonld](https://www.w3.org/TR/tabular-metadata/)
+file and translates it into RDF.
 
 
 
@@ -131,3 +135,11 @@ $ qb-tool.jar append :all input.csv tabular-metadata.jsonld output.trig
 
 ### PMD / HTTP Wrapper
 
+### @base
+
+We should use `@base` to delay providing prefixes on domain/client
+URIs until the final phases, where we can simply add an `@base` header
+to the RDF.
+
+This should allow us to decide location without requiring knowledge of
+the client/pmd-domain etc.

@@ -100,38 +100,129 @@ published in a `table2qb-app-helper` project.
 ## Command Line Wrapper
 
 The command line wrapper (name `qb-tool.jar` is placeholder) will be
-usable like so (open to bike shedding command line interface):
+usable like this (details of command line illustrative and open to
+more bike shedding):
 
 ```
 $ qb-tool.jar help
 
 QB Tool Help:
 
-   # Translate a `tabular-metadata.jsonld` and its corresponding CSV to a set of RDF graphs 
+   # Translate a `tabular-metadata.jsonld` and its corresponding CSV 
+   # to a set of RDF graphs 
    
-   translate tabular-metadata from <web|pmd|filesystem> <source-tabular-metadata.jsonld> to <pmd|filesystem> <destination> [options]
+   translate tabular-metadata from <web|filesystem> <source-tabular-metadata.jsonld> to <draftset|filesystem> <destination> [options]
 
    # Load RDF from a prior translate run with the supplied loader
 
-   load tabular-metadata from <pmd|filesystem> <source> to <pmd|filesystem> <destination> [options]
+   load tabular-metadata from <drafter|filesystem> <source> to <drafter|filesystem> <destination> [options]
    
    # Validate the translated RDF output
 
-   validate from <pmd|filesystem> <source> to <pmd|filestem> <report-destination>
+   validate from <drafter|filesystem> <source> to <drafter|filesystem> <report-destination>
 
 ```
 
 ### qb-tool translate
 
-This tool takes
+This command takes
 a [tabular-metadata.jsonld](https://www.w3.org/TR/tabular-metadata/)
 file and translates it into RDF.
 
-
+The json-ld file is expected to contain amongst the other data a
+reference to the `.csv` file:
 
 ```
-$ qb-tool.jar append :all input.csv tabular-metadata.jsonld output.trig
+  "url": "regional-trade.csv"
 ```
+
+This property is as the spec says resolved relative to the
+`tabular-metadata.jsonld` file, which is passed on the commandline, e.g.
+
+```
+$ ls 
+regional-trade.csv regional-trade.jsonld
+$ qb-tool.jar translate tabular-metadata from filesystem ./regional-trade.jsonld to filesystem ./translated-output.trig :observations,:dsd,:coverage,:prov
+```
+
+The above command says to use the `filesystem` "from backend" to read
+the jsonld file, and write a trig file to disk using the `filesystem`
+"to backend".  The output above should be equivalent to having
+specified `:all` classes of data.  The implementation will split
+output by classification into separate temporarily named graphs, for
+ease of filtering/processing/debugging.
+
+If ./translated-output.trig already existed the implementation may
+append quads into the destination file.  Allowing you to rerun the
+process multiple times with different modes, and verify output at each
+step.
+
+```
+$ cat ./translated-output.trig
+```
+
+```turtle
+@prefix sd: <http://www.w3.org/ns/sparql-service-description#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix obs: <http://ons.domain.here/dataset-name/observations/> .
+@prefix : <http://publishmydata.com/vocab/csv2qb> . # TODO...
+
+<urn:prov-graph-a3ba54494462ce193f7b87ba75b47e3f3a9df5fd> {
+
+# Append step. 
+<urn:d3b07384d113edec49eaa6238ad5ff00.csv> a :CSVFile ; 
+     prov:wasGeneratedBy :table2qb .
+
+<urn:1f2051184882afa1ef8d9cb5fd3c0362.jsonld> a :TabularMetadataJSONLD ; 
+     prov:wasGeneratedBy :table2qb .
+
+# probably a hash of all inputs (maybe also with a hash of the uberjar that ran it)
+<urn:prov-output-3371371f52471ea05bc841d71bcc6fcb> a prov:Collection ;
+    <urn:dsd-graph-3371371f52471ea05bc841d71bcc6fcb> a :DSDGraph ;
+    <urn:observation-graph-6598829bf663f9e939ae42b5a6a09b25> a :ObservationGraph ;
+    <urn:prov-graph-a3ba54494462ce193f7b87ba75b47e3f3a9df5fd> a :ObservationGraph ; # graph inception...
+    # ...
+    .
+
+## VOCABS
+:ValidationReport rdfs:subClassOf prov:Entity .
+
+:CSVWInput rdfs:subClassOf prov:Entity .
+:CSVFile rdfs:subClassOf :CSVWInput, csvw:Table .
+
+:Table2QBOutput rdfs:subClassOf prov:Entity .
+:DSDGraph rdfs:subClassOf sd:Graph, :Table2QBOutput .
+:ObservationGraph rdfs:subClassOf sd:Graph, :Table2QBOutput .
+:ProvenanceGraph rdfs:subClassOf sd:Graph, :Table2QBOutput .
+
+:TabularMetadataJSONLD rdfs:subClassOf :CSVWInput .
+
+:table2qb a prov:SoftwareAgent ;
+          rdfs:label "Table 2 QB Process" .
+
+
+:validator a prov:SoftwareAgent ; 
+           rdfs:label "QB validator prior to publication"
+}
+
+
+## Data on Processes / Prov Agents 
+
+#### steps 
+
+## obs output...
+<urn:observation-graph-6598829bf663f9e939ae42b5a6a09b25> {
+        obs:7e98660b43feeb2772b9d30cdd8237e6 a qb:Observation ;
+        # ...
+        .
+}
+
+# dsd output...
+<urn:dsd-graph-3371371f52471ea05bc841d71bcc6fcb> {
+}
+```
+
 
 ### PMD / HTTP Wrapper
 

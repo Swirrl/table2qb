@@ -129,6 +129,19 @@ This command takes
 a [tabular-metadata.jsonld](https://www.w3.org/TR/tabular-metadata/)
 file and translates it into RDF.
 
+`translate` is runnable in the following modes:
+
+- `:default` (implicit mode), a conservative combination of modes probably `:coverage,:observations,:dsd,:prov`
+- `:all` applies all modes at once.
+- `:coverage` mode will scan the CSV file and coin new
+  `dimension-values` for values that don't already exist in the DSD.
+  Coverage mode will only add dimension-values to the dsd.  And will
+  not add values to the global codeList.
+- `:codelist-values` similar to coverage, but will use the codeList
+  from the DSD and construct new values found in the csv and append
+  them to the universal codelist.
+
+
 The json-ld file is expected to contain amongst the other data a
 reference to the `.csv` file:
 
@@ -224,13 +237,24 @@ $ cat ./translated-output.trig
 ```
 
 
+### validate
+
+Validation mode will make use of the intention captured in `prov`
+metadata so it knows what it should be validating, i.e. it will know
+whether it should expect to see new dimension-values in the output
+etc.
+
+# Notes...
+
 ### PMD / HTTP Wrapper
+
+There will be a HTTP API which will allow more or less the same
+options as the command line app, but apply them over a PMD HTTP
+service.
 
 ### @base
 
-We should use `@base` to delay providing prefixes on domain/client
-URIs until the final phases, where we can simply add an `@base` header
-to the RDF.
+We should use `@base` to delay providing prefixes on domain/client URIs until the final phases, where we can simply add an `@base` header to the RDF.
 
 This should allow us to decide location without requiring knowledge of
 the client/pmd-domain etc.

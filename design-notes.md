@@ -244,7 +244,14 @@ metadata so it knows what it should be validating, i.e. it will know
 whether it should expect to see new dimension-values in the output
 etc.
 
-# Notes...
+# Notes
+
+### Rewriting table "url"
+
+At load time the side-effector may need to rewrite triples for the
+`"url"` parameter of the `input-table.csv` and
+`tabular-metadata.jsonld` file to set them to whereever it stores
+them, e.g. on S3.
 
 ### PMD / HTTP Wrapper
 

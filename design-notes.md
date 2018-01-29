@@ -1,4 +1,4 @@
-# CSVW Table2QB Design Notes
+# CSVW CSV2RDF++ Design Notes
 
 Notes from a design & architecture discussion between @RicSwirrl and
 @RickMoynihan `[2018-01-24 Wed]`.  Written up by @RickMoynihan.
@@ -9,7 +9,7 @@ discussion.
 
 ## Scope
 
-These notes are concerned primarily with the Table2QB phase, though
+These notes are concerned primarily with the CSV2RDF++ phase, though
 touch on other aspects, e.g. a prep phase, and dataset/vocab creation.
 It is assumed that these phases have occured as pre-requisites.
 
@@ -41,7 +41,7 @@ process can be materialised across several different environments:
 - A hypothetical user using the opensource tools with their own "side
   effector"
 
-We envision that `table2qb` is a pure (and reusable) function that
+We envision that `csv2rdf++` is a pure (and reusable) function that
 takes as input two "values" as arguments the `input.csv` file as a
 sequence of a rows and the `tabuar-metadata.jsonld` as a EDN map/tree.
 Both of these inputs are provided by the prep phase.  This function
@@ -53,8 +53,8 @@ The wrapping applications should support several modes which can
 selectively be turned on and combined at will.  These are currently
 `:observation`, `:dsd` & `:coverage`.  When a mode is enabled triples
 of that classification will be output into a graph identified by a
-corresponding URN, e.g. `<urn:swirrl:table2b:observation>` or
-`<urn:swirrl:table2b:dsd>`.  These graphs can then be used to easily
+corresponding URN, e.g. `<urn:swirrl:csv2rdf++:observation>` or
+`<urn:swirrl:csv2rdf++:dsd>`.  These graphs can then be used to easily
 filter out groups of data for either debugging, validation or
 operational purposes.
 
@@ -67,7 +67,7 @@ therefore propose using `prov-o` to represent simultaneously:
 - improve the capture/publication of the provinance and transformation
   of data as additional metadata which may also be published.
 
-@Robsteranium mentioned on slack that CSVW/table2rdf has similar
+@Robsteranium mentioned on slack that CSVW/csv2rdf has similar
 provisions for using `prov` in standard mode, so we may wish to
 consider aligning these perspectives.  Though @RicSwirrl and I
 discussed
@@ -77,7 +77,7 @@ Here we assume the [prep phase](#prep-phase) has already happened.
 ## Wrapping Applications
 
 We envision implementing several different wrapping applications, that
-wrap the core `table2qb` function and expose its core functionality to
+wrap the core `csv2rdf++` function and expose its core functionality to
 support different environments, usecases and contexts.
 
 In addition to the applications, we also envision a component
@@ -95,7 +95,7 @@ configuration & credentials for web services we use such as S3,
 drafter, and knowledge of the protocols involved.
 
 The set of functions included in the Side Effectors will likely be
-published in a `table2qb-app-helper` project.
+published in a `csv2rdf++-app-helper` project.
 
 ## Command Line Wrapper
 
@@ -185,10 +185,10 @@ $ cat ./translated-output.trig
 
 # Append step. 
 <urn:d3b07384d113edec49eaa6238ad5ff00.csv> a :CSVFile ; 
-     prov:wasGeneratedBy :table2qb .
+     prov:wasGeneratedBy :csv2rdf++ .
 
 <urn:1f2051184882afa1ef8d9cb5fd3c0362.jsonld> a :TabularMetadataJSONLD ; 
-     prov:wasGeneratedBy :table2qb .
+     prov:wasGeneratedBy :csv2rdf++ .
 
 # probably a hash of all inputs (maybe also with a hash of the uberjar that ran it)
 <urn:prov-output-3371371f52471ea05bc841d71bcc6fcb> a prov:Collection ;

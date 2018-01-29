@@ -2,7 +2,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" viewBox="2.6101305 -77.370715 1673.5069 892.3707" width="1673.5069pt" height="892.3707pt" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata> Produced by OmniGraffle 7.5 
-    <dc:date>2018-01-24 17:14:08 +0000</dc:date>
+    <dc:date>2018-01-25 13:53:11 +0000</dc:date>
   </metadata>
   <defs>
     <font-face font-family="Helvetica Neue" font-size="16" panose-1="2 0 5 3 0 0 0 2 0 4" units-per-em="1000" underline-position="-100" underline-thickness="50" slope="0" x-height="517" cap-height="714" ascent="951.9958" descent="-212.99744" font-weight="500">
@@ -57,7 +57,8 @@
       <path d="M 371 130.5 L 513 130.5 C 517.97056 130.5 522 134.52944 522 139.5 L 522 236 C 522 240.97056 517.97056 245 513 245 L 371 245 C 366.02944 245 362 240.97056 362 236 L 362 139.5 C 362 134.52944 366.02944 130.5 371 130.5 Z" fill="white"/>
       <path d="M 371 130.5 L 513 130.5 C 517.97056 130.5 522 134.52944 522 139.5 L 522 236 C 522 240.97056 517.97056 245 513 245 L 371 245 C 366.02944 245 362 240.97056 362 236 L 362 139.5 C 362 134.52944 366.02944 130.5 371 130.5 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
       <text transform="translate(367 169.302)" fill="black">
-        <tspan font-family="Helvetica Neue" font-size="16" font-weight="500" fill="black" x="43.432" y="15" textLength="67.584">table2qb </tspan>
+        <tspan font-family="Helvetica Neue" font-size="16" font-weight="500" fill="black" x="39.024" y="15" textLength="38.816">csv2r</tspan>
+        <tspan font-family="Helvetica Neue" font-size="16" font-weight="500" fill="black" x="77.552" y="15" textLength="37.872">df++ </tspan>
         <tspan font-family="Helvetica Neue" font-size="16" font-weight="500" fill="black" x="23.728" y="33.448" textLength="27.856">(pur</tspan>
         <tspan font-family="Helvetica Neue" font-size="16" font-weight="500" fill="black" x="51.296" y="33.448" textLength="74.976">e function)</tspan>
       </text>
@@ -67,7 +68,7 @@
         <tspan font-family="Helvetica" font-size="12" font-weight="500" fill="black" x=".32226562" y="11" textLength="47.35547">input.csv</tspan>
       </text>
       <text transform="translate(165.00973 172.99997)" fill="black">
-        <tspan font-family="Helvetica" font-size="12" font-weight="500" fill="black" x=".28710938" y="11" textLength="155.42578">tabular-metadata-input.jsonld</tspan>
+        <tspan font-family="Helvetica" font-size="12" font-weight="500" x=".28710938" y="11" textLength="155.42578">tabular-metadata-input.jsonld</tspan>
       </text>
       <path d="M 139 212.41419 L 139 207.58581 L 346.0262 207.58581 L 346.0262 202.5 L 361 210 L 346.0262 217.5 L 346.0262 212.41419 Z" fill="black" fill-opacity=".1"/>
       <path d="M 139 212.41419 L 139 207.58581 L 346.0262 207.58581 L 346.0262 202.5 L 361 210 L 346.0262 217.5 L 346.0262 212.41419 Z" stroke="black" stroke-opacity=".75" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
@@ -89,7 +90,7 @@
       <path d="M 804 95.37928 L 944 95.37928 C 948.9706 95.37928 953 99.40872 953 104.37928 L 953 129.87928 C 953 134.84985 948.9706 138.87928 944 138.87928 L 804 138.87928 C 799.0294 138.87928 795 134.84985 795 129.87928 L 795 104.37928 C 795 99.40872 799.0294 95.37928 804 95.37928 Z" fill="white"/>
       <path d="M 804 95.37928 L 944 95.37928 C 948.9706 95.37928 953 99.40872 953 104.37928 L 953 129.87928 C 953 134.84985 948.9706 138.87928 944 138.87928 L 804 138.87928 C 799.0294 138.87928 795 134.84985 795 129.87928 L 795 104.37928 C 795 99.40872 799.0294 95.37928 804 95.37928 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke-dasharray="4,4"/>
       <text transform="translate(800 107.90529)" fill="black">
-        <tspan font-family="Helvetica Neue" font-size="16" font-weight="500" fill="black" x="33.104" y="15" textLength="81.792">DSD Graph</tspan>
+        <tspan font-family="Helvetica Neue" font-size="16" font-weight="500" x="33.104" y="15" textLength="81.792">DSD Graph</tspan>
       </text>
       <path d="M 804 167.87928 L 944 167.87928 C 948.9706 167.87928 953 171.90872 953 176.87928 L 953 202.37928 C 953 207.34985 948.9706 211.37928 944 211.37928 L 804 211.37928 C 799.0294 211.37928 795 207.34985 795 202.37928 L 795 176.87928 C 795 171.90872 799.0294 167.87928 804 167.87928 Z" fill="white"/>
       <path d="M 804 167.87928 L 944 167.87928 C 948.9706 167.87928 953 171.90872 953 176.87928 L 953 202.37928 C 953 207.34985 948.9706 211.37928 944 211.37928 L 804 211.37928 C 799.0294 211.37928 795 207.34985 795 202.37928 L 795 176.87928 C 795 171.90872 799.0294 167.87928 804 167.87928 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke-dasharray="4,4"/>
@@ -131,9 +132,9 @@
       <path d="M 780.5 521 L 967.5 521 C 972.4706 521 976.5 525.02944 976.5 530 L 976.5 632 C 976.5 636.9706 972.4706 641 967.5 641 L 780.5 641 C 775.5294 641 771.5 636.9706 771.5 632 L 771.5 530 C 771.5 525.02944 775.5294 521 780.5 521 Z" fill="white"/>
       <path d="M 780.5 521 L 967.5 521 C 972.4706 521 976.5 525.02944 976.5 530 L 976.5 632 C 976.5 636.9706 972.4706 641 967.5 641 L 780.5 641 C 775.5294 641 771.5 636.9706 771.5 632 L 771.5 530 C 771.5 525.02944 775.5294 521 780.5 521 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
       <text transform="translate(776.5 571.26794)" fill="black">
-        <tspan font-family="Helvetica Neue" font-size="16" font-weight="bold" fill="black" x="45.82" y="16" textLength="10.08">V</tspan>
-        <tspan font-family="Helvetica Neue" font-size="16" font-weight="bold" fill="black" x="55.02" y="16" textLength="72.256">alidator T</tspan>
-        <tspan font-family="Helvetica Neue" font-size="16" font-weight="bold" fill="black" x="125.5" y="16" textLength="23.68">ool</tspan>
+        <tspan font-family="Helvetica Neue" font-size="16" font-weight="bold" x="45.82" y="16" textLength="10.08">V</tspan>
+        <tspan font-family="Helvetica Neue" font-size="16" font-weight="bold" x="55.02" y="16" textLength="72.256">alidator T</tspan>
+        <tspan font-family="Helvetica Neue" font-size="16" font-weight="bold" x="125.5" y="16" textLength="23.68">ool</tspan>
       </text>
       <path d="M 864 651.5 L 884 651.5 L 884 731.5 L 894 731.5 L 874 751.5 L 854 731.5 L 864 731.5 Z" fill="url(#Obj_Gradient_6)"/>
       <path d="M 864 651.5 L 884 651.5 L 884 731.5 L 894 731.5 L 874 751.5 L 854 731.5 L 864 731.5 Z" stroke="#00e600" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>

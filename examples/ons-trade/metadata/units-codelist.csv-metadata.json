@@ -1,9 +1,9 @@
 {
   "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
-  "@id": "http://statistics.data.gov.uk/def/concept-scheme/sitc-sections",
-  "url": "sitc-codelist.csv",
-  "dc:title": "SITC Codelist",
-  "rdfs:label": "SITC Codelist",
+  "@id": "http://statistics.data.gov.uk/def/concept-scheme/units",
+  "url": "units-codelist.csv",
+  "dc:title": "Units Codelist",
+  "rdfs:label": "Units Codelist",
   "rdf:type": { "@id": "skos:ConceptScheme" },
   "tableSchema": {
     "aboutUrl": "http://statistics.data.gov.uk/def/concept/{notation}",
@@ -25,16 +25,16 @@
       "valueUrl": "http://statistics.data.gov.uk/def/concept/{parent_notation}"
     },{
       "propertyUrl": "skos:inScheme",
-      "valueUrl": "http://statistics.data.gov.uk/def/concept-scheme/sitc-sections",
+      "valueUrl": "http://statistics.data.gov.uk/def/concept-scheme/units",
       "virtual": true
     },{
       "propertyUrl": "skos:topConceptOf",
-      "valueUrl": "http://statistics.data.gov.uk/def/concept-scheme/sitc-sections",
+      "valueUrl": "http://statistics.data.gov.uk/def/concept-scheme/units",
       "how-to-make-this-only-apply-when-parent-is-null?": "perhaps reasoning?",
       "virtual": true
     },{
       "propertyUrl": "skos:member",
-      "aboutUrl": "http://statistics.data.gov.uk/def/concept-scheme/sitc-sections",
+      "aboutUrl": "http://statistics.data.gov.uk/def/concept-scheme/units",
       "valueUrl": "http://statistics.data.gov.uk/def/concept/{notation}",
       "virtual": true
     },{

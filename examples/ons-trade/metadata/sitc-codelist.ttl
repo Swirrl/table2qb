@@ -71,6 +71,18 @@
    skos:notation "total";
    skos:topConceptOf <http://statistics.data.gov.uk/def/concept-scheme/sitc-sections> .
 
+<http://statistics.data.gov.uk/def/concept-scheme/sitc-sections> skos:member <http://statistics.data.gov.uk/def/concept/6-manufactured-goods>,
+     <http://statistics.data.gov.uk/def/concept/4-animal-and-vegetable-oils>,
+     <http://statistics.data.gov.uk/def/concept/5-chemicals>,
+     <http://statistics.data.gov.uk/def/concept/0-food-and-live-animals>,
+     <http://statistics.data.gov.uk/def/concept/3-mineral-fuels>,
+     <http://statistics.data.gov.uk/def/concept/2-crude-materials>,
+     <http://statistics.data.gov.uk/def/concept/7-machinery-and-transport>,
+     <http://statistics.data.gov.uk/def/concept/1-beverages-and-tobacco>,
+     <http://statistics.data.gov.uk/def/concept/8-miscellaneous-manufactures>,
+     <http://statistics.data.gov.uk/def/concept/9-other-commodities-nes>,
+     <http://statistics.data.gov.uk/def/concept/total> .
+
  [
      a csvw:TableGroup;
      csvw:table [
@@ -80,75 +92,86 @@
        dc:title "SITC Codelist"@en;
        csvw:row [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/def/concept/1-beverages-and-tobacco>;
-         csvw:rownum 2;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=3>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/def/concept/total>;
-         csvw:rownum 11;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=12>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/def/concept/3-mineral-fuels>;
-         csvw:rownum 4;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=5>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/def/concept/4-animal-and-vegetable-oils>;
-         csvw:rownum 5;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=6>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/def/concept/5-chemicals>;
-         csvw:rownum 6;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=7>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/def/concept/2-crude-materials>;
-         csvw:rownum 3;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=4>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/def/concept/9-other-commodities-nes>;
-         csvw:rownum 10;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=11>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/def/concept/0-food-and-live-animals>;
-         csvw:rownum 1;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=2>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/def/concept/6-manufactured-goods>;
-         csvw:rownum 7;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=8>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/def/concept/8-miscellaneous-manufactures>;
+         csvw:describes <http://statistics.data.gov.uk/def/concept-scheme/sitc-sections>,
+           <http://statistics.data.gov.uk/def/concept/8-miscellaneous-manufactures>;
          csvw:rownum 9;
          csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=10>
        ],  [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/def/concept/7-machinery-and-transport>;
+         csvw:describes <http://statistics.data.gov.uk/def/concept-scheme/sitc-sections>,
+           <http://statistics.data.gov.uk/def/concept/1-beverages-and-tobacco>;
+         csvw:rownum 2;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=3>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/def/concept-scheme/sitc-sections>,
+           <http://statistics.data.gov.uk/def/concept/7-machinery-and-transport>;
          csvw:rownum 8;
          csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=9>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/def/concept-scheme/sitc-sections>,
+           <http://statistics.data.gov.uk/def/concept/0-food-and-live-animals>;
+         csvw:rownum 1;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=2>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/def/concept/9-other-commodities-nes>,
+           <http://statistics.data.gov.uk/def/concept-scheme/sitc-sections>;
+         csvw:rownum 10;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=11>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/def/concept/6-manufactured-goods>,
+           <http://statistics.data.gov.uk/def/concept-scheme/sitc-sections>;
+         csvw:rownum 7;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=8>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/def/concept/4-animal-and-vegetable-oils>,
+           <http://statistics.data.gov.uk/def/concept-scheme/sitc-sections>;
+         csvw:rownum 5;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=6>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/def/concept-scheme/sitc-sections>,
+           <http://statistics.data.gov.uk/def/concept/5-chemicals>;
+         csvw:rownum 6;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=7>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/def/concept/total>,
+           <http://statistics.data.gov.uk/def/concept-scheme/sitc-sections>;
+         csvw:rownum 11;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=12>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/def/concept-scheme/sitc-sections>,
+           <http://statistics.data.gov.uk/def/concept/3-mineral-fuels>;
+         csvw:rownum 4;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=5>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/def/concept-scheme/sitc-sections>,
+           <http://statistics.data.gov.uk/def/concept/2-crude-materials>;
+         csvw:rownum 3;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv#row=4>
        ];
        csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv>
      ];
      prov:wasGeneratedBy [
        a prov:Activity;
-       prov:endedAtTime "2018-01-24T17:52:52+01:00"^^xsd:dateTime;
+       prov:endedAtTime "2018-01-29T11:24:42+01:00"^^xsd:dateTime;
        prov:qualifiedUsage [
-         a prov:Usage;
-         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv>;
-         prov:hadRole csvw:csvEncodedTabularData
-       ],  [
          a prov:Usage;
          prov:entity <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv-metadata.json>;
          prov:hadRole csvw:tabularMetadata
+       ],  [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/sitc-codelist.csv>;
+         prov:hadRole csvw:csvEncodedTabularData
        ];
-       prov:startedAtTime "2018-01-24T17:52:49+01:00"^^xsd:dateTime;
+       prov:startedAtTime "2018-01-29T11:24:40+01:00"^^xsd:dateTime;
        prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
      ]
  ] .

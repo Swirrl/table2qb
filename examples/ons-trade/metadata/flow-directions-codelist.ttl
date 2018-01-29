@@ -1,0 +1,59 @@
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://statistics.data.gov.uk/def/concept/export> rdfs:label "Export";
+   skos:inScheme <http://statistics.data.gov.uk/def/concept-scheme/flow-directions>;
+   skos:notation "export";
+   skos:topConceptOf <http://statistics.data.gov.uk/def/concept-scheme/flow-directions> .
+
+<http://statistics.data.gov.uk/def/concept/import> rdfs:label "Import";
+   skos:inScheme <http://statistics.data.gov.uk/def/concept-scheme/flow-directions>;
+   skos:notation "import";
+   skos:topConceptOf <http://statistics.data.gov.uk/def/concept-scheme/flow-directions> .
+
+<http://statistics.data.gov.uk/def/concept-scheme/flow-directions> skos:member <http://statistics.data.gov.uk/def/concept/export>,
+     <http://statistics.data.gov.uk/def/concept/import> .
+
+ [
+     a csvw:TableGroup;
+     csvw:table [
+       a csvw:Table,
+         skos:ConceptScheme;
+       rdfs:label "Flow Directions Codelist"@en;
+       dc:title "Flow Directions Codelist"@en;
+       csvw:row [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/def/concept/import>,
+           <http://statistics.data.gov.uk/def/concept-scheme/flow-directions>;
+         csvw:rownum 2;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/flow-directions-codelist.csv#row=3>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/def/concept/export>,
+           <http://statistics.data.gov.uk/def/concept-scheme/flow-directions>;
+         csvw:rownum 1;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/flow-directions-codelist.csv#row=2>
+       ];
+       csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/flow-directions-codelist.csv>
+     ];
+     prov:wasGeneratedBy [
+       a prov:Activity;
+       prov:endedAtTime "2018-01-29T11:21:32+01:00"^^xsd:dateTime;
+       prov:qualifiedUsage [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/flow-directions-codelist.csv>;
+         prov:hadRole csvw:csvEncodedTabularData
+       ],  [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/metadata/flow-directions-codelist.csv-metadata.json>;
+         prov:hadRole csvw:tabularMetadata
+       ];
+       prov:startedAtTime "2018-01-29T11:21:30+01:00"^^xsd:dateTime;
+       prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
+     ]
+ ] .

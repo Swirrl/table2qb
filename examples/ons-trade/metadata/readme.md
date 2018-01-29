@@ -37,6 +37,6 @@ This comes from a source [components.csv](./components.csv) that is transformed 
 
 ### Internal
 
-- [SITC Sections Concepts and Scheme](./sitc-sections.ttl)
-- [Flow Directions Concepts and Scheme](./flow-directions.ttl)
-- [Measurements Units Scheme](./units.ttl): "GBP-million", and "Tonnes"
+- [SITC Sections Concepts and Scheme](./sitc-codelist.ttl) taken from [sitc-codelist.csv](./sitc-codelist.csv) and [sitc-codelist.csv-metadata.json](./sitc-codelist.csv-metadata.json)
+- [Flow Directions Concepts and Scheme](./flow-directions-codelist.ttl) taken from [flow-directions-codelist.csv](./flow-directions-codelist.csv) and [flow-directions-codelist.csv-metadata.json](./flow-directions-codelist.csv-metadata.json)
+- [Measurements Units Scheme](./units-codelist.ttl): ("GBP-million", and "Tonnes") taken from [units-codelist.csv](./units-codelist.csv) and [units-codelist.csv-metadata.json](./units-codelist.csv-metadata.json)

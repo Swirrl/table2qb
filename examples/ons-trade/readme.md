@@ -12,6 +12,6 @@ rdf serialize --input-format tabular regional-trade.slugged.csv --output-format 
 
 This produces the output in [regional-trade.ttl](./regional-trade.ttl).
 
-## Alternative versions
+## Split pipeline variation
 
-- [Split pipelines](./split) involves multiple csvw pipelines that each create a different aspect of the cube. This would allow distinct outputs to handled separately (loaded into distinct graphs etc)
+The [Split pipelines](./split) involves multiple csvw pipelines that each create a different resource of the cube - i.e. one pipeline per `rdf:type`. This would allow distinct outputs to handled separately (loaded into distinct graphs etc). It also obviates the need to include json-ld in the metadata; instead of creating this during the preparation phase (and having it passed through the translation unchanhed) we can use the translation phase to create this directly.

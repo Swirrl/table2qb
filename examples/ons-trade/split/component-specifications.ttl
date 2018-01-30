@@ -1,536 +1,102 @@
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix dc: <http://purl.org/dc/terms/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<http://statistics.data.gov.uk/data/regional-trade/component/net-mass> a <http://purl.org/linked-data/cube#Component>;
-   <http://purl.org/linked-data/cube#measure> <http://statistics.data.gov.uk/def/measure-properties/net-mass> .
-
-<http://statistics.data.gov.uk/data/regional-trade/component/value> a <http://purl.org/linked-data/cube#Component>;
-   <http://purl.org/linked-data/cube#measure> <http://statistics.data.gov.uk/def/measure-properties/value> .
-
-<http://statistics.data.gov.uk/data/regional-trade/component/date> a <http://purl.org/linked-data/cube#Component>;
+<http://statistics.data.gov.uk/data/regional-trade/component/date> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>;
    <http://purl.org/linked-data/cube#dimension> <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> .
 
-<http://statistics.data.gov.uk/data/regional-trade/component/flow> a <http://purl.org/linked-data/cube#Component>;
+<http://statistics.data.gov.uk/data/regional-trade/component/flow> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>;
    <http://purl.org/linked-data/cube#dimension> <http://statistics.data.gov.uk/def/dimension/flow> .
 
-<http://statistics.data.gov.uk/data/regional-trade/component/geography> a <http://purl.org/linked-data/cube#Component>;
+<http://statistics.data.gov.uk/data/regional-trade/component/geography> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
    <http://purl.org/linked-data/cube#dimension> <http://purl.org/linked-data/sdmx/2009/dimension#refArea> .
 
-<http://statistics.data.gov.uk/data/regional-trade/component/measureType> a <http://purl.org/linked-data/cube#Component>;
-   <http://purl.org/linked-data/cube#dimension> <http://purl.org/linked-data/cube#measureType> .
+<http://statistics.data.gov.uk/data/regional-trade/component/measureType> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/measureType>;
+   <http://purl.org/linked-data/cube#dimension> <http://purl.org/linked-data/sdmx/2009/dimension#measureType> .
 
-<http://statistics.data.gov.uk/data/regional-trade/component/sitc> a <http://purl.org/linked-data/cube#Component>;
+<http://statistics.data.gov.uk/data/regional-trade/component/net-mass> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/net-mass>;
+   <http://purl.org/linked-data/cube#measure> <http://statistics.data.gov.uk/def/measure-properties/net-mass> .
+
+<http://statistics.data.gov.uk/data/regional-trade/component/sitc_section> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>;
    <http://purl.org/linked-data/cube#dimension> <http://statistics.data.gov.uk/def/dimension/sitcSection> .
 
-<http://statistics.data.gov.uk/data/regional-trade/component/unit> a <http://purl.org/linked-data/cube#Component>;
-   <http://purl.org/linked-data/cube#attribute> <http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure> .
+<http://statistics.data.gov.uk/data/regional-trade/component/units> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/units>;
+   <http://purl.org/linked-data/cube#dimension> <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> .
+
+<http://statistics.data.gov.uk/data/regional-trade/component/value> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/value>;
+   <http://purl.org/linked-data/cube#measure> <http://statistics.data.gov.uk/def/measure-properties/value> .
 
  [
      a csvw:TableGroup;
      csvw:table [
        a csvw:Table;
+       dc:title "Regional Trade Component Specifications"@en;
        csvw:row [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 8;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=9>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 22;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=23>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 3;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=4>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 4;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=5>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 19;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=20>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 23;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=24>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 21;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=22>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 12;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=13>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 15;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=16>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 18;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=19>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 11;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=12>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 5;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=6>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 2;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=3>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 16;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=17>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 34;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=35>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 31;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=32>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 9;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=10>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>;
          csvw:rownum 1;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=2>
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/split-normalised/regional-trade.slugged.normalised.csv#row=2>
        ],  [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 38;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=39>
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/sitc_section>;
+         csvw:rownum 5;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/split-normalised/regional-trade.slugged.normalised.csv#row=6>
        ],  [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 13;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=14>
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/units>;
+         csvw:rownum 4;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/split-normalised/regional-trade.slugged.normalised.csv#row=5>
        ],  [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 6;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=7>
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/date>;
+         csvw:rownum 2;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/split-normalised/regional-trade.slugged.normalised.csv#row=3>
        ],  [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 43;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=44>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 10;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=11>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 14;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=15>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 35;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=36>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 26;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=27>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 37;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=38>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 30;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=31>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 29;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=30>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 32;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=33>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 25;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=26>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 24;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=25>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 36;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=37>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 44;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=45>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 33;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=34>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 28;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=29>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/value>;
          csvw:rownum 7;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=8>
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/split-normalised/regional-trade.slugged.normalised.csv#row=8>
        ],  [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 17;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=18>
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>;
+         csvw:rownum 8;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/split-normalised/regional-trade.slugged.normalised.csv#row=9>
        ],  [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 39;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=40>
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/measureType>;
+         csvw:rownum 3;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/split-normalised/regional-trade.slugged.normalised.csv#row=4>
        ],  [
          a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 42;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=43>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 41;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=42>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 27;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=28>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/net-mass>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 40;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=41>
-       ],  [
-         a csvw:Row;
-         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/sitc>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/flow>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/value>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/unit>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/measureType>,
-           <http://statistics.data.gov.uk/data/regional-trade/component/date>;
-         csvw:rownum 20;
-         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv#row=21>
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/flow>;
+         csvw:rownum 6;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/split-normalised/regional-trade.slugged.normalised.csv#row=7>
        ];
-       csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv>
+       csvw:url <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/split-normalised/regional-trade.slugged.normalised.csv>
      ];
      prov:wasGeneratedBy [
        a prov:Activity;
-       prov:endedAtTime "2018-01-30T09:59:45+01:00"^^xsd:dateTime;
+       prov:endedAtTime "2018-01-30T10:53:32+01:00"^^xsd:dateTime;
        prov:qualifiedUsage [
          a prov:Usage;
-         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/component-specifications-metadata.json>;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/split-normalised/component-specifications-metadata.json>;
          prov:hadRole csvw:tabularMetadata
        ],  [
          a prov:Usage;
-         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/regional-trade.slugged.csv>;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/ons-trade/split-normalised/regional-trade.slugged.normalised.csv>;
          prov:hadRole csvw:csvEncodedTabularData
        ];
-       prov:startedAtTime "2018-01-30T09:59:43+01:00"^^xsd:dateTime;
+       prov:startedAtTime "2018-01-30T10:53:29+01:00"^^xsd:dateTime;
        prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
      ]
  ] .

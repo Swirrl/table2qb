@@ -1,55 +1,27 @@
 {
   "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
   "@id": "http://statistics.data.gov.uk/data/regional-trade/structure",
-  "url": "regional-trade.slugged.csv",
+  "url": "regional-trade.slugged.normalised.csv",
   "dc:title": "Regional Trade Data Structure Definition",
+  "rdf:type": {"@id": "qb:DataStructureDefinition"},
+  "rdfs:label": "Regional Trade Data Structure Definition",
   "tableSchema": {
     "columns": [{
-      "name": "geography",
-      "titles": "GeographyCode",
+      "name": "component_slug",
+      "titles": "Component Slug",
       "datatype": "string",
       "propertyUrl": "qb:component",
-      "valueUrl": "http://statistics.data.gov.uk/data/regional-trade/component/{_name}"
+      "valueUrl": "http://statistics.data.gov.uk/data/regional-trade/component/{component_slug}"
     },{
-      "name": "date",
-      "titles": "DateCode",
+      "name": "component_attachment",
+      "titles": "Component Attachment",
       "datatype": "string",
-      "propertyUrl": "qb:component",
-      "valueUrl": "http://statistics.data.gov.uk/data/regional-trade/component/{_name}"
+      "suppressOutput": true
     },{
-      "name": "measureType",
-      "titles": "Measurement",
+      "name": "component_property",
+      "titles": "Component Property",
       "datatype": "string",
-      "propertyUrl": "qb:component",
-      "valueUrl": "http://statistics.data.gov.uk/data/regional-trade/component/{_name}"
-    },{
-      "name": "unit",
-      "titles": "Units",
-      "datatype": "string",
-      "propertyUrl": "qb:component",
-      "valueUrl": "http://statistics.data.gov.uk/data/regional-trade/component/{_name}"
-    },{
-      "name": "value",
-      "titles": "Value",
-      "datatype": "number",
-      "propertyUrl": "qb:component",
-      "valueUrl": "http://statistics.data.gov.uk/data/regional-trade/component/{measureType}"
-    },{
-      "name": "sitc",
-      "titles": "SITC Section",
-      "datatype": "string",
-      "propertyUrl": "qb:component",
-      "valueUrl": "http://statistics.data.gov.uk/data/regional-trade/component/{_name}"
-    },{
-      "name": "flow",
-      "titles": "Flow",
-      "datatype": "string",
-      "propertyUrl": "qb:component",
-      "valueUrl": "http://statistics.data.gov.uk/data/regional-trade/component/{_name}"
-    },{
-      "virtual": true,
-      "propertyUrl": "rdf:type",
-      "valueUrl": "qb:DataStructureDefinition"
+      "suppressOutput": true
     }],
     "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/structure"
   }

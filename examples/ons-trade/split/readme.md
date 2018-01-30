@@ -4,6 +4,6 @@ This variation of the example involves multiple csvw pipelines that each create 
 
 This would allow distinct outputs to handled separately (loaded into distinct graphs etc).
 
-For the most part it works, but it becomes difficult dealing with multiple subjects per row (essentially components etc are one per column). See the components pipeline for example, which need to create a virtual column for each `?cs a qb:ComponentSpecification` statement. This would need doing for `?cs pmd:codesUsed ?used_codes_list` (in the same pipeline) and `?used_codes_list a skos:ConceptScheme` (in the code-used pipeline).
+Although we can get quite far using the same input file, it becomes difficult dealing with the multiple subjects per row (essentially components etc are one per column). Every time you want to add another statement about the components, you need to create a virtual columns for each; this quickly becomes unmanageable.
 
-It may be possible to include json-ld in the metadata document instead of a csv2rdf translation. Alternatively we may prefer to normalise the data (one row per component first instead). This will be a little complicated as the measures dimensions come from the rows of the measureType column.
+Instead what we can do is to first transform the input file into a semi-normalised version with one component per row. This might be considered semi-normalised because the measures dimensions come from the rows of the measureType column. That is to say, all columns except for `Measure` and `Value` are normalised (forming rows), the `Measure` column has it's distinct row values kept as rows, and a `MeasureType` row is appended.

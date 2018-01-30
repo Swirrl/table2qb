@@ -43,7 +43,6 @@
       "propertyUrl": "skos:member",
       "valueUrl": "http://statistics.data.gov.uk/def/concept/flow/{flow}"
     }],
-    "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/component/{_name}/codesUsed",
-    "rdf:type": {"@id":"skos:ConceptScheme"}
+    "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/component/{_name}/codesUsed"
   }
 }

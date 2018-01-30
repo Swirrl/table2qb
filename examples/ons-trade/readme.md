@@ -11,3 +11,7 @@ rdf serialize --input-format tabular regional-trade.slugged.csv --output-format 
 ```
 
 This produces the output in [regional-trade.ttl](./regional-trade.ttl).
+
+## Alternative versions
+
+- [Split pipelines](./split) involves multiple csvw pipelines that each create a different aspect of the cube. This would allow distinct outputs to handled separately (loaded into distinct graphs etc)

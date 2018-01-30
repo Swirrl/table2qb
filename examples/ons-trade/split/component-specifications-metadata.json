@@ -1,0 +1,86 @@
+{
+  "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
+  "url": "regional-trade.slugged.csv",
+  "tableSchema": {
+    "columns": [{
+      "name": "geography",
+      "titles": "GeographyCode",
+      "datatype": "string",
+      "propertyUrl": "qb:dimension",
+      "valueUrl": "http://purl.org/linked-data/sdmx/2009/dimension#refArea"
+    },{
+      "name": "date",
+      "titles": "DateCode",
+      "datatype": "string",
+      "propertyUrl": "qb:dimension",
+      "valueUrl": "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"
+    },{
+      "name": "measureType",
+      "titles": "Measurement",
+      "datatype": "string",
+      "propertyUrl": "qb:dimension",
+      "valueUrl": "qb:measureType"
+    },{
+      "name": "unit",
+      "titles": "Units",
+      "datatype": "string",
+      "propertyUrl": "qb:attribute",
+      "valueUrl": "http://purl.org/linked-data/sdmx/2009/attribute/unitMeasure"
+    },{
+      "name": "value",
+      "titles": "Value",
+      "datatype": "number",
+      "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/component/{measureType}",
+      "propertyUrl": "qb:measure",
+      "valueUrl": "http://statistics.data.gov.uk/def/measure-properties/{measureType}"
+    },{
+      "name": "sitc",
+      "titles": "SITC Section",
+      "datatype": "string",
+      "propertyUrl": "qb:dimension",
+      "valueUrl": "http://statistics.data.gov.uk/def/dimension/sitcSection"
+    },{
+      "name": "flow",
+      "titles": "Flow",
+      "datatype": "string",
+      "propertyUrl": "qb:dimension",
+      "valueUrl": "http://statistics.data.gov.uk/def/dimension/flow"
+    },{
+      "virtual": true,
+      "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/component/geography",
+      "propertyUrl": "rdf:type",
+      "valueUrl": "qb:Component"
+    },{
+      "virtual": true,
+      "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/component/date",
+      "propertyUrl": "rdf:type",
+      "valueUrl": "qb:Component"
+    },{
+      "virtual": true,
+      "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/component/measureType",
+      "propertyUrl": "rdf:type",
+      "valueUrl": "qb:Component"
+    },{
+      "virtual": true,
+      "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/component/unit",
+      "propertyUrl": "rdf:type",
+      "valueUrl": "qb:Component"
+    },{
+      "virtual": true,
+      "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/component/{measureType}",
+      "propertyUrl": "rdf:type",
+      "valueUrl": "qb:Component"
+    },{
+      "virtual": true,
+      "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/component/sitc",
+      "propertyUrl": "rdf:type",
+      "valueUrl": "qb:Component"
+    },{
+      "virtual": true,
+      "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/component/flow",
+      "propertyUrl": "rdf:type",
+      "valueUrl": "qb:Component"
+    }],
+    "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/component/{_name}"
+  }
+}

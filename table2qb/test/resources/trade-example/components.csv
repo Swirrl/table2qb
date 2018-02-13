@@ -1,0 +1,9 @@
+Component Slug,Component Attachment,Component Property
+geography,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refArea
+date,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refPeriod
+measureType,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#measureType
+units,qb:dimension,http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure
+sitc_section,qb:dimension,http://statistics.data.gov.uk/def/dimension/sitcSection
+flow,qb:dimension,http://statistics.data.gov.uk/def/dimension/flow
+value,qb:measure,http://statistics.data.gov.uk/def/measure-properties/value
+net-mass,qb:measure,http://statistics.data.gov.uk/def/measure-properties/net-mass

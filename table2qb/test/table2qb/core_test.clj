@@ -20,12 +20,20 @@
             (is (= component_property "http://purl.org/linked-data/sdmx/2009/dimension#refArea"))))
         (testing "compare with components.csv"
           (testing "parsed contents match"
-            (with-open [target-reader (io/reader (example "components.csv"))]
+            (with-open [target-reader (io/reader (example "component-specifications.csv"))]
               (is (= (set (read-csv target-reader))
                      (set components)))))
           (testing "serialised contents match"
-            (with-open [target-reader (io/reader (example "components.csv"))]
+            (with-open [target-reader (io/reader (example "component-specifications.csv"))]
               (let [string-writer (StringWriter.)]
                 (write-csv string-writer (sort-by :component_slug components))
                 (is (= (slurp target-reader)
-                       (str string-writer)))))))))))
+                       (str string-writer)))))))
+        (testing "compare with components.json"
+          (testing "parsed contents match"
+            (with-open [target-reader (io/reader (example "component-specifications-metadata.json"))]
+              (is (= (read-json target-reader)
+                     (json-metadata
+                      "regional-trade.slugged.normalised.csv"
+                      "Regional Trade Component Specifications"
+                      "regional-trade"))))))))))

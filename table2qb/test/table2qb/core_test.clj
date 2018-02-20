@@ -1,11 +1,17 @@
 (ns table2qb.core-test
   (:require [clojure.test :refer :all]
             [table2qb.core :refer :all]
-            [clojure.java.io :as io])
+            [clojure.java.io :as io]
+            [clojure.data :refer [diff]])
   (:import [java.io StringWriter]))
 
 (defn example [filename]
   (str "./test/resources/trade-example/" filename))
+
+(defn maps-match? [a b]
+  (let [[a-only b-only _] (diff a b)]
+    (is (nil? a-only) "Found only in first argument: ")
+    (is (nil? b-only) "Found only in second argument: ")))
 
 (deftest components-test
   (testing "returns a dataset of components"
@@ -31,9 +37,18 @@
                        (str string-writer)))))))
         (testing "compare with components.json"
           (testing "parsed contents match"
-            (with-open [target-reader (io/reader (example "component-specifications-metadata.json"))]
+            (with-open [target-reader (io/reader (example "component-specifications.json"))]
               (is (= (read-json target-reader)
-                     (json-metadata
+                     (component-metadata
                       "regional-trade.slugged.normalised.csv"
                       "Regional Trade Component Specifications"
                       "regional-trade"))))))))))
+
+(deftest structure-test
+  (testing "compare with structure.json"
+    (with-open [target-reader (io/reader (example "structure.json"))]
+      (maps-match? (read-json target-reader)
+                      (structure-metadata
+                       "regional-trade.slugged.normalised.csv"
+                       "Regional Trade"
+                       "regional-trade")))))

@@ -5,17 +5,17 @@
   "tableSchema": {
     "columns": [{
       "name": "component_slug",
-      "titles": "Component Slug",
+      "titles": "component_slug",
       "datatype": "string",
       "suppressOutput": true
     },{
       "name": "component_attachment",
-      "titles": "Component Attachment",
+      "titles": "component_attachment",
       "datatype": "string",
       "suppressOutput": true
     },{
       "name": "component_property",
-      "titles": "Component Property",
+      "titles": "component_property",
       "datatype": "string",
       "propertyUrl": "{+component_attachment}",
       "valueUrl": "{+component_property}"

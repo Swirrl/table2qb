@@ -7,4 +7,4 @@ sitc_section,qb:dimension,http://statistics.data.gov.uk/def/dimension/sitcSectio
 flow,qb:dimension,http://statistics.data.gov.uk/def/dimension/flow,http://statistics.data.gov.uk/def/concept/flow/{flow},string
 gbp_total,qb:measure,http://statistics.data.gov.uk/def/measure/gbp_total,,string
 net_mass,qb:measure,http://statistics.data.gov.uk/def/measure/net_mass,,string
-value,,http://statistics.data.gov.uk/def/measure-properties/{measure},,number
+value,,http://statistics.data.gov.uk/def/measure-properties/{measure_type},,number

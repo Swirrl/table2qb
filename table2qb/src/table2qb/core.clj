@@ -4,7 +4,8 @@
             [net.cgrand.xforms :as x]
             [clojure.java.io :as io]
             [grafter.extra.cell.uri :as gecu]
-            [clojure.string :as st]))
+            [clojure.string :as st]
+            [clojure.java.shell :refer [sh]]))
 
 ;; CSV handling
 
@@ -42,7 +43,7 @@
   "Standardises a title to a unambiguious internal name"
   ({"GeographyCode" :geography
     "DateCode" :date
-    "Measurement" :measure
+    "Measurement" :measure_type
     "Units" :unit
     "Value" :value
     "SITC Section" :sitc_section
@@ -63,7 +64,7 @@
 (defn headers-matching [pred]
   (comp (take 1) (map keys) cat (filter pred)))
 
-(def is-dimension? #{:geography :date :sitc_section :flow})
+(def is-dimension? #{:geography :date :sitc_section :flow :measure_type})
 (def is-attribute? #{:unit})
 
 (defn append [item]
@@ -75,7 +76,8 @@
 
 (def dimensions
   (comp (headers-matching is-dimension?)
-        (append :measure_type)))
+        ;;(append :measure_type)
+        ))
 
 (def attributes
   (headers-matching is-attribute?))
@@ -83,7 +85,7 @@
 (def standardise-measure {"GBP Total" :gbp_total, "Net Mass", :net_mass})
 
 (def measures
-  (comp (map :measure)
+  (comp (map :measure_type)
         (distinct)
         (map standardise-measure) ;; replace with title->name?
 ))
@@ -111,15 +113,15 @@
    "tableSchema"
    {"columns"
     [{"name" "component_slug",
-      "titles" "Component Slug",
+      "titles" "component_slug",
       "datatype" "string",
       "suppressOutput" true}
      {"name" "component_attachment",
-      "titles" "Component Attachment",
+      "titles" "component_attachment",
       "datatype" "string",
       "suppressOutput" true}
      {"name" "component_property",
-      "titles" "Component Property",
+      "titles" "component_property",
       "datatype" "string",
       "propertyUrl" "{+component_attachment}",
       "valueUrl" "{+component_property}"}
@@ -147,16 +149,16 @@
      "tableSchema"
      {"columns"
       [{"name" "component_slug",
-        "titles" "Component Slug",
+        "titles" "component_slug",
         "datatype" "string",
         "propertyUrl" "qb:component",
         "valueUrl" (component-specification-template dataset-slug)}
        {"name" "component_attachment",
-        "titles" "Component Attachment",
+        "titles" "component_attachment",
         "datatype" "string",
         "suppressOutput" true}
        {"name" "component_property",
-        "titles" "Component Property",
+        "titles" "component_property",
         "datatype" "string",
         "suppressOutput" true}],
       "aboutUrl" dsd-uri}}))
@@ -166,7 +168,7 @@
 
 (defn slugise-columns [row]
   (-> row
-      (update :measure gecu/slugize)
+      (update :measure_type gecu/slugize)
       (update :unit (comp gecu/slugize replace-symbols))
       (update :sitc_section gecu/slugize) ;; TODO generalise me
       (update :flow gecu/slugize)))
@@ -203,36 +205,82 @@
 
 (defn observation-template [dataset-slug components]
   (let [uri-parts (->> components
-                       (sort-by #(get {"geography" -2 "date" -1 "measure" 1 "unit" 2} % 0))
+                       (sort-by #(get {"geography" -2 "date" -1 "measure_type" 1 "unit" 2} % 0))
                        (remove #{"value"})
                        (map #(str "/{" % "}")))]
     (str "http://statistics.data.gov.uk/data/"
          dataset-slug
          (st/join uri-parts))))
 
-(defn observation-metadata [reader csv-url dataset-slug]
+(defn target-order [v]
+  "Returns a function for use with sort-by which returns an index of an
+  element according to a target vector, or an index falling after the target
+  (i.e. putting unrecognised elements at the end)."
+  (fn [element]
+    (let [i (.indexOf v element)]
+      (if (= -1 i)
+        (inc (count v))
+        i))))
+
+(defn observations-metadata [reader csv-url dataset-slug]
   (let [data (read-csv reader title->name)
         components (sequence (comp (x/multiplex [dimensions attributes values])
-                                  (map name->component)) data)
+                                   (map name->component)) data)
+        column-order (->> data first keys (map unkeyword) target-order)
         columns (into [] (comp (map component->column)
-                                  (append (dataset-link dataset-slug))
-                                  (append observation-type)) components)]
+                               (append (dataset-link dataset-slug))
+                               (append observation-type)) components)
+        columns (sort-by #(column-order (get % "name")) columns)]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" csv-url,
      "tableSchema"
      {"columns" columns,
       "aboutUrl" (observation-template dataset-slug (map :component_slug components))}}))
 
-(defn pipeline [input-csv output-dir dataset-name dataset-slug]
-  (let [component-specifications-csv (str output-dir "component-specifications.csv")
-        component-specifications-json (str output-dir "component-specifications.json")
-        structure-json (str output-dir "structure.json")]
-    (with-open [reader (io/reader input-csv)
-                writer (io/writer component-specifications-csv)]
-      (write-csv writer (components reader)))
-    (with-open [writer (io/writer component-specifications-json)]
-      (write-json writer (component-metadata component-specifications-csv dataset-name dataset-slug)))
-    (with-open [writer (io/writer structure-json)]
-      (write-json writer (structure-metadata component-specifications-csv dataset-name dataset-slug)))))
 
-;; (pipeline (example "input.csv") "./tmp/" "Regional Trade" "regional-trade")
+;; serialize
+
+(defn pipeline [input-csv output-dir dataset-name dataset-slug]
+  (let [writer (fn [filename] (io/writer (str output-dir "/" filename)))
+        component-specifications-csv "component-specifications.csv"
+        component-specifications-json "component-specifications.json"
+        structure-json "structure.json"
+        observations-csv "observations.csv"
+        observations-json "observations.json"]
+    (with-open [reader (io/reader input-csv)
+                writer (writer component-specifications-csv)]
+      (write-csv writer (components reader)))
+    (with-open [writer (writer component-specifications-json)]
+      (write-json writer (components-metadata component-specifications-csv dataset-name dataset-slug)))
+    (with-open [writer (writer structure-json)]
+      (write-json writer (structure-metadata component-specifications-csv dataset-name dataset-slug)))
+    (with-open [reader (io/reader input-csv)
+                writer (writer observations-csv)]
+      (write-csv writer (observations reader)))
+    (with-open [reader (io/reader input-csv)
+                writer (writer observations-json)]
+      (write-json writer (observations-metadata reader observations-csv dataset-slug)))))
+
+
+;; CSV2RDF
+
+(defn rdf-serialize [output-dir resource]
+  ["rdf" "serialize"
+   "--input-format" "tabular" (str output-dir "/" resource ".json")
+   "--output-format" "ttl" ">" (str output-dir "/" resource ".ttl")])
+
+(defn csv2rdf [output-dir resource]
+  (sh "sh" "-c" (st/join " " (rdf-serialize output-dir resource))))
+
+(defn csv2rdf-all [output-dir]
+  (for [resource ["component-specifications" "structure" "observations"]]
+    (csv2rdf output-dir resource)))
+
+
+
+;;(pipeline "./test/resources/trade-example/input.csv" "./tmp" "Regional Trade" "regional-trade")
+;;(csv2rdf-all "./tmp")
+;;(csv2rdf "./tmp" "observations")
+
+
+

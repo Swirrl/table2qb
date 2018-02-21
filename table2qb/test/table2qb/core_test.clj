@@ -38,11 +38,11 @@
         (testing "compare with components.json"
           (testing "parsed contents match"
             (with-open [target-reader (io/reader (example "component-specifications.json"))]
-              (is (= (read-json target-reader)
-                     (components-metadata
-                      "regional-trade.slugged.normalised.csv"
-                      "Regional Trade Component Specifications"
-                      "regional-trade"))))))))))
+              (maps-match? (read-json target-reader)
+                           (components-metadata
+                            "regional-trade.slugged.normalised.csv"
+                            "Regional Trade Component Specifications"
+                            "regional-trade")))))))))
 
 (deftest structure-test
   (testing "compare with structure.json"
@@ -67,7 +67,7 @@
             (is (= 7 (count observation))))
           (testing "slugged columns"
             (are [expected actual] (= expected actual)
-              "gbp-total" (:measure observation)
+              "gbp-total" (:measure_type observation)
               "gbp-million" (:unit observation)
               "0-food-and-live-animals" (:sitc_section observation)
               "export" (:flow observation)))))))
@@ -75,6 +75,6 @@
     (with-open [input-reader (io/reader (example "input.csv"))
                 target-reader (io/reader (example "observations-metadata.json"))]
       (maps-match? (order-columns (read-json target-reader))
-                   (order-columns (observation-metadata input-reader
-                                                        "regional-trade.slugged.csv"
-                                                        "regional-trade"))))))
+                   (order-columns (observations-metadata input-reader
+                                                         "regional-trade.slugged.csv"
+                                                         "regional-trade"))))))

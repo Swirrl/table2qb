@@ -39,7 +39,7 @@
           (testing "parsed contents match"
             (with-open [target-reader (io/reader (example "component-specifications.json"))]
               (is (= (read-json target-reader)
-                     (component-metadata
+                     (components-metadata
                       "regional-trade.slugged.normalised.csv"
                       "Regional Trade Component Specifications"
                       "regional-trade"))))))))))
@@ -52,3 +52,29 @@
                        "regional-trade.slugged.normalised.csv"
                        "Regional Trade"
                        "regional-trade")))))
+
+(defn order-columns [m]
+  (update-in m ["tableSchema" "columns"] (partial sort-by #(get % "name"))))
+
+(deftest observations-test
+  (testing "sequence of observations"
+    (with-open [input-reader (io/reader (example "input.csv"))]
+      (let [observations (doall (observations input-reader))]
+        (testing "one observation per row"
+          (is (= 44 (count observations))))
+        (let [observation (first observations)]
+          (testing "one column per component"
+            (is (= 7 (count observation))))
+          (testing "slugged columns"
+            (are [expected actual] (= expected actual)
+              "gbp-total" (:measure observation)
+              "gbp-million" (:unit observation)
+              "0-food-and-live-animals" (:sitc_section observation)
+              "export" (:flow observation)))))))
+  (testing "observation metadata"
+    (with-open [input-reader (io/reader (example "input.csv"))
+                target-reader (io/reader (example "observations-metadata.json"))]
+      (maps-match? (order-columns (read-json target-reader))
+                   (order-columns (observation-metadata input-reader
+                                                        "regional-trade.slugged.csv"
+                                                        "regional-trade"))))))

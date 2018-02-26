@@ -19,7 +19,7 @@
       "titles": "measure_type",
       "datatype": "string",
       "propertyUrl": "http://purl.org/linked-data/sdmx/2009/dimension#measureType",
-      "valueUrl": "http://statistics.data.gov.uk/def/measure-properties/{measure}"
+      "valueUrl": "http://statistics.data.gov.uk/def/measure-properties/{measure_type}"
     },{
       "name": "unit",
       "titles": "unit",
@@ -30,7 +30,7 @@
       "name": "value",
       "titles": "value",
       "datatype": "number",
-      "propertyUrl": "http://statistics.data.gov.uk/def/measure-properties/{measure}"
+      "propertyUrl": "http://statistics.data.gov.uk/def/measure-properties/{measure_type}"
     },{
       "name": "sitc_section",
       "titles": "sitc_section",

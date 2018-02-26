@@ -53,11 +53,11 @@
                        "Regional Trade"
                        "regional-trade")))))
 
-(deftest structure-test
-  (testing "compare with structure.json"
-    (with-open [target-reader (io/reader (example "structure.json"))]
+(deftest data-structure-definition-test
+  (testing "compare with data-structure-definition.json"
+    (with-open [target-reader (io/reader (example "data-structure-definition.json"))]
       (maps-match? (read-json target-reader)
-                      (structure-metadata
+                      (data-structure-definition-metadata
                        "regional-trade.slugged.normalised.csv"
                        "Regional Trade"
                        "regional-trade")))))

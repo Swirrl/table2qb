@@ -153,7 +153,7 @@
        {"name" "structure","virtual" true,"propertyUrl" "qb:structure","valueUrl" dsd-uri}],
       "aboutUrl" ds-uri}}))
 
-(defn structure-metadata [csv-url dataset-name dataset-slug]
+(defn data-structure-definition-metadata [csv-url dataset-name dataset-slug]
   (let [dsd-uri (str "http://statistics.data.gov.uk/data/" dataset-slug "/structure")
         dsd-label (str dataset-name " (Data Structure Definition)")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
@@ -261,7 +261,7 @@
         component-specifications-csv "component-specifications.csv"
         component-specifications-json "component-specifications.json"
         dataset-json "dataset.json"
-        structure-json "structure.json"
+        data-structure-definition-json "data-structure-definition.json"
         observations-csv "observations.csv"
         observations-json "observations.json"]
     (with-open [reader (io/reader input-csv)
@@ -271,8 +271,8 @@
       (write-json writer (components-metadata component-specifications-csv dataset-name dataset-slug)))
     (with-open [writer (writer dataset-json)]
       (write-json writer (dataset-metadata component-specifications-csv dataset-name dataset-slug)))
-    (with-open [writer (writer structure-json)]
-      (write-json writer (structure-metadata component-specifications-csv dataset-name dataset-slug)))
+    (with-open [writer (writer data-structure-definition-json)]
+      (write-json writer (data-structure-definition-metadata component-specifications-csv dataset-name dataset-slug)))
     (with-open [reader (io/reader input-csv)
                 writer (writer observations-csv)]
       (write-csv writer (observations reader)))
@@ -292,7 +292,7 @@
   (sh "sh" "-c" (st/join " " (rdf-serialize output-dir resource))))
 
 (defn csv2rdf-all [output-dir]
-  (for [resource ["component-specifications" "dataset" "structure" "observations"]]
+  (for [resource ["component-specifications" "dataset" "data-structure-definition" "observations"]]
     (csv2rdf output-dir resource)))
 
 

@@ -136,6 +136,22 @@
       (str "http://statistics.data.gov.uk/data/" dataset-slug "/codes-used/{component_slug}")}],
     "aboutUrl" (component-specification-template dataset-slug)}})
 
+(defn dataset-metadata [csv-url dataset-name dataset-slug]
+  (let [ds-uri (str "http://statistics.data.gov.uk/data/" dataset-slug)
+        dsd-uri (str ds-uri "/structure")
+        ds-label dataset-name]
+    {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
+     "@id" ds-uri,
+     "url" csv-url,
+     "dc:title" ds-label,
+     "tableSchema"
+     {"columns"
+      [{"name" "component_slug", "titles" "component_slug", "suppressOutput" true}
+       {"name" "component_attachment", "titles" "component_attachment", "suppressOutput" true}
+       {"name" "component_property", "titles" "component_property", "suppressOutput" true}
+       {"name" "type","virtual" true,"propertyUrl" "rdf:type","valueUrl" "qb:DataSet"}
+       {"name" "structure","virtual" true,"propertyUrl" "qb:structure","valueUrl" dsd-uri}],
+      "aboutUrl" ds-uri}}))
 
 (defn structure-metadata [csv-url dataset-name dataset-slug]
   (let [dsd-uri (str "http://statistics.data.gov.uk/data/" dataset-slug "/structure")
@@ -244,6 +260,7 @@
   (let [writer (fn [filename] (io/writer (str output-dir "/" filename)))
         component-specifications-csv "component-specifications.csv"
         component-specifications-json "component-specifications.json"
+        dataset-json "dataset.json"
         structure-json "structure.json"
         observations-csv "observations.csv"
         observations-json "observations.json"]
@@ -252,6 +269,8 @@
       (write-csv writer (components reader)))
     (with-open [writer (writer component-specifications-json)]
       (write-json writer (components-metadata component-specifications-csv dataset-name dataset-slug)))
+    (with-open [writer (writer dataset-json)]
+      (write-json writer (dataset-metadata component-specifications-csv dataset-name dataset-slug)))
     (with-open [writer (writer structure-json)]
       (write-json writer (structure-metadata component-specifications-csv dataset-name dataset-slug)))
     (with-open [reader (io/reader input-csv)
@@ -273,14 +292,13 @@
   (sh "sh" "-c" (st/join " " (rdf-serialize output-dir resource))))
 
 (defn csv2rdf-all [output-dir]
-  (for [resource ["component-specifications" "structure" "observations"]]
+  (for [resource ["component-specifications" "dataset" "structure" "observations"]]
     (csv2rdf output-dir resource)))
-
 
 
 ;;(pipeline "./test/resources/trade-example/input.csv" "./tmp" "Regional Trade" "regional-trade")
 ;;(csv2rdf-all "./tmp")
-;;(csv2rdf "./tmp" "observations")
+;;(csv2rdf "./tmp" "dataset")
 
 
 

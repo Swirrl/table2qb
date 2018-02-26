@@ -44,6 +44,15 @@
                             "Regional Trade Component Specifications"
                             "regional-trade")))))))))
 
+(deftest dataset-test
+  (testing "compare with dataset.json"
+    (with-open [target-reader (io/reader (example "dataset.json"))]
+      (maps-match? (read-json target-reader)
+                      (dataset-metadata
+                       "regional-trade.slugged.normalised.csv"
+                       "Regional Trade"
+                       "regional-trade")))))
+
 (deftest structure-test
   (testing "compare with structure.json"
     (with-open [target-reader (io/reader (example "structure.json"))]
@@ -81,5 +90,4 @@
 
 ;; TODO: initial creation of reference data: components and codelists
 ;; TODO: codes-used list
-;; TODO: dataset
 ;; TODO: slugizers vs code-specifier vs curie

@@ -1,0 +1,24 @@
+{
+  "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
+  "@id": "http://statistics.data.gov.uk/data/regional-trade",
+  "url": "regional-trade.slugged.normalised.csv",
+  "dc:title": "Regional Trade",
+  "tableSchema": {
+    "columns": [
+      {"titles": "component_slug", "name": "component_slug", "suppressOutput": true},
+      {"titles": "component_attachment", "name": "component_attachment", "suppressOutput": true},
+      {"titles": "component_property", "name": "component_property", "suppressOutput": true},
+      {
+	"name": "type",
+	"virtual": true,
+	"propertyUrl": "rdf:type",
+	"valueUrl": "qb:DataSet"
+      },{
+	"name": "structure",
+	"virtual": true,
+	"propertyUrl": "qb:structure",
+	"valueUrl": "http://statistics.data.gov.uk/data/regional-trade/structure"
+      }],
+    "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade"
+  }
+}

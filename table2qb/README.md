@@ -23,7 +23,16 @@ The project also provides pipelines for preparing reference data. These can be u
 
 ## Usage
 
-TODO
+Takes the trade-example and outputs csvw into a tmp dir.
+
+```clojure
+(table2qb.core/pipeline "./test/resources/trade-example/input.csv" "./tmp" "Regional Trade" "regional-trade")
+```
+
+There's a little helper function to call the RDF::Tabular csv2rdf translator using the `rdf` cli tool (you can get this with `gem install rdf`).
+```clojure
+(table2qb.core/csv2rdf-all "./tmp")
+```
 
 ## License
 

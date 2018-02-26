@@ -93,7 +93,7 @@
 (def identify-components
   (x/multiplex [dimensions attributes measures]))
 
-(defn components
+(defn component-specifications
   "Takes an filename for csv of observations and returns a sequence of components"
   [reader]
   (let [data (read-csv reader title->name)]
@@ -106,7 +106,7 @@
 (defn component-specification-template [dataset-slug]
   (str "http://statistics.data.gov.uk/data/" dataset-slug "/component/{component_slug}"))
 
-(defn components-metadata [csv-url dataset-name dataset-slug]
+(defn component-specification-metadata [csv-url dataset-name dataset-slug]
   {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
    "url" csv-url,
    "dc:title" dataset-name,
@@ -266,9 +266,9 @@
         observations-json "observations.json"]
     (with-open [reader (io/reader input-csv)
                 writer (writer component-specifications-csv)]
-      (write-csv writer (components reader)))
+      (write-csv writer (component-specifications reader)))
     (with-open [writer (writer component-specifications-json)]
-      (write-json writer (components-metadata component-specifications-csv dataset-name dataset-slug)))
+      (write-json writer (component-specification-metadata component-specifications-csv dataset-name dataset-slug)))
     (with-open [writer (writer dataset-json)]
       (write-json writer (dataset-metadata component-specifications-csv dataset-name dataset-slug)))
     (with-open [writer (writer data-structure-definition-json)]

@@ -13,33 +13,39 @@
     (is (nil? a-only) "Found only in first argument: ")
     (is (nil? b-only) "Found only in second argument: ")))
 
+;; Reference Data
+
+
+
+;; Data
+
 (deftest components-test
-  (testing "returns a dataset of components"
+  (testing "returns a dataset of component-specifications"
     (with-open [input-reader (io/reader (example "input.csv"))]
-      (let [components (doall (components input-reader))]
+      (let [component-specifications (doall (component-specifications input-reader))]
         (testing "one row per component"
-          (is (= 8 (-> components count))))
+          (is (= 8 (-> component-specifications count))))
         (testing "geography component"
           (let [{:keys [:component_attachment :component_property]}
-                (first (filter #(= (:component_slug %) "geography") components))]
+                (first (filter #(= (:component_slug %) "geography") component-specifications))]
             (is (= component_attachment "qb:dimension"))
             (is (= component_property "http://purl.org/linked-data/sdmx/2009/dimension#refArea"))))
-        (testing "compare with components.csv"
+        (testing "compare with component-specifications.csv"
           (testing "parsed contents match"
             (with-open [target-reader (io/reader (example "component-specifications.csv"))]
               (is (= (set (read-csv target-reader))
-                     (set components)))))
+                     (set component-specifications)))))
           (testing "serialised contents match"
             (with-open [target-reader (io/reader (example "component-specifications.csv"))]
               (let [string-writer (StringWriter.)]
-                (write-csv string-writer (sort-by :component_slug components))
+                (write-csv string-writer (sort-by :component_slug component-specifications))
                 (is (= (slurp target-reader)
                        (str string-writer)))))))
-        (testing "compare with components.json"
+        (testing "compare with component-specifications.json"
           (testing "parsed contents match"
             (with-open [target-reader (io/reader (example "component-specifications.json"))]
               (maps-match? (read-json target-reader)
-                           (components-metadata
+                           (component-specification-metadata
                             "regional-trade.slugged.normalised.csv"
                             "Regional Trade Component Specifications"
                             "regional-trade")))))))))

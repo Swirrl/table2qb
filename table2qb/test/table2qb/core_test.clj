@@ -78,3 +78,8 @@
                    (order-columns (observations-metadata input-reader
                                                          "regional-trade.slugged.csv"
                                                          "regional-trade"))))))
+
+;; TODO: initial creation of reference data: components and codelists
+;; TODO: codes-used list
+;; TODO: dataset
+;; TODO: slugizers vs code-specifier vs curie

@@ -38,7 +38,7 @@
   (json/write data writer))
 
 ;; Conventions
-
+;; TODO: make configurable
 (defn title->name [title]
   "Standardises a title to a unambiguious internal name"
   ({"GeographyCode" :geography
@@ -50,7 +50,7 @@
     "Flow" :flow} title (keyword title)))
 
 ;; Component attributes for an name
-;; TODO defonce me
+;; TODO: defonce me
 (def name->component
   (with-open [rdr (-> "components.csv" io/resource io/reader)]
     (let [component-attributes (read-csv rdr)]
@@ -64,7 +64,7 @@
 (defn headers-matching [pred]
   (comp (take 1) (map keys) cat (filter pred)))
 
-(def is-dimension? #{:geography :date :sitc_section :flow :measure_type})
+(def is-dimension? #{:geography :date :sitc_section :flow :measure_type}) ;; TODO: specify in components.csv?
 (def is-attribute? #{:unit})
 
 (defn append [item]
@@ -170,7 +170,7 @@
   (-> row
       (update :measure_type gecu/slugize)
       (update :unit (comp gecu/slugize replace-symbols))
-      (update :sitc_section gecu/slugize) ;; TODO generalise me
+      (update :sitc_section gecu/slugize) ;; TODO: generalise me
       (update :flow gecu/slugize)))
 
 (defn observations [reader]
@@ -183,7 +183,7 @@
                                  value_uri_template
                                  datatype]}]
   (merge {"name" component_slug
-          "titles" component_slug ;; replace with title, standard or from original?
+          "titles" component_slug ;; TODO: replace with title, standard or from original?
           "datatype" datatype
           "propertyUrl" component_property}
          (when (not (= "" value_uri_template)) {"valueUrl" value_uri_template})))

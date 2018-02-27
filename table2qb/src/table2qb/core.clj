@@ -39,7 +39,7 @@
 
 ;; Conventions
 ;; TODO: make configurable
-(defn title->name [title]
+#_(defn title->name [title]
   "Standardises a title to a unambiguious internal name"
   ({"GeographyCode" :geography
     "DateCode" :date
@@ -52,20 +52,26 @@
 ;; Creates lookup of component attributes (from a csv) for an name (in the component_slug field)
 ;; TODO: defonce me
 (def name->component
-  (with-open [rdr (-> "components.csv" io/resource io/reader)]
-    (let [component-attributes (read-csv rdr)]
-      (zipmap (map (comp keyword :component_slug) component-attributes)
-              component-attributes))))
+  (with-open [rdr (-> "columns.csv" io/resource io/reader)]
+    (let [columns (read-csv rdr)]
+      (zipmap (map (comp keyword :name) columns)
+              columns))))
 
+(def title->name-lookup
+  (zipmap (map :title (vals name->component))
+          (map (comp keyword :name) (vals name->component))))
+
+(defn title->name [title]
+  (title->name-lookup title (keyword title)))
+
+(def is-dimension? #{:geography :date :sitc_section :flow :measure_type}) ;; TODO: specify in components.csv?
+(def is-attribute? #{:unit})
 
 
 ;; Identifying Components
 
 (defn headers-matching [pred]
   (comp (take 1) (map keys) cat (filter pred)))
-
-(def is-dimension? #{:geography :date :sitc_section :flow :measure_type}) ;; TODO: specify in components.csv?
-(def is-attribute? #{:unit})
 
 (defn append [item]
   (fn [xf]
@@ -99,9 +105,10 @@
   (let [data (read-csv reader title->name)]
     (sequence (comp identify-components
                     (map name->component)
-                    (map #(select-keys % [:component_slug
-                                          :component_attachment
-                                          :component_property]))) data)))
+                    (map (fn [{:keys [name component_attachment property_template]}]
+                           {:component_slug name
+                            :component_attachment component_attachment
+                            :component_property property_template}))) data)))
 
 (defn component-specification-template [dataset-slug]
   (str "http://statistics.data.gov.uk/data/" dataset-slug "/component/{component_slug}"))
@@ -192,16 +199,12 @@
   (let [data (read-csv reader title->name)]
     (sequence (map slugise-columns) data)))
 
-(defn component->column [{:keys [component_slug
-                                 component_attachment
-                                 component_property
-                                 value_uri_template
-                                 datatype]}]
-  (merge {"name" component_slug
-          "titles" component_slug ;; TODO: replace with title, standard or from original?
+(defn component->column [{:keys [name title property_template value_template datatype]}]
+  (merge {"name" name
+          "titles" name ;; could revert to title here (would need to do so in all output csv too)
           "datatype" datatype
-          "propertyUrl" component_property}
-         (when (not (= "" value_uri_template)) {"valueUrl" value_uri_template})))
+          "propertyUrl" property_template}
+         (when (not (= "" value_template)) {"valueUrl" value_template})))
 
 (defn dataset-link [dataset-slug]
   {"name" "DataSet",
@@ -220,7 +223,7 @@
 
 (defn observation-template [dataset-slug components]
   (let [uri-parts (->> components
-                       (sort-by #(get {"geography" -2 "date" -1 "measure_type" 1 "unit" 2} % 0))
+                       (sort-by #(get {"geography" -2 "date" -1 "measure_type" 1 "unit" 2} % 0)) ;; TODO - extract conventions
                        (remove #{"value"})
                        (map #(str "/{" % "}")))]
     (str "http://statistics.data.gov.uk/data/"
@@ -250,7 +253,7 @@
      "url" csv-url,
      "tableSchema"
      {"columns" columns,
-      "aboutUrl" (observation-template dataset-slug (map :component_slug components))}}))
+      "aboutUrl" (observation-template dataset-slug (map :name components))}}))
 
 (defn used-codes-codelists-metadata [csv-url dataset-slug]
   (let [codelist-uri (str "http://statistics.data.gov.uk/data/" dataset-slug "/codes-used/{component_slug}")]

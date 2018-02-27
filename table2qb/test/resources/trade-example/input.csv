@@ -1,4 +1,4 @@
-GeographyCode,DateCode,Measurement,Units,Value,SITC Section,Flow
+Geography,Date,Measure Type,Unit,Value,SITC Section,Flow
 K02000001,2016,GBP Total,£ million,9448,0 Food and Live Animals,Export
 K02000001,2016,GBP Total,£ million,4965,1 Beverages and Tobacco,Export
 K02000001,2016,GBP Total,£ million,4175,2 Crude Materials,Export

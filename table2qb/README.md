@@ -20,6 +20,21 @@ The project also provides pipelines for preparing reference data. These can be u
 - Components: given a tidy-data input of one component per row, this pipeline creates a `components.csv` file and a `components.json` for creating `qb:ComponentProperty`s in an `owl:Ontology`. Note that components are the dimensions, attributes and measures themselves whereas the component-specifications are what links these to a given data-structure-definition.
 - Codelists: given a tidy-data input of one code per row, this pipeline creates a `codelist.csv` file and a `codelist.json` for creating `skos:Concepts` in an `skos:ConceptScheme`. Note that these codelists describe the universal set of codes that may be the object of a component (making it a `qb:CodedProperty`) not the (sub)set that have been used within a cube.
 
+## Configuration
+
+The table2qb pipeline is configured with a dataset describing the columns it can expect to find in the input csv files. We'll currently provide this as a [columns.csv](./resources/columns.csv) file although we may later store/ retreive this from the database.
+
+The dataset should have the following columns:
+
+- `title` - a human readable title (like csvw:title) that will be provided in the (first) header row of the input
+- `name` - a machine-readable identifier (like csvw:name) used in uri templates
+- `component_attachment` - how the component in the column should be attached to the Data Structure Definition (i.e. one of `qb:dimension`, `qb:attribute`, `qb:measure` or nil)
+- `property_template` - the predicate used to attach the (cell) values to the observations
+- `value_template` - the URI template applied to the cell values
+- `datatype` - as per csvw:datatype, how the cell value should be parsed (typically `string` for everything except the value column which will be `number`)
+
+This initial draft also includes several conventions in the code that ought to be generalised to configuration - particularly how cell values are slugged.
+
 
 ## Usage
 

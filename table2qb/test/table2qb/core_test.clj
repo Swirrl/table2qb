@@ -144,7 +144,7 @@
               "export" (:flow observation)))))))
   (testing "observation metadata"
     (with-open [input-reader (io/reader (example "input.csv"))
-                target-reader (io/reader (example "observations-metadata.json"))]
+                target-reader (io/reader (example "observations.json"))]
       (maps-match? (order-columns (read-json target-reader))
                    (order-columns (observations-metadata input-reader
                                                          "regional-trade.slugged.csv"
@@ -164,6 +164,6 @@
                                               "regional-trade.slugged.csv"
                                               "regional-trade")))))
 
-
+;; TODO: extract all config to columns.csv (no hard-coded stuff in here)
 ;; TODO: Need to label components and their codelists
 ;; TODO: slugizers vs code-specifier vs curie

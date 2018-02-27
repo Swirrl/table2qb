@@ -71,7 +71,7 @@ You now have all the csvw required in the tmp directory.
 
 Ultimately we'll translate this into linked-data using the [csv2rdf library](https://github.com/Swirrl/csv2rdf). For now there's some helper functions to call the RDF::Tabular csv2rdf translator using the `rdf` cli tool (you can get this with `gem install rdf`).
 
-For the metadata:
+For the metadata (each should be loaded into PMD as a vocabulary):
 
 ```clojure
 (csv2rdf "./tmp" "components")
@@ -80,7 +80,7 @@ For the metadata:
 (csv2rdf "./tmp" "measurement-units")
 ```
 
-For the cube:
+For the cube (each can be loaded into one PMD Dataset that covers the whole cube):
 
 ```clojure
 (csv2rdf-qb "./tmp")

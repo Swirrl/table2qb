@@ -6,7 +6,7 @@
   "rdfs:label": "Flow Directions Codelist",
   "rdf:type": { "@id": "skos:ConceptScheme" },
   "tableSchema": {
-    "aboutUrl": "http://statistics.data.gov.uk/def/concept/{notation}",
+    "aboutUrl": "http://statistics.data.gov.uk/def/concept/flow-directions/{notation}",
     "columns": [{
       "name": "label",
       "titles": "label",
@@ -22,7 +22,7 @@
       "titles": "parent_notation",
       "datatype": "string",
       "propertyUrl": "skos:broader",
-      "valueUrl": "http://statistics.data.gov.uk/def/concept/{parent_notation}"
+      "valueUrl": "http://statistics.data.gov.uk/def/concept/flow-directions/{parent_notation}"
     },{
       "propertyUrl": "skos:inScheme",
       "valueUrl": "http://statistics.data.gov.uk/def/concept-scheme/flow-directions",
@@ -35,7 +35,7 @@
     },{
       "propertyUrl": "skos:member",
       "aboutUrl": "http://statistics.data.gov.uk/def/concept-scheme/flow-directions",
-      "valueUrl": "http://statistics.data.gov.uk/def/concept/{notation}",
+      "valueUrl": "http://statistics.data.gov.uk/def/concept/flow-directions/{notation}",
       "virtual": true
     },{
       "propertyUrl": "skos:prefLabel",

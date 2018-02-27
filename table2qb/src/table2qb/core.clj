@@ -385,7 +385,9 @@
     data))
 
 (defn codelist-metadata [csv-url codelist-name codelist-slug]
-  (let [codelist-uri (str "http://statistics.data.gov.uk/def/concept-scheme/" codelist-slug)]
+  (let [codelist-uri (str "http://statistics.data.gov.uk/def/concept-scheme/" codelist-slug)
+        code-uri (str "http://statistics.data.gov.uk/def/concept/" codelist-slug "/{notation}")
+        parent-uri (str "http://statistics.data.gov.uk/def/concept/" codelist-slug "/{parent_notation}")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "@id" codelist-uri,
      "url" csv-url,
@@ -393,7 +395,7 @@
      "rdfs:label" codelist-name,
      "rdf:type" {"@id" "skos:ConceptScheme"},
      "tableSchema"
-     {"aboutUrl" "http://statistics.data.gov.uk/def/concept/{notation}",
+     {"aboutUrl" code-uri,
       "columns"
       [{"name" "label",
         "titles" "label",
@@ -407,7 +409,7 @@
         "titles" "parent_notation",
         "datatype" "string",
         "propertyUrl" "skos:broader",
-        "valueUrl" "http://statistics.data.gov.uk/def/concept/{parent_notation}"}
+        "valueUrl" parent-uri}
        {"propertyUrl" "skos:inScheme",
         "valueUrl" codelist-uri,
         "virtual" true}
@@ -417,7 +419,7 @@
         "virtual" true}
        {"propertyUrl" "skos:member",
         "aboutUrl" codelist-uri,
-        "valueUrl" "http://statistics.data.gov.uk/def/concept/{notation}",
+        "valueUrl" code-uri,
         "virtual" true}
        {"propertyUrl" "skos:prefLabel",
         "value" "{label}",

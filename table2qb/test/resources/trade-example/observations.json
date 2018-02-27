@@ -25,7 +25,7 @@
       "titles": "unit",
       "datatype": "string",
       "propertyUrl": "http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure",
-      "valueUrl": "http://statistics.data.gov.uk/def/concept/measurement-unit/{unit}"
+      "valueUrl": "http://statistics.data.gov.uk/def/concept/measurement-units/{unit}"
     },{
       "name": "value",
       "titles": "value",
@@ -36,13 +36,13 @@
       "titles": "sitc_section",
       "datatype": "string",
       "propertyUrl": "http://statistics.data.gov.uk/def/dimension/sitcSection",
-      "valueUrl": "http://statistics.data.gov.uk/def/concept/sitc-section/{sitc_section}"
+      "valueUrl": "http://statistics.data.gov.uk/def/concept/sitc-sections/{sitc_section}"
     },{
       "name": "flow",
       "titles": "flow",
       "datatype": "string",
       "propertyUrl": "http://statistics.data.gov.uk/def/dimension/flow",
-      "valueUrl": "http://statistics.data.gov.uk/def/concept/flow/{flow}"
+      "valueUrl": "http://statistics.data.gov.uk/def/concept/flow-directions/{flow}"
     },{
       "name": "DataSet",
       "virtual": true,

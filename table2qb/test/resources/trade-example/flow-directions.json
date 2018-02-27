@@ -32,6 +32,12 @@
       "valueUrl": "http://statistics.data.gov.uk/def/concept-scheme/flow-directions",
       "how-to-make-this-only-apply-when-parent-is-null?": "perhaps reasoning?",
       "virtual": true
+    },,{
+      "propertyUrl": "skos:hasTopConcept",
+      "aboutUrl": "http://statistics.data.gov.uk/def/concept-scheme/flow-directions",
+      "valueUrl": "http://statistics.data.gov.uk/def/concept/flow-directions/{notation}",
+      "how-to-make-this-only-apply-when-parent-is-null?": "perhaps reasoning?",
+      "virtual": true
     },{
       "propertyUrl": "skos:member",
       "aboutUrl": "http://statistics.data.gov.uk/def/concept-scheme/flow-directions",

@@ -289,6 +289,7 @@
      {"columns" columns,
       "aboutUrl" codelist-uri}}))
 
+
 (defn components [reader]
   (let [data (read-csv reader {"Label" :label
                                "Description" :description
@@ -296,7 +297,7 @@
                                "Codelist" :codelist})]
     (sequence (map (fn [row]
                      (-> row
-                         (assoc :notation (gecu/slugize (:label row)))
+                         (assoc :notation (unkeyword (title->name (:label row))))
                          (assoc :component_type_slug ({"Dimension" "dimension"
                                                        "Measure" "measure"
                                                        "Attribute" "attribute"}
@@ -406,6 +407,11 @@
         "valueUrl" codelist-uri,
         "how-to-make-this-only-apply-when-parent-is-null?" "perhaps reasoning?",
         "virtual" true}
+       {"propertyUrl" "skos:hasTopConcept",
+        "aboutUrl" codelist-uri,
+        "valueUrl" code-uri,
+        "how-to-make-this-only-apply-when-parent-is-null?" "perhaps reasoning?",
+        "virtual" true}
        {"propertyUrl" "skos:member",
         "aboutUrl" codelist-uri,
         "valueUrl" code-uri,
@@ -472,7 +478,8 @@
    "--output-format" "ttl" ">" (str output-dir "/" resource ".ttl")])
 
 (defn csv2rdf [output-dir resource]
-  (sh "sh" "-c" (st/join " " (rdf-serialize output-dir resource))))
+  (println (str "converting: " resource))
+  (println (sh "sh" "-c" (st/join " " (rdf-serialize output-dir resource)))))
 
 (defn csv2rdf-qb [output-dir]
   (for [resource ["component-specifications"
@@ -483,21 +490,20 @@
                   "used-codes-codes"]]
     (csv2rdf output-dir resource)))
 
+(defn serialise-demo []
+  (components-pipeline "./test/resources/trade-example/components.csv" "./tmp")
+  (csv2rdf "./tmp" "components")
 
+  (codelist-pipeline "./test/resources/trade-example/flow-directions.csv" "./tmp" "Flow Directions" "flow-directions")
+  (csv2rdf "./tmp" "flow-directions")
+  (codelist-pipeline "./test/resources/trade-example/sitc-sections.csv" "./tmp" "SITC Sections" "sitc-sections")
+  (csv2rdf "./tmp" "sitc-sections")
+  (codelist-pipeline "./test/resources/trade-example/units.csv" "./tmp" "Measurement Units" "measurement-units")
+  (csv2rdf "./tmp" "measurement-units")
 
-;;(components-pipeline "./test/resources/trade-example/components.csv" "./tmp")
-;;(csv2rdf "./tmp" "components")
+  (data-pipeline "./test/resources/trade-example/input.csv" "./tmp" "Regional Trade" "regional-trade")
+  (csv2rdf-qb "./tmp"))
 
-;;(codelist-pipeline "./test/resources/trade-example/flow-directions.csv" "./tmp" "Flow Directions" "flow-directions")
-;;(csv2rdf "./tmp" "flow-directions")
-;;(codelist-pipeline "./test/resources/trade-example/sitc-sections.csv" "./tmp" "SITC Sections" "sitc-sections")
-;;(csv2rdf "./tmp" "sitc-sections")
-;;(codelist-pipeline "./test/resources/trade-example/units.csv" "./tmp" "Measurement Units" "measurement-units")
-;;(csv2rdf "./tmp" "measurement-units")
-
-
-
-;;(data-pipeline "./test/resources/trade-example/input.csv" "./tmp" "Regional Trade" "regional-trade")
-;;(csv2rdf-qb "./tmp")
+;;(serialise-demo)
 
 

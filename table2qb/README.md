@@ -47,6 +47,8 @@ $ lein repl
 (ns table2qb core)
 ```
 
+To serialise everything to a tmp dir call `(serialise-demo)`. Alternatively you can go through the pieces one-at-a-time...
+
 Build components:
 
 ```clojure
@@ -86,7 +88,7 @@ For the cube (each can be loaded into one PMD Dataset that covers the whole cube
 (csv2rdf-qb "./tmp")
 ```
 
-You'll now have a collection of turtle files that make up the cube and it's associated reference data. You'll also need the rdf-cube and sdmx vocabularies to make this work.
+You'll now have a collection of turtle files that make up the cube and it's associated reference data. You'll also need the rdf-cube, sdmx, time and uk geo reference vocabularies([here](../examples/ons-trade/metadata/)) to make this work.
 
 ## License
 

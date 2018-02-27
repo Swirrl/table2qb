@@ -49,7 +49,7 @@
     "SITC Section" :sitc_section
     "Flow" :flow} title (keyword title)))
 
-;; Component attributes for an name
+;; Creates lookup of component attributes (from a csv) for an name (in the component_slug field)
 ;; TODO: defonce me
 (def name->component
   (with-open [rdr (-> "components.csv" io/resource io/reader)]
@@ -254,9 +254,147 @@
       "aboutUrl" (observation-template dataset-slug (map :component_slug components))}}))
 
 
+(defn components [reader]
+  (let [data (read-csv reader {"Label" :label
+                               "Description" :description
+                               "Component Type" :component_type
+                               "Codelist" :codelist})]
+    (sequence (map (fn [row]
+                     (-> row
+                         (assoc :notation (gecu/slugize (:label row)))
+                          (assoc :component_type_slug ({"Dimension" "dimension"
+                                                       "Measure" "measure"
+                                                       "Attribute" "attribute"}
+                                                      (row :component_type)))
+                         (assoc :property_slug (gecu/propertize (:label row)))
+                         (assoc :class_slug (gecu/classize (:label row)))
+                         (update :component_type {"Dimension" "qb:DimensionProperty"
+                                                  "Measure" "qb:MeasureProperty"
+                                                  "Attribute" "qb:AttributeProperty"})
+                         (assoc :parent_property (if (= "Measure" (:component_type row))
+                                                   "http://purl.org/linked-data/sdmx/2009/measure#obsValue")))))
+              data)))
+
+(defn components-metadata [csv-url]
+  (let [ontology-uri "http://statistics.data.gov.uk/def/ontology/components"]
+    {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
+     "@id" ontology-uri,
+     "url" csv-url,
+     "dc:title" "Components Ontology",
+     "rdfs:label" "Components Ontology",
+     "rdf:type" {"@id" "owl:Ontology"},
+     "tableSchema"
+     {"columns"
+      [{"name" "label",
+        "titles" "label",
+        "datatype" "string",
+        "propertyUrl" "rdfs:label"}
+       {"name" "description",
+        "titles" "description",
+        "datatype" "string",
+        "propertyUrl" "dct:description"}
+       {"name" "component_type",
+        "titles" "component_type",
+        "propertyUrl" "rdf:type",
+        "valueUrl" "{+component_type}"}
+       {"name" "codelist",
+        "titles" "codelist",
+        "datatype" "string",
+        "propertyUrl" "qb:codeList",
+        "valueUrl" "{+codelist}"}
+       {"name" "notation",
+        "titles" "notation",
+        "datatype" "string",
+        "propertyUrl" "skos:notation"}
+       {"name" "component_type_slug",
+        "titles" "component_type_slug",
+        "datatype" "string",
+        "suppressOutput" true}
+       {"name" "property_slug",
+        "titles" "property_slug",
+        "datatype" "string",
+        "suppressOutput" true}
+       {"name" "class_slug",
+        "titles" "class_slug",
+        "datatype" "string",
+        "propertyUrl" "rdfs:range",
+        "valueUrl" "http://statistics.data.gov.uk/def/{class_slug}"}
+       {"name" "parent_property",
+        "titles" "parent_property",
+        "datatype" "string",
+        "propertyUrl" "rdfs:subPropertyOf",
+        "valueUrl" "{+parent_property}"}
+       {"propertyUrl" "rdfs:isDefinedBy",
+        "virtual" true,
+        "valueUrl" ontology-uri }
+       {"propertyUrl" "rdf:type",
+        "virtual" true,
+        "valueUrl" "rdf:Property"}],
+      "aboutUrl" "http://statistics.data.gov.uk/def/{component_slug}/{property_slug}"}}))
+
+(defn codes [reader]
+  (let [data (read-csv reader {"Label" :label
+                               "Notation" :notation
+                               "Parent Notation", :parent_notation})]
+    data))
+
+(defn codelist-metadata [csv-url codelist-name codelist-slug]
+  (let [codelist-uri (str "http://statistics.data.gov.uk/def/concept-scheme/" codelist-slug)]
+    {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
+     "@id" codelist-uri,
+     "url" csv-url,
+     "dc:title" codelist-name,
+     "rdfs:label" codelist-name,
+     "rdf:type" {"@id" "skos:ConceptScheme"},
+     "tableSchema"
+     {"aboutUrl" "http://statistics.data.gov.uk/def/concept/{notation}",
+      "columns"
+      [{"name" "label",
+        "titles" "label",
+        "datatype" "string",
+        "propertyUrl" "rdfs:label"}
+       {"name" "notation",
+        "titles" "notation",
+        "datatype" "string",
+        "propertyUrl" "skos:notation"}
+       {"name" "parent_notation",
+        "titles" "parent_notation",
+        "datatype" "string",
+        "propertyUrl" "skos:broader",
+        "valueUrl" "http://statistics.data.gov.uk/def/concept/{parent_notation}"}
+       {"propertyUrl" "skos:inScheme",
+        "valueUrl" codelist-uri,
+        "virtual" true}
+       {"propertyUrl" "skos:topConceptOf",
+        "valueUrl" codelist-uri,
+        "how-to-make-this-only-apply-when-parent-is-null?" "perhaps reasoning?",
+        "virtual" true}
+       {"propertyUrl" "skos:member",
+        "aboutUrl" codelist-uri,
+        "valueUrl" "http://statistics.data.gov.uk/def/concept/{notation}",
+        "virtual" true}
+       {"propertyUrl" "skos:prefLabel",
+        "value" "{label}",
+        "virtual" true}]}}))
+
 ;; serialize
 
-(defn pipeline [input-csv output-dir dataset-name dataset-slug]
+(defn codelist-pipeline [input-csv output-dir codelist-name codelist-slug]
+  (with-open [reader (io/reader input-csv)
+              writer (io/writer (str output-dir "/" codelist-slug ".csv"))]
+    (write-csv writer (codes reader)))
+  (with-open [reader (io/reader input-csv)
+              writer (io/writer (str output-dir "/" codelist-slug ".json"))]
+    (write-json writer (codelist-metadata (str codelist-slug ".csv") codelist-name codelist-slug))))
+
+(defn components-pipeline [input-csv output-dir]
+  (with-open [reader (io/reader input-csv)
+              writer (io/writer (str output-dir "/components.csv"))]
+    (write-csv writer (components reader)))
+  (with-open [writer (io/writer (str output-dir "/components.json"))]
+    (write-json writer (components-metadata "components.csv"))))
+
+(defn data-pipeline [input-csv output-dir dataset-name dataset-slug]
   (let [writer (fn [filename] (io/writer (str output-dir "/" filename)))
         component-specifications-csv "component-specifications.csv"
         component-specifications-json "component-specifications.json"
@@ -291,14 +429,28 @@
 (defn csv2rdf [output-dir resource]
   (sh "sh" "-c" (st/join " " (rdf-serialize output-dir resource))))
 
-(defn csv2rdf-all [output-dir]
+(defn csv2rdf-qb [output-dir]
   (for [resource ["component-specifications" "dataset" "data-structure-definition" "observations"]]
     (csv2rdf output-dir resource)))
 
 
-;;(pipeline "./test/resources/trade-example/input.csv" "./tmp" "Regional Trade" "regional-trade")
+
+;;(components-pipeline "./test/resources/trade-example/components.csv" "./tmp")
+;;(csv2rdf "./tmp" "components")
+
+;;(codelist-pipeline "./test/resources/trade-example/flow-directions.csv" "./tmp" "Flow Directions" "flow-directions")
+;;(csv2rdf "./tmp" "flow-directions")
+;;(codelist-pipeline "./test/resources/trade-example/sitc-sections.csv" "./tmp" "SITC Sections" "sitc-sections")
+;;(csv2rdf "./tmp" "sitc-sections")
+;;(codelist-pipeline "./test/resources/trade-example/units.csv" "./tmp" "Measurement Units" "measurement-units")
+;;(csv2rdf "./tmp" "measurement-units")
+
+
+
+;;(data-pipeline "./test/resources/trade-example/input.csv" "./tmp" "Regional Trade" "regional-trade")
 ;;(csv2rdf-all "./tmp")
 ;;(csv2rdf "./tmp" "dataset")
 
+;; add used-codes
 
 

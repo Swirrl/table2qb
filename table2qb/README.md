@@ -23,16 +23,55 @@ The project also provides pipelines for preparing reference data. These can be u
 
 ## Usage
 
-Takes the trade-example and outputs csvw into a tmp dir.
+You can get the demo working with a repl:
 
-```clojure
-(table2qb.core/pipeline "./test/resources/trade-example/input.csv" "./tmp" "Regional Trade" "regional-trade")
+```
+$ lein repl
+
+(require 'table2qb.code)
+(ns table2qb core)
 ```
 
-There's a little helper function to call the RDF::Tabular csv2rdf translator using the `rdf` cli tool (you can get this with `gem install rdf`).
+Build components:
+
 ```clojure
-(table2qb.core/csv2rdf-all "./tmp")
+(components-pipeline "./test/resources/trade-example/components.csv" "./tmp")
 ```
+
+Build codelists:
+
+```clojure
+(codelist-pipeline "./test/resources/trade-example/flow-directions.csv" "./tmp" "Flow Directions" "flow-directions")
+(codelist-pipeline "./test/resources/trade-example/sitc-sections.csv" "./tmp" "SITC Sections" "sitc-sections")
+(codelist-pipeline "./test/resources/trade-example/units.csv" "./tmp" "Measurement Units" "measurement-units")
+```
+
+Buid the cube itself:
+
+```clojure
+(data-pipeline "./test/resources/trade-example/input.csv" "./tmp" "Regional Trade" "regional-trade")
+```
+
+You now have all the csvw required in the tmp directory.
+
+Ultimately we'll translate this into linked-data using the [csv2rdf library](https://github.com/Swirrl/csv2rdf). For now there's some helper functions to call the RDF::Tabular csv2rdf translator using the `rdf` cli tool (you can get this with `gem install rdf`).
+
+For the metadata:
+
+```clojure
+(csv2rdf "./tmp" "components")
+(csv2rdf "./tmp" "flow-directions")
+(csv2rdf "./tmp" "sitc-sections")
+(csv2rdf "./tmp" "measurement-units")
+```
+
+For the cube:
+
+```clojure
+(csv2rdf-qb "./tmp")
+```
+
+You'll now have a collection of turtle files that make up the cube and it's associated reference data. You'll also need the rdf-cube and sdmx vocabularies to make this work.
 
 ## License
 

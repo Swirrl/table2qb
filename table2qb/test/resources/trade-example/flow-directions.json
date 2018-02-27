@@ -1,0 +1,46 @@
+{
+  "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
+  "@id": "http://statistics.data.gov.uk/def/concept-scheme/flow-directions",
+  "url": "flow-directions-codelist.csv",
+  "dc:title": "Flow Directions Codelist",
+  "rdfs:label": "Flow Directions Codelist",
+  "rdf:type": { "@id": "skos:ConceptScheme" },
+  "tableSchema": {
+    "aboutUrl": "http://statistics.data.gov.uk/def/concept/{notation}",
+    "columns": [{
+      "name": "label",
+      "titles": "label",
+      "datatype": "string",
+      "propertyUrl": "rdfs:label"
+    },{
+      "name": "notation",
+      "titles": "notation",
+      "datatype": "string",
+      "propertyUrl": "skos:notation"
+    },{
+      "name": "parent_notation",
+      "titles": "parent_notation",
+      "datatype": "string",
+      "propertyUrl": "skos:broader",
+      "valueUrl": "http://statistics.data.gov.uk/def/concept/{parent_notation}"
+    },{
+      "propertyUrl": "skos:inScheme",
+      "valueUrl": "http://statistics.data.gov.uk/def/concept-scheme/flow-directions",
+      "virtual": true
+    },{
+      "propertyUrl": "skos:topConceptOf",
+      "valueUrl": "http://statistics.data.gov.uk/def/concept-scheme/flow-directions",
+      "how-to-make-this-only-apply-when-parent-is-null?": "perhaps reasoning?",
+      "virtual": true
+    },{
+      "propertyUrl": "skos:member",
+      "aboutUrl": "http://statistics.data.gov.uk/def/concept-scheme/flow-directions",
+      "valueUrl": "http://statistics.data.gov.uk/def/concept/{notation}",
+      "virtual": true
+    },{
+      "propertyUrl": "skos:prefLabel",
+      "value": "{label}",
+      "virtual": true
+    }]
+  }
+}

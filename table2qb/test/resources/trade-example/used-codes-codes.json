@@ -1,0 +1,50 @@
+{
+  "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
+  "url": "regional-trade.slugged.csv",
+  "tableSchema": {
+    "columns": [{
+      "name": "geography",
+      "titles": "geography",
+      "datatype": "string",
+      "propertyUrl": "skos:member",
+      "valueUrl": "http://statistics.data.gov.uk/id/statistical-geography/{geography}"
+    },{
+      "name": "date",
+      "titles": "date",
+      "datatype": "string",
+      "propertyUrl": "skos:member",
+      "valueUrl": "http://reference.data.gov.uk/id/year/{date}"
+    },{
+      "name": "measure_type",
+      "titles": "measure_type",
+      "datatype": "string",
+      "propertyUrl": "skos:member",
+      "valueUrl": "http://statistics.data.gov.uk/def/measure-properties/{measure_type}"
+    },{
+      "name": "unit",
+      "titles": "unit",
+      "datatype": "string",
+      "propertyUrl": "skos:member",
+      "valueUrl": "http://statistics.data.gov.uk/def/concept/measurement-unit/{unit}"
+    },{
+      "name": "value",
+      "titles": "value",
+      "datatype": "number",
+      "propertyUrl": "skos:member",
+      "suppressOutput": true
+    },{
+      "name": "sitc_section",
+      "titles": "sitc_section",
+      "datatype": "string",
+      "propertyUrl": "skos:member",
+      "valueUrl": "http://statistics.data.gov.uk/def/concept/sitc-section/{sitc_section}"
+    },{
+      "name": "flow",
+      "titles": "flow",
+      "datatype": "string",
+      "propertyUrl": "skos:member",
+      "valueUrl": "http://statistics.data.gov.uk/def/concept/flow/{flow}"
+    }],
+    "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/codes-used/{_name}"
+  }
+}

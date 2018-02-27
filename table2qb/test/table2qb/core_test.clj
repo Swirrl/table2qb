@@ -5,6 +5,8 @@
             [clojure.data :refer [diff]])
   (:import [java.io StringWriter]))
 
+;; Test Helpers
+
 (defn example [filename]
   (str "./test/resources/trade-example/" filename))
 
@@ -17,7 +19,9 @@
   "Finds first item in collection with attribute having value"
   (first (filter #(= val (attr %)) coll)))
 
+
 ;; Reference Data
+
 (deftest components-test
   (testing "csv table"
     (with-open [input-reader (io/reader (example "components.csv"))]
@@ -146,6 +150,20 @@
                                                          "regional-trade.slugged.csv"
                                                          "regional-trade"))))))
 
-;; TODO: initial creation of reference data: components and codelists
-;; TODO: codes-used list
+(deftest used-codes-test
+  (testing "codelists metadata"
+    (with-open [target-reader (io/reader (example "used-codes-codelists.json"))]
+      (maps-match? (read-json target-reader)
+                   (used-codes-codelists-metadata "regional-trade.slugged.normalised.csv"
+                                                  "regional-trade"))))
+  (testing "codes metadata"
+    (with-open [input-reader (io/reader (example "input.csv"))
+                target-reader (io/reader (example "used-codes-codes.json"))]
+      (maps-match? (read-json target-reader)
+                   (used-codes-codes-metadata input-reader
+                                              "regional-trade.slugged.csv"
+                                              "regional-trade")))))
+
+
+;; TODO: Need to label components and their codelists
 ;; TODO: slugizers vs code-specifier vs curie

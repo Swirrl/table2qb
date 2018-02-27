@@ -132,8 +132,7 @@
      {"name" "codes_used",
       "virtual" true,
       "propertyUrl" "http://publishmydata.com/def/qb/codesUsed",
-      "valueUrl"
-      (str "http://statistics.data.gov.uk/data/" dataset-slug "/codes-used/{component_slug}")}],
+      "valueUrl" (str "http://statistics.data.gov.uk/data/" dataset-slug "/codes-used/{component_slug}")}],
     "aboutUrl" (component-specification-template dataset-slug)}})
 
 (defn dataset-metadata [csv-url dataset-name dataset-slug]
@@ -253,6 +252,50 @@
      {"columns" columns,
       "aboutUrl" (observation-template dataset-slug (map :component_slug components))}}))
 
+(defn used-codes-codelists-metadata [csv-url dataset-slug]
+  (let [codelist-uri (str "http://statistics.data.gov.uk/data/" dataset-slug "/codes-used/{component_slug}")]
+    {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
+     "url" csv-url,
+     "tableSchema"
+     {"columns"
+      [{"name" "component_slug",
+        "titles" "component_slug",
+        "datatype" "string",
+        "suppressOutput" true}
+       {"name" "component_attachment",
+        "titles" "component_attachment",
+        "datatype" "string",
+        "suppressOutput" true}
+       {"name" "component_property",
+        "titles" "component_property",
+        "datatype" "string",
+        "suppressOutput" true}
+       {"name" "type",
+        "virtual" true,
+        "propertyUrl" "rdf:type",
+        "valueUrl" "skos:ConceptScheme"}],
+      "aboutUrl" codelist-uri}}))
+
+(defn suppress-value [row]
+  (if (= "value" (get row "name"))
+    (assoc row "suppressOutput" true)
+    row))
+
+(defn used-codes-codes-metadata [reader csv-url dataset-slug]
+  (let [data (read-csv reader title->name)
+        codelist-uri (str "http://statistics.data.gov.uk/data/" dataset-slug "/codes-used/{_name}")
+        components (sequence (comp (x/multiplex [dimensions attributes values])
+                                   (map name->component)) data)
+        column-order (->> data first keys (map unkeyword) target-order)
+        columns (into [] (comp (map component->column)
+                               (map #(assoc % "propertyUrl" "skos:member"))
+                               (map suppress-value)) components)
+        columns (sort-by #(column-order (get % "name")) columns)]
+    {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
+     "url" csv-url,
+     "tableSchema"
+     {"columns" columns,
+      "aboutUrl" codelist-uri}}))
 
 (defn components [reader]
   (let [data (read-csv reader {"Label" :label
@@ -262,7 +305,7 @@
     (sequence (map (fn [row]
                      (-> row
                          (assoc :notation (gecu/slugize (:label row)))
-                          (assoc :component_type_slug ({"Dimension" "dimension"
+                         (assoc :component_type_slug ({"Dimension" "dimension"
                                                        "Measure" "measure"
                                                        "Attribute" "attribute"}
                                                       (row :component_type)))
@@ -377,6 +420,7 @@
         "value" "{label}",
         "virtual" true}]}}))
 
+
 ;; serialize
 
 (defn codelist-pipeline [input-csv output-dir codelist-name codelist-slug]
@@ -401,7 +445,9 @@
         dataset-json "dataset.json"
         data-structure-definition-json "data-structure-definition.json"
         observations-csv "observations.csv"
-        observations-json "observations.json"]
+        observations-json "observations.json"
+        used-codes-codelists-json "used-codes-codelists.json"
+        used-codes-codes-json "used-codes-codes.json"]
     (with-open [reader (io/reader input-csv)
                 writer (writer component-specifications-csv)]
       (write-csv writer (component-specifications reader)))
@@ -416,7 +462,12 @@
       (write-csv writer (observations reader)))
     (with-open [reader (io/reader input-csv)
                 writer (writer observations-json)]
-      (write-json writer (observations-metadata reader observations-csv dataset-slug)))))
+      (write-json writer (observations-metadata reader observations-csv dataset-slug)))
+    (with-open [writer (writer used-codes-codelists-json)]
+      (write-json writer (used-codes-codelists-metadata component-specifications-csv dataset-slug)))
+    (with-open [reader (io/reader input-csv)
+                writer (writer used-codes-codes-json)]
+      (write-json writer (used-codes-codes-metadata reader observations-csv dataset-slug)))))
 
 
 ;; CSV2RDF
@@ -430,7 +481,12 @@
   (sh "sh" "-c" (st/join " " (rdf-serialize output-dir resource))))
 
 (defn csv2rdf-qb [output-dir]
-  (for [resource ["component-specifications" "dataset" "data-structure-definition" "observations"]]
+  (for [resource ["component-specifications"
+                  "dataset"
+                  "data-structure-definition"
+                  "observations"
+                  "used-codes-codelists"
+                  "used-codes-codes"]]
     (csv2rdf output-dir resource)))
 
 
@@ -448,9 +504,6 @@
 
 
 ;;(data-pipeline "./test/resources/trade-example/input.csv" "./tmp" "Regional Trade" "regional-trade")
-;;(csv2rdf-all "./tmp")
-;;(csv2rdf "./tmp" "dataset")
-
-;; add used-codes
+;;(csv2rdf-qb "./tmp")
 
 

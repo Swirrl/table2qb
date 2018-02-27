@@ -18,8 +18,8 @@
       "name": "measure_type",
       "titles": "measure_type",
       "datatype": "string",
-      "propertyUrl": "http://purl.org/linked-data/sdmx/2009/dimension#measureType",
-      "valueUrl": "http://statistics.data.gov.uk/def/measure-properties/{measure_type}"
+      "propertyUrl": "http://purl.org/linked-data/cube#measureType",
+      "valueUrl": "http://statistics.data.gov.uk/def/measure/{measure_type}"
     },{
       "name": "unit",
       "titles": "unit",
@@ -30,12 +30,12 @@
       "name": "value",
       "titles": "value",
       "datatype": "number",
-      "propertyUrl": "http://statistics.data.gov.uk/def/measure-properties/{measure_type}"
+      "propertyUrl": "http://statistics.data.gov.uk/def/measure/{measure_type}"
     },{
       "name": "sitc_section",
       "titles": "sitc_section",
       "datatype": "string",
-      "propertyUrl": "http://statistics.data.gov.uk/def/dimension/sitcSection",
+      "propertyUrl": "http://statistics.data.gov.uk/def/dimension/sitc_section",
       "valueUrl": "http://statistics.data.gov.uk/def/concept/sitc-sections/{sitc_section}"
     },{
       "name": "flow",

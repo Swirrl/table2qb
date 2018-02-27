@@ -19,7 +19,7 @@
       "titles": "measure_type",
       "datatype": "string",
       "propertyUrl": "skos:member",
-      "valueUrl": "http://statistics.data.gov.uk/def/measure-properties/{measure_type}"
+      "valueUrl": "http://statistics.data.gov.uk/def/measure/{measure_type}"
     },{
       "name": "unit",
       "titles": "unit",

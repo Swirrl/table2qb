@@ -63,6 +63,6 @@
       "virtual": true,
       "valueUrl": "rdf:Property"
     }],
-    "aboutUrl": "http://statistics.data.gov.uk/def/{component_slug}/{property_slug}"
+    "aboutUrl": "http://statistics.data.gov.uk/def/{component_type_slug}/{notation}"
   }
 }

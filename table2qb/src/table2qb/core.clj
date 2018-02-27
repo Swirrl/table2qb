@@ -38,20 +38,9 @@
   (json/write data writer))
 
 ;; Conventions
-;; TODO: make configurable
-#_(defn title->name [title]
-  "Standardises a title to a unambiguious internal name"
-  ({"GeographyCode" :geography
-    "DateCode" :date
-    "Measurement" :measure_type
-    "Units" :unit
-    "Value" :value
-    "SITC Section" :sitc_section
-    "Flow" :flow} title (keyword title)))
 
-;; Creates lookup of component attributes (from a csv) for an name (in the component_slug field)
-;; TODO: defonce me
-(def name->component
+;; Creates lookup of columns (from a csv) for an name (in the component_slug field)
+(def name->component ;; TODO: defonce me
   (with-open [rdr (-> "columns.csv" io/resource io/reader)]
     (let [columns (read-csv rdr)]
       (zipmap (map (comp keyword :name) columns)
@@ -376,7 +365,7 @@
        {"propertyUrl" "rdf:type",
         "virtual" true,
         "valueUrl" "rdf:Property"}],
-      "aboutUrl" "http://statistics.data.gov.uk/def/{component_slug}/{property_slug}"}}))
+      "aboutUrl" "http://statistics.data.gov.uk/def/{component_type_slug}/{notation}"}})) ;; property-slug?
 
 (defn codes [reader]
   (let [data (read-csv reader {"Label" :label

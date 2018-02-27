@@ -36,14 +36,14 @@
                 :description "Direction in which trade is measured"
                 :component_type "qb:DimensionProperty"
                 :component_type_slug "dimension"
-                :codelist "http://statistics.data.gov.uk/def/concept-scheme/flow-directions" ;; TODO is it best just to assume they'll be able to do this?
+                :codelist "http://statistics.data.gov.uk/def/concept-scheme/flow-directions"
                 :property_slug "flow"
                 :class_slug "Flow"
                 :parent_property nil)))
           (testing "gbp total"
             (let [gbp-total (first-by :label "GBP Total" components)]
               (are [attribute value] (= value (attribute gbp-total))
-                :notation "gbp_total"
+                :notation "gbp-total"
                 :component_type "qb:MeasureProperty"
                 :component_type_slug "measure"
                 :property_slug "gbpTotal"

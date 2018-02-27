@@ -1,5 +1,5 @@
 Label,Notation,Description,Component Type,Codelist,Component Type Slug,Property Slug,Class Slug,Parent Property
-Flow,flow,Direction in which trade is measured,qb:DimensionProperty,http://example.com/flow-concept-scheme,dimension,flow,Flow,
-SITC Section,sitc-section,Standard International Trade Classification Section,qb:DimensionProperty,http://example.com/sitc,dimension,sitcSection,SITCSection,
-GBP Total,gbp-total,Total in British Pounds Sterling,qb:MeasureProperty,,measure,gbpTotal,,http://purl.org/linked-data/sdmx/2009/measure#obsValue
-Net Mass,net-mass,Net Mass explain me better,qb:MeasureProperty,,measure,netMass,,http://purl.org/linked-data/sdmx/2009/measure#obsValue
+Flow,flow,Direction in which trade is measured,qb:DimensionProperty,http://statistics.data.gov.uk/def/concept-scheme/flow-directions,dimension,flow,Flow,
+SITC Section,sitc_section,Standard International Trade Classification Section,qb:DimensionProperty,http://statistics.data.gov.uk/def/concept-scheme/sitc-sections,dimension,sitcSection,SITCSection,
+GBP Total,gbp_total,Total in British Pounds Sterling,qb:MeasureProperty,,measure,gbpTotal,,http://purl.org/linked-data/sdmx/2009/measure#obsValue
+Net Mass,net_mass,Net Mass explain me better,qb:MeasureProperty,,measure,netMass,,http://purl.org/linked-data/sdmx/2009/measure#obsValue

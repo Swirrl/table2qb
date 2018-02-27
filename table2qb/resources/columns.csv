@@ -3,8 +3,8 @@ Geography,geography,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension
 Date,date,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refPeriod,http://reference.data.gov.uk/id/year/{date},string
 Measure Type,measure_type,qb:dimension,http://purl.org/linked-data/cube#measureType,http://statistics.data.gov.uk/def/measure/{measure_type},string
 Unit,unit,qb:dimension,http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure,http://statistics.data.gov.uk/def/concept/measurement-units/{unit},string
-SITC Section,sitc_section,qb:dimension,http://statistics.data.gov.uk/def/dimension/sitc_section,http://statistics.data.gov.uk/def/concept/sitc-sections/{sitc_section},string
+SITC Section,sitc_section,qb:dimension,http://statistics.data.gov.uk/def/dimension/sitc-section,http://statistics.data.gov.uk/def/concept/sitc-sections/{sitc_section},string
 Flow,flow,qb:dimension,http://statistics.data.gov.uk/def/dimension/flow,http://statistics.data.gov.uk/def/concept/flow-directions/{flow},string
-GBP Total,gbp_total,qb:measure,http://statistics.data.gov.uk/def/measure/gbp_total,,string
-Net Mass,net_mass,qb:measure,http://statistics.data.gov.uk/def/measure/net_mass,,string
+GBP Total,gbp_total,qb:measure,http://statistics.data.gov.uk/def/measure/gbp-total,,string
+Net Mass,net_mass,qb:measure,http://statistics.data.gov.uk/def/measure/net-mass,,string
 Value,value,,http://statistics.data.gov.uk/def/measure/{measure_type},,number

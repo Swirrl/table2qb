@@ -35,7 +35,7 @@
       "name": "sitc_section",
       "titles": "sitc_section",
       "datatype": "string",
-      "propertyUrl": "http://statistics.data.gov.uk/def/dimension/sitc_section",
+      "propertyUrl": "http://statistics.data.gov.uk/def/dimension/sitc-section",
       "valueUrl": "http://statistics.data.gov.uk/def/concept/sitc-sections/{sitc_section}"
     },{
       "name": "flow",

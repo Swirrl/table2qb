@@ -297,7 +297,7 @@
                                "Codelist" :codelist})]
     (sequence (map (fn [row]
                      (-> row
-                         (assoc :notation (unkeyword (title->name (:label row))))
+                         (assoc :notation (gecu/slugize (:label row)))
                          (assoc :component_type_slug ({"Dimension" "dimension"
                                                        "Measure" "measure"
                                                        "Attribute" "attribute"}

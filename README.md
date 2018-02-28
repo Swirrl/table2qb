@@ -48,7 +48,10 @@ The [./examples/regional-trade](./examples/regional-trade) directory provides an
 
 ## Documentation
 
+There's more background in the [doc](/doc) folder:
 
+- the [requirements](/doc/requirements.md) explain some of the challenges face and contexts where this will need to work
+- the [architecture](/doc/architecture.md) overview describes the overall process of creating rdf-cubes from tablular inputs
 
 ## License
 

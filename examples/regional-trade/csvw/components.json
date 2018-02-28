@@ -1,7 +1,7 @@
 {
   "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
   "@id": "http://statistics.data.gov.uk/def/ontology/components",
-  "url": "components-transformed.csv",
+  "url": "components.csv",
   "dc:title": "Components Ontology",
   "rdfs:label": "Components Ontology",
   "rdf:type": { "@id": "owl:Ontology" },

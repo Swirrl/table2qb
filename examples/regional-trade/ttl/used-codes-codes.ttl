@@ -1,0 +1,494 @@
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://statistics.data.gov.uk/data/regional-trade/codes-used/date> skos:member <http://reference.data.gov.uk/id/year/2016> .
+
+<http://statistics.data.gov.uk/data/regional-trade/codes-used/flow> skos:member <http://statistics.data.gov.uk/def/concept/flow-directions/import>,
+     <http://statistics.data.gov.uk/def/concept/flow-directions/export> .
+
+<http://statistics.data.gov.uk/data/regional-trade/codes-used/geography> skos:member <http://statistics.data.gov.uk/id/statistical-geography/K02000001> .
+
+<http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type> skos:member <http://statistics.data.gov.uk/def/measure/net-mass>,
+     <http://statistics.data.gov.uk/def/measure/gbp-total> .
+
+<http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section> skos:member <http://statistics.data.gov.uk/def/concept/sitc-sections/9-other-commodities-nes>,
+     <http://statistics.data.gov.uk/def/concept/sitc-sections/3-mineral-fuels>,
+     <http://statistics.data.gov.uk/def/concept/sitc-sections/2-crude-materials>,
+     <http://statistics.data.gov.uk/def/concept/sitc-sections/0-food-and-live-animals>,
+     <http://statistics.data.gov.uk/def/concept/sitc-sections/7-machinery-and-transport>,
+     <http://statistics.data.gov.uk/def/concept/sitc-sections/5-chemicals>,
+     <http://statistics.data.gov.uk/def/concept/sitc-sections/4-animal-and-vegetable-oils>,
+     <http://statistics.data.gov.uk/def/concept/sitc-sections/1-beverages-and-tobacco>,
+     <http://statistics.data.gov.uk/def/concept/sitc-sections/total>,
+     <http://statistics.data.gov.uk/def/concept/sitc-sections/8-miscellaneous-manufactures>,
+     <http://statistics.data.gov.uk/def/concept/sitc-sections/6-manufactured-goods> .
+
+<http://statistics.data.gov.uk/data/regional-trade/codes-used/unit> skos:member <http://statistics.data.gov.uk/def/concept/measurement-units/gbp-million>,
+     <http://statistics.data.gov.uk/def/concept/measurement-units/tonnes> .
+
+ [
+     a csvw:TableGroup;
+     csvw:table [
+       a csvw:Table;
+       csvw:row [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 20;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=21>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 11;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=12>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 10;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=11>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 17;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=18>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 13;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=14>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 18;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=19>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 3;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=4>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 7;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=8>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 26;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=27>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 22;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=23>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 40;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=41>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 1;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=2>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 9;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=10>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 12;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=13>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 32;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=33>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 23;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=24>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 8;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=9>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 2;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=3>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 29;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=30>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 4;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=5>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 5;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=6>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 14;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=15>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 34;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=35>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 25;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=26>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 35;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=36>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 38;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=39>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 41;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=42>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 39;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=40>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 31;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=32>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 33;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=34>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 6;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=7>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 36;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=37>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 43;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=44>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 28;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=29>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 16;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=17>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 24;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=25>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 27;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=28>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 42;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=43>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 37;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=38>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 21;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=22>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 19;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=20>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 15;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=16>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 44;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=45>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>,
+           <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+         csvw:rownum 30;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv#row=31>
+       ];
+       csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv>
+     ];
+     prov:wasGeneratedBy [
+       a prov:Activity;
+       prov:endedAtTime "2018-02-27T18:00:37+01:00"^^xsd:dateTime;
+       prov:qualifiedUsage [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/observations.csv>;
+         prov:hadRole csvw:csvEncodedTabularData
+       ],  [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/used-codes-codes.json>;
+         prov:hadRole csvw:tabularMetadata
+       ];
+       prov:startedAtTime "2018-02-27T18:00:35+01:00"^^xsd:dateTime;
+       prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
+     ]
+ ] .

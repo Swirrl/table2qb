@@ -1,0 +1,102 @@
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://statistics.data.gov.uk/data/regional-trade/component/date> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/date>;
+   <http://purl.org/linked-data/cube#dimension> <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> .
+
+<http://statistics.data.gov.uk/data/regional-trade/component/flow> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/flow>;
+   <http://purl.org/linked-data/cube#dimension> <http://statistics.data.gov.uk/def/dimension/flow> .
+
+<http://statistics.data.gov.uk/data/regional-trade/component/gbp_total> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/gbp_total>;
+   <http://purl.org/linked-data/cube#measure> <http://statistics.data.gov.uk/def/measure/gbp-total> .
+
+<http://statistics.data.gov.uk/data/regional-trade/component/geography> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/geography>;
+   <http://purl.org/linked-data/cube#dimension> <http://purl.org/linked-data/sdmx/2009/dimension#refArea> .
+
+<http://statistics.data.gov.uk/data/regional-trade/component/measure_type> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/measure_type>;
+   <http://purl.org/linked-data/cube#dimension> <http://purl.org/linked-data/cube#measureType> .
+
+<http://statistics.data.gov.uk/data/regional-trade/component/net_mass> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/net_mass>;
+   <http://purl.org/linked-data/cube#measure> <http://statistics.data.gov.uk/def/measure/net-mass> .
+
+<http://statistics.data.gov.uk/data/regional-trade/component/sitc_section> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/sitc_section>;
+   <http://purl.org/linked-data/cube#dimension> <http://statistics.data.gov.uk/def/dimension/sitc-section> .
+
+<http://statistics.data.gov.uk/data/regional-trade/component/unit> a <http://purl.org/linked-data/cube#ComponentSpecification>;
+   <http://publishmydata.com/def/qb/codesUsed> <http://statistics.data.gov.uk/data/regional-trade/codes-used/unit>;
+   <http://purl.org/linked-data/cube#dimension> <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> .
+
+ [
+     a csvw:TableGroup;
+     csvw:table [
+       a csvw:Table;
+       dc:title "Regional Trade"@en;
+       csvw:row [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/date>;
+         csvw:rownum 2;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=3>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/geography>;
+         csvw:rownum 1;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=2>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/flow>;
+         csvw:rownum 5;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=6>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/unit>;
+         csvw:rownum 6;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=7>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/sitc_section>;
+         csvw:rownum 4;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=5>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/gbp_total>;
+         csvw:rownum 7;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=8>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/measure_type>;
+         csvw:rownum 3;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=4>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://statistics.data.gov.uk/data/regional-trade/component/net_mass>;
+         csvw:rownum 8;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=9>
+       ];
+       csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv>
+     ];
+     prov:wasGeneratedBy [
+       a prov:Activity;
+       prov:endedAtTime "2018-02-27T18:00:21+01:00"^^xsd:dateTime;
+       prov:qualifiedUsage [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.json>;
+         prov:hadRole csvw:tabularMetadata
+       ],  [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv>;
+         prov:hadRole csvw:csvEncodedTabularData
+       ];
+       prov:startedAtTime "2018-02-27T18:00:19+01:00"^^xsd:dateTime;
+       prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
+     ]
+ ] .

@@ -1,0 +1,72 @@
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://statistics.data.gov.uk/data/regional-trade> a csvw:Table,
+     <http://purl.org/linked-data/cube#DataSet>;
+   dc:title "Regional Trade"@en;
+   <http://purl.org/linked-data/cube#structure> <http://statistics.data.gov.uk/data/regional-trade/structure>;
+   csvw:row [
+     a csvw:Row;
+     csvw:describes <http://statistics.data.gov.uk/data/regional-trade>;
+     csvw:rownum 4;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=5>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://statistics.data.gov.uk/data/regional-trade>;
+     csvw:rownum 7;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=8>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://statistics.data.gov.uk/data/regional-trade>;
+     csvw:rownum 8;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=9>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://statistics.data.gov.uk/data/regional-trade>;
+     csvw:rownum 5;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=6>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://statistics.data.gov.uk/data/regional-trade>;
+     csvw:rownum 2;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=3>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://statistics.data.gov.uk/data/regional-trade>;
+     csvw:rownum 1;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=2>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://statistics.data.gov.uk/data/regional-trade>;
+     csvw:rownum 3;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=4>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://statistics.data.gov.uk/data/regional-trade>;
+     csvw:rownum 6;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv#row=7>
+   ];
+   csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv> .
+
+ [
+     a csvw:TableGroup;
+     csvw:table <http://statistics.data.gov.uk/data/regional-trade>;
+     prov:wasGeneratedBy [
+       a prov:Activity;
+       prov:endedAtTime "2018-02-27T18:00:24+01:00"^^xsd:dateTime;
+       prov:qualifiedUsage [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/dataset.json>;
+         prov:hadRole csvw:tabularMetadata
+       ],  [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/component-specifications.csv>;
+         prov:hadRole csvw:csvEncodedTabularData
+       ];
+       prov:startedAtTime "2018-02-27T18:00:22+01:00"^^xsd:dateTime;
+       prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
+     ]
+ ] .

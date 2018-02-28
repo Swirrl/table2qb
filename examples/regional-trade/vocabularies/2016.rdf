@@ -1,0 +1,426 @@
+<rdf:RDF
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:time="http://www.w3.org/2006/time#"
+    xmlns:void="http://rdfs.org/ns/void#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/"
+    xmlns:doap="http://usefulinc.com/ns/doap#"
+    xmlns:frbr="http://purl.org/vocab/frbr/core#"
+    xmlns:scv="http://purl.org/NET/scovo#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:interval="http://reference.data.gov.uk/def/intervals/"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:prv="http://purl.org/net/provenance/ns#"
+    xmlns:dct="http://purl.org/dc/dcmitype/"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:dgu="http://reference.data.gov.uk/def/reference/">
+  <interval:Year rdf:about="http://reference.data.gov.uk/id/year/2017">
+    <time:intervalMetBy>
+      <scv:Dimension rdf:about="http://reference.data.gov.uk/id/year/2016">
+        <time:intervalContains>
+          <interval:Q3 rdf:about="http://reference.data.gov.uk/id/quarter/2016-Q3">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The third quarter of the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Quarter:2016-Q3</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Quarter:2016-Q3</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/Quarter"/>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarQuarter"/>
+          </interval:Q3>
+        </time:intervalContains>
+        <time:intervalMeets rdf:resource="http://reference.data.gov.uk/id/year/2017"/>
+        <skos:prefLabel xml:lang="en">British Year:2016</skos:prefLabel>
+        <interval:hasXsdDurationDescription rdf:datatype="http://www.w3.org/2001/XMLSchema#duration"
+        >P1Y</interval:hasXsdDurationDescription>
+        <time:hasBeginning>
+          <time:Instant rdf:about="http://reference.data.gov.uk/id/gregorian-instant/2016-01-01T00:00:00">
+            <interval:ordinalMonthOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >1</interval:ordinalMonthOfYear>
+            <interval:ordinalSecondOfMinute rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >0</interval:ordinalSecondOfMinute>
+            <skos:prefLabel xml:lang="en">Gregorian Instant:2016-01-01T00:00:00</skos:prefLabel>
+            <interval:ordinalHourOfDay rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >0</interval:ordinalHourOfDay>
+            <interval:ordinalWeekOfYearYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >2015</interval:ordinalWeekOfYearYear>
+            <interval:ordinalDayOfWeek rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >5</interval:ordinalDayOfWeek>
+            <interval:ordinalDayOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >1</interval:ordinalDayOfYear>
+            <interval:ordinalYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >2016</interval:ordinalYear>
+            <interval:monthOfYear rdf:resource="http://reference.data.gov.uk/def/intervals/January"/>
+            <interval:ordinalQuarterOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >1</interval:ordinalQuarterOfYear>
+            <interval:ordinalHalfOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >1</interval:ordinalHalfOfYear>
+            <rdfs:comment xml:lang="en">The instant at start of the 1st second of 1st minute of 1st hour of Friday the 1st January of the Gregorian calendar year 2016</rdfs:comment>
+            <interval:ordinalDayOfMonth rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >1</interval:ordinalDayOfMonth>
+            <interval:ordinalWeekOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >53</interval:ordinalWeekOfYear>
+            <rdfs:label xml:lang="en">Gregorian Instant:2016-01-01T00:00:00</rdfs:label>
+            <interval:ordinalMinuteOfHour rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >0</interval:ordinalMinuteOfHour>
+            <interval:dayOfWeek rdf:resource="http://www.w3.org/2006/time#Friday"/>
+            <time:inXSDDateTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+            >2016-01-01T00:00:00</time:inXSDDateTime>
+          </time:Instant>
+        </time:hasBeginning>
+        <time:intervalContains>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-05">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The month of May in the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Month:2016-05</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Month:2016-05</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+          </interval:Month>
+        </time:intervalContains>
+        <interval:intervalContainsMonth>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-12">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The month of December in the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Month:2016-12</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Month:2016-12</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+          </interval:Month>
+        </interval:intervalContainsMonth>
+        <time:intervalContains>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-01">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The month of January in the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Month:2016-01</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Month:2016-01</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+          </interval:Month>
+        </time:intervalContains>
+        <interval:intervalContainsQuarters rdf:parseType="Collection">
+          <interval:Q1 rdf:about="http://reference.data.gov.uk/id/quarter/2016-Q1">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The first quarter of the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Quarter:2016-Q1</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Quarter:2016-Q1</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/Quarter"/>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarQuarter"/>
+          </interval:Q1>
+          <interval:Q2 rdf:about="http://reference.data.gov.uk/id/quarter/2016-Q2">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The second quarter of the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Quarter:2016-Q2</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Quarter:2016-Q2</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/Quarter"/>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarQuarter"/>
+          </interval:Q2>
+          <interval:Q3 rdf:about="http://reference.data.gov.uk/id/quarter/2016-Q3"/>
+          <interval:Q4 rdf:about="http://reference.data.gov.uk/id/quarter/2016-Q4">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The forth quarter of the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Quarter:2016-Q4</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Quarter:2016-Q4</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/Quarter"/>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarQuarter"/>
+          </interval:Q4>
+        </interval:intervalContainsQuarters>
+        <interval:intervalContainsQuarter rdf:resource="http://reference.data.gov.uk/id/quarter/2016-Q3"/>
+        <interval:previousInterval>
+          <interval:Year rdf:about="http://reference.data.gov.uk/id/year/2015"/>
+        </interval:previousInterval>
+        <interval:intervalContainsMonth>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-07">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The month of July in the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Month:2016-07</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Month:2016-07</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+          </interval:Month>
+        </interval:intervalContainsMonth>
+        <time:hasDurationDescription rdf:resource="http://reference.data.gov.uk/def/intervals/one-year"/>
+        <interval:intervalContainsMonth>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-02">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The month of February in the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Month:2016-02</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Month:2016-02</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+          </interval:Month>
+        </interval:intervalContainsMonth>
+        <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2016-01"/>
+        <time:hasEnd>
+          <time:Instant rdf:about="http://reference.data.gov.uk/id/gregorian-instant/2017-01-01T00:00:00">
+            <interval:ordinalQuarterOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >1</interval:ordinalQuarterOfYear>
+            <interval:ordinalWeekOfYearYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >2016</interval:ordinalWeekOfYearYear>
+            <interval:ordinalDayOfMonth rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >1</interval:ordinalDayOfMonth>
+            <interval:ordinalYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >2017</interval:ordinalYear>
+            <time:inXSDDateTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+            >2017-01-01T00:00:00</time:inXSDDateTime>
+            <interval:monthOfYear rdf:resource="http://reference.data.gov.uk/def/intervals/January"/>
+            <interval:ordinalSecondOfMinute rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >0</interval:ordinalSecondOfMinute>
+            <interval:dayOfWeek rdf:resource="http://www.w3.org/2006/time#Sunday"/>
+            <interval:ordinalMonthOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >1</interval:ordinalMonthOfYear>
+            <interval:ordinalMinuteOfHour rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >0</interval:ordinalMinuteOfHour>
+            <rdfs:comment xml:lang="en">The instant at start of the 1st second of 1st minute of 1st hour of Sunday the 1st January of the Gregorian calendar year 2017</rdfs:comment>
+            <interval:ordinalWeekOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >52</interval:ordinalWeekOfYear>
+            <interval:ordinalHourOfDay rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >0</interval:ordinalHourOfDay>
+            <rdfs:label xml:lang="en">Gregorian Instant:2017-01-01T00:00:00</rdfs:label>
+            <interval:ordinalDayOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >1</interval:ordinalDayOfYear>
+            <interval:ordinalDayOfWeek rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >7</interval:ordinalDayOfWeek>
+            <interval:ordinalHalfOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+            >1</interval:ordinalHalfOfYear>
+            <skos:prefLabel xml:lang="en">Gregorian Instant:2017-01-01T00:00:00</skos:prefLabel>
+          </time:Instant>
+        </time:hasEnd>
+        <interval:intervalContainsHalves rdf:parseType="Collection">
+          <interval:H1 rdf:about="http://reference.data.gov.uk/id/half/2016-H1">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The first half of British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Half:2016-H1</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Half:2016-H1</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/Half"/>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarHalf"/>
+          </interval:H1>
+          <interval:H2 rdf:about="http://reference.data.gov.uk/id/half/2016-H2">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The second half of British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Half:2016-H2</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Half:2016-H2</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/Half"/>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarHalf"/>
+          </interval:H2>
+        </interval:intervalContainsHalves>
+        <time:intervalContains>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-11">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The month of November in the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Month:2016-11</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Month:2016-11</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+          </interval:Month>
+        </time:intervalContains>
+        <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/quarter/2016-Q4"/>
+        <rdfs:comment xml:lang="en">The British calendar year of 2016</rdfs:comment>
+        <interval:intervalContainsHalf rdf:resource="http://reference.data.gov.uk/id/half/2016-H1"/>
+        <foaf:isPrimaryTopicOf>
+          <foaf:Document rdf:about="http://reference.data.gov.uk/doc/year/2016">
+            <foaf:primaryTopic rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <dcterms:hasFormat>
+              <foaf:Document rdf:about="http://reference.data.gov.uk/doc/year/2016.nt">
+                <rdfs:label xml:lang="en">N-Triple document about: British Year:2016</rdfs:label>
+                <dcterms:format rdf:parseType="Resource">
+                  <rdfs:label>text/plain</rdfs:label>
+                </dcterms:format>
+              </foaf:Document>
+            </dcterms:hasFormat>
+            <dcterms:dateCopyrighted rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+            >2011-09-09</dcterms:dateCopyrighted>
+            <dcterms:hasFormat>
+              <foaf:Document rdf:about="http://reference.data.gov.uk/doc/year/2016.ttl">
+                <rdfs:label xml:lang="en">Turtle document about: British Year:2016</rdfs:label>
+                <dcterms:format rdf:parseType="Resource">
+                  <rdfs:label>text/turtle</rdfs:label>
+                </dcterms:format>
+              </foaf:Document>
+            </dcterms:hasFormat>
+            <dcterms:hasFormat>
+              <foaf:Document rdf:about="http://reference.data.gov.uk/doc/year/2016.json">
+                <rdfs:label xml:lang="en">JSON document about: British Year:2016</rdfs:label>
+                <dcterms:format rdf:parseType="Resource">
+                  <rdfs:label>application/json</rdfs:label>
+                </dcterms:format>
+              </foaf:Document>
+            </dcterms:hasFormat>
+            <prv:createdBy>
+              <prv:DataCreation>
+                <prv:performedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+                >2011-09-09</prv:performedAt>
+                <prv:performedBy>
+                  <prv:DataProvidingService rdf:nodeID="A0">
+                    <prv:employedArtifact>
+                      <doap:Project>
+                        <prv:usedBy>
+                          <frbr:CorporateBody rdf:nodeID="A1">
+                            <foaf:name xml:lang="en">data.gov.uk</foaf:name>
+                            <rdf:type rdf:resource="http://purl.org/net/provenance/ns#DataPublisher"/>
+                          </frbr:CorporateBody>
+                        </prv:usedBy>
+                        <doap:release>
+                          <doap:Version>
+                            <doap:revision>0.0.3</doap:revision>
+                            <doap:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+                            >2011-09-09</doap:created>
+                            <doap:name xml:lang="en">Harrison</doap:name>
+                          </doap:Version>
+                        </doap:release>
+                        <doap:name>UK Gov. Intervals and Instants URI Set Server</doap:name>
+                      </doap:Project>
+                    </prv:employedArtifact>
+                    <prv:operatedBy rdf:nodeID="A1"/>
+                    <doap:name xml:lang="en">Intervals and Instants URI Set Service</doap:name>
+                  </prv:DataProvidingService>
+                </prv:performedBy>
+              </prv:DataCreation>
+            </prv:createdBy>
+            <dcterms:publisher rdf:nodeID="A1"/>
+            <dcterms:rightsHolder rdf:nodeID="A1"/>
+            <rdf:type rdf:resource="http://purl.org/net/provenance/ns#DataItem"/>
+            <dcterms:creator rdf:nodeID="A0"/>
+            <dcterms:license rdf:resource="http://reference.data.gov.uk/id/open-government-licence"/>
+            <rdfs:label xml:lang="en">Generic Dataset document about: British Year:2016</rdfs:label>
+            <dcterms:hasFormat>
+              <foaf:Document rdf:about="http://reference.data.gov.uk/doc/year/2016.n3">
+                <rdfs:label xml:lang="en">N3 document about: British Year:2016</rdfs:label>
+                <dcterms:format rdf:parseType="Resource">
+                  <rdfs:label>text/n3</rdfs:label>
+                </dcterms:format>
+              </foaf:Document>
+            </dcterms:hasFormat>
+            <dcterms:hasFormat>
+              <foaf:Document rdf:about="http://reference.data.gov.uk/doc/year/2016.rdf">
+                <rdfs:label xml:lang="en">RDF/XML document about: British Year:2016</rdfs:label>
+                <dcterms:format rdf:parseType="Resource">
+                  <rdfs:label>application/rdf+xml</rdfs:label>
+                </dcterms:format>
+              </foaf:Document>
+            </dcterms:hasFormat>
+          </foaf:Document>
+        </foaf:isPrimaryTopicOf>
+        <interval:nextInterval rdf:resource="http://reference.data.gov.uk/id/year/2017"/>
+        <interval:intervalContainsQuarter rdf:resource="http://reference.data.gov.uk/id/quarter/2016-Q1"/>
+        <interval:intervalContainsQuarter rdf:resource="http://reference.data.gov.uk/id/quarter/2016-Q4"/>
+        <time:intervalContains>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-06">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The month of June in the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Month:2016-06</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Month:2016-06</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+          </interval:Month>
+        </time:intervalContains>
+        <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2016-02"/>
+        <interval:intervalContainsMonth>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-10">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The month of October in the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Month:2016-10</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Month:2016-10</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+          </interval:Month>
+        </interval:intervalContainsMonth>
+        <interval:intervalContainsMonth>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-08">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The month of August in the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Month:2016-08</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Month:2016-08</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+          </interval:Month>
+        </interval:intervalContainsMonth>
+        <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/quarter/2016-Q1"/>
+        <dgu:uriSet>
+          <dgu:URIset rdf:about="http://reference.data.gov.uk/id/year">
+            <skos:prefLabel xml:lang="en">British calendar aligned one year intervals.</skos:prefLabel>
+            <rdfs:label xml:lang="en">British calendar aligned one year intervals.</rdfs:label>
+            <rdf:type rdf:resource="http://rdfs.org/ns/void#Dataset"/>
+          </dgu:URIset>
+        </dgu:uriSet>
+        <time:intervalContains>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-04">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The month of April in the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Month:2016-04</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Month:2016-04</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+          </interval:Month>
+        </time:intervalContains>
+        <scv:min rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+        >2016-01-01</scv:min>
+        <interval:ordinalYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >2016</interval:ordinalYear>
+        <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/half/2016-H1"/>
+        <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2016-04"/>
+        <time:intervalMetBy>
+          <interval:Year rdf:about="http://reference.data.gov.uk/id/year/2015"/>
+        </time:intervalMetBy>
+        <interval:intervalContainsMonth>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-03">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The month of March in the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Month:2016-03</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Month:2016-03</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+          </interval:Month>
+        </interval:intervalContainsMonth>
+        <interval:intervalContainsMonth>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-09">
+            <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+            <rdfs:comment xml:lang="en">The month of September in the British calendar year 2016</rdfs:comment>
+            <rdfs:label xml:lang="en">British Month:2016-09</rdfs:label>
+            <skos:prefLabel xml:lang="en">British Month:2016-09</skos:prefLabel>
+            <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+          </interval:Month>
+        </interval:intervalContainsMonth>
+        <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2016-12"/>
+        <rdfs:label xml:lang="en">British Year:2016</rdfs:label>
+        <interval:intervalContainsHalf rdf:resource="http://reference.data.gov.uk/id/half/2016-H2"/>
+        <interval:intervalContainsQuarter rdf:resource="http://reference.data.gov.uk/id/quarter/2016-Q2"/>
+        <time:intervalEquals>
+          <time:Interval rdf:about="http://reference.data.gov.uk/id/gregorian-interval/2016-01-01T00:00:00/P1Y">
+            <rdfs:comment xml:lang="en">An interval of 1 year beginning at the start of the 1st second of 1st minute of 1st hour of Friday the 1st January 2016 in the Gregorian Calendar</rdfs:comment>
+            <rdfs:label xml:lang="en">Gregorian Interval:2016-01-01T00:00:00/P1Y</rdfs:label>
+            <skos:prefLabel xml:lang="en">Gregorian Interval:2016-01-01T00:00:00/P1Y</skos:prefLabel>
+          </time:Interval>
+        </time:intervalEquals>
+        <interval:intervalContainsMonths rdf:parseType="Collection">
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-01"/>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-02"/>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-03"/>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-04"/>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-05"/>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-06"/>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-07"/>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-08"/>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-09"/>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-10"/>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-11"/>
+          <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2016-12"/>
+        </interval:intervalContainsMonths>
+        <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2016-08"/>
+        <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2016-11"/>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarYear"/>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/Year"/>
+        <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2016-07"/>
+        <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2016-03"/>
+        <scv:max rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+        >2016-12-31</scv:max>
+        <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/quarter/2016-Q2"/>
+        <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2016-10"/>
+        <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2016-06"/>
+        <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2016-05"/>
+        <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2016-09"/>
+        <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/half/2016-H2"/>
+      </scv:Dimension>
+    </time:intervalMetBy>
+    <rdfs:comment xml:lang="en">The British calendar year of 2017</rdfs:comment>
+    <rdfs:label xml:lang="en">British Year:2017</rdfs:label>
+    <skos:prefLabel xml:lang="en">British Year:2017</skos:prefLabel>
+    <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarYear"/>
+  </interval:Year>
+  <interval:Year rdf:about="http://reference.data.gov.uk/id/year/2015">
+    <time:intervalMeets rdf:resource="http://reference.data.gov.uk/id/year/2016"/>
+    <rdfs:comment xml:lang="en">The British calendar year of 2015</rdfs:comment>
+    <rdfs:label xml:lang="en">British Year:2015</rdfs:label>
+    <skos:prefLabel xml:lang="en">British Year:2015</skos:prefLabel>
+    <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarYear"/>
+  </interval:Year>
+</rdf:RDF>

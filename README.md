@@ -42,7 +42,7 @@ This initial draft also includes several conventions in the code that ought to b
 
 ## Example
 
-The [./examples/regional-trade](./examples/regional-trade) directory provides an example.
+The [./examples/regional-trade](./examples/regional-trade) directory provides an example and instructions for running it.
 
 ## License
 

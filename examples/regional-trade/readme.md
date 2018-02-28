@@ -2,17 +2,17 @@
 
 This example is executed by the project's test suite. Be careful not to replace the files by running the pipeline (or the tests will always pass!).
 
-The [./csv](csv) folder contains the inputs:
+The [csv](csv) folder contains the inputs:
 
 - reference data:
   - components: [components.csv](./csv/components.csv)
-  - codelists: [flow-directions.csv](./examples/regional-trade/flow-directions.csv),  [sitc-sections.csv](./examples/regional-trade/sitc-sections.csv), and [units.csv](./examples/regional-trade/units.csv)
+  - codelists: [flow-directions.csv](./csv/flow-directions.csv),  [sitc-sections.csv](./csv/sitc-sections.csv), and [units.csv](./csv/units.csv)
 - observation data:
-  - [input.csv](./examples/regional-trade/input.csv)
+  - [input.csv](./csv/input.csv)
 
 This is premised on configuration in [/resources/columns.csv](/resources/columns.csv). This will need changing to support further examples. It should ultimately be extracted from a database so that adding components makes them available as columns that can be provided in observation csv.
 
-The [./csvw](csvw) folder contains the outputs from table2qb and the [./ttl](ttl) folder shows the resulting RDF translation. The [./vocab/](vocab) folder provides additional vocabularies required to make the example work.
+The [csvw](./csvw) folder contains the outputs from table2qb and the [ttl](./ttl) folder shows the resulting RDF translation. The [vocabularies](./vocabularies) folder provides additional vocabularies required to make the example work.
 
 
 ## Running the example

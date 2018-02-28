@@ -1,5 +1,7 @@
 # table2cube
 
+![animated tesseract](https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Tesseract-1K.gif/240px-Tesseract-1K.gif)
+
 ## Overview
 
 This project transforms tables of observations and reference data into [rdf data cube](https://www.w3.org/TR/vocab-data-cube/) resources specified as [csvw](https://github.com/w3c/csvw).
@@ -43,6 +45,10 @@ This initial draft also includes several conventions in the code that ought to b
 ## Example
 
 The [./examples/regional-trade](./examples/regional-trade) directory provides an example and instructions for running it.
+
+## Documentation
+
+
 
 ## License
 

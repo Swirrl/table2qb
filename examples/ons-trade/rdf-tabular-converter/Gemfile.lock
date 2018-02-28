@@ -1,0 +1,41 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.5.2)
+      public_suffix (>= 2.0.2, < 4.0)
+    bcp47 (0.3.3)
+      i18n
+    concurrent-ruby (1.0.5)
+    hamster (3.0.0)
+      concurrent-ruby (~> 1.0)
+    i18n (0.9.3)
+      concurrent-ruby (~> 1.0)
+    json-ld (2.2.1)
+      multi_json (~> 1.12)
+      rdf (>= 2.2.8, < 4.0)
+    link_header (0.0.8)
+    multi_json (1.13.1)
+    public_suffix (3.0.1)
+    rdf (3.0.1)
+      hamster (~> 3.0)
+      link_header (~> 0.0, >= 0.0.8)
+    rdf-tabular (2.2.1)
+      addressable (~> 2.3)
+      bcp47 (~> 0.3, >= 0.3.3)
+      json-ld (>= 2.1, < 4.0)
+      rdf (>= 2.2, < 4.0)
+      rdf-vocab (>= 2.2, < 4.0)
+      rdf-xsd (>= 2.2, < 4.0)
+    rdf-vocab (3.0.1)
+      rdf (~> 3.0)
+    rdf-xsd (3.0.0)
+      rdf (~> 3.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rdf-tabular
+
+BUNDLED WITH
+   1.15.4

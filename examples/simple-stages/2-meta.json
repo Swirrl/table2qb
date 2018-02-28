@@ -1,0 +1,21 @@
+{
+	"@context": [ "http://www.w3.org/ns/csvw", {
+		"@language": "en",
+		"eg": "http://example.org/",
+		"sdmx-dimension": "http://purl.org/linked-data/sdmx/2010/dimension#",
+		"qb": "http://purl.org/linked-data/cube#"
+	}],
+	"@id": "http://example.com/data/simple",
+	"qb:structure": {
+		"qb:component": [
+			{ "qb:dimension": "sdmx-dimension:refPeriod" },
+			{ "qb:measure": "eg:count" }
+		]
+	},
+	"tableSchema": {
+		"columns": [
+			{"name": "period", "titles": "Year", "propertyUrl":"sdmx-dimension:refPeriod"},
+			{"name": "count", "titles": "Count", "propertyUrl":"eg:count"} 
+		]
+	}
+}

@@ -1,5 +1,0 @@
-Label,Description,Component Type,Codelist
-Flow,Direction in which trade is measured,Dimension,http://example.com/flow-concept-scheme
-SITC,Standard International Trade Classification,Dimension,http://example.com/sitc
-Value,Generic value property,Measure,
-Net Mass,Net Mass explain me better,Measure,

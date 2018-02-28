@@ -8,7 +8,7 @@
 ;; Test Helpers
 
 (defn example [filename]
-  (str "./test/resources/trade-example/" filename))
+  (str "./examples/regional-trade/" filename))
 
 (defn maps-match? [a b]
   (let [[a-only b-only _] (diff a b)]

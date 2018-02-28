@@ -1,2 +1,4 @@
 .~lock*
 .directory
+.lein-failures
+target/

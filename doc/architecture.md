@@ -1,6 +1,6 @@
 # table2qb Architecture Proposal
 
-This proposal draws on comments on the [spec](./specification.md) (#1, #2) which suggest we should adopt the [csvw](https://www.w3.org/TR/tabular-data-model/) approach to metadata (i.e. json-ld with a csvw vocab). This effectively leads us to writing a [csv2rdf](https://www.w3.org/TR/csv2rdf/) implementation.
+This proposal draws on comments on the [requirements](./requirements.md) (#1, #2) which suggest we should adopt the [csvw](https://www.w3.org/TR/tabular-data-model/) approach to metadata (i.e. json-ld with a csvw vocab). This effectively leads us to writing a [csv2rdf](https://www.w3.org/TR/csv2rdf/) implementation.
 
 ## Overview
 
@@ -29,7 +29,7 @@ More specifically the process would be as follows:
     - Extract Marginals: collect codes enumerating cube extent (how we currently use `qb:codeList`)
   - *Conversion*: the above will furnish us with a cleaned csv file and a csvw-metadata json file that may be feed into a csvw pipeline to create RDF
 
-[Here's a minimum example](./example.md) of how this might work. A more [realistic example](./examples/ons-trade/) is provided for the ONS Regional Trade dataset (taken from the pilot).
+[Here's a minimum example](./minimum-example.md) of how this might work. A more [realistic example](../examples/ons-trade/) is provided for the ONS Regional Trade dataset (taken from the pilot).
 
 ## Implications of Implementing csv2rdf
 

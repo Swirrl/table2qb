@@ -1,4 +1,4 @@
-# Example table2qb process
+# Minimum Example table2qb process
 
 This example shows how to load the follow csv file:
 

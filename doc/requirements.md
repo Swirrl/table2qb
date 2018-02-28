@@ -1,4 +1,4 @@
-# table2qb Specification
+# table2qb Requirements
 
 This document provides a brief overview of the problem/ proposed solution, then goes into more detail about the challenges and ends with a set of examples.
 
@@ -21,6 +21,8 @@ More advanced cases allow for:
 - datasets to be split across files (to allow partial uploads)
 
 ### Proposed Architecture
+
+**This section is out of date - you should read the [architecture](./architecture.md) document instead.**
 
 One possible solution is to distinguish two modes:
 

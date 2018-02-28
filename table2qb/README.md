@@ -54,11 +54,12 @@ It is also premised on configuration in [./resources/columns.csv](./resources/co
 
 You can get the demo working from the repl:
 
-```
+```shell
 $ lein repl
-
+```
+```clojure
 (require 'table2qb.code)
-(ns table2qb core)
+(ns table2qb.core)
 ```
 
 To serialise everything to a tmp dir call `(serialise-demo)`. Alternatively you can go through the pieces one-at-a-time...
@@ -115,7 +116,9 @@ For the metadata (each should be loaded into PMD as a vocabulary):
 For the cube (each can be loaded into one PMD Dataset that covers the whole cube):
 
 ```clojure
-(csv2rdf-qb "./tmp") ;;=> dataset.ttl, data-structure-definition.ttl, component-specifications.ttl, observations.ttl, used-codes-codelists.ttl, used-codes-codes.ttl
+(csv2rdf-qb "./tmp")
+;;=> dataset.ttl, data-structure-definition.ttl, component-specifications.ttl
+;;=> observations.ttl, used-codes-codelists.ttl, used-codes-codes.ttl
 ```
 
 You'll also need the rdf-cube, sdmx, time and uk geo reference vocabularies ([from here](../examples/ons-trade/metadata/)) to make this work.

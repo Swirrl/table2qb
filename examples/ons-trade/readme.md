@@ -1,3 +1,7 @@
+**This example has since been superceded by the [one in the pipeline](https://github.com/Swirrl/table2qb/tree/master/table2qb#example)**
+
+---------------------
+
 # Regional Trade Example
 
 - Load all prerequisite reference data first: vocabularies, components and codelists (see the [metadata directory](./metadata) for the specifics).

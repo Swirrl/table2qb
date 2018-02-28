@@ -36,9 +36,20 @@ The dataset should have the following columns:
 This initial draft also includes several conventions in the code that ought to be generalised to configuration - particularly how cell values are slugged.
 
 
-## Usage
+## Example
 
-You can get the demo working with a repl:
+The [./test/resources/](./test/resources) directory provides examples of the above inputs:
+
+- reference data:
+  - components: [components.csv](./test/resources/trade-example/components.csv)
+  - codelists: [flow-directions.csv](./test/resources/trade-example/flow-directions.csv),  [sitc-sections.csv](./test/resources/trade-example/sitc-sections.csv), and [units.csv](./test/resources/trade-example/units.csv)
+- data:
+  - [input.csv](./test/resources/trade-example/input.csv)
+
+It is also premised on configuration in [./resources/columns.csv](./resources/columns.csv) (which will need changing to support further examples).
+
+
+You can get the demo working from the repl:
 
 ```
 $ lein repl
@@ -69,7 +80,7 @@ Buid the cube itself:
 (data-pipeline "./test/resources/trade-example/input.csv" "./tmp" "Regional Trade" "regional-trade")
 ```
 
-You now have all the csvw required in the tmp directory.
+You now have all the csvw outputs in the tmp directory.
 
 Ultimately we'll translate this into linked-data using the [csv2rdf library](https://github.com/Swirrl/csv2rdf). For now there's some helper functions to call the RDF::Tabular csv2rdf translator using the `rdf` cli tool (you can get this with `gem install rdf`).
 

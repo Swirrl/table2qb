@@ -491,17 +491,17 @@
     (csv2rdf output-dir resource)))
 
 (defn serialise-demo []
-  (components-pipeline "./test/resources/trade-example/components.csv" "./tmp")
+  (components-pipeline "./examples/regional-trade/csv/components.csv" "./tmp")
   (csv2rdf "./tmp" "components")
 
-  (codelist-pipeline "./test/resources/trade-example/flow-directions.csv" "./tmp" "Flow Directions" "flow-directions")
+  (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv" "./tmp" "Flow Directions" "flow-directions")
   (csv2rdf "./tmp" "flow-directions")
-  (codelist-pipeline "./test/resources/trade-example/sitc-sections.csv" "./tmp" "SITC Sections" "sitc-sections")
+  (codelist-pipeline "./examples/regional-trade/csv/sitc-sections.csv" "./tmp" "SITC Sections" "sitc-sections")
   (csv2rdf "./tmp" "sitc-sections")
-  (codelist-pipeline "./test/resources/trade-example/units.csv" "./tmp" "Measurement Units" "measurement-units")
+  (codelist-pipeline "./examples/regional-trade/csv/units.csv" "./tmp" "Measurement Units" "measurement-units")
   (csv2rdf "./tmp" "measurement-units")
 
-  (data-pipeline "./test/resources/trade-example/input.csv" "./tmp" "Regional Trade" "regional-trade")
+  (data-pipeline "./examples/regional-trade/csv/input.csv" "./tmp" "Regional Trade" "regional-trade")
   (csv2rdf-qb "./tmp"))
 
 ;;(serialise-demo)

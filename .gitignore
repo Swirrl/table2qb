@@ -2,3 +2,5 @@
 .directory
 .lein-failures
 target/
+tmp/
+.nrepl-port

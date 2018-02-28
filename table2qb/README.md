@@ -2,9 +2,11 @@
 
 This project transforms tables of observations and reference data into [rdf data cube](https://www.w3.org/TR/vocab-data-cube/) resources specified as [csvw](https://github.com/w3c/csvw).
 
-The input tables should be arranged as [tidy-data](http://vita.had.co.nz/papers/tidy-data.pdf) e.g. one row per observation, one column per component (i.e. dimension, attribute or measure). The output is a set of csvw documents - i.e. csv with json-ld metadata - that can be translated into RDF via a [csv2rdf](http://www.w3.org/TR/csv2rdf/) processor.
+## The pipeline
 
-The outputs that make up the cube are:
+### Observation Data
+
+The observation input table should be arranged as [tidy-data](http://vita.had.co.nz/papers/tidy-data.pdf) e.g. one row per observation, one column per component (i.e. dimension, attribute or measure). The output is a set of csvw documents - i.e. csv with json-ld metadata - that can be translated into RDF via a [csv2rdf](http://www.w3.org/TR/csv2rdf/) processor. The outputs that make up the cube are:
 
 - `observations.csv`: this goes through some transformations to standardise the cell values from arbitrary strings to slugs or other notations that are ready to be combined into URIs
 - `component-specifications.csv`: this is a normalisation of the observations table that has one row per component
@@ -15,7 +17,9 @@ The outputs that make up the cube are:
 
 We also provide a set of `skos:ConceptScheme`s enumerating all of the codes used in each of the componentss (via `used-codes-scheme.json` and `used-codes-concepts.json`). These are useful for navigating within a cube by using the marginals - in other words this saves you from having to scan through all of the observations in order to establish the extent of the cube.
 
-The project also provides pipelines for preparing reference data. These can be used for managing reference data across multiple `qb:DataSet`s.
+### Reference Data
+
+The project provides pipelines for preparing reference data. These can be used for managing reference data across multiple `qb:DataSet`s.
 
 - Components: given a tidy-data input of one component per row, this pipeline creates a `components.csv` file and a `components.json` for creating `qb:ComponentProperty`s in an `owl:Ontology`. Note that components are the dimensions, attributes and measures themselves whereas the component-specifications are what links these to a given data-structure-definition.
 - Codelists: given a tidy-data input of one code per row, this pipeline creates a `codelist.csv` file and a `codelist.json` for creating `skos:Concepts` in an `skos:ConceptScheme`. Note that these codelists describe the universal set of codes that may be the object of a component (making it a `qb:CodedProperty`) not the (sub)set that have been used within a cube.
@@ -43,11 +47,10 @@ The [./test/resources/](./test/resources) directory provides examples of the abo
 - reference data:
   - components: [components.csv](./test/resources/trade-example/components.csv)
   - codelists: [flow-directions.csv](./test/resources/trade-example/flow-directions.csv),  [sitc-sections.csv](./test/resources/trade-example/sitc-sections.csv), and [units.csv](./test/resources/trade-example/units.csv)
-- data:
+- observation data:
   - [input.csv](./test/resources/trade-example/input.csv)
 
-It is also premised on configuration in [./resources/columns.csv](./resources/columns.csv) (which will need changing to support further examples).
-
+It is also premised on configuration in [./resources/columns.csv](./resources/columns.csv). This will need changing to support further examples. It should ultimately be extracted from the database such that adding components makes them available as columns that can be provided in observation csv.
 
 You can get the demo working from the repl:
 
@@ -60,46 +63,63 @@ $ lein repl
 
 To serialise everything to a tmp dir call `(serialise-demo)`. Alternatively you can go through the pieces one-at-a-time...
 
-Build components:
+Build components ontology:
 
 ```clojure
-(components-pipeline "./test/resources/trade-example/components.csv" "./tmp")
+(components-pipeline
+ "./test/resources/trade-example/components.csv"
+ "./tmp")
+ ;; => components.csv,components.json
 ```
 
 Build codelists:
 
 ```clojure
-(codelist-pipeline "./test/resources/trade-example/flow-directions.csv" "./tmp" "Flow Directions" "flow-directions")
-(codelist-pipeline "./test/resources/trade-example/sitc-sections.csv" "./tmp" "SITC Sections" "sitc-sections")
-(codelist-pipeline "./test/resources/trade-example/units.csv" "./tmp" "Measurement Units" "measurement-units")
+(codelist-pipeline
+ "./test/resources/trade-example/flow-directions.csv"
+ "./tmp" "Flow Directions" "flow-directions")
+ ;; => flow-directions.csv,flow-directions.json
+ 
+(codelist-pipeline
+ "./test/resources/trade-example/sitc-sections.csv"
+ "./tmp" "SITC Sections" "sitc-sections")
+ ;; => sitc-sections.csv, sitc-sections.json
+
+(codelist-pipeline
+ "./test/resources/trade-example/units.csv"
+ "./tmp" "Measurement Units" "measurement-units")
+ ;; => measurement-units.csv, measurement-units.json
 ```
 
 Buid the cube itself:
 
 ```clojure
-(data-pipeline "./test/resources/trade-example/input.csv" "./tmp" "Regional Trade" "regional-trade")
+(data-pipeline
+ "./test/resources/trade-example/input.csv"
+ "./tmp" "Regional Trade" "regional-trade")
+ ;; => component-specifications.csv, dataset.json, data-structure-definition.json, component-specifications.json
+ ;; => observations.csv, observations.json, used-codes-codelists.json, used-codes-codes.json
 ```
 
-You now have all the csvw outputs in the tmp directory.
-
-Ultimately we'll translate this into linked-data using the [csv2rdf library](https://github.com/Swirrl/csv2rdf). For now there's some helper functions to call the RDF::Tabular csv2rdf translator using the `rdf` cli tool (you can get this with `gem install rdf`).
+Ultimately we'll translate this into linked-data using the [csv2rdf library](https://github.com/Swirrl/csv2rdf). For now there's some helper functions to call the RDF::Tabular csv2rdf translator using the `rdf` cli tool (you can get this with `gem install linkeddata`).
 
 For the metadata (each should be loaded into PMD as a vocabulary):
 
 ```clojure
-(csv2rdf "./tmp" "components")
-(csv2rdf "./tmp" "flow-directions")
-(csv2rdf "./tmp" "sitc-sections")
-(csv2rdf "./tmp" "measurement-units")
+(csv2rdf "./tmp" "components") ;;=> components.ttl
+(csv2rdf "./tmp" "flow-directions") ;;=> flow-directions.ttl
+(csv2rdf "./tmp" "sitc-sections") ;;=> sitc-sections.ttl
+(csv2rdf "./tmp" "measurement-units") ;;=> measurement-units.ttl
 ```
 
 For the cube (each can be loaded into one PMD Dataset that covers the whole cube):
 
 ```clojure
-(csv2rdf-qb "./tmp")
+(csv2rdf-qb "./tmp") ;;=> dataset.ttl, data-structure-definition.ttl, component-specifications.ttl, observations.ttl, used-codes-codelists.ttl, used-codes-codes.ttl
 ```
 
-You'll now have a collection of turtle files that make up the cube and it's associated reference data. You'll also need the rdf-cube, sdmx, time and uk geo reference vocabularies([here](../examples/ons-trade/metadata/)) to make this work.
+You'll also need the rdf-cube, sdmx, time and uk geo reference vocabularies ([from here](../examples/ons-trade/metadata/)) to make this work.
+
 
 ## License
 

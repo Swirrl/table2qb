@@ -17,15 +17,23 @@ The [csvw](./csvw) folder contains the outputs from table2qb and the [ttl](./ttl
 
 ## Running the example
 
+AT the moment, it uses csv2rdf in ruby, so you need to install some gems:
+
+```shell
+gem install rdf rdf-tabular linkeddata
+``` 
+
 You can get the demo working from the repl:
 
 ```shell
 $ lein repl
 ```
 ```clojure
-(require 'table2qb.code)
+(require 'table2qb.core)
 (ns table2qb.core)
 ```
+
+Make a directory under the root of the project repo called `./tmp`.
 
 To serialise everything to a tmp dir call `(serialise-demo)`. Alternatively you can go through the pieces one-at-a-time...
 

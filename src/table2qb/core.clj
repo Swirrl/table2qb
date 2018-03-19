@@ -196,10 +196,11 @@
          (when (not (= "" value_template)) {"valueUrl" value_template})))
 
 (defn dataset-link [dataset-slug]
-  {"name" "DataSet",
-   "virtual" true,
-   "propertyUrl" "qb:dataSet",
-   "valueUrl" "http://gss-data.org.uk/data/regional-trade"})
+  (let [ds-uri (str "http://gss-data.org.uk/data/" dataset-slug)]
+    {"name" "DataSet",
+     "virtual" true,
+     "propertyUrl" "qb:dataSet",
+     "valueUrl" ds-uri}))
 
 (def observation-type
   {"name" "Observation",

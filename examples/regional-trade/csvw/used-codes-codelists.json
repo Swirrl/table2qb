@@ -23,6 +23,6 @@
       "propertyUrl": "rdf:type",
       "valueUrl": "skos:ConceptScheme"
     }],
-    "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/codes-used/{component_slug}"
+    "aboutUrl": "http://gss-data.org.uk/data/regional-trade/codes-used/{component_slug}"
   }
 }

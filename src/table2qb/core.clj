@@ -5,7 +5,15 @@
             [clojure.java.io :as io]
             [grafter.extra.cell.uri :as gecu]
             [clojure.string :as st]
-            [clojure.java.shell :refer [sh]]))
+            [clojure.java.shell :refer [sh]]
+            [environ.core :as environ]))
+
+;; Config
+(def domain (environ/env :base-uri "http://gss-data.org.uk/"))
+(def domain-data (str domain "data/"))
+(def domain-def (str domain "def/"))
+
+
 
 ;; CSV handling
 
@@ -100,7 +108,7 @@
                             :component_property property_template}))) data)))
 
 (defn component-specification-template [dataset-slug]
-  (str "http://gss-data.org.uk/data/" dataset-slug "/component/{component_slug}"))
+  (str domain-data dataset-slug "/component/{component_slug}"))
 
 (defn component-specification-metadata [csv-url dataset-name dataset-slug]
   {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
@@ -128,11 +136,11 @@
      {"name" "codes_used",
       "virtual" true,
       "propertyUrl" "http://publishmydata.com/def/qb/codesUsed",
-      "valueUrl" (str "http://gss-data.org.uk/data/" dataset-slug "/codes-used/{component_slug}")}],
+      "valueUrl" (str domain-data dataset-slug "/codes-used/{component_slug}")}],
     "aboutUrl" (component-specification-template dataset-slug)}})
 
 (defn dataset-metadata [csv-url dataset-name dataset-slug]
-  (let [ds-uri (str "http://gss-data.org.uk/data/" dataset-slug)
+  (let [ds-uri (str domain-data dataset-slug)
         dsd-uri (str ds-uri "/structure")
         ds-label dataset-name]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
@@ -149,7 +157,7 @@
       "aboutUrl" ds-uri}}))
 
 (defn data-structure-definition-metadata [csv-url dataset-name dataset-slug]
-  (let [dsd-uri (str "http://gss-data.org.uk/data/" dataset-slug "/structure")
+  (let [dsd-uri (str domain-data dataset-slug "/structure")
         dsd-label (str dataset-name " (Data Structure Definition)")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "@id" dsd-uri,
@@ -196,7 +204,7 @@
          (when (not (= "" value_template)) {"valueUrl" value_template})))
 
 (defn dataset-link [dataset-slug]
-  (let [ds-uri (str "http://gss-data.org.uk/data/" dataset-slug)]
+  (let [ds-uri (str domain-data dataset-slug)]
     {"name" "DataSet",
      "virtual" true,
      "propertyUrl" "qb:dataSet",
@@ -216,7 +224,7 @@
                        (sort-by #(get {"geography" -2 "date" -1 "measure_type" 1 "unit" 2} % 0)) ;; TODO - extract conventions
                        (remove #{"value"})
                        (map #(str "/{" % "}")))]
-    (str "http://gss-data.org.uk/data/"
+    (str domain-data
          dataset-slug
          (st/join uri-parts))))
 
@@ -246,7 +254,7 @@
       "aboutUrl" (observation-template dataset-slug (map :name components))}}))
 
 (defn used-codes-codelists-metadata [csv-url dataset-slug]
-  (let [codelist-uri (str "http://gss-data.org.uk/data/" dataset-slug "/codes-used/{component_slug}")]
+  (let [codelist-uri (str domain-data dataset-slug "/codes-used/{component_slug}")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" csv-url,
      "tableSchema"
@@ -276,7 +284,7 @@
 
 (defn used-codes-codes-metadata [reader csv-url dataset-slug]
   (let [data (read-csv reader title->name)
-        codelist-uri (str "http://gss-data.org.uk/data/" dataset-slug "/codes-used/{_name}")
+        codelist-uri (str domain-data dataset-slug "/codes-used/{_name}")
         components (sequence (comp (x/multiplex [dimensions attributes values])
                                    (map name->component)) data)
         column-order (->> data first keys (map unkeyword) target-order)
@@ -313,7 +321,7 @@
               data)))
 
 (defn components-metadata [csv-url]
-  (let [ontology-uri "http://gss-data.org.uk/def/ontology/components"]
+  (let [ontology-uri (str domain-def "ontology/components")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "@id" ontology-uri,
      "url" csv-url,
@@ -355,7 +363,7 @@
         "titles" "class_slug",
         "datatype" "string",
         "propertyUrl" "rdfs:range",
-        "valueUrl" "http://gss-data.org.uk/def/{class_slug}"}
+        "valueUrl" (str domain-def "{class_slug}")}
        {"name" "parent_property",
         "titles" "parent_property",
         "datatype" "string",
@@ -367,7 +375,7 @@
        {"propertyUrl" "rdf:type",
         "virtual" true,
         "valueUrl" "rdf:Property"}],
-      "aboutUrl" "http://gss-data.org.uk/def/{component_type_slug}/{notation}"}})) ;; property-slug?
+      "aboutUrl" (str domain-def "{component_type_slug}/{notation}")}})) ;; property-slug?
 
 (defn codes [reader]
   (let [data (read-csv reader {"Label" :label
@@ -376,9 +384,9 @@
     data))
 
 (defn codelist-metadata [csv-url codelist-name codelist-slug]
-  (let [codelist-uri (str "http://gss-data.org.uk/def/concept-scheme/" codelist-slug)
-        code-uri (str "http://gss-data.org.uk/def/concept/" codelist-slug "/{notation}")
-        parent-uri (str "http://gss-data.org.uk/def/concept/" codelist-slug "/{parent_notation}")]
+  (let [codelist-uri (str domain-def "concept-scheme/" codelist-slug)
+        code-uri (str domain-def "concept/" codelist-slug "/{notation}")
+        parent-uri (str domain-def "concept/" codelist-slug "/{parent_notation}")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "@id" codelist-uri,
      "url" csv-url,

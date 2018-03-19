@@ -7,4 +7,7 @@
                  [grafter/grafter "0.11.0-drafter-rdf4j"]
                  [grafter/extra "0.2.1-SNAPSHOT"]
                  [org.clojure/data.csv "0.1.4"]
-                 [net.cgrand/xforms "0.16.0"]])
+                 [net.cgrand/xforms "0.16.0"]
+                 [environ "1.1.0"]]
+  :plugins [[lein-environ "1.1.0"]]
+  :profiles {:dev {:env {:base-uri "http://gss-data.org.uk/"}}})

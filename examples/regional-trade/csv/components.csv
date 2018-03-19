@@ -1,5 +1,5 @@
 Label,Description,Component Type,Codelist
-Flow,Direction in which trade is measured,Dimension,http://statistics.data.gov.uk/def/concept-scheme/flow-directions
-SITC Section,Standard International Trade Classification,Dimension,http://statistics.data.gov.uk/def/concept-scheme/sitc-sections
+Flow,Direction in which trade is measured,Dimension,http://gss-data.org.uk/def/concept-scheme/flow-directions
+SITC Section,Standard International Trade Classification,Dimension,http://gss-data.org.uk/def/concept-scheme/sitc-sections
 GBP Total,Total in British Pounds Sterling,Measure,
 Net Mass,Net Mass explain me better,Measure,

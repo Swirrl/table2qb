@@ -28,8 +28,8 @@
       "name": "codes_used",
       "virtual": true,
       "propertyUrl": "http://publishmydata.com/def/qb/codesUsed",
-      "valueUrl": "http://statistics.data.gov.uk/data/regional-trade/codes-used/{component_slug}"
+      "valueUrl": "http://gss-data.org.uk/data/regional-trade/codes-used/{component_slug}"
     }],
-    "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade/component/{component_slug}"
+    "aboutUrl": "http://gss-data.org.uk/data/regional-trade/component/{component_slug}"
   }
 }

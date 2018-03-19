@@ -1,6 +1,6 @@
 .~lock*
 .directory
-.lein-failures
+.lein*
 target/
 tmp/
 .nrepl-port

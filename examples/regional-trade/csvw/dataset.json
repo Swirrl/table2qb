@@ -1,6 +1,6 @@
 {
   "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
-  "@id": "http://statistics.data.gov.uk/data/regional-trade",
+  "@id": "http://gss-data.org.uk/data/regional-trade",
   "url": "regional-trade.slugged.normalised.csv",
   "dc:title": "Regional Trade",
   "tableSchema": {
@@ -17,8 +17,8 @@
 	"name": "structure",
 	"virtual": true,
 	"propertyUrl": "qb:structure",
-	"valueUrl": "http://statistics.data.gov.uk/data/regional-trade/structure"
+	"valueUrl": "http://gss-data.org.uk/data/regional-trade/structure"
       }],
-    "aboutUrl": "http://statistics.data.gov.uk/data/regional-trade"
+    "aboutUrl": "http://gss-data.org.uk/data/regional-trade"
   }
 }

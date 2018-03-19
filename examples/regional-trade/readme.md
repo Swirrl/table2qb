@@ -17,13 +17,7 @@ The [csvw](./csvw) folder contains the outputs from table2qb and the [ttl](./ttl
 
 ## Running the example
 
-AT the moment, it uses csv2rdf in ruby, so you need to install some gems:
-
-```shell
-gem install rdf rdf-tabular linkeddata
-``` 
-
-You can get the demo working from the repl:
+You can get the demo working with a repl:
 
 ```shell
 $ lein repl

@@ -40,7 +40,7 @@
                 :description "Direction in which trade is measured"
                 :component_type "qb:DimensionProperty"
                 :component_type_slug "dimension"
-                :codelist "http://gss-data.org.uk/def/concept-scheme/flow-directions"
+                :codelist (str domain-def "concept-scheme/flow-directions")
                 :property_slug "flow"
                 :class_slug "Flow"
                 :parent_property nil)))

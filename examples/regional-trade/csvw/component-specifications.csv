@@ -6,4 +6,4 @@ geography,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refArea
 measure_type,qb:dimension,http://purl.org/linked-data/cube#measureType
 net_mass,qb:measure,http://gss-data.org.uk/def/measure/net-mass
 sitc_section,qb:dimension,http://gss-data.org.uk/def/dimension/sitc-section
-unit,qb:dimension,http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure
+unit,qb:attribute,http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure

@@ -45,14 +45,18 @@
 (defn write-json [writer data]
   (json/write data writer))
 
+
 ;; Conventions
+
+(defn blank->nil [value]
+  (if (= "" value) nil value))
 
 ;; Creates lookup of columns (from a csv) for an name (in the component_slug field)
 (def name->component ;; TODO: defonce me
   (with-open [rdr (-> "columns.csv" io/resource io/reader)]
     (let [columns (read-csv rdr)]
       (zipmap (map (comp keyword :name) columns)
-              columns))))
+              (map (partial reduce-kv (fn [m k v] (assoc m k (blank->nil v))) {}) columns)))))
 
 (def title->name-lookup
   (zipmap (map :title (vals name->component))
@@ -61,9 +65,16 @@
 (defn title->name [title]
   (title->name-lookup title (keyword title)))
 
-(def is-dimension? #{:geography :date :sitc_section :flow :measure_type}) ;; TODO: specify in components.csv?
-(def is-attribute? #{:unit})
+(defn identify-columns [conventions-map attachment]
+  "Returns a predicate (set) of column names where the :component_attachment property is as specified"
+  (reduce-kv (fn [s name {:keys [component_attachment]}]
+               (if (= component_attachment attachment)
+                 (conj s name)
+                 s)) #{} conventions-map))
 
+(def is-dimension? (identify-columns name->component "qb:dimension"))
+(def is-attribute? (identify-columns name->component "qb:attribute"))
+(def is-value? (identify-columns name->component nil)) ;; if it's not attached as a component then it must be a value
 
 ;; Identifying Components
 
@@ -78,20 +89,18 @@
       ([result input] (xf result input)))))
 
 (def dimensions
-  (comp (headers-matching is-dimension?)
-        ;;(append :measure_type)
-        ))
+  (headers-matching is-dimension?))
 
 (def attributes
   (headers-matching is-attribute?))
 
-(def standardise-measure {"GBP Total" :gbp_total, "Net Mass", :net_mass})
+(def values
+  (headers-matching is-value?))
 
 (def measures
-  (comp (map :measure_type)
+  (comp (map :measure_type) ;; TODO - what if no measure_type is provided?
         (distinct)
-        (map standardise-measure) ;; replace with title->name?
-))
+        (map title->name)))
 
 (def identify-components
   (x/multiplex [dimensions attributes measures]))
@@ -185,23 +194,34 @@
 (defn replace-symbols [s]
   (st/replace s #"£" "GBP"))
 
-(defn slugise-columns [row]
-  (-> row
-      (update :measure_type gecu/slugize)
-      (update :unit (comp gecu/slugize replace-symbols))
-      (update :sitc_section gecu/slugize) ;; TODO: generalise me
-      (update :flow gecu/slugize)))
+ ;; TODO resolve on the basis of other component attributes? https://github.com/Swirrl/table2qb/issues/18
+(def resolve-transformer
+  {"slugize" gecu/slugize
+   "unitize" (comp gecu/slugize replace-symbols)})
+
+(defn identify-transformers [row]
+  "Returns a map from column name to transformation function (where provided)"
+  (let [columns (keys row)
+        name->transformer (comp resolve-transformer :value_transformation name->component)
+        transform-map (zipmap columns (map name->transformer columns))]
+    (select-keys transform-map
+                 (for [[k v] transform-map :when (not (nil? v))] k)))) ;; remove columns that have no transform
+
+(defn transform-columns [row]
+  "Prepares cells for inclusion in URL templates, typically by slugizing"
+  (let [transformations (identify-transformers row)]
+    (reduce (fn [row [col f]] (update row col f)) row transformations)))
 
 (defn observations [reader]
   (let [data (read-csv reader title->name)]
-    (sequence (map slugise-columns) data)))
+    (sequence (map transform-columns) data)))
 
 (defn component->column [{:keys [name title property_template value_template datatype]}]
   (merge {"name" name
           "titles" name ;; could revert to title here (would need to do so in all output csv too)
           "datatype" datatype
           "propertyUrl" property_template}
-         (when (not (= "" value_template)) {"valueUrl" value_template})))
+         (when (not (nil? value_template)) {"valueUrl" value_template})))
 
 (defn dataset-link [dataset-slug]
   (let [ds-uri (str domain-data dataset-slug)]
@@ -215,9 +235,6 @@
    "virtual" true,
    "propertyUrl" "rdf:type",
    "valueUrl" "qb:Observation"})
-
-(def values
-  (headers-matching #{:value}))
 
 (defn observation-template [dataset-slug components]
   (let [uri-parts (->> components
@@ -278,7 +295,7 @@
       "aboutUrl" codelist-uri}}))
 
 (defn suppress-value [row]
-  (if (= "value" (get row "name"))
+  (if (= "value" (get row "name")) ;; TODO: should this be configurable/ a convention?
     (assoc row "suppressOutput" true)
     row))
 
@@ -515,4 +532,11 @@
 
 ;;(serialise-demo)
 
+(defn serialise-ots []
+  (components-pipeline "./examples/overseas-trade/csv/components.csv" "./examples/overseas-trade/csvw")
+  ;;(csv2rdf "./examples/overseas-trade/csvw" "./examples/overseas-trade/ttl" "components")
+
+  (data-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "./examples/overseas-trade/csvw"
+                 "Overseas Trade" "overseas-trade")
+  )
 

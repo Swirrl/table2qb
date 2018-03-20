@@ -238,8 +238,7 @@
 
 (defn observation-template [dataset-slug components]
   (let [uri-parts (->> components
-                       (sort-by #(get {"geography" -2 "date" -1 "measure_type" 1 "unit" 2} % 0)) ;; TODO - extract conventions
-                       (remove #{"value"})
+                       (remove #(is-value? (keyword %)))
                        (map #(str "/{" % "}")))]
     (str domain-data
          dataset-slug
@@ -257,9 +256,10 @@
 
 (defn observations-metadata [reader csv-url dataset-slug]
   (let [data (read-csv reader title->name)
-        components (sequence (comp (x/multiplex [dimensions attributes values])
-                                   (map name->component)) data)
         column-order (->> data first keys (map unkeyword) target-order)
+        components (sequence (comp (x/multiplex [dimensions attributes values])
+                                   (map name->component)
+                                   (x/sort-by #(column-order (get % :name)))) data)
         columns (into [] (comp (map component->column)
                                (append (dataset-link dataset-slug))
                                (append observation-type)) components)

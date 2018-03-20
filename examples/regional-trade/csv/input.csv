@@ -1,45 +1,45 @@
-Geography,Date,Measure Type,Unit,Value,SITC Section,Flow
-K02000001,2016,GBP Total,£ million,9448,0 Food and Live Animals,Export
-K02000001,2016,GBP Total,£ million,4965,1 Beverages and Tobacco,Export
-K02000001,2016,GBP Total,£ million,4175,2 Crude Materials,Export
-K02000001,2016,GBP Total,£ million,13627,3 Mineral Fuels,Export
-K02000001,2016,GBP Total,£ million,313,4 Animal and Vegetable Oils,Export
-K02000001,2016,GBP Total,£ million,38787,5 Chemicals,Export
-K02000001,2016,GBP Total,£ million,19329,6 Manufactured Goods,Export
-K02000001,2016,GBP Total,£ million,86417,7 Machinery and Transport,Export
-K02000001,2016,GBP Total,£ million,30239,8 Miscellaneous Manufactures,Export
-K02000001,2016,GBP Total,£ million,3720,9 Other commodities nes,Export
-K02000001,2016,GBP Total,£ million,211020,Total,Export
-K02000001,2016,GBP Total,£ million,25851,0 Food and Live Animals,Import
-K02000001,2016,GBP Total,£ million,4074,1 Beverages and Tobacco,Import
-K02000001,2016,GBP Total,£ million,6780,2 Crude Materials,Import
-K02000001,2016,GBP Total,£ million,19767,3 Mineral Fuels,Import
-K02000001,2016,GBP Total,£ million,846,4 Animal and Vegetable Oils,Import
-K02000001,2016,GBP Total,£ million,39963,5 Chemicals,Import
-K02000001,2016,GBP Total,£ million,33404,6 Manufactured Goods,Import
-K02000001,2016,GBP Total,£ million,125667,7 Machinery and Transport,Import
-K02000001,2016,GBP Total,£ million,49584,8 Miscellaneous Manufactures,Import
-K02000001,2016,GBP Total,£ million,4610,9 Other commodities nes,Import
-K02000001,2016,GBP Total,£ million,310545,Total,Import
-K02000001,2016,Net Mass,Tonnes,12746731,0 Food and Live Animals,Export
-K02000001,2016,Net Mass,Tonnes,2563079,1 Beverages and Tobacco,Export
-K02000001,2016,Net Mass,Tonnes,26314803,2 Crude Materials,Export
-K02000001,2016,Net Mass,Tonnes,75663143,3 Mineral Fuels,Export
-K02000001,2016,Net Mass,Tonnes,521015,4 Animal and Vegetable Oils,Export
-K02000001,2016,Net Mass,Tonnes,14512235,5 Chemicals,Export
-K02000001,2016,Net Mass,Tonnes,11201595,6 Manufactured Goods,Export
-K02000001,2016,Net Mass,Tonnes,7528699,7 Machinery and Transport,Export
-K02000001,2016,Net Mass,Tonnes,2406032,8 Miscellaneous Manufactures,Export
-K02000001,2016,Net Mass,Tonnes,1015270,9 Other commodities nes,Export
-K02000001,2016,Net Mass,Tonnes,154472602,Total,Export
-K02000001,2016,Net Mass,Tonnes,32089696,0 Food and Live Animals,Import
-K02000001,2016,Net Mass,Tonnes,4937080,1 Beverages and Tobacco,Import
-K02000001,2016,Net Mass,Tonnes,36061352,2 Crude Materials,Import
-K02000001,2016,Net Mass,Tonnes,127324727,3 Mineral Fuels,Import
-K02000001,2016,Net Mass,Tonnes,1394572,4 Animal and Vegetable Oils,Import
-K02000001,2016,Net Mass,Tonnes,21672646,5 Chemicals,Import
-K02000001,2016,Net Mass,Tonnes,33580945,6 Manufactured Goods,Import
-K02000001,2016,Net Mass,Tonnes,13384045,7 Machinery and Transport,Import
-K02000001,2016,Net Mass,Tonnes,9077073,8 Miscellaneous Manufactures,Import
-K02000001,2016,Net Mass,Tonnes,22587,9 Other commodities nes,Import
-K02000001,2016,Net Mass,Tonnes,279544723,Total,Import
+Geography,Date,SITC Section,Flow,Measure Type,Unit,Value
+K02000001,2016,0 Food and Live Animals,Export,GBP Total,£ million,9448
+K02000001,2016,1 Beverages and Tobacco,Export,GBP Total,£ million,4965
+K02000001,2016,2 Crude Materials,Export,GBP Total,£ million,4175
+K02000001,2016,3 Mineral Fuels,Export,GBP Total,£ million,13627
+K02000001,2016,4 Animal and Vegetable Oils,Export,GBP Total,£ million,313
+K02000001,2016,5 Chemicals,Export,GBP Total,£ million,38787
+K02000001,2016,6 Manufactured Goods,Export,GBP Total,£ million,19329
+K02000001,2016,7 Machinery and Transport,Export,GBP Total,£ million,86417
+K02000001,2016,8 Miscellaneous Manufactures,Export,GBP Total,£ million,30239
+K02000001,2016,9 Other commodities nes,Export,GBP Total,£ million,3720
+K02000001,2016,Total,Export,GBP Total,£ million,211020
+K02000001,2016,0 Food and Live Animals,Import,GBP Total,£ million,25851
+K02000001,2016,1 Beverages and Tobacco,Import,GBP Total,£ million,4074
+K02000001,2016,2 Crude Materials,Import,GBP Total,£ million,6780
+K02000001,2016,3 Mineral Fuels,Import,GBP Total,£ million,19767
+K02000001,2016,4 Animal and Vegetable Oils,Import,GBP Total,£ million,846
+K02000001,2016,5 Chemicals,Import,GBP Total,£ million,39963
+K02000001,2016,6 Manufactured Goods,Import,GBP Total,£ million,33404
+K02000001,2016,7 Machinery and Transport,Import,GBP Total,£ million,125667
+K02000001,2016,8 Miscellaneous Manufactures,Import,GBP Total,£ million,49584
+K02000001,2016,9 Other commodities nes,Import,GBP Total,£ million,4610
+K02000001,2016,Total,Import,GBP Total,£ million,310545
+K02000001,2016,0 Food and Live Animals,Export,Net Mass,Tonnes,12746731
+K02000001,2016,1 Beverages and Tobacco,Export,Net Mass,Tonnes,2563079
+K02000001,2016,2 Crude Materials,Export,Net Mass,Tonnes,26314803
+K02000001,2016,3 Mineral Fuels,Export,Net Mass,Tonnes,75663143
+K02000001,2016,4 Animal and Vegetable Oils,Export,Net Mass,Tonnes,521015
+K02000001,2016,5 Chemicals,Export,Net Mass,Tonnes,14512235
+K02000001,2016,6 Manufactured Goods,Export,Net Mass,Tonnes,11201595
+K02000001,2016,7 Machinery and Transport,Export,Net Mass,Tonnes,7528699
+K02000001,2016,8 Miscellaneous Manufactures,Export,Net Mass,Tonnes,2406032
+K02000001,2016,9 Other commodities nes,Export,Net Mass,Tonnes,1015270
+K02000001,2016,Total,Export,Net Mass,Tonnes,154472602
+K02000001,2016,0 Food and Live Animals,Import,Net Mass,Tonnes,32089696
+K02000001,2016,1 Beverages and Tobacco,Import,Net Mass,Tonnes,4937080
+K02000001,2016,2 Crude Materials,Import,Net Mass,Tonnes,36061352
+K02000001,2016,3 Mineral Fuels,Import,Net Mass,Tonnes,127324727
+K02000001,2016,4 Animal and Vegetable Oils,Import,Net Mass,Tonnes,1394572
+K02000001,2016,5 Chemicals,Import,Net Mass,Tonnes,21672646
+K02000001,2016,6 Manufactured Goods,Import,Net Mass,Tonnes,33580945
+K02000001,2016,7 Machinery and Transport,Import,Net Mass,Tonnes,13384045
+K02000001,2016,8 Miscellaneous Manufactures,Import,Net Mass,Tonnes,9077073
+K02000001,2016,9 Other commodities nes,Import,Net Mass,Tonnes,22587
+K02000001,2016,Total,Import,Net Mass,Tonnes,279544723

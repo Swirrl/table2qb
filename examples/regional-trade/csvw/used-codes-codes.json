@@ -15,6 +15,18 @@
       "propertyUrl": "skos:member",
       "valueUrl": "http://reference.data.gov.uk/id/year/{date}"
     },{
+      "name": "sitc_section",
+      "titles": "sitc_section",
+      "datatype": "string",
+      "propertyUrl": "skos:member",
+      "valueUrl": "http://gss-data.org.uk/def/concept/sitc-sections/{sitc_section}"
+    },{
+      "name": "flow",
+      "titles": "flow",
+      "datatype": "string",
+      "propertyUrl": "skos:member",
+      "valueUrl": "http://gss-data.org.uk/def/concept/flow-directions/{flow}"
+    },{
       "name": "measure_type",
       "titles": "measure_type",
       "datatype": "string",
@@ -32,18 +44,6 @@
       "datatype": "number",
       "propertyUrl": "skos:member",
       "suppressOutput": true
-    },{
-      "name": "sitc_section",
-      "titles": "sitc_section",
-      "datatype": "string",
-      "propertyUrl": "skos:member",
-      "valueUrl": "http://gss-data.org.uk/def/concept/sitc-sections/{sitc_section}"
-    },{
-      "name": "flow",
-      "titles": "flow",
-      "datatype": "string",
-      "propertyUrl": "skos:member",
-      "valueUrl": "http://gss-data.org.uk/def/concept/flow-directions/{flow}"
     }],
     "aboutUrl": "http://gss-data.org.uk/data/regional-trade/codes-used/{_name}"
   }

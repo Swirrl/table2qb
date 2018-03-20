@@ -481,37 +481,37 @@
 
 ;; CSV2RDF
 
-(defn rdf-serialize [output-dir resource]
+(defn rdf-serialize [input-dir output-dir resource]
   ["rdf" "serialize"
-   "--input-format" "tabular" (str output-dir "/" resource ".json")
+   "--input-format" "tabular" (str input-dir "/" resource ".json")
    "--output-format" "ttl" ">" (str output-dir "/" resource ".ttl")])
 
-(defn csv2rdf [output-dir resource]
+(defn csv2rdf [input-dir output-dir resource]
   (println (str "converting: " resource))
-  (println (sh "sh" "-c" (st/join " " (rdf-serialize output-dir resource)))))
+  (println (sh "sh" "-c" (st/join " " (rdf-serialize input-dir output-dir resource)))))
 
-(defn csv2rdf-qb [output-dir]
+(defn csv2rdf-qb [input-dir output-dir]
   (for [resource ["component-specifications"
                   "dataset"
                   "data-structure-definition"
                   "observations"
                   "used-codes-codelists"
                   "used-codes-codes"]]
-    (csv2rdf output-dir resource)))
+    (csv2rdf input-dir output-dir resource)))
 
 (defn serialise-demo []
   (components-pipeline "./examples/regional-trade/csv/components.csv" "./tmp")
-  (csv2rdf "./tmp" "components")
+  (csv2rdf "./tmp" "./tmp" "components")
 
   (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv" "./tmp" "Flow Directions" "flow-directions")
-  (csv2rdf "./tmp" "flow-directions")
+  (csv2rdf "./tmp" "./tmp" "flow-directions")
   (codelist-pipeline "./examples/regional-trade/csv/sitc-sections.csv" "./tmp" "SITC Sections" "sitc-sections")
-  (csv2rdf "./tmp" "sitc-sections")
+  (csv2rdf "./tmp" "./tmp" "sitc-sections")
   (codelist-pipeline "./examples/regional-trade/csv/units.csv" "./tmp" "Measurement Units" "measurement-units")
-  (csv2rdf "./tmp" "measurement-units")
+  (csv2rdf "./tmp" "./tmp" "measurement-units")
 
   (data-pipeline "./examples/regional-trade/csv/input.csv" "./tmp" "Regional Trade" "regional-trade")
-  (csv2rdf-qb "./tmp"))
+  (csv2rdf-qb "./tmp" "./tmp"))
 
 ;;(serialise-demo)
 

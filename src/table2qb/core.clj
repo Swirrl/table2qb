@@ -295,7 +295,7 @@
       "aboutUrl" codelist-uri}}))
 
 (defn suppress-value [row]
-  (if (= "value" (get row "name")) ;; TODO: should this be configurable/ a convention?
+  (if (is-value? (keyword (get row "name")))
     (assoc row "suppressOutput" true)
     row))
 

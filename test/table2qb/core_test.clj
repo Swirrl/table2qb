@@ -205,6 +205,4 @@
                                               "regional-trade.slugged.csv"
                                               "regional-trade")))))
 
-;; TODO: extract all config to columns.csv (no hard-coded stuff in here)
 ;; TODO: Need to label components and their codelists
-;; TODO: slugizers vs code-specifier vs curie

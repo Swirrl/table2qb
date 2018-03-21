@@ -15,7 +15,7 @@
       "name": "description",
       "titles": "description",
       "datatype": "string",
-      "propertyUrl": "dct:description"
+      "propertyUrl": "dc:description"
     },{
       "name": "component_type",
       "titles": "component_type",

@@ -1,0 +1,3 @@
+label,description,component_type,codelist,notation,component_type_slug,property_slug,class_slug,parent_property
+Commodity,The commodity of good being traded,qb:DimensionProperty,https://trade.ec.europa.eu/def/cn#CN_2015,commodity,dimension,commodity,Commodity,
+Foreign Country,The foreign country i.e. the destination of exports or source of imports.,qb:DimensionProperty,http://vocab.getty.edu/tgn,foreign-country,dimension,foreignCountry,ForeignCountry,

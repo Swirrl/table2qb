@@ -8,3 +8,6 @@ Flow,flow,qb:dimension,http://gss-data.org.uk/def/dimension/flow,http://gss-data
 GBP Total,gbp_total,qb:measure,http://gss-data.org.uk/def/measure/gbp-total,,string,
 Net Mass,net_mass,qb:measure,http://gss-data.org.uk/def/measure/net-mass,,string,
 Value,value,,http://gss-data.org.uk/def/measure/{measure_type},,number,
+Year,year,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refPeriod,http://reference.data.gov.uk/id/year/{year},string,
+Commodity,commodity,qb:dimension,http://gss-data.org.uk/def/dimension/commodity,https://trade.ec.europa.eu/def/cn#cn8_{commodity},string,
+Foreign Country,foreign_country,qb:dimension,http://gss-data.org.uk/def/dimension/foreign-country,http://gss-data.org.uk/def/concept/countries/{foreign_country},string,slugize

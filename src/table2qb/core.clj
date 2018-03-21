@@ -354,7 +354,7 @@
        {"name" "description",
         "titles" "description",
         "datatype" "string",
-        "propertyUrl" "dct:description"}
+        "propertyUrl" "dc:description"}
        {"name" "component_type",
         "titles" "component_type",
         "propertyUrl" "rdf:type",
@@ -530,13 +530,15 @@
   (data-pipeline "./examples/regional-trade/csv/input.csv" "./tmp" "Regional Trade" "regional-trade")
   (csv2rdf-qb "./tmp" "./tmp"))
 
-;;(serialise-demo)
 
 (defn serialise-ots []
   (components-pipeline "./examples/overseas-trade/csv/components.csv" "./examples/overseas-trade/csvw")
-  ;;(csv2rdf "./examples/overseas-trade/csvw" "./examples/overseas-trade/ttl" "components")
+  (csv2rdf "./examples/overseas-trade/csvw" "./examples/overseas-trade/ttl" "components")
+
+  (codelist-pipeline "./examples/overseas-trade/csv/countries.csv" "./examples/overseas-trade/csvw" "Countries" "countries")
+  (csv2rdf "./examples/overseas-trade/csvw" "./examples/overseas-trade/ttl" "countries")
 
   (data-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "./examples/overseas-trade/csvw"
-                 "Overseas Trade" "overseas-trade")
-  )
+                 "Overseas Trade Sample" "overseas-trade-sample")
+  (csv2rdf-qb "./examples/overseas-trade/csvw" "./examples/overseas-trade/ttl"))
 

@@ -1,0 +1,78 @@
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity> a skos:ConceptScheme .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow> a skos:ConceptScheme .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country> a skos:ConceptScheme .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/codes-used/gbp_total> a skos:ConceptScheme .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type> a skos:ConceptScheme .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit> a skos:ConceptScheme .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year> a skos:ConceptScheme .
+
+ [
+     a csvw:TableGroup;
+     csvw:table [
+       a csvw:Table;
+       csvw:row [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/gbp_total>;
+         csvw:rownum 7;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/component-specifications.csv#row=8>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>;
+         csvw:rownum 4;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/component-specifications.csv#row=5>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>;
+         csvw:rownum 2;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/component-specifications.csv#row=3>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>;
+         csvw:rownum 3;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/component-specifications.csv#row=4>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 1;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/component-specifications.csv#row=2>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>;
+         csvw:rownum 5;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/component-specifications.csv#row=6>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>;
+         csvw:rownum 6;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/component-specifications.csv#row=7>
+       ];
+       csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/component-specifications.csv>
+     ];
+     prov:wasGeneratedBy [
+       a prov:Activity;
+       prov:endedAtTime "2018-03-21T15:51:38+01:00"^^xsd:dateTime;
+       prov:qualifiedUsage [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/component-specifications.csv>;
+         prov:hadRole csvw:csvEncodedTabularData
+       ],  [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/used-codes-codelists.json>;
+         prov:hadRole csvw:tabularMetadata
+       ];
+       prov:startedAtTime "2018-03-21T15:51:35+01:00"^^xsd:dateTime;
+       prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
+     ]
+ ] .

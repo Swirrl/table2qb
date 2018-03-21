@@ -1,0 +1,63 @@
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://gss-data.org.uk/def/dimension/commodity> a <http://purl.org/linked-data/cube#DimensionProperty>,
+     rdf:Property;
+   rdfs:label "Commodity";
+   dc:description "The commodity of good being traded";
+   <http://purl.org/linked-data/cube#codeList> <https://trade.ec.europa.eu/def/cn#CN_2015>;
+   rdfs:isDefinedBy <http://gss-data.org.uk/def/ontology/components>;
+   rdfs:range <http://gss-data.org.uk/def/Commodity>;
+   skos:notation "commodity" .
+
+<http://gss-data.org.uk/def/dimension/foreign-country> a <http://purl.org/linked-data/cube#DimensionProperty>,
+     rdf:Property;
+   rdfs:label "Foreign Country";
+   dc:description "The foreign country i.e. the destination of exports or source of imports.";
+   <http://purl.org/linked-data/cube#codeList> <http://vocab.getty.edu/tgn>;
+   rdfs:isDefinedBy <http://gss-data.org.uk/def/ontology/components>;
+   rdfs:range <http://gss-data.org.uk/def/ForeignCountry>;
+   skos:notation "foreign-country" .
+
+<http://gss-data.org.uk/def/ontology/components> a owl:Ontology,
+     csvw:Table;
+   rdfs:label "Components Ontology"@en;
+   dc:title "Components Ontology"@en;
+   csvw:row [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/dimension/foreign-country>;
+     csvw:rownum 2;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/components.csv#row=3>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/dimension/commodity>;
+     csvw:rownum 1;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/components.csv#row=2>
+   ];
+   csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/components.csv> .
+
+ [
+     a csvw:TableGroup;
+     csvw:table <http://gss-data.org.uk/def/ontology/components>;
+     prov:wasGeneratedBy [
+       a prov:Activity;
+       prov:endedAtTime "2018-03-21T14:55:01+01:00"^^xsd:dateTime;
+       prov:qualifiedUsage [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/components.json>;
+         prov:hadRole csvw:tabularMetadata
+       ],  [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/components.csv>;
+         prov:hadRole csvw:csvEncodedTabularData
+       ];
+       prov:startedAtTime "2018-03-21T14:54:58+01:00"^^xsd:dateTime;
+       prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
+     ]
+ ] .

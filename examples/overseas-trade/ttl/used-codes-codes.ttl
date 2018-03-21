@@ -1,0 +1,278 @@
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity> skos:member <https://trade.ec.europa.eu/def/cn#cn8_95062900>,
+     <https://trade.ec.europa.eu/def/cn#cn8_21039090>,
+     <https://trade.ec.europa.eu/def/cn#cn8_85049018>,
+     <https://trade.ec.europa.eu/def/cn#cn8_96061000>,
+     <https://trade.ec.europa.eu/def/cn#cn8_62046239>,
+     <https://trade.ec.europa.eu/def/cn#cn8_42050011>,
+     <https://trade.ec.europa.eu/def/cn#cn8_83014019>,
+     <https://trade.ec.europa.eu/def/cn#cn8_84423099>,
+     <https://trade.ec.europa.eu/def/cn#cn8_73081000>,
+     <https://trade.ec.europa.eu/def/cn#cn8_22071000>,
+     <https://trade.ec.europa.eu/def/cn#cn8_71104100>,
+     <https://trade.ec.europa.eu/def/cn#cn8_73269060>,
+     <https://trade.ec.europa.eu/def/cn#cn8_90011090>,
+     <https://trade.ec.europa.eu/def/cn#cn8_28399000>,
+     <https://trade.ec.europa.eu/def/cn#cn8_38231100>,
+     <https://trade.ec.europa.eu/def/cn#cn8_8043000>,
+     <https://trade.ec.europa.eu/def/cn#cn8_48211010>,
+     <https://trade.ec.europa.eu/def/cn#cn8_22042122>,
+     <https://trade.ec.europa.eu/def/cn#cn8_84869090>,
+     <https://trade.ec.europa.eu/def/cn#cn8_32139000> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow> skos:member <http://gss-data.org.uk/def/concept/flow-directions/import>,
+     <http://gss-data.org.uk/def/concept/flow-directions/export> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country> skos:member <http://gss-data.org.uk/def/concept/countries/chile>,
+     <http://gss-data.org.uk/def/concept/countries/panama>,
+     <http://gss-data.org.uk/def/concept/countries/australia>,
+     <http://gss-data.org.uk/def/concept/countries/french-polynesia>,
+     <http://gss-data.org.uk/def/concept/countries/russia>,
+     <http://gss-data.org.uk/def/concept/countries/norway>,
+     <http://gss-data.org.uk/def/concept/countries/israel>,
+     <http://gss-data.org.uk/def/concept/countries/ghana>,
+     <http://gss-data.org.uk/def/concept/countries/hong-kong>,
+     <http://gss-data.org.uk/def/concept/countries/turkey>,
+     <http://gss-data.org.uk/def/concept/countries/singapore>,
+     <http://gss-data.org.uk/def/concept/countries/falkland-islands>,
+     <http://gss-data.org.uk/def/concept/countries/iran>,
+     <http://gss-data.org.uk/def/concept/countries/south-africa>,
+     <http://gss-data.org.uk/def/concept/countries/uruguay>,
+     <http://gss-data.org.uk/def/concept/countries/st-vincent>,
+     <http://gss-data.org.uk/def/concept/countries/thailand> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type> skos:member <http://gss-data.org.uk/def/measure/gbp-total> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit> skos:member <http://gss-data.org.uk/def/concept/measurement-units/gbp-million> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year> skos:member <http://reference.data.gov.uk/id/year/2013>,
+     <http://reference.data.gov.uk/id/year/2012> .
+
+ [
+     a csvw:TableGroup;
+     csvw:table [
+       a csvw:Table;
+       csvw:row [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 11;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=12>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 2;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=3>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 20;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=21>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 17;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=18>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 9;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=10>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 5;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=6>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 19;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=20>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 7;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=8>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 14;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=15>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 1;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=2>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 15;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=16>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 3;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=4>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 16;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=17>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 6;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=7>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 12;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=13>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 10;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=11>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 18;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=19>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 8;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=9>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 4;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=5>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/flow>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/foreign_country>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/commodity>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/unit>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/measure_type>,
+           <http://gss-data.org.uk/data/overseas-trade-sample/codes-used/year>;
+         csvw:rownum 13;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=14>
+       ];
+       csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv>
+     ];
+     prov:wasGeneratedBy [
+       a prov:Activity;
+       prov:endedAtTime "2018-03-21T15:51:42+01:00"^^xsd:dateTime;
+       prov:qualifiedUsage [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv>;
+         prov:hadRole csvw:csvEncodedTabularData
+       ],  [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/used-codes-codes.json>;
+         prov:hadRole csvw:tabularMetadata
+       ];
+       prov:startedAtTime "2018-03-21T15:51:39+01:00"^^xsd:dateTime;
+       prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
+     ]
+ ] .

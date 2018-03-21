@@ -1,0 +1,8 @@
+component_slug,component_attachment,component_property
+year,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refPeriod
+flow,qb:dimension,http://gss-data.org.uk/def/dimension/flow
+commodity,qb:dimension,http://gss-data.org.uk/def/dimension/commodity
+foreign_country,qb:dimension,http://gss-data.org.uk/def/dimension/foreign-country
+measure_type,qb:dimension,http://purl.org/linked-data/cube#measureType
+unit,qb:attribute,http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure
+gbp_total,qb:measure,http://gss-data.org.uk/def/measure/gbp-total

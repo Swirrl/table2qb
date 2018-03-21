@@ -1,0 +1,328 @@
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2012/export/21039090/st-vincent/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_21039090>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/st-vincent>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 5.483e3;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2012> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2012/export/28399000/singapore/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_28399000>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/singapore>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 3.5275e4;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2012> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2012/export/42050011/ghana/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_42050011>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/ghana>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 1.709e3;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2012> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2012/export/71104100/south-africa/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_71104100>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/south-africa>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 1.09721e5;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2012> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2012/export/73081000/turkey/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_73081000>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/turkey>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 1.086e3;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2012> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2012/export/85049018/israel/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_85049018>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/israel>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 1.3205e4;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2012> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2012/export/90011090/chile/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_90011090>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/chile>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 3.752e3;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2012> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2012/export/95062900/uruguay/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_95062900>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/uruguay>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 3.082e3;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2012> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2012/export/96061000/russia/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_96061000>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/russia>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 1.9873e4;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2012> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2012/import/73269060/hong-kong/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_73269060>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/import>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/hong-kong>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 2.414e3;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2012> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2013/export/22042122/falkland-islands/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_22042122>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/falkland-islands>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 1.299e3;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2013> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2013/export/22071000/israel/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_22071000>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/israel>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 8.5557e4;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2013> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2013/export/48211010/french-polynesia/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_48211010>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/french-polynesia>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 3.369e3;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2013> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2013/export/62046239/iran/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_62046239>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/iran>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 2.158e3;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2013> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2013/export/8043000/norway/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_8043000>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/norway>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 1.628e3;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2013> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2013/export/84869090/singapore/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_84869090>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/export>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/singapore>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 7.3197e5;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2013> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2013/import/32139000/australia/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_32139000>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/import>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/australia>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 3.4068e4;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2013> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2013/import/38231100/australia/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_38231100>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/import>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/australia>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 2.831e3;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2013> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2013/import/83014019/panama/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_83014019>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/import>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/panama>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 1.613e3;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2013> .
+
+<http://gss-data.org.uk/data/overseas-trade-sample/2013/import/84423099/thailand/gbp-total/gbp-million> a <http://purl.org/linked-data/cube#Observation>;
+   <http://gss-data.org.uk/def/dimension/commodity> <https://trade.ec.europa.eu/def/cn#cn8_84423099>;
+   <http://gss-data.org.uk/def/dimension/flow> <http://gss-data.org.uk/def/concept/flow-directions/import>;
+   <http://gss-data.org.uk/def/dimension/foreign-country> <http://gss-data.org.uk/def/concept/countries/thailand>;
+   <http://gss-data.org.uk/def/measure/gbp-total> 5.134e3;
+   <http://purl.org/linked-data/cube#dataSet> <http://gss-data.org.uk/data/overseas-trade-sample>;
+   <http://purl.org/linked-data/cube#measureType> <http://gss-data.org.uk/def/measure/gbp-total>;
+   <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> <http://gss-data.org.uk/def/concept/measurement-units/gbp-million>;
+   <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> <http://reference.data.gov.uk/id/year/2013> .
+
+ [
+     a csvw:TableGroup;
+     csvw:table [
+       a csvw:Table;
+       csvw:row [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2012/export/95062900/uruguay/gbp-total/gbp-million>;
+         csvw:rownum 10;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=11>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2012/import/73269060/hong-kong/gbp-total/gbp-million>;
+         csvw:rownum 4;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=5>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2013/import/83014019/panama/gbp-total/gbp-million>;
+         csvw:rownum 18;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=19>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2012/export/96061000/russia/gbp-total/gbp-million>;
+         csvw:rownum 9;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=10>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2012/export/73081000/turkey/gbp-total/gbp-million>;
+         csvw:rownum 6;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=7>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2012/export/71104100/south-africa/gbp-total/gbp-million>;
+         csvw:rownum 5;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=6>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2013/export/22071000/israel/gbp-total/gbp-million>;
+         csvw:rownum 20;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=21>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2012/export/85049018/israel/gbp-total/gbp-million>;
+         csvw:rownum 3;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=4>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2013/export/62046239/iran/gbp-total/gbp-million>;
+         csvw:rownum 11;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=12>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2012/export/21039090/st-vincent/gbp-total/gbp-million>;
+         csvw:rownum 7;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=8>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2012/export/28399000/singapore/gbp-total/gbp-million>;
+         csvw:rownum 1;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=2>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2013/export/84869090/singapore/gbp-total/gbp-million>;
+         csvw:rownum 16;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=17>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2013/import/38231100/australia/gbp-total/gbp-million>;
+         csvw:rownum 17;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=18>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2013/export/48211010/french-polynesia/gbp-total/gbp-million>;
+         csvw:rownum 13;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=14>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2012/export/90011090/chile/gbp-total/gbp-million>;
+         csvw:rownum 8;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=9>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2013/import/84423099/thailand/gbp-total/gbp-million>;
+         csvw:rownum 12;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=13>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2013/export/22042122/falkland-islands/gbp-total/gbp-million>;
+         csvw:rownum 15;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=16>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2012/export/42050011/ghana/gbp-total/gbp-million>;
+         csvw:rownum 2;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=3>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2013/export/8043000/norway/gbp-total/gbp-million>;
+         csvw:rownum 14;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=15>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/overseas-trade-sample/2013/import/32139000/australia/gbp-total/gbp-million>;
+         csvw:rownum 19;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv#row=20>
+       ];
+       csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv>
+     ];
+     prov:wasGeneratedBy [
+       a prov:Activity;
+       prov:endedAtTime "2018-03-21T15:51:33+01:00"^^xsd:dateTime;
+       prov:qualifiedUsage [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.json>;
+         prov:hadRole csvw:tabularMetadata
+       ],  [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/observations.csv>;
+         prov:hadRole csvw:csvEncodedTabularData
+       ];
+       prov:startedAtTime "2018-03-21T15:51:31+01:00"^^xsd:dateTime;
+       prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
+     ]
+ ] .

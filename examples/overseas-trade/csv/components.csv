@@ -1,6 +1,3 @@
 Label,Description,Component Type,Codelist
-year,Year,Dimension,
-flow,Direction in which trade is measured,Dimension,http://gss-data.org.uk/def/concept-scheme/flow-directions
-comcode,Commodity,Dimension,https://trade.ec.europa.eu/def/cn
-country,Country,Dimension,http://vocab.getty.edu/tgn
-svalue,Value in pounds sterling,Measure,
+Commodity,The commodity of good being traded,Dimension,https://trade.ec.europa.eu/def/cn#CN_2015
+Foreign Country,The foreign country i.e. the destination of exports or source of imports.,Dimension,http://vocab.getty.edu/tgn

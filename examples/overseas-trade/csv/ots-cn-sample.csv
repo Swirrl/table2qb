@@ -1,21 +1,21 @@
-year,flow,comcode,country,Measure Type,Unit,svalue
-2012,e,28399000,Singapore,total,gbp,35275
-2012,e,42050011,Ghana,total,gbp,1709
-2012,e,85049018,Israel,total,gbp,13205
-2012,i,73269060,Hong Kong,total,gbp,2414
-2012,e,71104100,South Africa,total,gbp,109721
-2012,e,73081000,Turkey,total,gbp,1086
-2012,e,21039090,St Vincent,total,gbp,5483
-2012,e,90011090,Chile,total,gbp,3752
-2012,e,96061000,Russia,total,gbp,19873
-2012,e,95062900,Uruguay,total,gbp,3082
-2013,e,62046239,Iran,total,gbp,2158
-2013,i,84423099,Thailand,total,gbp,5134
-2013,e,48211010,French Polynesia,total,gbp,3369
-2013,e,8043000,Norway,total,gbp,1628
-2013,e,22042122,Falkland Islands,total,gbp,1299
-2013,e,84869090,Singapore,total,gbp,731970
-2013,i,38231100,Australia,total,gbp,2831
-2013,i,83014019,Panama,total,gbp,1613
-2013,i,32139000,Australia,total,gbp,34068
-2013,e,22071000,Israel,total,gbp,85557
+Year,Flow,Commodity,Foreign Country,Measure Type,Unit,Value
+2012,Export,28399000,Singapore,GBP Total,£ million,35275
+2012,Export,42050011,Ghana,GBP Total,£ million,1709
+2012,Export,85049018,Israel,GBP Total,£ million,13205
+2012,Import,73269060,Hong Kong,GBP Total,£ million,2414
+2012,Export,71104100,South Africa,GBP Total,£ million,109721
+2012,Export,73081000,Turkey,GBP Total,£ million,1086
+2012,Export,21039090,St Vincent,GBP Total,£ million,5483
+2012,Export,90011090,Chile,GBP Total,£ million,3752
+2012,Export,96061000,Russia,GBP Total,£ million,19873
+2012,Export,95062900,Uruguay,GBP Total,£ million,3082
+2013,Export,62046239,Iran,GBP Total,£ million,2158
+2013,Import,84423099,Thailand,GBP Total,£ million,5134
+2013,Export,48211010,French Polynesia,GBP Total,£ million,3369
+2013,Export,8043000,Norway,GBP Total,£ million,1628
+2013,Export,22042122,Falkland Islands,GBP Total,£ million,1299
+2013,Export,84869090,Singapore,GBP Total,£ million,731970
+2013,Import,38231100,Australia,GBP Total,£ million,2831
+2013,Import,83014019,Panama,GBP Total,£ million,1613
+2013,Import,32139000,Australia,GBP Total,£ million,34068
+2013,Export,22071000,Israel,GBP Total,£ million,85557

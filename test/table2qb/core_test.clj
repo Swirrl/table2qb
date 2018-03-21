@@ -23,6 +23,14 @@
   "Finds first item in collection with attribute having value"
   (first (filter #(= val (attr %)) coll)))
 
+(defmacro is-metadata-compatible [input-csv schema]
+  `(testing "column sequence matches"
+     (with-open [rdr# (io/reader ~input-csv)]
+       (let [csv-columns# (-> rdr# (read-csv title->name) first keys ((partial map unkeyword)))
+             meta-columns# (->> (get-in ~schema ["tableSchema" "columns"])
+                                (remove #(get % "virtual" false))
+                                (map #(get % "name")))]
+         (is (= csv-columns# meta-columns#))))))
 
 ;; Conventions
 
@@ -179,17 +187,23 @@
               (is (= 7 (count observation))))
             (testing "slugged columns"
               (are [expected actual] (= expected actual)
-                "total" (:measure_type observation)
-                "gbp" (:unit observation)
-                "28399000" (:comcode observation)
-                "e" (:flow observation))))))))
+                "gbp-total" (:measure_type observation)
+                "gbp-million" (:unit observation)
+                "28399000" (:commodity observation)
+                "export" (:flow observation))))))))
   (testing "observation metadata"
-    (with-open [input-reader (io/reader (example-csv "regional-trade" "input.csv"))
-                target-reader (io/reader (example-csvw "regional-trade" "observations.json"))]
-      (maps-match? (order-columns (read-json target-reader))
-                   (order-columns (observations-metadata input-reader
-                                                         "regional-trade.slugged.csv"
-                                                         "regional-trade"))))))
+    (testing "regional trade example"
+      (with-open [input-reader (io/reader (example-csv "regional-trade" "input.csv"))
+                  target-reader (io/reader (example-csvw "regional-trade" "observations.json"))]
+        (maps-match? (order-columns (read-json target-reader))
+                     (order-columns (observations-metadata input-reader
+                                                           "regional-trade.slugged.csv"
+                                                           "regional-trade")))))
+    (testing "overseas trade example"
+      (with-open [input-reader (io/reader (example-csv "overseas-trade" "ots-cn-sample.csv"))]
+        (let [obs-meta (observations-metadata input-reader "ignore-me.csv" "overseas-trade")]
+          (is-metadata-compatible (example-csv "overseas-trade" "ots-cn-sample.csv")
+                                  obs-meta))))))
 
 (deftest used-codes-test
   (testing "codelists metadata"

@@ -11,3 +11,6 @@ Value,value,,http://gss-data.org.uk/def/measure/{measure_type},,number,
 Year,year,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refPeriod,http://reference.data.gov.uk/id/year/{year},string,
 Commodity,commodity,qb:dimension,http://gss-data.org.uk/def/dimension/commodity,https://trade.ec.europa.eu/def/cn#cn8_{commodity},string,
 Foreign Country,foreign_country,qb:dimension,http://gss-data.org.uk/def/dimension/foreign-country,http://gss-data.org.uk/def/concept/countries/{foreign_country},string,slugize
+Period,period,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refPeriod,http://reference.data.gov.uk/id/{+period},string,
+Cdid,cdid,qb:attribute,http://gss-data.org.uk/def/attribute/cdid,,string,
+Services,services,qb:dimension,http://gss-data.org.uk/def/dimension/service,http://gss-data.org.uk/def/concept/services/{service},string,slugize

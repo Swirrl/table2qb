@@ -1,0 +1,62 @@
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://gss-data.org.uk/def/dimension/cdid> a rdf:Property,
+     <http://purl.org/linked-data/cube#DimensionProperty>;
+   rdfs:label "Cdid";
+   dc:description "Time series identifier";
+   rdfs:isDefinedBy <http://gss-data.org.uk/def/ontology/components>;
+   rdfs:range <http://gss-data.org.uk/def/Cdid>;
+   skos:notation "cdid" .
+
+<http://gss-data.org.uk/def/dimension/services> a rdf:Property,
+     <http://purl.org/linked-data/cube#DimensionProperty>;
+   rdfs:label "Services";
+   dc:description "The type of service being traded";
+   <http://purl.org/linked-data/cube#codeList> <http://gss-data.org.uk/def/concept/services>;
+   rdfs:isDefinedBy <http://gss-data.org.uk/def/ontology/components>;
+   rdfs:range <http://gss-data.org.uk/def/Services>;
+   skos:notation "services" .
+
+<http://gss-data.org.uk/def/ontology/components> a owl:Ontology,
+     csvw:Table;
+   rdfs:label "Components Ontology"@en;
+   dc:title "Components Ontology"@en;
+   csvw:row [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/dimension/cdid>;
+     csvw:rownum 1;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/components.csv#row=2>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/dimension/services>;
+     csvw:rownum 2;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/components.csv#row=3>
+   ];
+   csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/components.csv> .
+
+ [
+     a csvw:TableGroup;
+     csvw:table <http://gss-data.org.uk/def/ontology/components>;
+     prov:wasGeneratedBy [
+       a prov:Activity;
+       prov:endedAtTime "2018-03-21T18:28:12+01:00"^^xsd:dateTime;
+       prov:qualifiedUsage [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/components.json>;
+         prov:hadRole csvw:tabularMetadata
+       ],  [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/components.csv>;
+         prov:hadRole csvw:csvEncodedTabularData
+       ];
+       prov:startedAtTime "2018-03-21T18:28:10+01:00"^^xsd:dateTime;
+       prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
+     ]
+ ] .

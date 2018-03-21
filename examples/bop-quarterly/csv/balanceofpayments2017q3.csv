@@ -1,0 +1,397 @@
+Geography,Period,Cdid,Services,Flow,Measure Type,Value,Unit
+K02000001,year/2015,MTN7,Manufacturing and maintenance services,Export,GBP Total,4280,£ million
+K02000001,year/2016,MTN7,Manufacturing and maintenance services,Export,GBP Total,4112,£ million
+K02000001,quarter/2015-Q3,MTN7,Manufacturing and maintenance services,Export,GBP Total,1038,£ million
+K02000001,quarter/2015-Q4,MTN7,Manufacturing and maintenance services,Export,GBP Total,922,£ million
+K02000001,quarter/2016-Q1,MTN7,Manufacturing and maintenance services,Export,GBP Total,1037,£ million
+K02000001,quarter/2016-Q2,MTN7,Manufacturing and maintenance services,Export,GBP Total,948,£ million
+K02000001,quarter/2016-Q3,MTN7,Manufacturing and maintenance services,Export,GBP Total,1022,£ million
+K02000001,quarter/2016-Q4,MTN7,Manufacturing and maintenance services,Export,GBP Total,1105,£ million
+K02000001,quarter/2017-Q1,MTN7,Manufacturing and maintenance services,Export,GBP Total,1004,£ million
+K02000001,quarter/2017-Q2,MTN7,Manufacturing and maintenance services,Export,GBP Total,1087,£ million
+K02000001,quarter/2017-Q3,MTN7,Manufacturing and maintenance services,Export,GBP Total,1179,£ million
+K02000001,year/2015,FKOA,Transport,Export,GBP Total,25569,£ million
+K02000001,year/2016,FKOA,Transport,Export,GBP Total,25970,£ million
+K02000001,quarter/2015-Q3,FKOA,Transport,Export,GBP Total,6369,£ million
+K02000001,quarter/2015-Q4,FKOA,Transport,Export,GBP Total,6328,£ million
+K02000001,quarter/2016-Q1,FKOA,Transport,Export,GBP Total,6597,£ million
+K02000001,quarter/2016-Q2,FKOA,Transport,Export,GBP Total,6248,£ million
+K02000001,quarter/2016-Q3,FKOA,Transport,Export,GBP Total,6354,£ million
+K02000001,quarter/2016-Q4,FKOA,Transport,Export,GBP Total,6771,£ million
+K02000001,quarter/2017-Q1,FKOA,Transport,Export,GBP Total,7338,£ million
+K02000001,quarter/2017-Q2,FKOA,Transport,Export,GBP Total,7232,£ million
+K02000001,quarter/2017-Q3,FKOA,Transport,Export,GBP Total,7258,£ million
+K02000001,year/2015,FAPO,Travel,Export,GBP Total,29785,£ million
+K02000001,year/2016,FAPO,Travel,Export,GBP Total,30756,£ million
+K02000001,quarter/2015-Q3,FAPO,Travel,Export,GBP Total,7153,£ million
+K02000001,quarter/2015-Q4,FAPO,Travel,Export,GBP Total,7764,£ million
+K02000001,quarter/2016-Q1,FAPO,Travel,Export,GBP Total,7676,£ million
+K02000001,quarter/2016-Q2,FAPO,Travel,Export,GBP Total,7612,£ million
+K02000001,quarter/2016-Q3,FAPO,Travel,Export,GBP Total,7376,£ million
+K02000001,quarter/2016-Q4,FAPO,Travel,Export,GBP Total,8092,£ million
+K02000001,quarter/2017-Q1,FAPO,Travel,Export,GBP Total,8278,£ million
+K02000001,quarter/2017-Q2,FAPO,Travel,Export,GBP Total,8328,£ million
+K02000001,quarter/2017-Q3,FAPO,Travel,Export,GBP Total,8539,£ million
+K02000001,year/2015,FDSG,Construction,Export,GBP Total,1595,£ million
+K02000001,year/2016,FDSG,Construction,Export,GBP Total,1952,£ million
+K02000001,quarter/2015-Q3,FDSG,Construction,Export,GBP Total,439,£ million
+K02000001,quarter/2015-Q4,FDSG,Construction,Export,GBP Total,371,£ million
+K02000001,quarter/2016-Q1,FDSG,Construction,Export,GBP Total,480,£ million
+K02000001,quarter/2016-Q2,FDSG,Construction,Export,GBP Total,460,£ million
+K02000001,quarter/2016-Q3,FDSG,Construction,Export,GBP Total,576,£ million
+K02000001,quarter/2016-Q4,FDSG,Construction,Export,GBP Total,436,£ million
+K02000001,quarter/2017-Q1,FDSG,Construction,Export,GBP Total,467,£ million
+K02000001,quarter/2017-Q2,FDSG,Construction,Export,GBP Total,469,£ million
+K02000001,quarter/2017-Q3,FDSG,Construction,Export,GBP Total,465,£ million
+K02000001,year/2015,FDTF,Insurance and pension services,Export,GBP Total,14814,£ million
+K02000001,year/2016,FDTF,Insurance and pension services,Export,GBP Total,20666,£ million
+K02000001,quarter/2015-Q3,FDTF,Insurance and pension services,Export,GBP Total,3393,£ million
+K02000001,quarter/2015-Q4,FDTF,Insurance and pension services,Export,GBP Total,3676,£ million
+K02000001,quarter/2016-Q1,FDTF,Insurance and pension services,Export,GBP Total,4585,£ million
+K02000001,quarter/2016-Q2,FDTF,Insurance and pension services,Export,GBP Total,4701,£ million
+K02000001,quarter/2016-Q3,FDTF,Insurance and pension services,Export,GBP Total,5996,£ million
+K02000001,quarter/2016-Q4,FDTF,Insurance and pension services,Export,GBP Total,5384,£ million
+K02000001,quarter/2017-Q1,FDTF,Insurance and pension services,Export,GBP Total,4426,£ million
+K02000001,quarter/2017-Q2,FDTF,Insurance and pension services,Export,GBP Total,3896,£ million
+K02000001,quarter/2017-Q3,FDTF,Insurance and pension services,Export,GBP Total,3982,£ million
+K02000001,year/2015,FDYI,Financial,Export,GBP Total,52226,£ million
+K02000001,year/2016,FDYI,Financial,Export,GBP Total,61383,£ million
+K02000001,quarter/2015-Q3,FDYI,Financial,Export,GBP Total,14091,£ million
+K02000001,quarter/2015-Q4,FDYI,Financial,Export,GBP Total,15098,£ million
+K02000001,quarter/2016-Q1,FDYI,Financial,Export,GBP Total,14102,£ million
+K02000001,quarter/2016-Q2,FDYI,Financial,Export,GBP Total,15380,£ million
+K02000001,quarter/2016-Q3,FDYI,Financial,Export,GBP Total,15988,£ million
+K02000001,quarter/2016-Q4,FDYI,Financial,Export,GBP Total,15913,£ million
+K02000001,quarter/2017-Q1,FDYI,Financial,Export,GBP Total,15556,£ million
+K02000001,quarter/2017-Q2,FDYI,Financial,Export,GBP Total,16233,£ million
+K02000001,quarter/2017-Q3,FDYI,Financial,Export,GBP Total,16558,£ million
+K02000001,year/2015,FEBA,Intellectual property,Export,GBP Total,12676,£ million
+K02000001,year/2016,FEBA,Intellectual property,Export,GBP Total,13562,£ million
+K02000001,quarter/2015-Q3,FEBA,Intellectual property,Export,GBP Total,3241,£ million
+K02000001,quarter/2015-Q4,FEBA,Intellectual property,Export,GBP Total,3289,£ million
+K02000001,quarter/2016-Q1,FEBA,Intellectual property,Export,GBP Total,3387,£ million
+K02000001,quarter/2016-Q2,FEBA,Intellectual property,Export,GBP Total,3384,£ million
+K02000001,quarter/2016-Q3,FEBA,Intellectual property,Export,GBP Total,3188,£ million
+K02000001,quarter/2016-Q4,FEBA,Intellectual property,Export,GBP Total,3603,£ million
+K02000001,quarter/2017-Q1,FEBA,Intellectual property,Export,GBP Total,3213,£ million
+K02000001,quarter/2017-Q2,FEBA,Intellectual property,Export,GBP Total,3572,£ million
+K02000001,quarter/2017-Q3,FEBA,Intellectual property,Export,GBP Total,3657,£ million
+K02000001,year/2015,FDYQ,"Telecommunication, computer and information services",Export,GBP Total,17835,£ million
+K02000001,year/2016,FDYQ,"Telecommunication, computer and information services",Export,GBP Total,20992,£ million
+K02000001,quarter/2015-Q3,FDYQ,"Telecommunication, computer and information services",Export,GBP Total,4571,£ million
+K02000001,quarter/2015-Q4,FDYQ,"Telecommunication, computer and information services",Export,GBP Total,4596,£ million
+K02000001,quarter/2016-Q1,FDYQ,"Telecommunication, computer and information services",Export,GBP Total,5106,£ million
+K02000001,quarter/2016-Q2,FDYQ,"Telecommunication, computer and information services",Export,GBP Total,5150,£ million
+K02000001,quarter/2016-Q3,FDYQ,"Telecommunication, computer and information services",Export,GBP Total,5260,£ million
+K02000001,quarter/2016-Q4,FDYQ,"Telecommunication, computer and information services",Export,GBP Total,5476,£ million
+K02000001,quarter/2017-Q1,FDYQ,"Telecommunication, computer and information services",Export,GBP Total,5351,£ million
+K02000001,quarter/2017-Q2,FDYQ,"Telecommunication, computer and information services",Export,GBP Total,5386,£ million
+K02000001,quarter/2017-Q3,FDYQ,"Telecommunication, computer and information services",Export,GBP Total,5367,£ million
+K02000001,year/2015,FEHH,Other business,Export,GBP Total,64222,£ million
+K02000001,year/2016,FEHH,Other business,Export,GBP Total,66835,£ million
+K02000001,quarter/2015-Q3,FEHH,Other business,Export,GBP Total,14528,£ million
+K02000001,quarter/2015-Q4,FEHH,Other business,Export,GBP Total,15186,£ million
+K02000001,quarter/2016-Q1,FEHH,Other business,Export,GBP Total,15620,£ million
+K02000001,quarter/2016-Q2,FEHH,Other business,Export,GBP Total,16159,£ million
+K02000001,quarter/2016-Q3,FEHH,Other business,Export,GBP Total,16177,£ million
+K02000001,quarter/2016-Q4,FEHH,Other business,Export,GBP Total,18879,£ million
+K02000001,quarter/2017-Q1,FEHH,Other business,Export,GBP Total,21071,£ million
+K02000001,quarter/2017-Q2,FEHH,Other business,Export,GBP Total,21135,£ million
+K02000001,quarter/2017-Q3,FEHH,Other business,Export,GBP Total,21588,£ million
+K02000001,year/2015,FGXJ,"Personal, cultural and recreational services",Export,GBP Total,2801,£ million
+K02000001,year/2016,FGXJ,"Personal, cultural and recreational services",Export,GBP Total,3873,£ million
+K02000001,quarter/2015-Q3,FGXJ,"Personal, cultural and recreational services",Export,GBP Total,756,£ million
+K02000001,quarter/2015-Q4,FGXJ,"Personal, cultural and recreational services",Export,GBP Total,579,£ million
+K02000001,quarter/2016-Q1,FGXJ,"Personal, cultural and recreational services",Export,GBP Total,852,£ million
+K02000001,quarter/2016-Q2,FGXJ,"Personal, cultural and recreational services",Export,GBP Total,1039,£ million
+K02000001,quarter/2016-Q3,FGXJ,"Personal, cultural and recreational services",Export,GBP Total,1066,£ million
+K02000001,quarter/2016-Q4,FGXJ,"Personal, cultural and recreational services",Export,GBP Total,916,£ million
+K02000001,quarter/2017-Q1,FGXJ,"Personal, cultural and recreational services",Export,GBP Total,751,£ million
+K02000001,quarter/2017-Q2,FGXJ,"Personal, cultural and recreational services",Export,GBP Total,759,£ million
+K02000001,quarter/2017-Q3,FGXJ,"Personal, cultural and recreational services",Export,GBP Total,743,£ million
+K02000001,year/2015,FGZA,Government,Export,GBP Total,2588,£ million
+K02000001,year/2016,FGZA,Government,Export,GBP Total,2570,£ million
+K02000001,quarter/2015-Q3,FGZA,Government,Export,GBP Total,676,£ million
+K02000001,quarter/2015-Q4,FGZA,Government,Export,GBP Total,633,£ million
+K02000001,quarter/2016-Q1,FGZA,Government,Export,GBP Total,600,£ million
+K02000001,quarter/2016-Q2,FGZA,Government,Export,GBP Total,727,£ million
+K02000001,quarter/2016-Q3,FGZA,Government,Export,GBP Total,650,£ million
+K02000001,quarter/2016-Q4,FGZA,Government,Export,GBP Total,593,£ million
+K02000001,quarter/2017-Q1,FGZA,Government,Export,GBP Total,672,£ million
+K02000001,quarter/2017-Q2,FGZA,Government,Export,GBP Total,672,£ million
+K02000001,quarter/2017-Q3,FGZA,Government,Export,GBP Total,649,£ million
+K02000001,year/2015,IKBB,Total,Export,GBP Total,228391,£ million
+K02000001,year/2016,IKBB,Total,Export,GBP Total,252671,£ million
+K02000001,quarter/2015-Q3,IKBB,Total,Export,GBP Total,56255,£ million
+K02000001,quarter/2015-Q4,IKBB,Total,Export,GBP Total,58442,£ million
+K02000001,quarter/2016-Q1,IKBB,Total,Export,GBP Total,60042,£ million
+K02000001,quarter/2016-Q2,IKBB,Total,Export,GBP Total,61808,£ million
+K02000001,quarter/2016-Q3,IKBB,Total,Export,GBP Total,63653,£ million
+K02000001,quarter/2016-Q4,IKBB,Total,Export,GBP Total,67168,£ million
+K02000001,quarter/2017-Q1,IKBB,Total,Export,GBP Total,68127,£ million
+K02000001,quarter/2017-Q2,IKBB,Total,Export,GBP Total,68769,£ million
+K02000001,quarter/2017-Q3,IKBB,Total,Export,GBP Total,69985,£ million
+K02000001,year/2015,MTN6,Manufacturing and maintenance services,Import,GBP Total,1517,£ million
+K02000001,year/2016,MTN6,Manufacturing and maintenance services,Import,GBP Total,1320,£ million
+K02000001,quarter/2015-Q3,MTN6,Manufacturing and maintenance services,Import,GBP Total,363,£ million
+K02000001,quarter/2015-Q4,MTN6,Manufacturing and maintenance services,Import,GBP Total,338,£ million
+K02000001,quarter/2016-Q1,MTN6,Manufacturing and maintenance services,Import,GBP Total,350,£ million
+K02000001,quarter/2016-Q2,MTN6,Manufacturing and maintenance services,Import,GBP Total,305,£ million
+K02000001,quarter/2016-Q3,MTN6,Manufacturing and maintenance services,Import,GBP Total,317,£ million
+K02000001,quarter/2016-Q4,MTN6,Manufacturing and maintenance services,Import,GBP Total,348,£ million
+K02000001,quarter/2017-Q1,MTN6,Manufacturing and maintenance services,Import,GBP Total,275,£ million
+K02000001,quarter/2017-Q2,MTN6,Manufacturing and maintenance services,Import,GBP Total,276,£ million
+K02000001,quarter/2017-Q3,MTN6,Manufacturing and maintenance services,Import,GBP Total,341,£ million
+K02000001,year/2015,FHME,Transport,Import,GBP Total,21631,£ million
+K02000001,year/2016,FHME,Transport,Import,GBP Total,23086,£ million
+K02000001,quarter/2015-Q3,FHME,Transport,Import,GBP Total,5509,£ million
+K02000001,quarter/2015-Q4,FHME,Transport,Import,GBP Total,5403,£ million
+K02000001,quarter/2016-Q1,FHME,Transport,Import,GBP Total,5463,£ million
+K02000001,quarter/2016-Q2,FHME,Transport,Import,GBP Total,5622,£ million
+K02000001,quarter/2016-Q3,FHME,Transport,Import,GBP Total,5936,£ million
+K02000001,quarter/2016-Q4,FHME,Transport,Import,GBP Total,6065,£ million
+K02000001,quarter/2017-Q1,FHME,Transport,Import,GBP Total,6119,£ million
+K02000001,quarter/2017-Q2,FHME,Transport,Import,GBP Total,6182,£ million
+K02000001,quarter/2017-Q3,FHME,Transport,Import,GBP Total,6163,£ million
+K02000001,year/2015,APQL,Travel,Import,GBP Total,43613,£ million
+K02000001,year/2016,APQL,Travel,Import,GBP Total,47989,£ million
+K02000001,quarter/2015-Q3,APQL,Travel,Import,GBP Total,11657,£ million
+K02000001,quarter/2015-Q4,APQL,Travel,Import,GBP Total,11913,£ million
+K02000001,quarter/2016-Q1,APQL,Travel,Import,GBP Total,11251,£ million
+K02000001,quarter/2016-Q2,APQL,Travel,Import,GBP Total,11839,£ million
+K02000001,quarter/2016-Q3,APQL,Travel,Import,GBP Total,12049,£ million
+K02000001,quarter/2016-Q4,APQL,Travel,Import,GBP Total,12850,£ million
+K02000001,quarter/2017-Q1,APQL,Travel,Import,GBP Total,12317,£ million
+K02000001,quarter/2017-Q2,APQL,Travel,Import,GBP Total,11980,£ million
+K02000001,quarter/2017-Q3,APQL,Travel,Import,GBP Total,12127,£ million
+K02000001,year/2015,FIOU,Construction,Import,GBP Total,1206,£ million
+K02000001,year/2016,FIOU,Construction,Import,GBP Total,1409,£ million
+K02000001,quarter/2015-Q3,FIOU,Construction,Import,GBP Total,247,£ million
+K02000001,quarter/2015-Q4,FIOU,Construction,Import,GBP Total,236,£ million
+K02000001,quarter/2016-Q1,FIOU,Construction,Import,GBP Total,325,£ million
+K02000001,quarter/2016-Q2,FIOU,Construction,Import,GBP Total,326,£ million
+K02000001,quarter/2016-Q3,FIOU,Construction,Import,GBP Total,391,£ million
+K02000001,quarter/2016-Q4,FIOU,Construction,Import,GBP Total,367,£ million
+K02000001,quarter/2017-Q1,FIOU,Construction,Import,GBP Total,362,£ million
+K02000001,quarter/2017-Q2,FIOU,Construction,Import,GBP Total,453,£ million
+K02000001,quarter/2017-Q3,FIOU,Construction,Import,GBP Total,445,£ million
+K02000001,year/2015,FIPT,Insurance and pension services,Import,GBP Total,194,£ million
+K02000001,year/2016,FIPT,Insurance and pension services,Import,GBP Total,203,£ million
+K02000001,quarter/2015-Q3,FIPT,Insurance and pension services,Import,GBP Total,48,£ million
+K02000001,quarter/2015-Q4,FIPT,Insurance and pension services,Import,GBP Total,46,£ million
+K02000001,quarter/2016-Q1,FIPT,Insurance and pension services,Import,GBP Total,47,£ million
+K02000001,quarter/2016-Q2,FIPT,Insurance and pension services,Import,GBP Total,53,£ million
+K02000001,quarter/2016-Q3,FIPT,Insurance and pension services,Import,GBP Total,50,£ million
+K02000001,quarter/2016-Q4,FIPT,Insurance and pension services,Import,GBP Total,53,£ million
+K02000001,quarter/2017-Q1,FIPT,Insurance and pension services,Import,GBP Total,50,£ million
+K02000001,quarter/2017-Q2,FIPT,Insurance and pension services,Import,GBP Total,55,£ million
+K02000001,quarter/2017-Q3,FIPT,Insurance and pension services,Import,GBP Total,51,£ million
+K02000001,year/2015,FITY,Financial,Import,GBP Total,9870,£ million
+K02000001,year/2016,FITY,Financial,Import,GBP Total,10598,£ million
+K02000001,quarter/2015-Q3,FITY,Financial,Import,GBP Total,2468,£ million
+K02000001,quarter/2015-Q4,FITY,Financial,Import,GBP Total,2590,£ million
+K02000001,quarter/2016-Q1,FITY,Financial,Import,GBP Total,2402,£ million
+K02000001,quarter/2016-Q2,FITY,Financial,Import,GBP Total,2551,£ million
+K02000001,quarter/2016-Q3,FITY,Financial,Import,GBP Total,2878,£ million
+K02000001,quarter/2016-Q4,FITY,Financial,Import,GBP Total,2767,£ million
+K02000001,quarter/2017-Q1,FITY,Financial,Import,GBP Total,2768,£ million
+K02000001,quarter/2017-Q2,FITY,Financial,Import,GBP Total,2756,£ million
+K02000001,quarter/2017-Q3,FITY,Financial,Import,GBP Total,2809,£ million
+K02000001,year/2015,FIVX,Intellectual property,Import,GBP Total,8468,£ million
+K02000001,year/2016,FIVX,Intellectual property,Import,GBP Total,9701,£ million
+K02000001,quarter/2015-Q3,FIVX,Intellectual property,Import,GBP Total,2142,£ million
+K02000001,quarter/2015-Q4,FIVX,Intellectual property,Import,GBP Total,2260,£ million
+K02000001,quarter/2016-Q1,FIVX,Intellectual property,Import,GBP Total,2279,£ million
+K02000001,quarter/2016-Q2,FIVX,Intellectual property,Import,GBP Total,2149,£ million
+K02000001,quarter/2016-Q3,FIVX,Intellectual property,Import,GBP Total,2682,£ million
+K02000001,quarter/2016-Q4,FIVX,Intellectual property,Import,GBP Total,2591,£ million
+K02000001,quarter/2017-Q1,FIVX,Intellectual property,Import,GBP Total,2286,£ million
+K02000001,quarter/2017-Q2,FIVX,Intellectual property,Import,GBP Total,2456,£ million
+K02000001,quarter/2017-Q3,FIVX,Intellectual property,Import,GBP Total,2552,£ million
+K02000001,year/2015,FIUG,"Telecommunication, computer and information services",Import,GBP Total,10251,£ million
+K02000001,year/2016,FIUG,"Telecommunication, computer and information services",Import,GBP Total,11371,£ million
+K02000001,quarter/2015-Q3,FIUG,"Telecommunication, computer and information services",Import,GBP Total,2621,£ million
+K02000001,quarter/2015-Q4,FIUG,"Telecommunication, computer and information services",Import,GBP Total,2608,£ million
+K02000001,quarter/2016-Q1,FIUG,"Telecommunication, computer and information services",Import,GBP Total,2598,£ million
+K02000001,quarter/2016-Q2,FIUG,"Telecommunication, computer and information services",Import,GBP Total,2832,£ million
+K02000001,quarter/2016-Q3,FIUG,"Telecommunication, computer and information services",Import,GBP Total,2773,£ million
+K02000001,quarter/2016-Q4,FIUG,"Telecommunication, computer and information services",Import,GBP Total,3168,£ million
+K02000001,quarter/2017-Q1,FIUG,"Telecommunication, computer and information services",Import,GBP Total,2968,£ million
+K02000001,quarter/2017-Q2,FIUG,"Telecommunication, computer and information services",Import,GBP Total,2912,£ million
+K02000001,quarter/2017-Q3,FIUG,"Telecommunication, computer and information services",Import,GBP Total,2824,£ million
+K02000001,year/2015,FIWF,Other business,Import,GBP Total,39278,£ million
+K02000001,year/2016,FIWF,Other business,Import,GBP Total,45272,£ million
+K02000001,quarter/2015-Q3,FIWF,Other business,Import,GBP Total,9219,£ million
+K02000001,quarter/2015-Q4,FIWF,Other business,Import,GBP Total,9916,£ million
+K02000001,quarter/2016-Q1,FIWF,Other business,Import,GBP Total,11486,£ million
+K02000001,quarter/2016-Q2,FIWF,Other business,Import,GBP Total,11342,£ million
+K02000001,quarter/2016-Q3,FIWF,Other business,Import,GBP Total,11367,£ million
+K02000001,quarter/2016-Q4,FIWF,Other business,Import,GBP Total,11077,£ million
+K02000001,quarter/2017-Q1,FIWF,Other business,Import,GBP Total,13095,£ million
+K02000001,quarter/2017-Q2,FIWF,Other business,Import,GBP Total,13622,£ million
+K02000001,quarter/2017-Q3,FIWF,Other business,Import,GBP Total,12952,£ million
+K02000001,year/2015,FLQJ,"Personal, cultural and recreational services",Import,GBP Total,3373,£ million
+K02000001,year/2016,FLQJ,"Personal, cultural and recreational services",Import,GBP Total,3737,£ million
+K02000001,quarter/2015-Q3,FLQJ,"Personal, cultural and recreational services",Import,GBP Total,838,£ million
+K02000001,quarter/2015-Q4,FLQJ,"Personal, cultural and recreational services",Import,GBP Total,852,£ million
+K02000001,quarter/2016-Q1,FLQJ,"Personal, cultural and recreational services",Import,GBP Total,887,£ million
+K02000001,quarter/2016-Q2,FLQJ,"Personal, cultural and recreational services",Import,GBP Total,942,£ million
+K02000001,quarter/2016-Q3,FLQJ,"Personal, cultural and recreational services",Import,GBP Total,961,£ million
+K02000001,quarter/2016-Q4,FLQJ,"Personal, cultural and recreational services",Import,GBP Total,947,£ million
+K02000001,quarter/2017-Q1,FLQJ,"Personal, cultural and recreational services",Import,GBP Total,953,£ million
+K02000001,quarter/2017-Q2,FLQJ,"Personal, cultural and recreational services",Import,GBP Total,961,£ million
+K02000001,quarter/2017-Q3,FLQJ,"Personal, cultural and recreational services",Import,GBP Total,981,£ million
+K02000001,year/2015,FLSA,Government,Import,GBP Total,2734,£ million
+K02000001,year/2016,FLSA,Government,Import,GBP Total,3167,£ million
+K02000001,quarter/2015-Q3,FLSA,Government,Import,GBP Total,579,£ million
+K02000001,quarter/2015-Q4,FLSA,Government,Import,GBP Total,729,£ million
+K02000001,quarter/2016-Q1,FLSA,Government,Import,GBP Total,693,£ million
+K02000001,quarter/2016-Q2,FLSA,Government,Import,GBP Total,839,£ million
+K02000001,quarter/2016-Q3,FLSA,Government,Import,GBP Total,813,£ million
+K02000001,quarter/2016-Q4,FLSA,Government,Import,GBP Total,822,£ million
+K02000001,quarter/2017-Q1,FLSA,Government,Import,GBP Total,1112,£ million
+K02000001,quarter/2017-Q2,FLSA,Government,Import,GBP Total,937,£ million
+K02000001,quarter/2017-Q3,FLSA,Government,Import,GBP Total,1016,£ million
+K02000001,year/2015,IKBC,Total,Import,GBP Total,142135,£ million
+K02000001,year/2016,IKBC,Total,Import,GBP Total,157853,£ million
+K02000001,quarter/2015-Q3,IKBC,Total,Import,GBP Total,35691,£ million
+K02000001,quarter/2015-Q4,IKBC,Total,Import,GBP Total,36891,£ million
+K02000001,quarter/2016-Q1,IKBC,Total,Import,GBP Total,37781,£ million
+K02000001,quarter/2016-Q2,IKBC,Total,Import,GBP Total,38800,£ million
+K02000001,quarter/2016-Q3,IKBC,Total,Import,GBP Total,40217,£ million
+K02000001,quarter/2016-Q4,IKBC,Total,Import,GBP Total,41055,£ million
+K02000001,quarter/2017-Q1,IKBC,Total,Import,GBP Total,42305,£ million
+K02000001,quarter/2017-Q2,IKBC,Total,Import,GBP Total,42590,£ million
+K02000001,quarter/2017-Q3,IKBC,Total,Import,GBP Total,42261,£ million
+K02000001,year/2015,MTN8,Manufacturing and maintenance services,Balance,GBP Total,2763,£ million
+K02000001,year/2016,MTN8,Manufacturing and maintenance services,Balance,GBP Total,2792,£ million
+K02000001,quarter/2015-Q3,MTN8,Manufacturing and maintenance services,Balance,GBP Total,675,£ million
+K02000001,quarter/2015-Q4,MTN8,Manufacturing and maintenance services,Balance,GBP Total,584,£ million
+K02000001,quarter/2016-Q1,MTN8,Manufacturing and maintenance services,Balance,GBP Total,687,£ million
+K02000001,quarter/2016-Q2,MTN8,Manufacturing and maintenance services,Balance,GBP Total,643,£ million
+K02000001,quarter/2016-Q3,MTN8,Manufacturing and maintenance services,Balance,GBP Total,705,£ million
+K02000001,quarter/2016-Q4,MTN8,Manufacturing and maintenance services,Balance,GBP Total,757,£ million
+K02000001,quarter/2017-Q1,MTN8,Manufacturing and maintenance services,Balance,GBP Total,729,£ million
+K02000001,quarter/2017-Q2,MTN8,Manufacturing and maintenance services,Balance,GBP Total,811,£ million
+K02000001,quarter/2017-Q3,MTN8,Manufacturing and maintenance services,Balance,GBP Total,838,£ million
+K02000001,year/2015,FLYS,Transport,Balance,GBP Total,3938,£ million
+K02000001,year/2016,FLYS,Transport,Balance,GBP Total,2884,£ million
+K02000001,quarter/2015-Q3,FLYS,Transport,Balance,GBP Total,860,£ million
+K02000001,quarter/2015-Q4,FLYS,Transport,Balance,GBP Total,925,£ million
+K02000001,quarter/2016-Q1,FLYS,Transport,Balance,GBP Total,1134,£ million
+K02000001,quarter/2016-Q2,FLYS,Transport,Balance,GBP Total,626,£ million
+K02000001,quarter/2016-Q3,FLYS,Transport,Balance,GBP Total,418,£ million
+K02000001,quarter/2016-Q4,FLYS,Transport,Balance,GBP Total,706,£ million
+K02000001,quarter/2017-Q1,FLYS,Transport,Balance,GBP Total,1219,£ million
+K02000001,quarter/2017-Q2,FLYS,Transport,Balance,GBP Total,1050,£ million
+K02000001,quarter/2017-Q3,FLYS,Transport,Balance,GBP Total,1095,£ million
+K02000001,year/2015,FNGY,Travel,Balance,GBP Total,-13828,£ million
+K02000001,year/2016,FNGY,Travel,Balance,GBP Total,-17233,£ million
+K02000001,quarter/2015-Q3,FNGY,Travel,Balance,GBP Total,-4504,£ million
+K02000001,quarter/2015-Q4,FNGY,Travel,Balance,GBP Total,-4149,£ million
+K02000001,quarter/2016-Q1,FNGY,Travel,Balance,GBP Total,-3575,£ million
+K02000001,quarter/2016-Q2,FNGY,Travel,Balance,GBP Total,-4227,£ million
+K02000001,quarter/2016-Q3,FNGY,Travel,Balance,GBP Total,-4673,£ million
+K02000001,quarter/2016-Q4,FNGY,Travel,Balance,GBP Total,-4758,£ million
+K02000001,quarter/2017-Q1,FNGY,Travel,Balance,GBP Total,-4039,£ million
+K02000001,quarter/2017-Q2,FNGY,Travel,Balance,GBP Total,-3652,£ million
+K02000001,quarter/2017-Q3,FNGY,Travel,Balance,GBP Total,-3588,£ million
+K02000001,year/2015,FNJM,Construction,Balance,GBP Total,389,£ million
+K02000001,year/2016,FNJM,Construction,Balance,GBP Total,543,£ million
+K02000001,quarter/2015-Q3,FNJM,Construction,Balance,GBP Total,192,£ million
+K02000001,quarter/2015-Q4,FNJM,Construction,Balance,GBP Total,135,£ million
+K02000001,quarter/2016-Q1,FNJM,Construction,Balance,GBP Total,155,£ million
+K02000001,quarter/2016-Q2,FNJM,Construction,Balance,GBP Total,134,£ million
+K02000001,quarter/2016-Q3,FNJM,Construction,Balance,GBP Total,185,£ million
+K02000001,quarter/2016-Q4,FNJM,Construction,Balance,GBP Total,69,£ million
+K02000001,quarter/2017-Q1,FNJM,Construction,Balance,GBP Total,105,£ million
+K02000001,quarter/2017-Q2,FNJM,Construction,Balance,GBP Total,16,£ million
+K02000001,quarter/2017-Q3,FNJM,Construction,Balance,GBP Total,20,£ million
+K02000001,year/2015,FNKF,Insurance and pension services,Balance,GBP Total,14620,£ million
+K02000001,year/2016,FNKF,Insurance and pension services,Balance,GBP Total,20463,£ million
+K02000001,quarter/2015-Q3,FNKF,Insurance and pension services,Balance,GBP Total,3345,£ million
+K02000001,quarter/2015-Q4,FNKF,Insurance and pension services,Balance,GBP Total,3630,£ million
+K02000001,quarter/2016-Q1,FNKF,Insurance and pension services,Balance,GBP Total,4538,£ million
+K02000001,quarter/2016-Q2,FNKF,Insurance and pension services,Balance,GBP Total,4648,£ million
+K02000001,quarter/2016-Q3,FNKF,Insurance and pension services,Balance,GBP Total,5946,£ million
+K02000001,quarter/2016-Q4,FNKF,Insurance and pension services,Balance,GBP Total,5331,£ million
+K02000001,quarter/2017-Q1,FNKF,Insurance and pension services,Balance,GBP Total,4376,£ million
+K02000001,quarter/2017-Q2,FNKF,Insurance and pension services,Balance,GBP Total,3841,£ million
+K02000001,quarter/2017-Q3,FNKF,Insurance and pension services,Balance,GBP Total,3931,£ million
+K02000001,year/2015,FNLQ,Financial,Balance,GBP Total,42356,£ million
+K02000001,year/2016,FNLQ,Financial,Balance,GBP Total,50785,£ million
+K02000001,quarter/2015-Q3,FNLQ,Financial,Balance,GBP Total,11623,£ million
+K02000001,quarter/2015-Q4,FNLQ,Financial,Balance,GBP Total,12508,£ million
+K02000001,quarter/2016-Q1,FNLQ,Financial,Balance,GBP Total,11700,£ million
+K02000001,quarter/2016-Q2,FNLQ,Financial,Balance,GBP Total,12829,£ million
+K02000001,quarter/2016-Q3,FNLQ,Financial,Balance,GBP Total,13110,£ million
+K02000001,quarter/2016-Q4,FNLQ,Financial,Balance,GBP Total,13146,£ million
+K02000001,quarter/2017-Q1,FNLQ,Financial,Balance,GBP Total,12788,£ million
+K02000001,quarter/2017-Q2,FNLQ,Financial,Balance,GBP Total,13477,£ million
+K02000001,quarter/2017-Q3,FNLQ,Financial,Balance,GBP Total,13749,£ million
+K02000001,year/2015,FNMR,Intellectual property,Balance,GBP Total,4208,£ million
+K02000001,year/2016,FNMR,Intellectual property,Balance,GBP Total,3861,£ million
+K02000001,quarter/2015-Q3,FNMR,Intellectual property,Balance,GBP Total,1099,£ million
+K02000001,quarter/2015-Q4,FNMR,Intellectual property,Balance,GBP Total,1029,£ million
+K02000001,quarter/2016-Q1,FNMR,Intellectual property,Balance,GBP Total,1108,£ million
+K02000001,quarter/2016-Q2,FNMR,Intellectual property,Balance,GBP Total,1235,£ million
+K02000001,quarter/2016-Q3,FNMR,Intellectual property,Balance,GBP Total,506,£ million
+K02000001,quarter/2016-Q4,FNMR,Intellectual property,Balance,GBP Total,1012,£ million
+K02000001,quarter/2017-Q1,FNMR,Intellectual property,Balance,GBP Total,927,£ million
+K02000001,quarter/2017-Q2,FNMR,Intellectual property,Balance,GBP Total,1116,£ million
+K02000001,quarter/2017-Q3,FNMR,Intellectual property,Balance,GBP Total,1105,£ million
+K02000001,year/2015,FNLY,"Telecommunication, computer and information services",Balance,GBP Total,7584,£ million
+K02000001,year/2016,FNLY,"Telecommunication, computer and information services",Balance,GBP Total,9621,£ million
+K02000001,quarter/2015-Q3,FNLY,"Telecommunication, computer and information services",Balance,GBP Total,1950,£ million
+K02000001,quarter/2015-Q4,FNLY,"Telecommunication, computer and information services",Balance,GBP Total,1988,£ million
+K02000001,quarter/2016-Q1,FNLY,"Telecommunication, computer and information services",Balance,GBP Total,2508,£ million
+K02000001,quarter/2016-Q2,FNLY,"Telecommunication, computer and information services",Balance,GBP Total,2318,£ million
+K02000001,quarter/2016-Q3,FNLY,"Telecommunication, computer and information services",Balance,GBP Total,2487,£ million
+K02000001,quarter/2016-Q4,FNLY,"Telecommunication, computer and information services",Balance,GBP Total,2308,£ million
+K02000001,quarter/2017-Q1,FNLY,"Telecommunication, computer and information services",Balance,GBP Total,2383,£ million
+K02000001,quarter/2017-Q2,FNLY,"Telecommunication, computer and information services",Balance,GBP Total,2474,£ million
+K02000001,quarter/2017-Q3,FNLY,"Telecommunication, computer and information services",Balance,GBP Total,2543,£ million
+K02000001,year/2015,FNMZ,Other business,Balance,GBP Total,24944,£ million
+K02000001,year/2016,FNMZ,Other business,Balance,GBP Total,21563,£ million
+K02000001,quarter/2015-Q3,FNMZ,Other business,Balance,GBP Total,5309,£ million
+K02000001,quarter/2015-Q4,FNMZ,Other business,Balance,GBP Total,5270,£ million
+K02000001,quarter/2016-Q1,FNMZ,Other business,Balance,GBP Total,4134,£ million
+K02000001,quarter/2016-Q2,FNMZ,Other business,Balance,GBP Total,4817,£ million
+K02000001,quarter/2016-Q3,FNMZ,Other business,Balance,GBP Total,4810,£ million
+K02000001,quarter/2016-Q4,FNMZ,Other business,Balance,GBP Total,7802,£ million
+K02000001,quarter/2017-Q1,FNMZ,Other business,Balance,GBP Total,7976,£ million
+K02000001,quarter/2017-Q2,FNMZ,Other business,Balance,GBP Total,7513,£ million
+K02000001,quarter/2017-Q3,FNMZ,Other business,Balance,GBP Total,8636,£ million
+K02000001,year/2015,FNRB,"Personal, cultural and recreational services",Balance,GBP Total,-572,£ million
+K02000001,year/2016,FNRB,"Personal, cultural and recreational services",Balance,GBP Total,136,£ million
+K02000001,quarter/2015-Q3,FNRB,"Personal, cultural and recreational services",Balance,GBP Total,-82,£ million
+K02000001,quarter/2015-Q4,FNRB,"Personal, cultural and recreational services",Balance,GBP Total,-273,£ million
+K02000001,quarter/2016-Q1,FNRB,"Personal, cultural and recreational services",Balance,GBP Total,-35,£ million
+K02000001,quarter/2016-Q2,FNRB,"Personal, cultural and recreational services",Balance,GBP Total,97,£ million
+K02000001,quarter/2016-Q3,FNRB,"Personal, cultural and recreational services",Balance,GBP Total,105,£ million
+K02000001,quarter/2016-Q4,FNRB,"Personal, cultural and recreational services",Balance,GBP Total,-31,£ million
+K02000001,quarter/2017-Q1,FNRB,"Personal, cultural and recreational services",Balance,GBP Total,-202,£ million
+K02000001,quarter/2017-Q2,FNRB,"Personal, cultural and recreational services",Balance,GBP Total,-202,£ million
+K02000001,quarter/2017-Q3,FNRB,"Personal, cultural and recreational services",Balance,GBP Total,-238,£ million
+K02000001,year/2015,FNRU,Government,Balance,GBP Total,-146,£ million
+K02000001,year/2016,FNRU,Government,Balance,GBP Total,-597,£ million
+K02000001,quarter/2015-Q3,FNRU,Government,Balance,GBP Total,97,£ million
+K02000001,quarter/2015-Q4,FNRU,Government,Balance,GBP Total,-96,£ million
+K02000001,quarter/2016-Q1,FNRU,Government,Balance,GBP Total,-93,£ million
+K02000001,quarter/2016-Q2,FNRU,Government,Balance,GBP Total,-112,£ million
+K02000001,quarter/2016-Q3,FNRU,Government,Balance,GBP Total,-163,£ million
+K02000001,quarter/2016-Q4,FNRU,Government,Balance,GBP Total,-229,£ million
+K02000001,quarter/2017-Q1,FNRU,Government,Balance,GBP Total,-440,£ million
+K02000001,quarter/2017-Q2,FNRU,Government,Balance,GBP Total,-265,£ million
+K02000001,quarter/2017-Q3,FNRU,Government,Balance,GBP Total,-367,£ million
+K02000001,year/2015,IKBD,Total,Balance,GBP Total,86256,£ million
+K02000001,year/2016,IKBD,Total,Balance,GBP Total,94818,£ million
+K02000001,quarter/2015-Q3,IKBD,Total,Balance,GBP Total,20564,£ million
+K02000001,quarter/2015-Q4,IKBD,Total,Balance,GBP Total,21551,£ million
+K02000001,quarter/2016-Q1,IKBD,Total,Balance,GBP Total,22261,£ million
+K02000001,quarter/2016-Q2,IKBD,Total,Balance,GBP Total,23008,£ million
+K02000001,quarter/2016-Q3,IKBD,Total,Balance,GBP Total,23436,£ million
+K02000001,quarter/2016-Q4,IKBD,Total,Balance,GBP Total,26113,£ million
+K02000001,quarter/2017-Q1,IKBD,Total,Balance,GBP Total,25822,£ million
+K02000001,quarter/2017-Q2,IKBD,Total,Balance,GBP Total,26179,£ million
+K02000001,quarter/2017-Q3,IKBD,Total,Balance,GBP Total,27724,£ million

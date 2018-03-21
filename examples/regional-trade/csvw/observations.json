@@ -54,6 +54,6 @@
       "propertyUrl": "rdf:type",
       "valueUrl": "qb:Observation"
     }],
-    "aboutUrl": "http://gss-data.org.uk/data/regional-trade/{geography}/{date}/{sitc_section}/{flow}/{measure_type}/{unit}"
+    "aboutUrl": "http://gss-data.org.uk/data/regional-trade/{+geography}/{+date}/{+sitc_section}/{+flow}/{+measure_type}/{+unit}"
   }
 }

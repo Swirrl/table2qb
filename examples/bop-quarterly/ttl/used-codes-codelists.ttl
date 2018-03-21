@@ -1,0 +1,85 @@
+@prefix csvw: <http://www.w3.org/ns/csvw#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://gss-data.org.uk/data/bop-quarterly-example/codes-used/cdid> a skos:ConceptScheme .
+
+<http://gss-data.org.uk/data/bop-quarterly-example/codes-used/flow> a skos:ConceptScheme .
+
+<http://gss-data.org.uk/data/bop-quarterly-example/codes-used/gbp_total> a skos:ConceptScheme .
+
+<http://gss-data.org.uk/data/bop-quarterly-example/codes-used/geography> a skos:ConceptScheme .
+
+<http://gss-data.org.uk/data/bop-quarterly-example/codes-used/measure_type> a skos:ConceptScheme .
+
+<http://gss-data.org.uk/data/bop-quarterly-example/codes-used/period> a skos:ConceptScheme .
+
+<http://gss-data.org.uk/data/bop-quarterly-example/codes-used/services> a skos:ConceptScheme .
+
+<http://gss-data.org.uk/data/bop-quarterly-example/codes-used/unit> a skos:ConceptScheme .
+
+ [
+     a csvw:TableGroup;
+     csvw:table [
+       a csvw:Table;
+       csvw:row [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/bop-quarterly-example/codes-used/geography>;
+         csvw:rownum 2;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/component-specifications.csv#row=3>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/bop-quarterly-example/codes-used/cdid>;
+         csvw:rownum 7;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/component-specifications.csv#row=8>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/bop-quarterly-example/codes-used/unit>;
+         csvw:rownum 8;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/component-specifications.csv#row=9>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/bop-quarterly-example/codes-used/flow>;
+         csvw:rownum 5;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/component-specifications.csv#row=6>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/bop-quarterly-example/codes-used/period>;
+         csvw:rownum 3;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/component-specifications.csv#row=4>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/bop-quarterly-example/codes-used/gbp_total>;
+         csvw:rownum 1;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/component-specifications.csv#row=2>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/bop-quarterly-example/codes-used/measure_type>;
+         csvw:rownum 6;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/component-specifications.csv#row=7>
+       ],  [
+         a csvw:Row;
+         csvw:describes <http://gss-data.org.uk/data/bop-quarterly-example/codes-used/services>;
+         csvw:rownum 4;
+         csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/component-specifications.csv#row=5>
+       ];
+       csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/component-specifications.csv>
+     ];
+     prov:wasGeneratedBy [
+       a prov:Activity;
+       prov:endedAtTime "2018-03-21T18:28:46+01:00"^^xsd:dateTime;
+       prov:qualifiedUsage [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/component-specifications.csv>;
+         prov:hadRole csvw:csvEncodedTabularData
+       ],  [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/used-codes-codelists.json>;
+         prov:hadRole csvw:tabularMetadata
+       ];
+       prov:startedAtTime "2018-03-21T18:28:44+01:00"^^xsd:dateTime;
+       prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
+     ]
+ ] .

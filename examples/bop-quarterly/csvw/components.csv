@@ -1,0 +1,3 @@
+label,description,component_type,codelist,notation,component_type_slug,property_slug,class_slug,parent_property
+Cdid,Time series identifier,qb:DimensionProperty,,cdid,dimension,cdid,Cdid,
+Services,The type of service being traded,qb:DimensionProperty,http://gss-data.org.uk/def/concept/services,services,dimension,services,Services,

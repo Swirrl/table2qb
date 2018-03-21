@@ -239,7 +239,7 @@
 (defn observation-template [dataset-slug components]
   (let [uri-parts (->> components
                        (remove #(is-value? (keyword %)))
-                       (map #(str "/{" % "}")))]
+                       (map #(str "/{+" % "}")))]
     (str domain-data
          dataset-slug
          (st/join uri-parts))))
@@ -530,7 +530,6 @@
   (data-pipeline "./examples/regional-trade/csv/input.csv" "./tmp" "Regional Trade" "regional-trade")
   (csv2rdf-qb "./tmp" "./tmp"))
 
-
 (defn serialise-ots []
   (components-pipeline "./examples/overseas-trade/csv/components.csv" "./examples/overseas-trade/csvw")
   (csv2rdf "./examples/overseas-trade/csvw" "./examples/overseas-trade/ttl" "components")
@@ -541,4 +540,20 @@
   (data-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "./examples/overseas-trade/csvw"
                  "Overseas Trade Sample" "overseas-trade-sample")
   (csv2rdf-qb "./examples/overseas-trade/csvw" "./examples/overseas-trade/ttl"))
+
+(defn serialise-bop-quarterly []
+  (let [eg (partial str "./examples/bop-quarterly/")
+        csv (partial eg "csv/")
+        csvw (eg "csvw/")
+        ttl (eg "ttl/")]
+    (components-pipeline (csv "components.csv") csvw)
+    (csv2rdf csvw ttl "components")
+
+    (codelist-pipeline (csv "flow-directions.csv") csvw "Flow Directions" "flow-directions")
+    (csv2rdf csvw ttl "flow-directions")
+    (codelist-pipeline (csv "services.csv") csvw "Services" "services")
+    (csv2rdf csvw ttl "services")
+
+    (data-pipeline (csv "balanceofpayments2017q3.csv") csvw "BoP Quarterly Example" "bop-quarterly-example")
+    (csv2rdf-qb csvw ttl)))
 

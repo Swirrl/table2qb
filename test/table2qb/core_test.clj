@@ -219,4 +219,14 @@
                                               "regional-trade.slugged.csv"
                                               "regional-trade")))))
 
+(deftest validations-test
+  (testing "all column must be recognised"
+    (with-open [input-reader (io/reader (example-csv "validation" "unknown-columns.csv"))]
+      (is (thrown-with-msg?
+           Throwable #"Unrecognised column: Unknown"
+           (observations input-reader))))))
+
+
+
+;; Look into csvw validator
 ;; TODO: Need to label components and their codelists

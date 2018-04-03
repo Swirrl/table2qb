@@ -1,4 +1,4 @@
-(defproject table2qb "0.1.0-SNAPSHOT"
+(defproject table2qb "0.1.1-SNAPSHOT"
   :description "Transform tables of observations and reference data into RDF data cube resources specified as csvw"
   :url "http://publishmydata.com"
   :license {:name "Eclipse Public License"

@@ -6,7 +6,8 @@
             [grafter.extra.cell.uri :as gecu]
             [clojure.string :as st]
             [clojure.java.shell :refer [sh]]
-            [environ.core :as environ]))
+            [environ.core :as environ]
+            [csv2rdf.csvw :as csvw]))
 
 ;; Config
 (def domain (environ/env :base-uri "http://gss-data.org.uk/"))
@@ -522,8 +523,14 @@
    "--output-format" "ttl" ">" (str output-dir "/" resource ".ttl")])
 
 (defn csv2rdf [input-dir output-dir resource]
-  (println (str "converting: " resource))
-  (println (sh "sh" "-c" (st/join " " (rdf-serialize input-dir output-dir resource)))))
+  (let [resource-file #(io/file (str input-dir "/" resource "." %))]
+    (println (str "converting: " resource))
+    (csvw/csv->rdf->file (resource-file "csv")
+                         (resource-file "json")
+                         (resource-file "ttl")
+                         {}))
+  ;;(println (sh "sh" "-c" (st/join " " (rdf-serialize input-dir output-dir resource))))
+  )
 
 (defn csv2rdf-qb [input-dir output-dir]
   (for [resource ["component-specifications"

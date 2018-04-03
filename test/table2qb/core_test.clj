@@ -219,12 +219,27 @@
                                               "regional-trade.slugged.csv"
                                               "regional-trade")))))
 
+
 (deftest validations-test
   (testing "all column must be recognised"
     (with-open [input-reader (io/reader (example-csv "validation" "unknown-columns.csv"))]
       (is (thrown-with-msg?
            Throwable #"Unrecognised column: Unknown"
-           (observations input-reader))))))
+           (observations input-reader)))))
+
+  (testing "a measure should be present"
+    (testing "under the measures-dimension approach"
+      (testing "with a single measure-type column"
+        (with-open [input-reader (io/reader (example-csv "validation" "measure-type-single.csv"))]
+          (is (seq? (observations input-reader)))))
+      (testing "with multiple measure-type columns") ;; TODO - not sure this is worth testing until it's a problem!
+      (testing "with no measure-type columns"
+        (with-open [input-reader (io/reader (example-csv "validation" "measure-type-missing.csv"))]
+          (is (thrown-with-msg?
+               Throwable #"No measure type column"
+               (component-specifications input-reader))))))
+    (testing "under the multi-measures approach") ;; TODO - this isn't implemented yet
+    ))
 
 
 

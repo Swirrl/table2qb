@@ -71,13 +71,19 @@
 (defn identify-columns [conventions-map attachment]
   "Returns a predicate (set) of column names where the :component_attachment property is as specified"
   (reduce-kv (fn [s name {:keys [component_attachment]}]
-               (if (= component_attachment attachment)
-                 (conj s name)
-                 s)) #{} conventions-map))
+               (if (= component_attachment attachment) (conj s name) s))
+             #{}
+             conventions-map))
 
 (def is-dimension? (identify-columns name->component "qb:dimension"))
 (def is-attribute? (identify-columns name->component "qb:attribute"))
 (def is-value? (identify-columns name->component nil)) ;; if it's not attached as a component then it must be a value
+(def is-measure? (identify-columns name->component "qb:measure")) ;; as yet unused, will be needed for multi-measure cubes (note this includes single-measure ones not using the measure-dimension approach)
+(def is-measure-type? (->> name->component
+                           (map val)
+                           (filter #(= (:property_template %) "http://purl.org/linked-data/cube#measureType"))
+                           (map (comp keyword :name))
+                           set))
 
 ;; Identifying Components
 
@@ -100,8 +106,17 @@
 (def values
   (headers-matching is-value?))
 
+(defn measure [row]
+  (let [measure-type-columns (select-keys row is-measure-type?)] ;; TODO: this should happen once per table, not per row
+    (if (not (= 1 (count measure-type-columns)))
+      (throw (ex-info
+              (if (> (count measure-type-columns) 1)
+                "Too many measure type columns" "No measure type column")
+              {:measure-type-columns-found (keys measure-type-columns)}))
+      (first (vals measure-type-columns)))))
+
 (def measures
-  (comp (map :measure_type) ;; TODO - what if no measure_type is provided?
+  (comp (map measure)
         (distinct)
         (map title->name)))
 
@@ -208,11 +223,11 @@
         name->transformer (comp resolve-transformer :value_transformation name->component)
         transform-map (zipmap columns (map name->transformer columns))]
     (select-keys transform-map
-                 (for [[k v] transform-map :when (not (nil? v))] k)))) ;; remove columns that have no transform
+                 (for [[k v] transform-map :when (not (nil? v))] k)))) ;; removes columns that have no transform
 
 (defn transform-columns [row]
   "Prepares cells for inclusion in URL templates, typically by slugizing"
-  (let [transformations (identify-transformers row)]
+  (let [transformations (identify-transformers row)] ;; TODO: identify once for whole table (not per row)
     (reduce (fn [row [col f]] (update row col f)) row transformations)))
 
 (defn observations [reader]

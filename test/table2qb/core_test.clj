@@ -158,8 +158,6 @@
     (is (maps-match? (transform-columns {:label "not a slug" :curie "foo:bar"})
                      {:label "not a slug" :curie "foo:bar"}))))
 
-(defn order-columns [m]
-  (update-in m ["tableSchema" "columns"] (partial sort-by #(get % "name"))))
 
 (deftest observations-test
   (testing "sequence of observations"
@@ -195,10 +193,10 @@
     (testing "regional trade example"
       (with-open [input-reader (io/reader (example-csv "regional-trade" "input.csv"))
                   target-reader (io/reader (example-csvw "regional-trade" "observations.json"))]
-        (maps-match? (order-columns (read-json target-reader))
-                     (order-columns (observations-metadata input-reader
-                                                           "regional-trade.slugged.csv"
-                                                           "regional-trade")))))
+        (maps-match? (read-json target-reader)
+                     (observations-metadata input-reader
+                                            "observations.csv"
+                                            "regional-trade"))))
     (testing "overseas trade example"
       (with-open [input-reader (io/reader (example-csv "overseas-trade" "ots-cn-sample.csv"))]
         (let [obs-meta (observations-metadata input-reader "ignore-me.csv" "overseas-trade")]

@@ -7,85 +7,85 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<http://statistics.data.gov.uk/def/dimension/flow> a rdf:Property,
-     <http://purl.org/linked-data/cube#DimensionProperty>;
+<http://gss-data.org.uk/def/dimension/flow> a <http://purl.org/linked-data/cube#DimensionProperty>,
+     rdf:Property;
    rdfs:label "Flow";
-   <dct:description> "Direction in which trade is measured";
-   <http://purl.org/linked-data/cube#codeList> <http://statistics.data.gov.uk/def/concept-scheme/flow-directions>;
-   rdfs:isDefinedBy <http://statistics.data.gov.uk/def/ontology/components>;
-   rdfs:range <http://statistics.data.gov.uk/def/Flow>;
+   dc:description "Direction in which trade is measured";
+   <http://purl.org/linked-data/cube#codeList> <http://gss-data.org.uk/def/concept-scheme/flow-directions>;
+   rdfs:isDefinedBy <http://gss-data.org.uk/def/ontology/components>;
+   rdfs:range <http://gss-data.org.uk/def/Flow>;
    skos:notation "flow" .
 
-<http://statistics.data.gov.uk/def/dimension/sitc-section> a rdf:Property,
-     <http://purl.org/linked-data/cube#DimensionProperty>;
+<http://gss-data.org.uk/def/dimension/sitc-section> a <http://purl.org/linked-data/cube#DimensionProperty>,
+     rdf:Property;
    rdfs:label "SITC Section";
-   <dct:description> "Standard International Trade Classification";
-   <http://purl.org/linked-data/cube#codeList> <http://statistics.data.gov.uk/def/concept-scheme/sitc-sections>;
-   rdfs:isDefinedBy <http://statistics.data.gov.uk/def/ontology/components>;
-   rdfs:range <http://statistics.data.gov.uk/def/SitcSection>;
+   dc:description "Standard International Trade Classification";
+   <http://purl.org/linked-data/cube#codeList> <http://gss-data.org.uk/def/concept-scheme/sitc-sections>;
+   rdfs:isDefinedBy <http://gss-data.org.uk/def/ontology/components>;
+   rdfs:range <http://gss-data.org.uk/def/SitcSection>;
    skos:notation "sitc-section" .
 
-<http://statistics.data.gov.uk/def/measure/gbp-total> a <http://purl.org/linked-data/cube#MeasureProperty>,
-     rdf:Property;
+<http://gss-data.org.uk/def/measure/gbp-total> a rdf:Property,
+     <http://purl.org/linked-data/cube#MeasureProperty>;
    rdfs:label "GBP Total";
-   <dct:description> "Total in British Pounds Sterling";
-   rdfs:isDefinedBy <http://statistics.data.gov.uk/def/ontology/components>;
-   rdfs:range <http://statistics.data.gov.uk/def/GbpTotal>;
+   dc:description "Total in British Pounds Sterling";
+   rdfs:isDefinedBy <http://gss-data.org.uk/def/ontology/components>;
+   rdfs:range <http://gss-data.org.uk/def/GbpTotal>;
    rdfs:subPropertyOf <http://purl.org/linked-data/sdmx/2009/measure#obsValue>;
    skos:notation "gbp-total" .
 
-<http://statistics.data.gov.uk/def/measure/net-mass> a <http://purl.org/linked-data/cube#MeasureProperty>,
-     rdf:Property;
+<http://gss-data.org.uk/def/measure/net-mass> a rdf:Property,
+     <http://purl.org/linked-data/cube#MeasureProperty>;
    rdfs:label "Net Mass";
-   <dct:description> "Net Mass explain me better";
-   rdfs:isDefinedBy <http://statistics.data.gov.uk/def/ontology/components>;
-   rdfs:range <http://statistics.data.gov.uk/def/NetMass>;
+   dc:description "Net Mass explain me better";
+   rdfs:isDefinedBy <http://gss-data.org.uk/def/ontology/components>;
+   rdfs:range <http://gss-data.org.uk/def/NetMass>;
    rdfs:subPropertyOf <http://purl.org/linked-data/sdmx/2009/measure#obsValue>;
    skos:notation "net-mass" .
 
-<http://statistics.data.gov.uk/def/ontology/components> a csvw:Table,
-     owl:Ontology;
+<http://gss-data.org.uk/def/ontology/components> a owl:Ontology,
+     csvw:Table;
    rdfs:label "Components Ontology"@en;
    dc:title "Components Ontology"@en;
    csvw:row [
      a csvw:Row;
-     csvw:describes <http://statistics.data.gov.uk/def/measure/gbp-total>;
-     csvw:rownum 3;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/components.csv#row=4>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://statistics.data.gov.uk/def/dimension/sitc-section>;
+     csvw:describes <http://gss-data.org.uk/def/dimension/sitc-section>;
      csvw:rownum 2;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/components.csv#row=3>
+     csvw:url <file://home/rueb/code/swirrl/table2qb/tmp/components.csv#row=3>
    ],  [
      a csvw:Row;
-     csvw:describes <http://statistics.data.gov.uk/def/dimension/flow>;
-     csvw:rownum 1;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/components.csv#row=2>
+     csvw:describes <http://gss-data.org.uk/def/measure/gbp-total>;
+     csvw:rownum 3;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/tmp/components.csv#row=4>
    ],  [
      a csvw:Row;
-     csvw:describes <http://statistics.data.gov.uk/def/measure/net-mass>;
+     csvw:describes <http://gss-data.org.uk/def/measure/net-mass>;
      csvw:rownum 4;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/components.csv#row=5>
+     csvw:url <file://home/rueb/code/swirrl/table2qb/tmp/components.csv#row=5>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/dimension/flow>;
+     csvw:rownum 1;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/tmp/components.csv#row=2>
    ];
-   csvw:url <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/components.csv> .
+   csvw:url <file://home/rueb/code/swirrl/table2qb/tmp/components.csv> .
 
  [
      a csvw:TableGroup;
-     csvw:table <http://statistics.data.gov.uk/def/ontology/components>;
+     csvw:table <http://gss-data.org.uk/def/ontology/components>;
      prov:wasGeneratedBy [
        a prov:Activity;
-       prov:endedAtTime "2018-02-27T18:00:08+01:00"^^xsd:dateTime;
+       prov:endedAtTime "2018-04-04T12:11:07+02:00"^^xsd:dateTime;
        prov:qualifiedUsage [
          a prov:Usage;
-         prov:entity <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/components.csv>;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/tmp/components.csv>;
          prov:hadRole csvw:csvEncodedTabularData
        ],  [
          a prov:Usage;
-         prov:entity <file://home/rueb/code/swirrl/table2qb/table2qb/tmp/components.json>;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/tmp/components.json>;
          prov:hadRole csvw:tabularMetadata
        ];
-       prov:startedAtTime "2018-02-27T18:00:06+01:00"^^xsd:dateTime;
+       prov:startedAtTime "2018-04-04T12:11:05+02:00"^^xsd:dateTime;
        prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
      ]
  ] .

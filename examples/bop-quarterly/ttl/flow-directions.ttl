@@ -21,20 +21,20 @@
    skos:notation "import";
    skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/flow-directions> .
 
-<http://gss-data.org.uk/def/concept-scheme/flow-directions> a csvw:Table,
-     skos:ConceptScheme;
+<http://gss-data.org.uk/def/concept-scheme/flow-directions> a skos:ConceptScheme,
+     csvw:Table;
    rdfs:label "Flow Directions"@en;
    dc:title "Flow Directions"@en;
-   skos:hasTopConcept <http://gss-data.org.uk/def/concept/flow-directions/import>,
-     <http://gss-data.org.uk/def/concept/flow-directions/export>,
-     <http://gss-data.org.uk/def/concept/flow-directions/balance>;
-   skos:member <http://gss-data.org.uk/def/concept/flow-directions/import>,
-     <http://gss-data.org.uk/def/concept/flow-directions/export>,
-     <http://gss-data.org.uk/def/concept/flow-directions/balance>;
+   skos:hasTopConcept <http://gss-data.org.uk/def/concept/flow-directions/export>,
+     <http://gss-data.org.uk/def/concept/flow-directions/balance>,
+     <http://gss-data.org.uk/def/concept/flow-directions/import>;
+   skos:member <http://gss-data.org.uk/def/concept/flow-directions/export>,
+     <http://gss-data.org.uk/def/concept/flow-directions/balance>,
+     <http://gss-data.org.uk/def/concept/flow-directions/import>;
    csvw:row [
      a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/flow-directions>,
-       <http://gss-data.org.uk/def/concept/flow-directions/export>;
+     csvw:describes <http://gss-data.org.uk/def/concept/flow-directions/export>,
+       <http://gss-data.org.uk/def/concept-scheme/flow-directions>;
      csvw:rownum 1;
      csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/flow-directions.csv#row=2>
    ],  [
@@ -45,8 +45,8 @@
      csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/flow-directions.csv#row=4>
    ],  [
      a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept/flow-directions/import>,
-       <http://gss-data.org.uk/def/concept-scheme/flow-directions>;
+     csvw:describes <http://gss-data.org.uk/def/concept-scheme/flow-directions>,
+       <http://gss-data.org.uk/def/concept/flow-directions/import>;
      csvw:rownum 2;
      csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/flow-directions.csv#row=3>
    ];
@@ -57,7 +57,7 @@
      csvw:table <http://gss-data.org.uk/def/concept-scheme/flow-directions>;
      prov:wasGeneratedBy [
        a prov:Activity;
-       prov:endedAtTime "2018-03-21T18:28:16+01:00"^^xsd:dateTime;
+       prov:endedAtTime "2018-04-04T12:29:35+02:00"^^xsd:dateTime;
        prov:qualifiedUsage [
          a prov:Usage;
          prov:entity <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/flow-directions.csv>;
@@ -67,7 +67,7 @@
          prov:entity <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/flow-directions.json>;
          prov:hadRole csvw:tabularMetadata
        ];
-       prov:startedAtTime "2018-03-21T18:28:14+01:00"^^xsd:dateTime;
+       prov:startedAtTime "2018-04-04T12:29:33+02:00"^^xsd:dateTime;
        prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
      ]
  ] .

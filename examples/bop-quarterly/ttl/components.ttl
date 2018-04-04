@@ -7,16 +7,16 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<http://gss-data.org.uk/def/dimension/cdid> a rdf:Property,
-     <http://purl.org/linked-data/cube#DimensionProperty>;
+<http://gss-data.org.uk/def/dimension/cdid> a <http://purl.org/linked-data/cube#DimensionProperty>,
+     rdf:Property;
    rdfs:label "Cdid";
    dc:description "Time series identifier";
    rdfs:isDefinedBy <http://gss-data.org.uk/def/ontology/components>;
    rdfs:range <http://gss-data.org.uk/def/Cdid>;
    skos:notation "cdid" .
 
-<http://gss-data.org.uk/def/dimension/services> a rdf:Property,
-     <http://purl.org/linked-data/cube#DimensionProperty>;
+<http://gss-data.org.uk/def/dimension/services> a <http://purl.org/linked-data/cube#DimensionProperty>,
+     rdf:Property;
    rdfs:label "Services";
    dc:description "The type of service being traded";
    <http://purl.org/linked-data/cube#codeList> <http://gss-data.org.uk/def/concept/services>;
@@ -24,20 +24,20 @@
    rdfs:range <http://gss-data.org.uk/def/Services>;
    skos:notation "services" .
 
-<http://gss-data.org.uk/def/ontology/components> a owl:Ontology,
-     csvw:Table;
+<http://gss-data.org.uk/def/ontology/components> a csvw:Table,
+     owl:Ontology;
    rdfs:label "Components Ontology"@en;
    dc:title "Components Ontology"@en;
    csvw:row [
      a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/dimension/cdid>;
-     csvw:rownum 1;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/components.csv#row=2>
-   ],  [
-     a csvw:Row;
      csvw:describes <http://gss-data.org.uk/def/dimension/services>;
      csvw:rownum 2;
      csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/components.csv#row=3>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/dimension/cdid>;
+     csvw:rownum 1;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/components.csv#row=2>
    ];
    csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/components.csv> .
 
@@ -46,17 +46,17 @@
      csvw:table <http://gss-data.org.uk/def/ontology/components>;
      prov:wasGeneratedBy [
        a prov:Activity;
-       prov:endedAtTime "2018-03-21T18:28:12+01:00"^^xsd:dateTime;
+       prov:endedAtTime "2018-04-04T12:29:32+02:00"^^xsd:dateTime;
        prov:qualifiedUsage [
-         a prov:Usage;
-         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/components.json>;
-         prov:hadRole csvw:tabularMetadata
-       ],  [
          a prov:Usage;
          prov:entity <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/components.csv>;
          prov:hadRole csvw:csvEncodedTabularData
+       ],  [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/components.json>;
+         prov:hadRole csvw:tabularMetadata
        ];
-       prov:startedAtTime "2018-03-21T18:28:10+01:00"^^xsd:dateTime;
+       prov:startedAtTime "2018-04-04T12:29:30+02:00"^^xsd:dateTime;
        prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
      ]
  ] .

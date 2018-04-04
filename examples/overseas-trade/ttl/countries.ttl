@@ -95,41 +95,47 @@
      csvw:Table;
    rdfs:label "Countries"@en;
    dc:title "Countries"@en;
-   skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/chile>,
-     <http://gss-data.org.uk/def/concept/countries/ghana>,
+   skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/iran>,
+     <http://gss-data.org.uk/def/concept/countries/french-polynesia>,
+     <http://gss-data.org.uk/def/concept/countries/israel>,
      <http://gss-data.org.uk/def/concept/countries/singapore>,
-     <http://gss-data.org.uk/def/concept/countries/panama>,
-     <http://gss-data.org.uk/def/concept/countries/hong-kong>,
+     <http://gss-data.org.uk/def/concept/countries/russia>,
+     <http://gss-data.org.uk/def/concept/countries/st-vincent>,
+     <http://gss-data.org.uk/def/concept/countries/south-africa>,
+     <http://gss-data.org.uk/def/concept/countries/norway>,
+     <http://gss-data.org.uk/def/concept/countries/uruguay>,
      <http://gss-data.org.uk/def/concept/countries/turkey>,
-     <http://gss-data.org.uk/def/concept/countries/iran>,
+     <http://gss-data.org.uk/def/concept/countries/australia>,
+     <http://gss-data.org.uk/def/concept/countries/ghana>,
+     <http://gss-data.org.uk/def/concept/countries/chile>,
      <http://gss-data.org.uk/def/concept/countries/falkland-islands>,
      <http://gss-data.org.uk/def/concept/countries/thailand>,
-     <http://gss-data.org.uk/def/concept/countries/french-polynesia>,
-     <http://gss-data.org.uk/def/concept/countries/south-africa>,
-     <http://gss-data.org.uk/def/concept/countries/australia>,
-     <http://gss-data.org.uk/def/concept/countries/norway>,
-     <http://gss-data.org.uk/def/concept/countries/russia>,
-     <http://gss-data.org.uk/def/concept/countries/israel>,
-     <http://gss-data.org.uk/def/concept/countries/st-vincent>,
-     <http://gss-data.org.uk/def/concept/countries/uruguay>;
-   skos:member <http://gss-data.org.uk/def/concept/countries/chile>,
-     <http://gss-data.org.uk/def/concept/countries/ghana>,
-     <http://gss-data.org.uk/def/concept/countries/singapore>,
-     <http://gss-data.org.uk/def/concept/countries/panama>,
      <http://gss-data.org.uk/def/concept/countries/hong-kong>,
+     <http://gss-data.org.uk/def/concept/countries/panama>;
+   skos:member <http://gss-data.org.uk/def/concept/countries/iran>,
+     <http://gss-data.org.uk/def/concept/countries/french-polynesia>,
+     <http://gss-data.org.uk/def/concept/countries/israel>,
+     <http://gss-data.org.uk/def/concept/countries/singapore>,
+     <http://gss-data.org.uk/def/concept/countries/russia>,
+     <http://gss-data.org.uk/def/concept/countries/st-vincent>,
+     <http://gss-data.org.uk/def/concept/countries/south-africa>,
+     <http://gss-data.org.uk/def/concept/countries/norway>,
+     <http://gss-data.org.uk/def/concept/countries/uruguay>,
      <http://gss-data.org.uk/def/concept/countries/turkey>,
-     <http://gss-data.org.uk/def/concept/countries/iran>,
+     <http://gss-data.org.uk/def/concept/countries/australia>,
+     <http://gss-data.org.uk/def/concept/countries/ghana>,
+     <http://gss-data.org.uk/def/concept/countries/chile>,
      <http://gss-data.org.uk/def/concept/countries/falkland-islands>,
      <http://gss-data.org.uk/def/concept/countries/thailand>,
-     <http://gss-data.org.uk/def/concept/countries/french-polynesia>,
-     <http://gss-data.org.uk/def/concept/countries/south-africa>,
-     <http://gss-data.org.uk/def/concept/countries/australia>,
-     <http://gss-data.org.uk/def/concept/countries/norway>,
-     <http://gss-data.org.uk/def/concept/countries/russia>,
-     <http://gss-data.org.uk/def/concept/countries/israel>,
-     <http://gss-data.org.uk/def/concept/countries/st-vincent>,
-     <http://gss-data.org.uk/def/concept/countries/uruguay>;
+     <http://gss-data.org.uk/def/concept/countries/hong-kong>,
+     <http://gss-data.org.uk/def/concept/countries/panama>;
    csvw:row [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
+       <http://gss-data.org.uk/def/concept/countries/falkland-islands>;
+     csvw:rownum 3;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=4>
+   ],  [
      a csvw:Row;
      csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
        <http://gss-data.org.uk/def/concept/countries/australia>;
@@ -138,9 +144,57 @@
    ],  [
      a csvw:Row;
      csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/falkland-islands>;
-     csvw:rownum 3;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=4>
+       <http://gss-data.org.uk/def/concept/countries/uruguay>;
+     csvw:rownum 17;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=18>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept/countries/french-polynesia>,
+       <http://gss-data.org.uk/def/concept-scheme/countries>;
+     csvw:rownum 4;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=5>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept/countries/singapore>,
+       <http://gss-data.org.uk/def/concept-scheme/countries>;
+     csvw:rownum 12;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=13>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept/countries/russia>,
+       <http://gss-data.org.uk/def/concept-scheme/countries>;
+     csvw:rownum 11;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=12>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept/countries/israel>,
+       <http://gss-data.org.uk/def/concept-scheme/countries>;
+     csvw:rownum 8;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=9>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
+       <http://gss-data.org.uk/def/concept/countries/chile>;
+     csvw:rownum 2;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=3>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept/countries/iran>,
+       <http://gss-data.org.uk/def/concept-scheme/countries>;
+     csvw:rownum 7;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=8>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
+       <http://gss-data.org.uk/def/concept/countries/panama>;
+     csvw:rownum 10;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=11>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept/countries/hong-kong>,
+       <http://gss-data.org.uk/def/concept-scheme/countries>;
+     csvw:rownum 6;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=7>
    ],  [
      a csvw:Row;
      csvw:describes <http://gss-data.org.uk/def/concept/countries/st-vincent>,
@@ -150,51 +204,15 @@
    ],  [
      a csvw:Row;
      csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/hong-kong>;
-     csvw:rownum 6;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=7>
+       <http://gss-data.org.uk/def/concept/countries/south-africa>;
+     csvw:rownum 13;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=14>
    ],  [
      a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/french-polynesia>;
-     csvw:rownum 4;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=5>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/russia>;
-     csvw:rownum 11;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=12>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/ghana>;
-     csvw:rownum 5;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=6>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept/countries/chile>,
+     csvw:describes <http://gss-data.org.uk/def/concept/countries/thailand>,
        <http://gss-data.org.uk/def/concept-scheme/countries>;
-     csvw:rownum 2;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=3>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/iran>;
-     csvw:rownum 7;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=8>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/thailand>;
      csvw:rownum 15;
      csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=16>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/singapore>;
-     csvw:rownum 12;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=13>
    ],  [
      a csvw:Row;
      csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
@@ -204,33 +222,15 @@
    ],  [
      a csvw:Row;
      csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
+       <http://gss-data.org.uk/def/concept/countries/ghana>;
+     csvw:rownum 5;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=6>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
        <http://gss-data.org.uk/def/concept/countries/norway>;
      csvw:rownum 9;
      csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=10>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/israel>;
-     csvw:rownum 8;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=9>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/panama>;
-     csvw:rownum 10;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=11>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/south-africa>;
-     csvw:rownum 13;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=14>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/uruguay>;
-     csvw:rownum 17;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=18>
    ];
    csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv> .
 
@@ -239,17 +239,17 @@
      csvw:table <http://gss-data.org.uk/def/concept-scheme/countries>;
      prov:wasGeneratedBy [
        a prov:Activity;
-       prov:endedAtTime "2018-03-21T14:55:04+01:00"^^xsd:dateTime;
+       prov:endedAtTime "2018-04-04T12:29:28+02:00"^^xsd:dateTime;
        prov:qualifiedUsage [
-         a prov:Usage;
-         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.json>;
-         prov:hadRole csvw:tabularMetadata
-       ],  [
          a prov:Usage;
          prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv>;
          prov:hadRole csvw:csvEncodedTabularData
+       ],  [
+         a prov:Usage;
+         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.json>;
+         prov:hadRole csvw:tabularMetadata
        ];
-       prov:startedAtTime "2018-03-21T14:55:02+01:00"^^xsd:dateTime;
+       prov:startedAtTime "2018-04-04T12:29:26+02:00"^^xsd:dateTime;
        prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
      ]
  ] .

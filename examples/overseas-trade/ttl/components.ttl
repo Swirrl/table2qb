@@ -25,8 +25,8 @@
    rdfs:range <http://gss-data.org.uk/def/ForeignCountry>;
    skos:notation "foreign-country" .
 
-<http://gss-data.org.uk/def/ontology/components> a owl:Ontology,
-     csvw:Table;
+<http://gss-data.org.uk/def/ontology/components> a csvw:Table,
+     owl:Ontology;
    rdfs:label "Components Ontology"@en;
    dc:title "Components Ontology"@en;
    csvw:row [
@@ -47,7 +47,7 @@
      csvw:table <http://gss-data.org.uk/def/ontology/components>;
      prov:wasGeneratedBy [
        a prov:Activity;
-       prov:endedAtTime "2018-03-21T14:55:01+01:00"^^xsd:dateTime;
+       prov:endedAtTime "2018-04-04T12:29:25+02:00"^^xsd:dateTime;
        prov:qualifiedUsage [
          a prov:Usage;
          prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/components.json>;
@@ -57,7 +57,7 @@
          prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/components.csv>;
          prov:hadRole csvw:csvEncodedTabularData
        ];
-       prov:startedAtTime "2018-03-21T14:54:58+01:00"^^xsd:dateTime;
+       prov:startedAtTime "2018-04-04T12:29:23+02:00"^^xsd:dateTime;
        prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
      ]
  ] .

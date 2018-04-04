@@ -77,64 +77,46 @@
    skos:notation "total";
    skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/services> .
 
-<http://gss-data.org.uk/def/concept-scheme/services> a skos:ConceptScheme,
-     csvw:Table;
+<http://gss-data.org.uk/def/concept-scheme/services> a csvw:Table,
+     skos:ConceptScheme;
    rdfs:label "Services"@en;
    dc:title "Services"@en;
-   skos:hasTopConcept <http://gss-data.org.uk/def/concept/services/transport>,
-     <http://gss-data.org.uk/def/concept/services/construction>,
-     <http://gss-data.org.uk/def/concept/services/intellectual-property>,
-     <http://gss-data.org.uk/def/concept/services/insurance-and-pension-services>,
-     <http://gss-data.org.uk/def/concept/services/manufacturing-and-maintenance-services>,
-     <http://gss-data.org.uk/def/concept/services/travel>,
-     <http://gss-data.org.uk/def/concept/services/other-business>,
+   skos:hasTopConcept <http://gss-data.org.uk/def/concept/services/other-business>,
      <http://gss-data.org.uk/def/concept/services/total>,
-     <http://gss-data.org.uk/def/concept/services/telecommunication-computer-and-information-services>,
-     <http://gss-data.org.uk/def/concept/services/personal-cultural-and-recreational-services>,
-     <http://gss-data.org.uk/def/concept/services/financial>,
-     <http://gss-data.org.uk/def/concept/services/government>;
-   skos:member <http://gss-data.org.uk/def/concept/services/transport>,
+     <http://gss-data.org.uk/def/concept/services/government>,
      <http://gss-data.org.uk/def/concept/services/construction>,
-     <http://gss-data.org.uk/def/concept/services/intellectual-property>,
-     <http://gss-data.org.uk/def/concept/services/insurance-and-pension-services>,
      <http://gss-data.org.uk/def/concept/services/manufacturing-and-maintenance-services>,
-     <http://gss-data.org.uk/def/concept/services/travel>,
-     <http://gss-data.org.uk/def/concept/services/other-business>,
-     <http://gss-data.org.uk/def/concept/services/total>,
-     <http://gss-data.org.uk/def/concept/services/telecommunication-computer-and-information-services>,
      <http://gss-data.org.uk/def/concept/services/personal-cultural-and-recreational-services>,
+     <http://gss-data.org.uk/def/concept/services/insurance-and-pension-services>,
+     <http://gss-data.org.uk/def/concept/services/transport>,
+     <http://gss-data.org.uk/def/concept/services/travel>,
      <http://gss-data.org.uk/def/concept/services/financial>,
-     <http://gss-data.org.uk/def/concept/services/government>;
+     <http://gss-data.org.uk/def/concept/services/intellectual-property>,
+     <http://gss-data.org.uk/def/concept/services/telecommunication-computer-and-information-services>;
+   skos:member <http://gss-data.org.uk/def/concept/services/other-business>,
+     <http://gss-data.org.uk/def/concept/services/total>,
+     <http://gss-data.org.uk/def/concept/services/government>,
+     <http://gss-data.org.uk/def/concept/services/construction>,
+     <http://gss-data.org.uk/def/concept/services/manufacturing-and-maintenance-services>,
+     <http://gss-data.org.uk/def/concept/services/personal-cultural-and-recreational-services>,
+     <http://gss-data.org.uk/def/concept/services/insurance-and-pension-services>,
+     <http://gss-data.org.uk/def/concept/services/transport>,
+     <http://gss-data.org.uk/def/concept/services/travel>,
+     <http://gss-data.org.uk/def/concept/services/financial>,
+     <http://gss-data.org.uk/def/concept/services/intellectual-property>,
+     <http://gss-data.org.uk/def/concept/services/telecommunication-computer-and-information-services>;
    csvw:row [
      a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/services>,
-       <http://gss-data.org.uk/def/concept/services/travel>;
-     csvw:rownum 3;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=4>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept/services/transport>,
+     csvw:describes <http://gss-data.org.uk/def/concept/services/personal-cultural-and-recreational-services>,
        <http://gss-data.org.uk/def/concept-scheme/services>;
-     csvw:rownum 2;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=3>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/services>,
-       <http://gss-data.org.uk/def/concept/services/manufacturing-and-maintenance-services>;
-     csvw:rownum 1;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=2>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/services>,
-       <http://gss-data.org.uk/def/concept/services/insurance-and-pension-services>;
-     csvw:rownum 5;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=6>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/services>,
-       <http://gss-data.org.uk/def/concept/services/personal-cultural-and-recreational-services>;
      csvw:rownum 10;
      csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=11>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept/services/manufacturing-and-maintenance-services>,
+       <http://gss-data.org.uk/def/concept-scheme/services>;
+     csvw:rownum 1;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=2>
    ],  [
      a csvw:Row;
      csvw:describes <http://gss-data.org.uk/def/concept-scheme/services>,
@@ -143,40 +125,58 @@
      csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=7>
    ],  [
      a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept/services/transport>,
+       <http://gss-data.org.uk/def/concept-scheme/services>;
+     csvw:rownum 2;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=3>
+   ],  [
+     a csvw:Row;
      csvw:describes <http://gss-data.org.uk/def/concept/services/construction>,
        <http://gss-data.org.uk/def/concept-scheme/services>;
      csvw:rownum 4;
      csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=5>
    ],  [
      a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/services>,
-       <http://gss-data.org.uk/def/concept/services/government>;
+     csvw:describes <http://gss-data.org.uk/def/concept/services/travel>,
+       <http://gss-data.org.uk/def/concept-scheme/services>;
+     csvw:rownum 3;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=4>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept/services/other-business>,
+       <http://gss-data.org.uk/def/concept-scheme/services>;
+     csvw:rownum 9;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=10>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept/services/total>,
+       <http://gss-data.org.uk/def/concept-scheme/services>;
+     csvw:rownum 12;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=13>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept/services/insurance-and-pension-services>,
+       <http://gss-data.org.uk/def/concept-scheme/services>;
+     csvw:rownum 5;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=6>
+   ],  [
+     a csvw:Row;
+     csvw:describes <http://gss-data.org.uk/def/concept/services/government>,
+       <http://gss-data.org.uk/def/concept-scheme/services>;
      csvw:rownum 11;
      csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=12>
    ],  [
      a csvw:Row;
      csvw:describes <http://gss-data.org.uk/def/concept-scheme/services>,
-       <http://gss-data.org.uk/def/concept/services/total>;
-     csvw:rownum 12;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=13>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/services>,
-       <http://gss-data.org.uk/def/concept/services/telecommunication-computer-and-information-services>;
-     csvw:rownum 8;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=9>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept/services/intellectual-property>,
-       <http://gss-data.org.uk/def/concept-scheme/services>;
+       <http://gss-data.org.uk/def/concept/services/intellectual-property>;
      csvw:rownum 7;
      csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=8>
    ],  [
      a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/services>,
-       <http://gss-data.org.uk/def/concept/services/other-business>;
-     csvw:rownum 9;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=10>
+     csvw:describes <http://gss-data.org.uk/def/concept/services/telecommunication-computer-and-information-services>,
+       <http://gss-data.org.uk/def/concept-scheme/services>;
+     csvw:rownum 8;
+     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv#row=9>
    ];
    csvw:url <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv> .
 
@@ -185,7 +185,7 @@
      csvw:table <http://gss-data.org.uk/def/concept-scheme/services>;
      prov:wasGeneratedBy [
        a prov:Activity;
-       prov:endedAtTime "2018-03-21T18:28:20+01:00"^^xsd:dateTime;
+       prov:endedAtTime "2018-04-04T12:29:38+02:00"^^xsd:dateTime;
        prov:qualifiedUsage [
          a prov:Usage;
          prov:entity <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.csv>;
@@ -195,7 +195,7 @@
          prov:entity <file://home/rueb/code/swirrl/table2qb/examples/bop-quarterly/csvw/services.json>;
          prov:hadRole csvw:tabularMetadata
        ];
-       prov:startedAtTime "2018-03-21T18:28:17+01:00"^^xsd:dateTime;
+       prov:startedAtTime "2018-04-04T12:29:36+02:00"^^xsd:dateTime;
        prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
      ]
  ] .

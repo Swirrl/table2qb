@@ -528,7 +528,7 @@
     (csvw/csv->rdf->file (resource-file "csv")
                          (resource-file "json")
                          (resource-file "ttl")
-                         {}))
+                         { :minimal? true }))
   ;;(println (sh "sh" "-c" (st/join " " (rdf-serialize input-dir output-dir resource))))
   )
 

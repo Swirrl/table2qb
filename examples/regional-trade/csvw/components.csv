@@ -1,0 +1,5 @@
+label,description,component_type,codelist,notation,component_type_slug,property_slug,class_slug,parent_property
+Flow,Direction in which trade is measured,qb:DimensionProperty,http://gss-data.org.uk/def/concept-scheme/flow-directions,flow,dimension,flow,Flow,
+SITC Section,Standard International Trade Classification,qb:DimensionProperty,http://gss-data.org.uk/def/concept-scheme/sitc-sections,sitc-section,dimension,sitcSection,SitcSection,
+GBP Total,Total in British Pounds Sterling,qb:MeasureProperty,,gbp-total,measure,gbpTotal,GbpTotal,http://purl.org/linked-data/sdmx/2009/measure#obsValue
+Net Mass,Net Mass explain me better,qb:MeasureProperty,,net-mass,measure,netMass,NetMass,http://purl.org/linked-data/sdmx/2009/measure#obsValue

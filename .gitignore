@@ -4,3 +4,4 @@
 target/
 tmp/
 .nrepl-port
+pom.xml

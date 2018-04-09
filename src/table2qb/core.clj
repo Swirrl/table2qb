@@ -176,7 +176,8 @@
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "@id" ds-uri,
      "url" (str csv-url)
-     "dc:title" ds-label,
+     "dc:title" ds-label
+     "rdfs:label" ds-label
      "tableSchema"
      {"columns"
       [{"name" "component_slug", "titles" "component_slug", "suppressOutput" true}

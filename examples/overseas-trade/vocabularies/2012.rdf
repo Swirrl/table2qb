@@ -1,0 +1,415 @@
+<rdf:RDF
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:time="http://www.w3.org/2006/time#"
+    xmlns:void="http://rdfs.org/ns/void#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/"
+    xmlns:doap="http://usefulinc.com/ns/doap#"
+    xmlns:frbr="http://purl.org/vocab/frbr/core#"
+    xmlns:scv="http://purl.org/NET/scovo#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:interval="http://reference.data.gov.uk/def/intervals/"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:prv="http://purl.org/net/provenance/ns#"
+    xmlns:dct="http://purl.org/dc/dcmitype/"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:dgu="http://reference.data.gov.uk/def/reference/">
+  <interval:CalendarYear rdf:about="http://reference.data.gov.uk/id/year/2012">
+    <time:intervalEquals>
+      <time:Interval rdf:about="http://reference.data.gov.uk/id/gregorian-interval/2012-01-01T00:00:00/P1Y">
+        <rdfs:comment xml:lang="en">An interval of 1 year beginning at the start of the 1st second of 1st minute of 1st hour of Sunday the 1st January 2012 in the Gregorian Calendar</rdfs:comment>
+        <rdfs:label xml:lang="en">Gregorian Interval:2012-01-01T00:00:00/P1Y</rdfs:label>
+        <skos:prefLabel xml:lang="en">Gregorian Interval:2012-01-01T00:00:00/P1Y</skos:prefLabel>
+      </time:Interval>
+    </time:intervalEquals>
+    <interval:intervalContainsMonths rdf:parseType="Collection">
+      <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2012-01">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The month of January in the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Month:2012-01</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Month:2012-01</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+      </interval:Month>
+      <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2012-02">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The month of February in the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Month:2012-02</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Month:2012-02</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+      </interval:Month>
+      <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2012-03">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The month of March in the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Month:2012-03</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Month:2012-03</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+      </interval:Month>
+      <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2012-04">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The month of April in the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Month:2012-04</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Month:2012-04</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+      </interval:Month>
+      <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2012-05">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The month of May in the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Month:2012-05</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Month:2012-05</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+      </interval:Month>
+      <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2012-06">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The month of June in the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Month:2012-06</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Month:2012-06</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+      </interval:Month>
+      <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2012-07">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The month of July in the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Month:2012-07</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Month:2012-07</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+      </interval:Month>
+      <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2012-08">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The month of August in the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Month:2012-08</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Month:2012-08</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+      </interval:Month>
+      <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2012-09">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The month of September in the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Month:2012-09</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Month:2012-09</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+      </interval:Month>
+      <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2012-10">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The month of October in the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Month:2012-10</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Month:2012-10</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+      </interval:Month>
+      <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2012-11">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The month of November in the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Month:2012-11</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Month:2012-11</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+      </interval:Month>
+      <interval:Month rdf:about="http://reference.data.gov.uk/id/month/2012-12">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The month of December in the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Month:2012-12</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Month:2012-12</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarMonth"/>
+      </interval:Month>
+    </interval:intervalContainsMonths>
+    <interval:hasXsdDurationDescription rdf:datatype="http://www.w3.org/2001/XMLSchema#duration"
+    >P1Y</interval:hasXsdDurationDescription>
+    <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2012-01"/>
+    <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2012-10"/>
+    <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2012-11"/>
+    <interval:ordinalYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >2012</interval:ordinalYear>
+    <interval:intervalContainsQuarter>
+      <interval:Q3 rdf:about="http://reference.data.gov.uk/id/quarter/2012-Q3">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The third quarter of the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Quarter:2012-Q3</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Quarter:2012-Q3</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/Quarter"/>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarQuarter"/>
+      </interval:Q3>
+    </interval:intervalContainsQuarter>
+    <time:intervalContains>
+      <interval:Q2 rdf:about="http://reference.data.gov.uk/id/quarter/2012-Q2">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The second quarter of the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Quarter:2012-Q2</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Quarter:2012-Q2</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/Quarter"/>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarQuarter"/>
+      </interval:Q2>
+    </time:intervalContains>
+    <time:intervalContains>
+      <interval:H1 rdf:about="http://reference.data.gov.uk/id/half/2012-H1">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The first half of British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Half:2012-H1</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Half:2012-H1</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/Half"/>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarHalf"/>
+      </interval:H1>
+    </time:intervalContains>
+    <scv:max rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2012-12-31</scv:max>
+    <interval:nextInterval>
+      <interval:Year rdf:about="http://reference.data.gov.uk/id/year/2013"/>
+    </interval:nextInterval>
+    <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2012-04"/>
+    <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2012-05"/>
+    <interval:intervalContainsHalf>
+      <interval:H2 rdf:about="http://reference.data.gov.uk/id/half/2012-H2">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The second half of British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Half:2012-H2</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Half:2012-H2</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/Half"/>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarHalf"/>
+      </interval:H2>
+    </interval:intervalContainsHalf>
+    <time:hasDurationDescription rdf:resource="http://reference.data.gov.uk/def/intervals/one-year"/>
+    <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2012-09"/>
+    <time:intervalContains>
+      <interval:Q4 rdf:about="http://reference.data.gov.uk/id/quarter/2012-Q4">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The forth quarter of the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Quarter:2012-Q4</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Quarter:2012-Q4</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/Quarter"/>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarQuarter"/>
+      </interval:Q4>
+    </time:intervalContains>
+    <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2012-08"/>
+    <time:intervalMeets>
+      <interval:Year rdf:about="http://reference.data.gov.uk/id/year/2013"/>
+    </time:intervalMeets>
+    <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2012-04"/>
+    <time:intervalContains>
+      <interval:Q1 rdf:about="http://reference.data.gov.uk/id/quarter/2012-Q1">
+        <time:intervalDuring rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <rdfs:comment xml:lang="en">The first quarter of the British calendar year 2012</rdfs:comment>
+        <rdfs:label xml:lang="en">British Quarter:2012-Q1</rdfs:label>
+        <skos:prefLabel xml:lang="en">British Quarter:2012-Q1</skos:prefLabel>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/Quarter"/>
+        <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarQuarter"/>
+      </interval:Q1>
+    </time:intervalContains>
+    <interval:intervalContainsQuarter rdf:resource="http://reference.data.gov.uk/id/quarter/2012-Q2"/>
+    <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2012-07"/>
+    <interval:previousInterval>
+      <interval:Year rdf:about="http://reference.data.gov.uk/id/year/2011"/>
+    </interval:previousInterval>
+    <time:intervalMetBy>
+      <interval:Year rdf:about="http://reference.data.gov.uk/id/year/2011"/>
+    </time:intervalMetBy>
+    <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2012-03"/>
+    <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2012-12"/>
+    <scv:min rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2012-01-01</scv:min>
+    <interval:intervalContainsHalf rdf:resource="http://reference.data.gov.uk/id/half/2012-H1"/>
+    <interval:intervalContainsQuarters rdf:parseType="Collection">
+      <interval:Q1 rdf:about="http://reference.data.gov.uk/id/quarter/2012-Q1"/>
+      <interval:Q2 rdf:about="http://reference.data.gov.uk/id/quarter/2012-Q2"/>
+      <interval:Q3 rdf:about="http://reference.data.gov.uk/id/quarter/2012-Q3"/>
+      <interval:Q4 rdf:about="http://reference.data.gov.uk/id/quarter/2012-Q4"/>
+    </interval:intervalContainsQuarters>
+    <rdf:type rdf:resource="http://purl.org/NET/scovo#Dimension"/>
+    <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2012-03"/>
+    <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2012-07"/>
+    <time:hasEnd>
+      <time:Instant rdf:about="http://reference.data.gov.uk/id/gregorian-instant/2013-01-01T00:00:00">
+        <interval:ordinalHourOfDay rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >0</interval:ordinalHourOfDay>
+        <rdfs:comment xml:lang="en">The instant at start of the 1st second of 1st minute of 1st hour of Tuesday the 1st January of the Gregorian calendar year 2013</rdfs:comment>
+        <interval:ordinalDayOfWeek rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >2</interval:ordinalDayOfWeek>
+        <interval:ordinalWeekOfYearYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >2013</interval:ordinalWeekOfYearYear>
+        <interval:ordinalSecondOfMinute rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >0</interval:ordinalSecondOfMinute>
+        <rdfs:label xml:lang="en">Gregorian Instant:2013-01-01T00:00:00</rdfs:label>
+        <interval:ordinalMonthOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</interval:ordinalMonthOfYear>
+        <interval:ordinalYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >2013</interval:ordinalYear>
+        <interval:ordinalDayOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</interval:ordinalDayOfYear>
+        <interval:ordinalHalfOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</interval:ordinalHalfOfYear>
+        <skos:prefLabel xml:lang="en">Gregorian Instant:2013-01-01T00:00:00</skos:prefLabel>
+        <interval:ordinalWeekOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</interval:ordinalWeekOfYear>
+        <interval:ordinalQuarterOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</interval:ordinalQuarterOfYear>
+        <interval:monthOfYear rdf:resource="http://reference.data.gov.uk/def/intervals/January"/>
+        <time:inXSDDateTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+        >2013-01-01T00:00:00</time:inXSDDateTime>
+        <interval:ordinalMinuteOfHour rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >0</interval:ordinalMinuteOfHour>
+        <interval:dayOfWeek rdf:resource="http://www.w3.org/2006/time#Tuesday"/>
+        <interval:ordinalDayOfMonth rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</interval:ordinalDayOfMonth>
+      </time:Instant>
+    </time:hasEnd>
+    <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2012-10"/>
+    <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2012-02"/>
+    <interval:intervalContainsQuarter rdf:resource="http://reference.data.gov.uk/id/quarter/2012-Q1"/>
+    <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2012-05"/>
+    <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2012-06"/>
+    <rdfs:comment xml:lang="en">The British calendar year of 2012</rdfs:comment>
+    <interval:intervalContainsHalves rdf:parseType="Collection">
+      <interval:H1 rdf:about="http://reference.data.gov.uk/id/half/2012-H1"/>
+      <interval:H2 rdf:about="http://reference.data.gov.uk/id/half/2012-H2"/>
+    </interval:intervalContainsHalves>
+    <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/quarter/2012-Q3"/>
+    <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2012-12"/>
+    <skos:prefLabel xml:lang="en">British Year:2012</skos:prefLabel>
+    <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2012-08"/>
+    <interval:intervalContainsQuarter rdf:resource="http://reference.data.gov.uk/id/quarter/2012-Q4"/>
+    <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/Year"/>
+    <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2012-11"/>
+    <time:hasBeginning>
+      <time:Instant rdf:about="http://reference.data.gov.uk/id/gregorian-instant/2012-01-01T00:00:00">
+        <interval:ordinalWeekOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >52</interval:ordinalWeekOfYear>
+        <time:inXSDDateTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime"
+        >2012-01-01T00:00:00</time:inXSDDateTime>
+        <interval:ordinalQuarterOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</interval:ordinalQuarterOfYear>
+        <rdfs:label xml:lang="en">Gregorian Instant:2012-01-01T00:00:00</rdfs:label>
+        <interval:ordinalDayOfMonth rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</interval:ordinalDayOfMonth>
+        <interval:monthOfYear rdf:resource="http://reference.data.gov.uk/def/intervals/January"/>
+        <interval:ordinalMonthOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</interval:ordinalMonthOfYear>
+        <interval:dayOfWeek rdf:resource="http://www.w3.org/2006/time#Sunday"/>
+        <interval:ordinalDayOfWeek rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >7</interval:ordinalDayOfWeek>
+        <interval:ordinalSecondOfMinute rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >0</interval:ordinalSecondOfMinute>
+        <interval:ordinalWeekOfYearYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >2011</interval:ordinalWeekOfYearYear>
+        <interval:ordinalYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >2012</interval:ordinalYear>
+        <interval:ordinalMinuteOfHour rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >0</interval:ordinalMinuteOfHour>
+        <interval:ordinalDayOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</interval:ordinalDayOfYear>
+        <skos:prefLabel xml:lang="en">Gregorian Instant:2012-01-01T00:00:00</skos:prefLabel>
+        <interval:ordinalHourOfDay rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >0</interval:ordinalHourOfDay>
+        <rdfs:comment xml:lang="en">The instant at start of the 1st second of 1st minute of 1st hour of Sunday the 1st January of the Gregorian calendar year 2012</rdfs:comment>
+        <interval:ordinalHalfOfYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >1</interval:ordinalHalfOfYear>
+      </time:Instant>
+    </time:hasBeginning>
+    <foaf:isPrimaryTopicOf>
+      <prv:DataItem rdf:about="http://reference.data.gov.uk/doc/year/2012">
+        <rdfs:label xml:lang="en">Generic Dataset document about: British Year:2012</rdfs:label>
+        <dcterms:hasFormat>
+          <foaf:Document rdf:about="http://reference.data.gov.uk/doc/year/2012.n3">
+            <rdfs:label xml:lang="en">N3 document about: British Year:2012</rdfs:label>
+            <dcterms:format rdf:parseType="Resource">
+              <rdfs:label>text/n3</rdfs:label>
+            </dcterms:format>
+          </foaf:Document>
+        </dcterms:hasFormat>
+        <dcterms:hasFormat>
+          <foaf:Document rdf:about="http://reference.data.gov.uk/doc/year/2012.nt">
+            <rdfs:label xml:lang="en">N-Triple document about: British Year:2012</rdfs:label>
+            <dcterms:format rdf:parseType="Resource">
+              <rdfs:label>text/plain</rdfs:label>
+            </dcterms:format>
+          </foaf:Document>
+        </dcterms:hasFormat>
+        <dcterms:hasFormat>
+          <foaf:Document rdf:about="http://reference.data.gov.uk/doc/year/2012.rdf">
+            <rdfs:label xml:lang="en">RDF/XML document about: British Year:2012</rdfs:label>
+            <dcterms:format rdf:parseType="Resource">
+              <rdfs:label>application/rdf+xml</rdfs:label>
+            </dcterms:format>
+          </foaf:Document>
+        </dcterms:hasFormat>
+        <dcterms:creator>
+          <prv:DataProvidingService rdf:nodeID="A0">
+            <prv:employedArtifact>
+              <doap:Project>
+                <prv:usedBy>
+                  <frbr:CorporateBody rdf:nodeID="A1">
+                    <foaf:name xml:lang="en">data.gov.uk</foaf:name>
+                    <rdf:type rdf:resource="http://purl.org/net/provenance/ns#DataPublisher"/>
+                  </frbr:CorporateBody>
+                </prv:usedBy>
+                <doap:release>
+                  <doap:Version>
+                    <doap:revision>0.0.3</doap:revision>
+                    <doap:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+                    >2011-09-09</doap:created>
+                    <doap:name xml:lang="en">Harrison</doap:name>
+                  </doap:Version>
+                </doap:release>
+                <doap:name>UK Gov. Intervals and Instants URI Set Server</doap:name>
+              </doap:Project>
+            </prv:employedArtifact>
+            <prv:operatedBy rdf:nodeID="A1"/>
+            <doap:name xml:lang="en">Intervals and Instants URI Set Service</doap:name>
+          </prv:DataProvidingService>
+        </dcterms:creator>
+        <prv:createdBy>
+          <prv:DataCreation>
+            <prv:performedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+            >2011-09-09</prv:performedAt>
+            <prv:performedBy rdf:nodeID="A0"/>
+          </prv:DataCreation>
+        </prv:createdBy>
+        <dcterms:rightsHolder rdf:nodeID="A1"/>
+        <dcterms:publisher rdf:nodeID="A1"/>
+        <dcterms:hasFormat>
+          <foaf:Document rdf:about="http://reference.data.gov.uk/doc/year/2012.json">
+            <rdfs:label xml:lang="en">JSON document about: British Year:2012</rdfs:label>
+            <dcterms:format rdf:parseType="Resource">
+              <rdfs:label>application/json</rdfs:label>
+            </dcterms:format>
+          </foaf:Document>
+        </dcterms:hasFormat>
+        <dcterms:dateCopyrighted rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+        >2011-09-09</dcterms:dateCopyrighted>
+        <dcterms:license rdf:resource="http://reference.data.gov.uk/id/open-government-licence"/>
+        <foaf:primaryTopic rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+        <dcterms:hasFormat>
+          <foaf:Document rdf:about="http://reference.data.gov.uk/doc/year/2012.ttl">
+            <rdfs:label xml:lang="en">Turtle document about: British Year:2012</rdfs:label>
+            <dcterms:format rdf:parseType="Resource">
+              <rdfs:label>text/turtle</rdfs:label>
+            </dcterms:format>
+          </foaf:Document>
+        </dcterms:hasFormat>
+        <rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Document"/>
+      </prv:DataItem>
+    </foaf:isPrimaryTopicOf>
+    <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2012-09"/>
+    <dgu:uriSet>
+      <dgu:URIset rdf:about="http://reference.data.gov.uk/id/year">
+        <skos:prefLabel xml:lang="en">British calendar aligned one year intervals.</skos:prefLabel>
+        <rdfs:label xml:lang="en">British calendar aligned one year intervals.</rdfs:label>
+        <rdf:type rdf:resource="http://rdfs.org/ns/void#Dataset"/>
+      </dgu:URIset>
+    </dgu:uriSet>
+    <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2012-01"/>
+    <interval:intervalContainsMonth rdf:resource="http://reference.data.gov.uk/id/month/2012-02"/>
+    <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/half/2012-H2"/>
+    <rdfs:label xml:lang="en">British Year:2012</rdfs:label>
+    <time:intervalContains rdf:resource="http://reference.data.gov.uk/id/month/2012-06"/>
+  </interval:CalendarYear>
+  <interval:Year rdf:about="http://reference.data.gov.uk/id/year/2011">
+    <time:intervalMeets rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+    <rdfs:comment xml:lang="en">The British calendar year of 2011</rdfs:comment>
+    <rdfs:label xml:lang="en">British Year:2011</rdfs:label>
+    <skos:prefLabel xml:lang="en">British Year:2011</skos:prefLabel>
+    <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarYear"/>
+  </interval:Year>
+  <interval:Year rdf:about="http://reference.data.gov.uk/id/year/2013">
+    <time:intervalMetBy rdf:resource="http://reference.data.gov.uk/id/year/2012"/>
+    <rdfs:comment xml:lang="en">The British calendar year of 2013</rdfs:comment>
+    <rdfs:label xml:lang="en">British Year:2013</rdfs:label>
+    <skos:prefLabel xml:lang="en">British Year:2013</skos:prefLabel>
+    <rdf:type rdf:resource="http://reference.data.gov.uk/def/intervals/CalendarYear"/>
+  </interval:Year>
+</rdf:RDF>

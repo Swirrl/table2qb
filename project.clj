@@ -5,7 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [grafter/grafter "0.11.0-drafter-rdf4j"]
-                 [grafter/extra "0.2.1-SNAPSHOT"]
+                 [grafter/extra "0.2.1-rdf4j-SNAPSHOT"]
                  [csv2rdf "0.1.0-SNAPSHOT"]
                  [org.clojure/data.csv "0.1.4"]
                  [net.cgrand/xforms "0.16.0"]

@@ -247,14 +247,6 @@
                    (doall (observations input-reader)))))))
 
 
-(deftest csv2rdf-integration-test
-  (testing "Calls csv2rdf on the examples to confirm they run without errors"
-    ;; Intentionally skipping regional-trade otherwise we'll overwrite the expections of the above specs with the actual!
-    (testing "Overseas Trade"
-      (is (serialise-ots)))
-    (testing "Regional Trade"
-      (is (serialise-bop-quarterly)))))
-
 
 ;; Look into csvw validator
 ;; TODO: Need to label components and their codelists

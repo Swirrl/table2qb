@@ -8,7 +8,8 @@
             [clojure.string :as st]
             [clojure.java.shell :refer [sh]]
             [environ.core :as environ]
-            [csv2rdf.csvw :as csvw]))
+            [csv2rdf.csvw :as csvw])
+  (:import java.io.File))
 
 ;; Config
 (def domain (environ/env :base-uri "http://gss-data.org.uk/"))
@@ -141,7 +142,7 @@
 
 (defn component-specification-metadata [csv-url dataset-name dataset-slug]
   {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
-   "url" csv-url,
+   "url" (str csv-url)
    "dc:title" dataset-name,
    "tableSchema"
    {"columns"
@@ -174,7 +175,7 @@
         ds-label dataset-name]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "@id" ds-uri,
-     "url" csv-url,
+     "url" (str csv-url)
      "dc:title" ds-label,
      "tableSchema"
      {"columns"
@@ -190,7 +191,7 @@
         dsd-label (str dataset-name " (Data Structure Definition)")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "@id" dsd-uri,
-     "url" csv-url,
+     "url" (str csv-url)
      "dc:title" dsd-label,
      "rdf:type" {"@id" "qb:DataStructureDefinition"},
      "rdfs:label" dsd-label,
@@ -298,7 +299,7 @@
                                (append observation-type)) components)
         columns (sort-by #(column-order (get % "name")) columns)]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
-     "url" csv-url,
+     "url" (str csv-url)
      "tableSchema"
      {"columns" columns,
       "aboutUrl" (observation-template dataset-slug (map :name components))}}))
@@ -306,7 +307,7 @@
 (defn used-codes-codelists-metadata [csv-url dataset-slug]
   (let [codelist-uri (str domain-data dataset-slug "/codes-used/{component_slug}")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
-     "url" csv-url,
+     "url" (str csv-url)
      "tableSchema"
      {"columns"
       [{"name" "component_slug",
@@ -343,7 +344,7 @@
                                (map suppress-value)) components)
         columns (sort-by #(column-order (get % "name")) columns)]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
-     "url" csv-url,
+     "url" (str csv-url)
      "tableSchema"
      {"columns" columns,
       "aboutUrl" codelist-uri}}))
@@ -374,7 +375,7 @@
   (let [ontology-uri (str domain-def "ontology/components")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "@id" ontology-uri,
-     "url" csv-url,
+     "url" (str csv-url)
      "dc:title" "Components Ontology",
      "rdfs:label" "Components Ontology",
      "rdf:type" {"@id" "owl:Ontology"},
@@ -439,7 +440,7 @@
         parent-uri (str domain-def "concept/" codelist-slug "/{parent_notation}")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "@id" codelist-uri,
-     "url" csv-url,
+     "url" (str csv-url)
      "dc:title" codelist-name,
      "rdfs:label" codelist-name,
      "rdf:type" {"@id" "skos:ConceptScheme"},
@@ -482,51 +483,71 @@
 
 ;; serialize
 
-(defn codelist-pipeline [input-csv output-dir codelist-name codelist-slug]
-  (with-open [reader (io/reader input-csv)
-              writer (io/writer (str output-dir "/" codelist-slug ".csv"))]
-    (write-csv writer (codes reader)))
-  (with-open [reader (io/reader input-csv)
-              writer (io/writer (str output-dir "/" codelist-slug ".json"))]
-    (write-json writer (codelist-metadata (str codelist-slug ".csv") codelist-name codelist-slug))))
 
-(defn components-pipeline [input-csv output-dir]
-  (with-open [reader (io/reader input-csv)
-              writer (io/writer (str output-dir "/components.csv"))]
-    (write-csv writer (components reader)))
-  (with-open [writer (io/writer (str output-dir "/components.json"))]
-    (write-json writer (components-metadata "components.csv"))))
+(defn tempfile [filename extension]
+  (java.io.File/createTempFile filename extension))
 
-(defn data-pipeline [input-csv output-dir dataset-name dataset-slug]
-  (let [writer (fn [filename] (io/writer (str output-dir "/" filename)))
-        component-specifications-csv "component-specifications.csv"
-        component-specifications-json "component-specifications.json"
-        dataset-json "dataset.json"
-        data-structure-definition-json "data-structure-definition.json"
-        observations-csv "observations.csv"
-        observations-json "observations.json"
-        used-codes-codelists-json "used-codes-codelists.json"
-        used-codes-codes-json "used-codes-codes.json"]
+(defn codelist-pipeline [input-csv codelist-name codelist-slug destination]
+  (let [codelist-csv (tempfile codelist-slug ".csv")
+        codelist-json (tempfile codelist-slug ".json")]
     (with-open [reader (io/reader input-csv)
-                writer (writer component-specifications-csv)]
+                writer (io/writer codelist-csv)]
+      (write-csv writer (codes reader)))
+    (with-open [reader (io/reader input-csv)
+                writer (io/writer codelist-json)]
+      (write-json writer (codelist-metadata codelist-csv codelist-name codelist-slug)))
+    (csvw/csv->rdf->destination codelist-csv codelist-json destination {:mode :standard})))
+
+(defn components-pipeline [input-csv destination]
+  (let [components-csv (tempfile "components" ".csv")
+        components-json (tempfile "components" ".json")]
+    (with-open [reader (io/reader input-csv)
+                writer (io/writer components-csv)]
+      (write-csv writer (components reader)))
+    (with-open [writer (io/writer components-json)]
+      (write-json writer (components-metadata components-csv)))
+    (csvw/csv->rdf->destination components-csv components-json destination {:mode :standard})))
+
+(defn data-pipeline [input-csv dataset-name dataset-slug destination]
+  (let [component-specifications-csv (tempfile "component-specifications" ".csv")
+        component-specifications-json (tempfile "component-specifications" ".json")
+        dataset-json (tempfile "dataset" ".json")
+        data-structure-definition-json (tempfile "data-structure-definition" ".json")
+        observations-csv (tempfile "observations" ".csv")
+        observations-json (tempfile "observations" ".json")
+        used-codes-codelists-json (tempfile "used-codes-codelists" ".json")
+        used-codes-codes-json (tempfile "used-codes-codes" ".json")]
+    (with-open [reader (io/reader input-csv)
+                writer (io/writer component-specifications-csv)]
       (write-csv writer (component-specifications reader)))
-    (with-open [writer (writer component-specifications-json)]
+    (with-open [writer (io/writer component-specifications-json)]
       (write-json writer (component-specification-metadata component-specifications-csv dataset-name dataset-slug)))
-    (with-open [writer (writer dataset-json)]
+    (csvw/csv->rdf->destination component-specifications-csv component-specifications-json destination {:mode :standard})
+
+    (with-open [writer (io/writer dataset-json)]
       (write-json writer (dataset-metadata component-specifications-csv dataset-name dataset-slug)))
-    (with-open [writer (writer data-structure-definition-json)]
+    (csvw/csv->rdf->destination component-specifications-csv dataset-json destination {:mode :standard})
+
+    (with-open [writer (io/writer data-structure-definition-json)]
       (write-json writer (data-structure-definition-metadata component-specifications-csv dataset-name dataset-slug)))
+    (csvw/csv->rdf->destination component-specifications-csv data-structure-definition-json destination {:mode :standard})
+
     (with-open [reader (io/reader input-csv)
-                writer (writer observations-csv)]
+                writer (io/writer observations-csv)]
       (write-csv writer (observations reader)))
     (with-open [reader (io/reader input-csv)
-                writer (writer observations-json)]
+                writer (io/writer observations-json)]
       (write-json writer (observations-metadata reader observations-csv dataset-slug)))
-    (with-open [writer (writer used-codes-codelists-json)]
+    (csvw/csv->rdf->destination observations-csv observations-json destination {:mode :standard})
+
+    (with-open [writer (io/writer used-codes-codelists-json)]
       (write-json writer (used-codes-codelists-metadata component-specifications-csv dataset-slug)))
+    (csvw/csv->rdf->destination component-specifications-csv used-codes-codelists-json destination {:mode :standard})
+
     (with-open [reader (io/reader input-csv)
-                writer (writer used-codes-codes-json)]
-      (write-json writer (used-codes-codes-metadata reader observations-csv dataset-slug)))))
+                writer (io/writer used-codes-codes-json)]
+      (write-json writer (used-codes-codes-metadata reader observations-csv dataset-slug)))
+    (csvw/csv->rdf->destination observations-csv used-codes-codes-json destination {:mode :standard})))
 
 
 ;; CSV2RDF
@@ -588,4 +609,3 @@
 
     (data-pipeline (csv "balanceofpayments2017q3.csv") csvw "BoP Quarterly Example" "bop-quarterly-example")
     (csv2rdf-qb dir)))
-

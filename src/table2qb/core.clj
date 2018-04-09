@@ -531,68 +531,61 @@
 
 ;; CSV2RDF
 
-(defn rdf-serialize [input-dir output-dir resource]
-  ["rdf" "serialize"
-   "--input-format" "tabular" (str input-dir "/" resource ".json")
-   "--output-format" "ttl" ">" (str output-dir "/" resource ".ttl")])
-
-(defn csv2rdf [input-dir output-dir resource]
-  (let [resource-file #(io/file (str input-dir "/" resource "." %))]
+(defn csv2rdf [dir resource]
+  (let [resource-file (fn [subdir ext] (io/file (str dir "/" subdir "/" resource "." ext)))]
     (println (str "converting: " resource))
-    (csvw/csv->rdf->file (resource-file "csv")
-                         (resource-file "json")
-                         (resource-file "ttl")
-                         { :minimal? true }))
-  ;;(println (sh "sh" "-c" (st/join " " (rdf-serialize input-dir output-dir resource))))
-  )
+    (csvw/csv->rdf->file (resource-file "csv" "csv")
+                         (resource-file "csvw" "json")
+                         (resource-file "ttl" "ttl")
+                         { :minimal? false })))
 
-(defn csv2rdf-qb [input-dir output-dir]
+(defn csv2rdf-qb [dir]
   (for [resource ["component-specifications"
                   "dataset"
                   "data-structure-definition"
                   "observations"
                   "used-codes-codelists"
                   "used-codes-codes"]]
-    (csv2rdf input-dir output-dir resource)))
+    (csv2rdf dir resource)))
 
 (defn serialise-demo []
   (components-pipeline "./examples/regional-trade/csv/components.csv" "./tmp")
-  (csv2rdf "./tmp" "./tmp" "components")
+  (csv2rdf "./tmp" "components")
 
   (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv" "./tmp" "Flow Directions" "flow-directions")
-  (csv2rdf "./tmp" "./tmp" "flow-directions")
+  (csv2rdf "./tmp"  "flow-directions")
   (codelist-pipeline "./examples/regional-trade/csv/sitc-sections.csv" "./tmp" "SITC Sections" "sitc-sections")
-  (csv2rdf "./tmp" "./tmp" "sitc-sections")
+  (csv2rdf "./tmp"  "sitc-sections")
   (codelist-pipeline "./examples/regional-trade/csv/units.csv" "./tmp" "Measurement Units" "measurement-units")
-  (csv2rdf "./tmp" "./tmp" "measurement-units")
+  (csv2rdf "./tmp"  "measurement-units")
 
   (data-pipeline "./examples/regional-trade/csv/input.csv" "./tmp" "Regional Trade" "regional-trade")
-  (csv2rdf-qb "./tmp" "./tmp"))
+  (csv2rdf-qb "./tmp"))
 
 (defn serialise-ots []
   (components-pipeline "./examples/overseas-trade/csv/components.csv" "./examples/overseas-trade/csvw")
-  (csv2rdf "./examples/overseas-trade/csvw" "./examples/overseas-trade/ttl" "components")
+  (csv2rdf "./examples/overseas-trade" "components")
 
   (codelist-pipeline "./examples/overseas-trade/csv/countries.csv" "./examples/overseas-trade/csvw" "Countries" "countries")
-  (csv2rdf "./examples/overseas-trade/csvw" "./examples/overseas-trade/ttl" "countries")
+  (csv2rdf "./examples/overseas-trade" "countries")
 
   (data-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "./examples/overseas-trade/csvw"
                  "Overseas Trade Sample" "overseas-trade-sample")
-  (csv2rdf-qb "./examples/overseas-trade/csvw" "./examples/overseas-trade/ttl"))
+  (csv2rdf-qb "./examples/overseas-trade"))
 
 (defn serialise-bop-quarterly []
-  (let [eg (partial str "./examples/bop-quarterly/")
+  (let [dir "./examples/bop-quarterly/"
+        eg (partial str dir)
         csv (partial eg "csv/")
-        csvw (eg "csvw/")
-        ttl (eg "ttl/")]
+        csvw (eg "csvw/")]
     (components-pipeline (csv "components.csv") csvw)
-    (csv2rdf csvw ttl "components")
+    (csv2rdf dir "components")
 
     (codelist-pipeline (csv "flow-directions.csv") csvw "Flow Directions" "flow-directions")
-    (csv2rdf csvw ttl "flow-directions")
+    (csv2rdf dir "flow-directions")
     (codelist-pipeline (csv "services.csv") csvw "Services" "services")
-    (csv2rdf csvw ttl "services")
+    (csv2rdf dir "services")
 
     (data-pipeline (csv "balanceofpayments2017q3.csv") csvw "BoP Quarterly Example" "bop-quarterly-example")
-    (csv2rdf-qb csvw ttl)))
+    (csv2rdf-qb dir)))
 

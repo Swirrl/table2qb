@@ -1,6 +1,6 @@
 component_slug,component_attachment,component_property
-unit,qb:attribute,http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure
 gbp_total,qb:measure,http://gss-data.org.uk/def/measure/gbp-total
+unit,qb:attribute,http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure
 year,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refPeriod
 flow,qb:dimension,http://gss-data.org.uk/def/dimension/flow
 commodity,qb:dimension,http://gss-data.org.uk/def/dimension/commodity

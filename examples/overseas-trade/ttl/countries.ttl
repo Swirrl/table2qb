@@ -1,255 +1,630 @@
-@prefix csvw: <http://www.w3.org/ns/csvw#> .
-@prefix dc: <http://purl.org/dc/terms/> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sdmx-attribute: <http://purl.org/linked-data/sdmx/2009/attribute#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sdmx-concept: <http://purl.org/linked-data/sdmx/2009/concept#> .
 
-<http://gss-data.org.uk/def/concept/countries/australia> rdfs:label "Australia";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "australia";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
 
-<http://gss-data.org.uk/def/concept/countries/chile> rdfs:label "Chile";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "chile";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+_:tablegroup10137 a <http://www.w3.org/ns/csvw#TableGroup> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sdmx-attribute: <http://purl.org/linked-data/sdmx/2009/attribute#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sdmx-concept: <http://purl.org/linked-data/sdmx/2009/concept#> .
 
-<http://gss-data.org.uk/def/concept/countries/falkland-islands> rdfs:label "Falkland Islands";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "falkland-islands";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
 
-<http://gss-data.org.uk/def/concept/countries/french-polynesia> rdfs:label "French Polynesia";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "french-polynesia";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+_:tablegroup10137 <http://www.w3.org/ns/csvw#table> <http://gss-data.org.uk/def/concept-scheme/countries> .
 
-<http://gss-data.org.uk/def/concept/countries/ghana> rdfs:label "Ghana";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "ghana";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+<http://gss-data.org.uk/def/concept-scheme/countries> a <http://www.w3.org/ns/csvw#Table> ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv> ;
+	dcterms:title "Countries"@en ;
+	rdfs:label "Countries"@en ;
+	a skos:ConceptScheme ;
+	<http://www.w3.org/ns/csvw#row> _:row10138 .
 
-<http://gss-data.org.uk/def/concept/countries/hong-kong> rdfs:label "Hong Kong";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "hong-kong";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+_:row10138 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "1"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=2> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/australia> .
 
-<http://gss-data.org.uk/def/concept/countries/iran> rdfs:label "Iran";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "iran";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+<http://gss-data.org.uk/def/concept/countries/australia> rdfs:label "Australia" .
 
-<http://gss-data.org.uk/def/concept/countries/israel> rdfs:label "Israel";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "israel";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+_:row10138 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/australia> .
 
-<http://gss-data.org.uk/def/concept/countries/norway> rdfs:label "Norway";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "norway";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+<http://gss-data.org.uk/def/concept/countries/australia> skos:notation "australia" .
 
-<http://gss-data.org.uk/def/concept/countries/panama> rdfs:label "Panama";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "panama";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+_:row10138 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/australia> .
 
-<http://gss-data.org.uk/def/concept/countries/russia> rdfs:label "Russia";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "russia";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+<http://gss-data.org.uk/def/concept/countries/australia> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
 
-<http://gss-data.org.uk/def/concept/countries/singapore> rdfs:label "Singapore";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "singapore";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+_:row10138 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/australia> .
 
-<http://gss-data.org.uk/def/concept/countries/south-africa> rdfs:label "South Africa";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "south-africa";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+<http://gss-data.org.uk/def/concept/countries/australia> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
 
-<http://gss-data.org.uk/def/concept/countries/st-vincent> rdfs:label "St Vincent";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "st-vincent";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+_:row10138 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/australia> .
 
-<http://gss-data.org.uk/def/concept/countries/thailand> rdfs:label "Thailand";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "thailand";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+<http://gss-data.org.uk/def/concept/countries/australia> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
 
-<http://gss-data.org.uk/def/concept/countries/turkey> rdfs:label "Turkey";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "turkey";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+_:row10138 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
 
-<http://gss-data.org.uk/def/concept/countries/uruguay> rdfs:label "Uruguay";
-   skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries>;
-   skos:notation "uruguay";
-   skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/australia> .
 
-<http://gss-data.org.uk/def/concept-scheme/countries> a skos:ConceptScheme,
-     csvw:Table;
-   rdfs:label "Countries"@en;
-   dc:title "Countries"@en;
-   skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/iran>,
-     <http://gss-data.org.uk/def/concept/countries/french-polynesia>,
-     <http://gss-data.org.uk/def/concept/countries/israel>,
-     <http://gss-data.org.uk/def/concept/countries/singapore>,
-     <http://gss-data.org.uk/def/concept/countries/russia>,
-     <http://gss-data.org.uk/def/concept/countries/st-vincent>,
-     <http://gss-data.org.uk/def/concept/countries/south-africa>,
-     <http://gss-data.org.uk/def/concept/countries/norway>,
-     <http://gss-data.org.uk/def/concept/countries/uruguay>,
-     <http://gss-data.org.uk/def/concept/countries/turkey>,
-     <http://gss-data.org.uk/def/concept/countries/australia>,
-     <http://gss-data.org.uk/def/concept/countries/ghana>,
-     <http://gss-data.org.uk/def/concept/countries/chile>,
-     <http://gss-data.org.uk/def/concept/countries/falkland-islands>,
-     <http://gss-data.org.uk/def/concept/countries/thailand>,
-     <http://gss-data.org.uk/def/concept/countries/hong-kong>,
-     <http://gss-data.org.uk/def/concept/countries/panama>;
-   skos:member <http://gss-data.org.uk/def/concept/countries/iran>,
-     <http://gss-data.org.uk/def/concept/countries/french-polynesia>,
-     <http://gss-data.org.uk/def/concept/countries/israel>,
-     <http://gss-data.org.uk/def/concept/countries/singapore>,
-     <http://gss-data.org.uk/def/concept/countries/russia>,
-     <http://gss-data.org.uk/def/concept/countries/st-vincent>,
-     <http://gss-data.org.uk/def/concept/countries/south-africa>,
-     <http://gss-data.org.uk/def/concept/countries/norway>,
-     <http://gss-data.org.uk/def/concept/countries/uruguay>,
-     <http://gss-data.org.uk/def/concept/countries/turkey>,
-     <http://gss-data.org.uk/def/concept/countries/australia>,
-     <http://gss-data.org.uk/def/concept/countries/ghana>,
-     <http://gss-data.org.uk/def/concept/countries/chile>,
-     <http://gss-data.org.uk/def/concept/countries/falkland-islands>,
-     <http://gss-data.org.uk/def/concept/countries/thailand>,
-     <http://gss-data.org.uk/def/concept/countries/hong-kong>,
-     <http://gss-data.org.uk/def/concept/countries/panama>;
-   csvw:row [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/falkland-islands>;
-     csvw:rownum 3;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=4>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/australia>;
-     csvw:rownum 1;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=2>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/uruguay>;
-     csvw:rownum 17;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=18>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept/countries/french-polynesia>,
-       <http://gss-data.org.uk/def/concept-scheme/countries>;
-     csvw:rownum 4;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=5>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept/countries/singapore>,
-       <http://gss-data.org.uk/def/concept-scheme/countries>;
-     csvw:rownum 12;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=13>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept/countries/russia>,
-       <http://gss-data.org.uk/def/concept-scheme/countries>;
-     csvw:rownum 11;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=12>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept/countries/israel>,
-       <http://gss-data.org.uk/def/concept-scheme/countries>;
-     csvw:rownum 8;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=9>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/chile>;
-     csvw:rownum 2;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=3>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept/countries/iran>,
-       <http://gss-data.org.uk/def/concept-scheme/countries>;
-     csvw:rownum 7;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=8>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/panama>;
-     csvw:rownum 10;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=11>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept/countries/hong-kong>,
-       <http://gss-data.org.uk/def/concept-scheme/countries>;
-     csvw:rownum 6;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=7>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept/countries/st-vincent>,
-       <http://gss-data.org.uk/def/concept-scheme/countries>;
-     csvw:rownum 14;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=15>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/south-africa>;
-     csvw:rownum 13;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=14>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept/countries/thailand>,
-       <http://gss-data.org.uk/def/concept-scheme/countries>;
-     csvw:rownum 15;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=16>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/turkey>;
-     csvw:rownum 16;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=17>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/ghana>;
-     csvw:rownum 5;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=6>
-   ],  [
-     a csvw:Row;
-     csvw:describes <http://gss-data.org.uk/def/concept-scheme/countries>,
-       <http://gss-data.org.uk/def/concept/countries/norway>;
-     csvw:rownum 9;
-     csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=10>
-   ];
-   csvw:url <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv> .
+_:row10138 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
 
- [
-     a csvw:TableGroup;
-     csvw:table <http://gss-data.org.uk/def/concept-scheme/countries>;
-     prov:wasGeneratedBy [
-       a prov:Activity;
-       prov:endedAtTime "2018-04-04T12:29:28+02:00"^^xsd:dateTime;
-       prov:qualifiedUsage [
-         a prov:Usage;
-         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv>;
-         prov:hadRole csvw:csvEncodedTabularData
-       ],  [
-         a prov:Usage;
-         prov:entity <file://home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.json>;
-         prov:hadRole csvw:tabularMetadata
-       ];
-       prov:startedAtTime "2018-04-04T12:29:26+02:00"^^xsd:dateTime;
-       prov:wasAssociatedWith <http://rubygems.org/gems/rdf-tabular>
-     ]
- ] .
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/australia> .
+
+_:row10138 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/australia> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10140 .
+
+_:row10140 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "2"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=3> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/chile> .
+
+<http://gss-data.org.uk/def/concept/countries/chile> rdfs:label "Chile" .
+
+_:row10140 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/chile> .
+
+<http://gss-data.org.uk/def/concept/countries/chile> skos:notation "chile" .
+
+_:row10140 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/chile> .
+
+<http://gss-data.org.uk/def/concept/countries/chile> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10140 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/chile> .
+
+<http://gss-data.org.uk/def/concept/countries/chile> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10140 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/chile> .
+
+<http://gss-data.org.uk/def/concept/countries/chile> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10140 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/chile> .
+
+_:row10140 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/chile> .
+
+_:row10140 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/chile> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10142 .
+
+_:row10142 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "3"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=4> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/falkland-islands> .
+
+<http://gss-data.org.uk/def/concept/countries/falkland-islands> rdfs:label "Falkland Islands" .
+
+_:row10142 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/falkland-islands> .
+
+<http://gss-data.org.uk/def/concept/countries/falkland-islands> skos:notation "falkland-islands" .
+
+_:row10142 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/falkland-islands> .
+
+<http://gss-data.org.uk/def/concept/countries/falkland-islands> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10142 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/falkland-islands> .
+
+<http://gss-data.org.uk/def/concept/countries/falkland-islands> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10142 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/falkland-islands> .
+
+<http://gss-data.org.uk/def/concept/countries/falkland-islands> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10142 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/falkland-islands> .
+
+_:row10142 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/falkland-islands> .
+
+_:row10142 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/falkland-islands> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10144 .
+
+_:row10144 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "4"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=5> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/french-polynesia> .
+
+<http://gss-data.org.uk/def/concept/countries/french-polynesia> rdfs:label "French Polynesia" .
+
+_:row10144 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/french-polynesia> .
+
+<http://gss-data.org.uk/def/concept/countries/french-polynesia> skos:notation "french-polynesia" .
+
+_:row10144 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/french-polynesia> .
+
+<http://gss-data.org.uk/def/concept/countries/french-polynesia> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10144 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/french-polynesia> .
+
+<http://gss-data.org.uk/def/concept/countries/french-polynesia> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10144 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/french-polynesia> .
+
+<http://gss-data.org.uk/def/concept/countries/french-polynesia> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10144 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/french-polynesia> .
+
+_:row10144 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/french-polynesia> .
+
+_:row10144 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/french-polynesia> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10146 .
+
+_:row10146 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "5"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=6> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/ghana> .
+
+<http://gss-data.org.uk/def/concept/countries/ghana> rdfs:label "Ghana" .
+
+_:row10146 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/ghana> .
+
+<http://gss-data.org.uk/def/concept/countries/ghana> skos:notation "ghana" .
+
+_:row10146 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/ghana> .
+
+<http://gss-data.org.uk/def/concept/countries/ghana> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10146 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/ghana> .
+
+<http://gss-data.org.uk/def/concept/countries/ghana> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10146 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/ghana> .
+
+<http://gss-data.org.uk/def/concept/countries/ghana> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10146 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/ghana> .
+
+_:row10146 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/ghana> .
+
+_:row10146 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/ghana> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10148 .
+
+_:row10148 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "6"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=7> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/hong-kong> .
+
+<http://gss-data.org.uk/def/concept/countries/hong-kong> rdfs:label "Hong Kong" .
+
+_:row10148 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/hong-kong> .
+
+<http://gss-data.org.uk/def/concept/countries/hong-kong> skos:notation "hong-kong" .
+
+_:row10148 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/hong-kong> .
+
+<http://gss-data.org.uk/def/concept/countries/hong-kong> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10148 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/hong-kong> .
+
+<http://gss-data.org.uk/def/concept/countries/hong-kong> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10148 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/hong-kong> .
+
+<http://gss-data.org.uk/def/concept/countries/hong-kong> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10148 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/hong-kong> .
+
+_:row10148 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/hong-kong> .
+
+_:row10148 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/hong-kong> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10150 .
+
+_:row10150 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "7"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=8> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/iran> .
+
+<http://gss-data.org.uk/def/concept/countries/iran> rdfs:label "Iran" .
+
+_:row10150 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/iran> .
+
+<http://gss-data.org.uk/def/concept/countries/iran> skos:notation "iran" .
+
+_:row10150 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/iran> .
+
+<http://gss-data.org.uk/def/concept/countries/iran> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10150 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/iran> .
+
+<http://gss-data.org.uk/def/concept/countries/iran> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10150 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/iran> .
+
+<http://gss-data.org.uk/def/concept/countries/iran> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10150 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/iran> .
+
+_:row10150 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/iran> .
+
+_:row10150 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/iran> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10152 .
+
+_:row10152 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "8"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=9> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/israel> .
+
+<http://gss-data.org.uk/def/concept/countries/israel> rdfs:label "Israel" .
+
+_:row10152 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/israel> .
+
+<http://gss-data.org.uk/def/concept/countries/israel> skos:notation "israel" .
+
+_:row10152 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/israel> .
+
+<http://gss-data.org.uk/def/concept/countries/israel> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10152 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/israel> .
+
+<http://gss-data.org.uk/def/concept/countries/israel> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10152 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/israel> .
+
+<http://gss-data.org.uk/def/concept/countries/israel> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10152 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/israel> .
+
+_:row10152 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/israel> .
+
+_:row10152 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/israel> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10154 .
+
+_:row10154 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "9"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=10> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/norway> .
+
+<http://gss-data.org.uk/def/concept/countries/norway> rdfs:label "Norway" .
+
+_:row10154 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/norway> .
+
+<http://gss-data.org.uk/def/concept/countries/norway> skos:notation "norway" .
+
+_:row10154 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/norway> .
+
+<http://gss-data.org.uk/def/concept/countries/norway> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10154 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/norway> .
+
+<http://gss-data.org.uk/def/concept/countries/norway> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10154 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/norway> .
+
+<http://gss-data.org.uk/def/concept/countries/norway> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10154 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/norway> .
+
+_:row10154 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/norway> .
+
+_:row10154 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/norway> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10156 .
+
+_:row10156 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "10"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=11> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/panama> .
+
+<http://gss-data.org.uk/def/concept/countries/panama> rdfs:label "Panama" .
+
+_:row10156 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/panama> .
+
+<http://gss-data.org.uk/def/concept/countries/panama> skos:notation "panama" .
+
+_:row10156 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/panama> .
+
+<http://gss-data.org.uk/def/concept/countries/panama> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10156 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/panama> .
+
+<http://gss-data.org.uk/def/concept/countries/panama> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10156 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/panama> .
+
+<http://gss-data.org.uk/def/concept/countries/panama> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10156 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/panama> .
+
+_:row10156 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/panama> .
+
+_:row10156 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/panama> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10158 .
+
+_:row10158 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "11"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=12> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/russia> .
+
+<http://gss-data.org.uk/def/concept/countries/russia> rdfs:label "Russia" .
+
+_:row10158 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/russia> .
+
+<http://gss-data.org.uk/def/concept/countries/russia> skos:notation "russia" .
+
+_:row10158 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/russia> .
+
+<http://gss-data.org.uk/def/concept/countries/russia> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10158 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/russia> .
+
+<http://gss-data.org.uk/def/concept/countries/russia> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10158 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/russia> .
+
+<http://gss-data.org.uk/def/concept/countries/russia> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10158 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/russia> .
+
+_:row10158 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/russia> .
+
+_:row10158 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/russia> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10160 .
+
+_:row10160 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "12"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=13> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/singapore> .
+
+<http://gss-data.org.uk/def/concept/countries/singapore> rdfs:label "Singapore" .
+
+_:row10160 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/singapore> .
+
+<http://gss-data.org.uk/def/concept/countries/singapore> skos:notation "singapore" .
+
+_:row10160 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/singapore> .
+
+<http://gss-data.org.uk/def/concept/countries/singapore> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10160 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/singapore> .
+
+<http://gss-data.org.uk/def/concept/countries/singapore> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10160 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/singapore> .
+
+<http://gss-data.org.uk/def/concept/countries/singapore> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10160 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/singapore> .
+
+_:row10160 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/singapore> .
+
+_:row10160 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/singapore> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10162 .
+
+_:row10162 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "13"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=14> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/south-africa> .
+
+<http://gss-data.org.uk/def/concept/countries/south-africa> rdfs:label "South Africa" .
+
+_:row10162 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/south-africa> .
+
+<http://gss-data.org.uk/def/concept/countries/south-africa> skos:notation "south-africa" .
+
+_:row10162 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/south-africa> .
+
+<http://gss-data.org.uk/def/concept/countries/south-africa> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10162 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/south-africa> .
+
+<http://gss-data.org.uk/def/concept/countries/south-africa> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10162 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/south-africa> .
+
+<http://gss-data.org.uk/def/concept/countries/south-africa> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10162 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/south-africa> .
+
+_:row10162 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/south-africa> .
+
+_:row10162 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/south-africa> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10164 .
+
+_:row10164 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "14"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=15> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/st-vincent> .
+
+<http://gss-data.org.uk/def/concept/countries/st-vincent> rdfs:label "St Vincent" .
+
+_:row10164 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/st-vincent> .
+
+<http://gss-data.org.uk/def/concept/countries/st-vincent> skos:notation "st-vincent" .
+
+_:row10164 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/st-vincent> .
+
+<http://gss-data.org.uk/def/concept/countries/st-vincent> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10164 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/st-vincent> .
+
+<http://gss-data.org.uk/def/concept/countries/st-vincent> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10164 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/st-vincent> .
+
+<http://gss-data.org.uk/def/concept/countries/st-vincent> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10164 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/st-vincent> .
+
+_:row10164 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/st-vincent> .
+
+_:row10164 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/st-vincent> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10166 .
+
+_:row10166 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "15"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=16> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/thailand> .
+
+<http://gss-data.org.uk/def/concept/countries/thailand> rdfs:label "Thailand" .
+
+_:row10166 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/thailand> .
+
+<http://gss-data.org.uk/def/concept/countries/thailand> skos:notation "thailand" .
+
+_:row10166 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/thailand> .
+
+<http://gss-data.org.uk/def/concept/countries/thailand> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10166 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/thailand> .
+
+<http://gss-data.org.uk/def/concept/countries/thailand> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10166 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/thailand> .
+
+<http://gss-data.org.uk/def/concept/countries/thailand> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10166 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/thailand> .
+
+_:row10166 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/thailand> .
+
+_:row10166 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/thailand> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10168 .
+
+_:row10168 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "16"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=17> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/turkey> .
+
+<http://gss-data.org.uk/def/concept/countries/turkey> rdfs:label "Turkey" .
+
+_:row10168 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/turkey> .
+
+<http://gss-data.org.uk/def/concept/countries/turkey> skos:notation "turkey" .
+
+_:row10168 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/turkey> .
+
+<http://gss-data.org.uk/def/concept/countries/turkey> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10168 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/turkey> .
+
+<http://gss-data.org.uk/def/concept/countries/turkey> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10168 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/turkey> .
+
+<http://gss-data.org.uk/def/concept/countries/turkey> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10168 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/turkey> .
+
+_:row10168 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/turkey> .
+
+_:row10168 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/turkey> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> <http://www.w3.org/ns/csvw#row> _:row10170 .
+
+_:row10170 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> "17"^^xsd:integer ;
+	<http://www.w3.org/ns/csvw#url> <file:/home/rueb/code/swirrl/table2qb/examples/overseas-trade/csvw/countries.csv#row=18> ;
+	<http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/uruguay> .
+
+<http://gss-data.org.uk/def/concept/countries/uruguay> rdfs:label "Uruguay" .
+
+_:row10170 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/uruguay> .
+
+<http://gss-data.org.uk/def/concept/countries/uruguay> skos:notation "uruguay" .
+
+_:row10170 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/uruguay> .
+
+<http://gss-data.org.uk/def/concept/countries/uruguay> skos:broader <http://gss-data.org.uk/def/concept/countries/> .
+
+_:row10170 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/uruguay> .
+
+<http://gss-data.org.uk/def/concept/countries/uruguay> skos:inScheme <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10170 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/uruguay> .
+
+<http://gss-data.org.uk/def/concept/countries/uruguay> skos:topConceptOf <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+_:row10170 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:hasTopConcept <http://gss-data.org.uk/def/concept/countries/uruguay> .
+
+_:row10170 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/countries> .
+
+<http://gss-data.org.uk/def/concept-scheme/countries> skos:member <http://gss-data.org.uk/def/concept/countries/uruguay> .
+
+_:row10170 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/countries/uruguay> .

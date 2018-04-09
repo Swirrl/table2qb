@@ -229,7 +229,9 @@
     (testing "under the measures-dimension approach"
       (testing "with a single measure-type column"
         (with-open [input-reader (io/reader (example-csv "validation" "measure-type-single.csv"))]
-          (is (seq? (observations input-reader)))))
+          (is (seq? (observations input-reader))))
+        (testing "and a measure column") ;; TODO - should fail (i.e. either type or measure provided)
+        )
       (testing "with multiple measure-type columns") ;; TODO - not sure this is worth testing until it's a problem!
       (testing "with no measure-type columns"
         (with-open [input-reader (io/reader (example-csv "validation" "measure-type-missing.csv"))]
@@ -237,7 +239,12 @@
                Throwable #"No measure type column"
                (component-specifications input-reader))))))
     (testing "under the multi-measures approach") ;; TODO - this isn't implemented yet
-    ))
+    )
+
+  (testing "values must be provided for all dimensions"
+    (with-open [input-reader (io/reader (example-csv "validation" "dimension-values-missing.csv"))]
+      (is (thrown? Throwable
+                   (doall (observations input-reader)))))))
 
 
 (deftest csv2rdf-integration-test

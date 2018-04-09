@@ -4,6 +4,7 @@
             [net.cgrand.xforms :as x]
             [clojure.java.io :as io]
             [grafter.extra.cell.uri :as gecu]
+            [grafter.extra.cell.string :as gecs]
             [clojure.string :as st]
             [clojure.java.shell :refer [sh]]
             [environ.core :as environ]
@@ -231,9 +232,22 @@
   (let [transformations (identify-transformers row)] ;; TODO: identify once for whole table (not per row)
     (reduce (fn [row [col f]] (update row col f)) row transformations)))
 
+(defn validate-dimensions [row]
+  "Ensures that dimension columns have no missing values"
+  (doseq [dimension (select-keys row is-dimension?)]
+    (if (gecs/blank? (val dimension))
+      (throw (ex-info (str "Missing value for dimension: " (key dimension))
+                      { :row row })))))
+
+(defn validate-columns [row]
+  "Ensures that columns are valid"
+  (validate-dimensions row)
+  row)
+
 (defn observations [reader]
   (let [data (read-csv reader title->name)]
-    (sequence (map transform-columns) data)))
+    (sequence (map (comp transform-columns
+                         validate-columns)) data)))
 
 (defn component->column [{:keys [name title property_template value_template datatype]}]
   (merge {"name" name

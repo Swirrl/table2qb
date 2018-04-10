@@ -1,11 +1,11 @@
-(defproject table2qb "0.1.1-SNAPSHOT"
+(defproject table2qb "0.1.2-SNAPSHOT"
   :description "Transform tables of observations and reference data into RDF data cube resources specified as csvw"
   :url "http://publishmydata.com"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0"]
-                 [grafter/grafter "0.11.0-drafter-rdf4j"]
-                 [grafter/extra "0.2.1-rdf4j-SNAPSHOT"]
+                 [grafter/grafter "0.11.2"]
+                 [grafter/extra "0.2.2-grafter-0.11.2-SNAPSHOT"]
                  [csv2rdf "0.1.0-SNAPSHOT"]
                  [org.clojure/data.csv "0.1.4"]
                  [net.cgrand/xforms "0.16.0"]

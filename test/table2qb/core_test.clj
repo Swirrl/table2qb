@@ -2,7 +2,12 @@
   (:require [clojure.test :refer :all]
             [table2qb.core :refer :all]
             [clojure.java.io :as io]
-            [clojure.data :refer [diff]])
+            [clojure.data :refer [diff]]
+            [grafter.rdf :as rdf]
+            [grafter.rdf.repository :refer [sail-repo ->connection]]
+            [grafter.extra.repository :refer [with-repository]]
+            [grafter.extra.validation.pmd :as pmd]
+            [grafter.extra.validation.pmd.dataset :as pmdd])
   (:import [java.io StringWriter]))
 
 ;; Test Helpers
@@ -252,5 +257,39 @@
       (is (thrown? Throwable
                    (doall (observations input-reader)))))))
 
+(defn load-from-file [conn file]
+  (rdf/add conn (rdf/statements (io/file file))))
+
+(deftest integration-test
+  (testing "Validates table2qb outputs against pmd, dataset, and cube tests"
+    (testing "Overseas Trade"
+      (with-repository [repo (sail-repo)]
+        (with-open [conn (->connection repo)]
+          ;; Third party vocabularies
+          (doseq [file ["./examples/vocabularies/sdmx-dimension.ttl"
+                        "./examples/vocabularies/qb.ttl"
+                        "./examples/overseas-trade/vocabularies/2012.rdf"
+                        "./examples/overseas-trade/vocabularies/CN_2015_20180206_105537.ttl"]]
+            (load-from-file conn file))
+
+          ;; Existing reference data
+          (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv" "Flow Directions" "flow-directions" conn)
+          (codelist-pipeline "./examples/regional-trade/csv/units.csv" "Measurement Units" "measurement-units" conn)
+          (components-pipeline "./examples/regional-trade/csv/components.csv" conn)
+
+          ;; This dataset
+          (codelist-pipeline "./examples/overseas-trade/csv/countries.csv" "Countries" "countries" conn)
+          (components-pipeline "./examples/overseas-trade/csv/components.csv" conn)
+          (cube-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "Overseas Trade Sample" "overseas-trade-sample" conn))
+        (testing "PMD Validation"
+          (is (empty? (pmd/errors repo))))
+        (testing "PMD Dataset Validation"
+          (is (empty? (remove #{"is missing a reference area dimension"
+                                "is not a pmd:Dataset"
+                                "is missing a pmd:graph"}
+                              (pmdd/errors repo (str domain-data "overseas-trade-sample"))))))))))
+
 
 ;; TODO: Need to label components and their codelists
+
+

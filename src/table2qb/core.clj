@@ -497,7 +497,10 @@
     (with-open [reader (io/reader input-csv)
                 writer (io/writer codelist-json)]
       (write-json writer (codelist-metadata codelist-csv codelist-name codelist-slug)))
-    (csvw/csv->rdf->destination codelist-csv codelist-json destination {:mode :standard})))
+    (csvw/csv->rdf->destination codelist-csv codelist-json destination {:mode :standard})
+    (doseq [file [codelist-csv
+                  codelist-json]]
+      (io/delete-file file))))
 
 (defn components-pipeline [input-csv destination]
   (let [components-csv (tempfile "components" ".csv")
@@ -507,7 +510,10 @@
       (write-csv writer (components reader)))
     (with-open [writer (io/writer components-json)]
       (write-json writer (components-metadata components-csv)))
-    (csvw/csv->rdf->destination components-csv components-json destination {:mode :standard})))
+    (csvw/csv->rdf->destination components-csv components-json destination {:mode :standard})
+    (doseq [file [components-csv
+                  components-json]]
+      (io/delete-file file))))
 
 (defn data-pipeline [input-csv dataset-name dataset-slug destination]
   (let [component-specifications-csv (tempfile "component-specifications" ".csv")
@@ -548,7 +554,17 @@
     (with-open [reader (io/reader input-csv)
                 writer (io/writer used-codes-codes-json)]
       (write-json writer (used-codes-codes-metadata reader observations-csv dataset-slug)))
-    (csvw/csv->rdf->destination observations-csv used-codes-codes-json destination {:mode :standard})))
+    (csvw/csv->rdf->destination observations-csv used-codes-codes-json destination {:mode :standard})
+
+    (doseq [file [component-specifications-csv
+                  component-specifications-json
+                  dataset-json
+                  data-structure-definition-json
+                  observations-csv
+                  observations-json
+                  used-codes-codelists-json
+                  used-codes-codes-json]]
+      (io/delete-file file))))
 
 ;; TODO - tidy-up temporary files
 

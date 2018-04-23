@@ -290,6 +290,6 @@
                               (pmdd/errors repo (str domain-data "overseas-trade-sample"))))))))))
 
 
-;; TODO: Need to label components and their codelists
-
+;; TODO: Need to label components and their used-code codelists
+;; TODO: Vocabulary for pmd:usedCode
 

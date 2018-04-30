@@ -20,3 +20,4 @@ Employment,employment,qb:dimension,http://gss-data.org.uk/def/dimension/employme
 Country of Ownership,country_of_ownership,qb:dimension,http://gss-data.org.uk/def/dimension/country-of-ownership,http://gss-data.org.uk/def/concept/countries-of-ownership/{country-of-ownership},string,slugize
 Geography Not Feature,geography_not_feature,qb:dimension,http://gss-data.org.uk/def/dimension/geography-not-feature,http://gss-data.org.uk/def/concept/countries/{geography_not_feature},string,slugize
 Commodity Feature,commodity_feature,qb:dimension,http://gss-data.org.uk/def/dimension/commodity-feature,http://gss-data.org.uk/def/concept/cn8/{commodity_feature},string,
+CPA 2008,cpa2008,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://stamina-project.org/codes/cpav2008/{cpa2008},string,

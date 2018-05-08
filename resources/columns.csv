@@ -13,7 +13,7 @@ Commodity,commodity,qb:dimension,http://gss-data.org.uk/def/dimension/commodity,
 Foreign Country,foreign_country,qb:dimension,http://gss-data.org.uk/def/dimension/foreign-country,http://gss-data.org.uk/def/concept/countries/{foreign_country},string,slugize
 Period,period,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refPeriod,http://reference.data.gov.uk/id/{+period},string,
 CDID,cdid,qb:attribute,http://gss-data.org.uk/def/attribute/cdid,http://gss-data.org.uk/def/cdid/{cdid},string,
-Services,services,qb:dimension,http://gss-data.org.uk/def/dimension/service,http://gss-data.org.uk/def/concept/services/{service},string,slugize
+Services,services,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://gss-data.org.uk/def/concept/services/{service},string,slugize
 Seasonal Adjustment,seasonal-adjustment,qb:dimension,http://gss-data.org.uk/def/dimension/seasonal-adjustment,http://gss-data.org.uk/def/concept/seasonal-adjustments/{seasonal-adjustment},string,
 Turnover,turnover-size-band,qb:dimension,http://gss-data.org.uk/def/dimension/turnover,http://gss-data.org.uk/def/concept/turnover-size-bands/{turnover-size-band},string,slugize
 Employment,employment,qb:dimension,http://gss-data.org.uk/def/dimension/employment,http://gss-data.org.uk/def/concept/employment-size-bands/{employment},string,slugize

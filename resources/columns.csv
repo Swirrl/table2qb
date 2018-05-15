@@ -22,3 +22,4 @@ Geography Not Feature,geography_not_feature,qb:dimension,http://gss-data.org.uk/
 Commodity Feature,commodity_feature,qb:dimension,http://gss-data.org.uk/def/dimension/commodity-feature,http://gss-data.org.uk/def/concept/cn8/{commodity_feature},string,
 CPA 2008,cpa2008,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://stamina-project.org/codes/cpav2008/{cpa2008},string,
 Price Classification,price_classification,qb:dimension,http://gss-data.org.uk/def/dimension/price-classification,http://gss-data.org.uk/def/concept/price-classifications/{price_classification},string,
+CORD SITC,cord_sitc,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://gss-data.org.uk/def/concept/cord-sitc/{cord_sitc},string,

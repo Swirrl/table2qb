@@ -23,3 +23,8 @@ Commodity Feature,commodity_feature,qb:dimension,http://gss-data.org.uk/def/dime
 CPA 2008,cpa2008,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://stamina-project.org/codes/cpav2008/{cpa2008},string,
 Price Classification,price_classification,qb:dimension,http://gss-data.org.uk/def/dimension/price-classification,http://gss-data.org.uk/def/concept/price-classifications/{price_classification},string,
 CORD SITC,cord_sitc,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://gss-data.org.uk/def/concept/cord-sitc/{cord_sitc},string,
+HMRC Partner Geography,hmrc_partner_geography,qb:dimension,http://gss-data.org.uk/def/dimension/trade-partner-geography,http://gss-data.org.uk/def/concept/fixme-geonom/{hmrc_partner_geography},string,
+HMRC Reporter Geography,hmrc_reporter_geography,qb:dimension,http://gss-data.org.uk/def/dimension/trade-reporter-geography,http://statistics.data.gov.uk/id/statistical-geography/{hmrc_reporter_geography},string,
+ONS Partner Geography,ons_partner_geography,qb:dimension,http://gss-data.org.uk/def/dimension/trade-partner-geography,http://gss-data.org.uk/def/concept/ons-trade-areas-{ons_partner_geography},string,
+ONS Reporter Geography,ons_reporter_geography,qb:dimension,http://gss-data.org.uk/def/dimension/trade-reporter-geography,http://statistics.data.gov.uk/id/statistical-geography/{ons_reporter_geography},string,
+International Trade Basis,international_trade_basis,qb:dimension,http://gss-data.org.uk/def/dimension/international-trade-basis,http://gss-data.org.uk/def/concept/international-trade-basis/{international-trade-basis},string,

@@ -495,8 +495,7 @@
   (with-open [reader (io/reader input-csv)
               writer (io/writer codelist-csv)]
       (write-csv writer (codes reader)))
-  (with-open [reader (io/reader input-csv)
-              writer (io/writer codelist-json)]
+  (with-open [writer (io/writer codelist-json)]
     (write-json writer (codelist-metadata codelist-csv codelist-name codelist-slug))))
 
 (defn codelist->csvw->rdf [input-csv codelist-name codelist-slug
@@ -514,9 +513,7 @@
                   codelist-json]]
       (io/delete-file file))))
 
-
-(defn components->csvw [input-csv
-                        components-csv components-json]
+(defn components->csvw [input-csv components-csv components-json]
   (with-open [reader (io/reader input-csv)
               writer (io/writer components-csv)]
     (write-csv writer (components reader)))

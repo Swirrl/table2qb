@@ -10,6 +10,7 @@
             [clojure.java.shell :refer [sh]]
             [environ.core :as environ]
             [csv2rdf.csvw :as csvw]
+            [csv2rdf.source :as source]
             [grafter.rdf :as rdf]))
 
 ;; Config
@@ -300,7 +301,7 @@
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" (str csv-url)
      "tableSchema"
-     {"columns" columns,
+     {"columns" (vec columns)
       "aboutUrl" (observation-template dataset-slug (map :name components))}}))
 
 (defn used-codes-codelists-metadata [csv-url dataset-slug]
@@ -345,7 +346,7 @@
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" (str csv-url)
      "tableSchema"
-     {"columns" columns,
+     {"columns" (vec columns)
       "aboutUrl" codelist-uri}}))
 
 
@@ -481,105 +482,80 @@
 
 ;; pipelines
 
+(defn csv-file->metadata-uri [csv-file]
+  (.resolve (.toURI csv-file) "meta.json"))
+
+(defn create-metadata-source [csv-file-str metadata-json]
+  (let [meta-uri (csv-file->metadata-uri (io/file csv-file-str))]
+    (source/->MapMetadataSource meta-uri metadata-json)))
+
 (defn tempfile [filename extension]
   (java.io.File/createTempFile filename extension))
 
 (def csv2rdf-config {:mode :standard})
 
-(defn codelist->csvw [input-csv codelist-name codelist-slug
-                      codelist-csv codelist-json]
+(defn codelist->csvw [input-csv codelist-csv]
   (with-open [reader (io/reader input-csv)
               writer (io/writer codelist-csv)]
-      (write-csv writer (codes reader)))
-  (with-open [writer (io/writer codelist-json)]
-    (write-json writer (codelist-metadata codelist-csv codelist-name codelist-slug))))
+      (write-csv writer (codes reader))))
 
-(defn codelist->csvw->rdf [input-csv codelist-name codelist-slug codelist-csv codelist-json]
-  (codelist->csvw input-csv codelist-name codelist-slug
-                  codelist-csv codelist-json)
-  (csvw/csv->rdf codelist-csv codelist-json csv2rdf-config))
+(defn codelist->csvw->rdf [input-csv codelist-name codelist-slug codelist-csv]
+  (codelist->csvw input-csv codelist-csv)
+  (let [codelist-meta (codelist-metadata codelist-csv codelist-name codelist-slug)]
+    (csvw/csv->rdf codelist-csv (create-metadata-source input-csv codelist-meta) csv2rdf-config)))
 
 (defn codelist-pipeline [input-csv codelist-name codelist-slug]
-  (let [codelist-csv (tempfile codelist-slug ".csv")
-        codelist-json (tempfile codelist-slug ".json")]
-    (codelist->csvw->rdf input-csv codelist-name codelist-slug codelist-csv codelist-json)))
+  (let [codelist-csv (tempfile codelist-slug ".csv")]
+    (codelist->csvw->rdf input-csv codelist-name codelist-slug codelist-csv)))
 
-(defn components->csvw [input-csv components-csv components-json]
+(defn components->csvw [input-csv components-csv]
   (with-open [reader (io/reader input-csv)
               writer (io/writer components-csv)]
-    (write-csv writer (components reader)))
-  (with-open [writer (io/writer components-json)]
-    (write-json writer (components-metadata components-csv))))
+    (write-csv writer (components reader))))
 
-(defn components->csvw->rdf [input-csv components-csv components-json]
-  (components->csvw input-csv components-csv components-json)
-  (csvw/csv->rdf components-csv components-json csv2rdf-config))
+(defn components->csvw->rdf [input-csv components-csv]
+  (components->csvw input-csv components-csv)
+  (let [components-meta (components-metadata components-csv)]
+    (csvw/csv->rdf components-csv (create-metadata-source input-csv components-meta) csv2rdf-config)))
 
 (defn components-pipeline [input-csv]
-  (let [components-csv (tempfile "components" ".csv")
-        components-json (tempfile "components" ".json")]
-    (components->csvw->rdf input-csv components-csv components-json)))
+  (let [components-csv (tempfile "components" ".csv")]
+    (components->csvw->rdf input-csv components-csv)))
 
-(defn cube->csvw [input-csv dataset-name dataset-slug
-                  component-specifications-csv component-specifications-json
-                  dataset-json data-structure-definition-json
-                  observations-csv observations-json
-                  used-codes-codelists-json used-codes-codes-json]
+(defn cube->csvw [input-csv component-specifications-csv observations-csv]
   (with-open [reader (io/reader input-csv)
               writer (io/writer component-specifications-csv)]
     (write-csv writer (component-specifications reader)))
-  (with-open [writer (io/writer component-specifications-json)]
-    (write-json writer (component-specification-metadata component-specifications-csv dataset-name dataset-slug)))
-  (with-open [writer (io/writer dataset-json)]
-    (write-json writer (dataset-metadata component-specifications-csv dataset-name dataset-slug)))
-  (with-open [writer (io/writer data-structure-definition-json)]
-    (write-json writer (data-structure-definition-metadata component-specifications-csv dataset-name dataset-slug)))
+
   (with-open [reader (io/reader input-csv)
               writer (io/writer observations-csv)]
-    (write-csv writer (observations reader)))
-  (with-open [reader (io/reader input-csv)
-              writer (io/writer observations-json)]
-    (write-json writer (observations-metadata reader observations-csv dataset-slug)))
-  (with-open [writer (io/writer used-codes-codelists-json)]
-    (write-json writer (used-codes-codelists-metadata component-specifications-csv dataset-slug)))
-  (with-open [reader (io/reader input-csv)
-              writer (io/writer used-codes-codes-json)]
-    (write-json writer (used-codes-codes-metadata reader observations-csv dataset-slug))))
+    (write-csv writer (observations reader))))
 
-(defn cube->csvw->rdf [input-csv dataset-name dataset-slug
-                       component-specifications-csv component-specifications-json
-                       dataset-json data-structure-definition-json
-                       observations-csv observations-json
-                       used-codes-codelists-json used-codes-codes-json]
-  (cube->csvw input-csv dataset-name dataset-slug
-              component-specifications-csv component-specifications-json
-              dataset-json data-structure-definition-json
-              observations-csv observations-json
-              used-codes-codelists-json used-codes-codes-json)
+(defn cube->csvw->rdf [input-csv dataset-name dataset-slug component-specifications-csv observations-csv]
+  (cube->csvw input-csv component-specifications-csv observations-csv)
 
-  ;;TODO: don't use concat
-  (concat
-    (csvw/csv->rdf component-specifications-csv component-specifications-json {:mode :standard})
-    (csvw/csv->rdf component-specifications-csv dataset-json {:mode :standard})
-    (csvw/csv->rdf component-specifications-csv data-structure-definition-json {:mode :standard})
-    (csvw/csv->rdf observations-csv observations-json {:mode :standard})
-    (csvw/csv->rdf component-specifications-csv used-codes-codelists-json {:mode :standard})
-    (csvw/csv->rdf observations-csv used-codes-codes-json {:mode :standard})))
+  (let [component-specification-metadata-meta (component-specification-metadata component-specifications-csv dataset-name dataset-slug)
+        dataset-metadata-meta (dataset-metadata component-specifications-csv dataset-name dataset-slug)
+        dsd-metadata-meta (data-structure-definition-metadata component-specifications-csv dataset-name dataset-slug)
+        observations-metadata-meta (with-open [reader (io/reader input-csv)]
+                                     (observations-metadata reader observations-csv dataset-slug))
+        used-codes-codelists-metadata-meta (used-codes-codelists-metadata component-specifications-csv dataset-slug)
+        used-codes-codes-metadata-meta (with-open [reader (io/reader input-csv)]
+                                         (used-codes-codes-metadata reader observations-csv dataset-slug))]
+    ;;TODO: don't use concat
+    (concat
+      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv component-specification-metadata-meta) {:mode :standard})
+      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv dataset-metadata-meta) {:mode :standard})
+      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv dsd-metadata-meta) {:mode :standard})
+      (csvw/csv->rdf observations-csv (create-metadata-source input-csv observations-metadata-meta) {:mode :standard})
+      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv used-codes-codelists-metadata-meta) {:mode :standard})
+      (csvw/csv->rdf observations-csv (create-metadata-source input-csv used-codes-codes-metadata-meta) {:mode :standard}))))
 
 (defn cube-pipeline [input-csv dataset-name dataset-slug]
   (let [component-specifications-csv (tempfile "component-specifications" ".csv")
-        component-specifications-json (tempfile "component-specifications" ".json")
-        dataset-json (tempfile "dataset" ".json")
-        data-structure-definition-json (tempfile "data-structure-definition" ".json")
-        observations-csv (tempfile "observations" ".csv")
-        observations-json (tempfile "observations" ".json")
-        used-codes-codelists-json (tempfile "used-codes-codelists" ".json")
-        used-codes-codes-json (tempfile "used-codes-codes" ".json")]
+        observations-csv (tempfile "observations" ".csv")]
     (cube->csvw->rdf input-csv dataset-name dataset-slug
-                     component-specifications-csv component-specifications-json
-                     dataset-json data-structure-definition-json
-                     observations-csv observations-json
-                     used-codes-codelists-json used-codes-codes-json)))
+                     component-specifications-csv observations-csv)))
 
 (defn serialise-demo [out-dir]
   (with-open [output-stream (io/output-stream (str out-dir "/components.ttl"))]

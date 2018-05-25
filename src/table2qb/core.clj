@@ -9,15 +9,13 @@
             [clojure.string :as st]
             [clojure.java.shell :refer [sh]]
             [environ.core :as environ]
-            [csv2rdf.csvw :as csvw])
-  (:import java.io.File))
+            [csv2rdf.csvw :as csvw]
+            [grafter.rdf :as rdf]))
 
 ;; Config
 (def domain (environ/env :base-uri "http://gss-data.org.uk/"))
 (def domain-data (str domain "data/"))
 (def domain-def (str domain "def/"))
-
-
 
 ;; CSV handling
 
@@ -48,7 +46,6 @@
 (def read-json json/read)
 (defn write-json [writer data]
   (json/write data writer))
-
 
 ;; Conventions
 
@@ -482,7 +479,6 @@
         "value" "{label}",
         "virtual" true}]}}))
 
-
 ;; pipelines
 
 (defn tempfile [filename extension]
@@ -498,20 +494,15 @@
   (with-open [writer (io/writer codelist-json)]
     (write-json writer (codelist-metadata codelist-csv codelist-name codelist-slug))))
 
-(defn codelist->csvw->rdf [input-csv codelist-name codelist-slug
-                           codelist-csv codelist-json
-                           destination]
+(defn codelist->csvw->rdf [input-csv codelist-name codelist-slug codelist-csv codelist-json]
   (codelist->csvw input-csv codelist-name codelist-slug
                   codelist-csv codelist-json)
-  (csvw/csv->rdf->destination codelist-csv codelist-json destination csv2rdf-config))
+  (csvw/csv->rdf codelist-csv codelist-json csv2rdf-config))
 
-(defn codelist-pipeline [input-csv codelist-name codelist-slug destination]
+(defn codelist-pipeline [input-csv codelist-name codelist-slug]
   (let [codelist-csv (tempfile codelist-slug ".csv")
         codelist-json (tempfile codelist-slug ".json")]
-    (codelist->csvw->rdf input-csv codelist-name codelist-slug codelist-csv codelist-json destination)
-    (doseq [file [codelist-csv
-                  codelist-json]]
-      (io/delete-file file))))
+    (codelist->csvw->rdf input-csv codelist-name codelist-slug codelist-csv codelist-json)))
 
 (defn components->csvw [input-csv components-csv components-json]
   (with-open [reader (io/reader input-csv)
@@ -520,20 +511,14 @@
   (with-open [writer (io/writer components-json)]
     (write-json writer (components-metadata components-csv))))
 
-(defn components->csvw->rdf [input-csv
-                             components-csv components-json
-                             destination]
+(defn components->csvw->rdf [input-csv components-csv components-json]
   (components->csvw input-csv components-csv components-json)
-  (csvw/csv->rdf->destination components-csv components-json destination csv2rdf-config))
+  (csvw/csv->rdf components-csv components-json csv2rdf-config))
 
-(defn components-pipeline [input-csv destination]
+(defn components-pipeline [input-csv]
   (let [components-csv (tempfile "components" ".csv")
         components-json (tempfile "components" ".json")]
-    (components->csvw->rdf input-csv components-csv components-json destination)
-    (doseq [file [components-csv
-                  components-json]]
-      (io/delete-file file))))
-
+    (components->csvw->rdf input-csv components-csv components-json)))
 
 (defn cube->csvw [input-csv dataset-name dataset-slug
                   component-specifications-csv component-specifications-json
@@ -565,21 +550,23 @@
                        component-specifications-csv component-specifications-json
                        dataset-json data-structure-definition-json
                        observations-csv observations-json
-                       used-codes-codelists-json used-codes-codes-json
-                       destination]
+                       used-codes-codelists-json used-codes-codes-json]
   (cube->csvw input-csv dataset-name dataset-slug
               component-specifications-csv component-specifications-json
               dataset-json data-structure-definition-json
               observations-csv observations-json
               used-codes-codelists-json used-codes-codes-json)
-  (csvw/csv->rdf->destination component-specifications-csv component-specifications-json destination {:mode :standard})
-  (csvw/csv->rdf->destination component-specifications-csv dataset-json destination {:mode :standard})
-  (csvw/csv->rdf->destination component-specifications-csv data-structure-definition-json destination {:mode :standard})
-  (csvw/csv->rdf->destination observations-csv observations-json destination {:mode :standard})
-  (csvw/csv->rdf->destination component-specifications-csv used-codes-codelists-json destination {:mode :standard})
-  (csvw/csv->rdf->destination observations-csv used-codes-codes-json destination {:mode :standard}))
 
-(defn cube-pipeline [input-csv dataset-name dataset-slug destination]
+  ;;TODO: don't use concat
+  (concat
+    (csvw/csv->rdf component-specifications-csv component-specifications-json {:mode :standard})
+    (csvw/csv->rdf component-specifications-csv dataset-json {:mode :standard})
+    (csvw/csv->rdf component-specifications-csv data-structure-definition-json {:mode :standard})
+    (csvw/csv->rdf observations-csv observations-json {:mode :standard})
+    (csvw/csv->rdf component-specifications-csv used-codes-codelists-json {:mode :standard})
+    (csvw/csv->rdf observations-csv used-codes-codes-json {:mode :standard})))
+
+(defn cube-pipeline [input-csv dataset-name dataset-slug]
   (let [component-specifications-csv (tempfile "component-specifications" ".csv")
         component-specifications-json (tempfile "component-specifications" ".json")
         dataset-json (tempfile "dataset" ".json")
@@ -592,47 +579,36 @@
                      component-specifications-csv component-specifications-json
                      dataset-json data-structure-definition-json
                      observations-csv observations-json
-                     used-codes-codelists-json used-codes-codes-json
-                     destination)
-    (doseq [file [component-specifications-csv
-                  component-specifications-json
-                  dataset-json
-                  data-structure-definition-json
-                  observations-csv
-                  observations-json
-                  used-codes-codelists-json
-                  used-codes-codes-json]]
-      (io/delete-file file))))
-
+                     used-codes-codelists-json used-codes-codes-json)))
 
 (defn serialise-demo [out-dir]
   (with-open [output-stream (io/output-stream (str out-dir "/components.ttl"))]
      (let [writer (gio/rdf-serializer output-stream :format :ttl)]
-       (components-pipeline "./examples/regional-trade/csv/components.csv"
-                            writer)))
+       (rdf/add writer
+                (components-pipeline "./examples/regional-trade/csv/components.csv"))))
 
   (with-open [output-stream (io/output-stream (str out-dir "/flow-directions.ttl"))]
      (let [writer (gio/rdf-serializer output-stream :format :ttl)]
-       (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv"
-                          "Flow Directions" "flow-directions"
-                          writer)))
+       (rdf/add writer
+                (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv"
+                                   "Flow Directions" "flow-directions"))))
 
   (with-open [output-stream (io/output-stream (str out-dir "/sitc-sections.ttl"))]
      (let [writer (gio/rdf-serializer output-stream :format :ttl)]
-       (codelist-pipeline "./examples/regional-trade/csv/sitc-sections.csv"
-                          "SITC Sections" "sitc-sections"
-                          writer)))
+       (rdf/add writer
+                (codelist-pipeline "./examples/regional-trade/csv/sitc-sections.csv"
+                                   "SITC Sections" "sitc-sections"))))
 
   (with-open [output-stream (io/output-stream (str out-dir "/measurement-units.ttl"))]
      (let [writer (gio/rdf-serializer output-stream :format :ttl)]
-       (codelist-pipeline "./examples/regional-trade/csv/units.csv"
-                          "Measurement Units" "measurement-units"
-                          writer)))
+       (rdf/add writer
+                (codelist-pipeline "./examples/regional-trade/csv/units.csv"
+                                   "Measurement Units" "measurement-units"))))
 
   (with-open [output-stream (io/output-stream (str out-dir "/cube.ttl"))]
     (let [writer (gio/rdf-serializer output-stream :format :ttl)]
-      (cube-pipeline "./examples/regional-trade/csv/input.csv"
-                     "Regional Trade" "regional-trade"
-                     writer))))
+      (rdf/add writer
+               (cube-pipeline "./examples/regional-trade/csv/input.csv"
+                              "Regional Trade" "regional-trade")))))
 
 ;;(serialise-demo "./tmp")

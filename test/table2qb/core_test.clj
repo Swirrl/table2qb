@@ -272,15 +272,17 @@
                         "./examples/overseas-trade/vocabularies/CN_2015_20180206_105537.ttl"]]
             (load-from-file conn file))
 
-          ;; Existing reference data
-          (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv" "Flow Directions" "flow-directions" conn)
-          (codelist-pipeline "./examples/regional-trade/csv/units.csv" "Measurement Units" "measurement-units" conn)
-          (components-pipeline "./examples/regional-trade/csv/components.csv" conn)
+          (let [stmts (concat
+                        ;; Existing reference data
+                        (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv" "Flow Directions" "flow-directions")
+                        (codelist-pipeline "./examples/regional-trade/csv/units.csv" "Measurement Units" "measurement-units")
+                        (components-pipeline "./examples/regional-trade/csv/components.csv")
 
-          ;; This dataset
-          (codelist-pipeline "./examples/overseas-trade/csv/countries.csv" "Countries" "countries" conn)
-          (components-pipeline "./examples/overseas-trade/csv/components.csv" conn)
-          (cube-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "Overseas Trade Sample" "overseas-trade-sample" conn))
+                        ;; This dataset
+                        (codelist-pipeline "./examples/overseas-trade/csv/countries.csv" "Countries" "countries")
+                        (components-pipeline "./examples/overseas-trade/csv/components.csv")
+                        (cube-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "Overseas Trade Sample" "overseas-trade-sample"))]
+            (rdf/add conn stmts)))
         (testing "PMD Validation"
           (is (empty? (pmd/errors repo))))
         (testing "PMD Dataset Validation"

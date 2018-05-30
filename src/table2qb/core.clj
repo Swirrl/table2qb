@@ -11,7 +11,9 @@
             [environ.core :as environ]
             [csv2rdf.csvw :as csvw]
             [csv2rdf.source :as source]
-            [grafter.rdf :as rdf]))
+            [grafter.rdf :as rdf]
+            [table2qb.source :as row-source])
+  (:import [java.net URI]))
 
 ;; Config
 (def domain (environ/env :base-uri "http://gss-data.org.uk/"))
@@ -250,6 +252,8 @@
     (sequence (map (comp transform-columns
                          validate-columns)) data)))
 
+(def derive-observation (comp validate-columns transform-columns))
+
 (defn component->column [{:keys [name title property_template value_template datatype]}]
   (merge {"name" name
           "titles" name ;; could revert to title here (would need to do so in all output csv too)
@@ -349,27 +353,21 @@
      {"columns" (vec columns)
       "aboutUrl" codelist-uri}}))
 
-
-(defn components [reader]
-  (let [data (read-csv reader {"Label" :label
-                               "Description" :description
-                               "Component Type" :component_type
-                               "Codelist" :codelist})]
-    (sequence (map (fn [row]
-                     (-> row
-                         (assoc :notation (gecu/slugize (:label row)))
-                         (assoc :component_type_slug ({"Dimension" "dimension"
-                                                       "Measure" "measure"
-                                                       "Attribute" "attribute"}
-                                                      (row :component_type)))
-                         (assoc :property_slug (gecu/propertize (:label row)))
-                         (assoc :class_slug (gecu/classize (:label row)))
-                         (update :component_type {"Dimension" "qb:DimensionProperty"
-                                                  "Measure" "qb:MeasureProperty"
-                                                  "Attribute" "qb:AttributeProperty"})
-                         (assoc :parent_property (if (= "Measure" (:component_type row))
-                                                   "http://purl.org/linked-data/sdmx/2009/measure#obsValue")))))
-              data)))
+(defn derive-components [row]
+  (-> row
+      (assoc :notation (gecu/slugize (:label row)))
+      (assoc :component_type_slug ({"Dimension" "dimension"
+                                    "Measure" "measure"
+                                    "Attribute" "attribute"}
+                                    (row :component_type)))
+      (assoc :property_slug (gecu/propertize (:label row)))
+      (assoc :class_slug (gecu/classize (:label row)))
+      (update :component_type {"Dimension" "qb:DimensionProperty"
+                               "Measure" "qb:MeasureProperty"
+                               "Attribute" "qb:AttributeProperty"})
+      (assoc :parent_property (if (= "Measure" (:component_type row))
+                                "http://purl.org/linked-data/sdmx/2009/measure#obsValue"
+                                ""))))
 
 (defn components-metadata [csv-url]
   (let [ontology-uri (str domain-def "ontology/components")]
@@ -428,12 +426,6 @@
         "valueUrl" "rdf:Property"}],
       "aboutUrl" (str domain-def "{component_type_slug}/{notation}")}})) ;; property-slug?
 
-(defn codes [reader]
-  (let [data (read-csv reader {"Label" :label
-                               "Notation" :notation
-                               "Parent Notation", :parent_notation})]
-    data))
-
 (defn codelist-metadata [csv-url codelist-name codelist-slug]
   (let [codelist-uri (str domain-def "concept-scheme/" codelist-slug)
         code-uri (str domain-def "concept/" codelist-slug "/{notation}")
@@ -482,92 +474,108 @@
 
 ;; pipelines
 
-(defn csv-file->metadata-uri [csv-file]
-  (.resolve (.toURI csv-file) "meta.json"))
-
-(defn create-metadata-source [csv-file-str metadata-json]
-  (let [meta-uri (csv-file->metadata-uri (io/file csv-file-str))]
+(defn create-metadata-source [^URI tabular-uri metadata-json]
+  (let [meta-uri (.resolve tabular-uri "metadata.json")]
     (source/->MapMetadataSource meta-uri metadata-json)))
-
-(defn tempfile [filename extension]
-  (java.io.File/createTempFile filename extension))
 
 (def csv2rdf-config {:mode :standard})
 
-(defn codelist->csvw [input-csv codelist-csv]
-  (with-open [reader (io/reader input-csv)
-              writer (io/writer codelist-csv)]
-      (write-csv writer (codes reader))))
+(defn make-table-resolver [uri->table-source-map]
+  (fn [uri]
+    (if-let [table-source (get uri->table-source-map uri)]
+      table-source
+      (throw (IllegalArgumentException. (str "Unexepcted table URI: " uri))))))
 
-(defn codelist->csvw->rdf [input-csv codelist-name codelist-slug codelist-csv]
-  (codelist->csvw input-csv codelist-csv)
-  (let [codelist-meta (codelist-metadata codelist-csv codelist-name codelist-slug)]
-    (csvw/csv->rdf codelist-csv (create-metadata-source input-csv codelist-meta) csv2rdf-config)))
+(defn codes-source [input-file]
+  (let [header-mapping {"Label" :label "Notation" :notation "Parent Notation" :parent_notation}
+        output-column-names [:label :notation :parent_notation]]
+    (row-source/header-replacing-source input-file header-mapping output-column-names)))
 
 (defn codelist-pipeline [input-csv codelist-name codelist-slug]
-  (let [codelist-csv (tempfile codelist-slug ".csv")]
-    (codelist->csvw->rdf input-csv codelist-name codelist-slug codelist-csv)))
+  (let [input-file (io/file input-csv)
+        input-uri (.toURI input-file)
+        table-source (codes-source input-file)
+        table-resolver (make-table-resolver {input-uri table-source})
+        options (assoc csv2rdf-config :table-resolver table-resolver)
+        codelist-meta (codelist-metadata (.toURI input-file) codelist-name codelist-slug)]
+    (csvw/csv->rdf table-source (create-metadata-source input-uri codelist-meta) options)))
 
-(defn components->csvw [input-csv components-csv]
-  (with-open [reader (io/reader input-csv)
-              writer (io/writer components-csv)]
-    (write-csv writer (components reader))))
-
-(defn components->csvw->rdf [input-csv components-csv]
-  (components->csvw input-csv components-csv)
-  (let [components-meta (components-metadata components-csv)]
-    (csvw/csv->rdf components-csv (create-metadata-source input-csv components-meta) csv2rdf-config)))
+(defn components-source [input-file]
+  (let [header-mapping {"Label" :label "Description" :description "Component Type" :component_type "Codelist" :codelist}
+        output-column-names [:label :description :component_type :codelist :notation :component_type_slug :property_slug :class_slug :parent_property]]
+    (row-source/->TransformingRowSource input-file
+                                        header-mapping
+                                        output-column-names
+                                        derive-components)))
 
 (defn components-pipeline [input-csv]
-  (let [components-csv (tempfile "components" ".csv")]
-    (components->csvw->rdf input-csv components-csv)))
+  (let [input-file (io/file input-csv)
+        input-uri (.toURI input-file)
+        table-source (components-source input-file)
+        table-resolver (make-table-resolver {input-uri table-source})
+        options (assoc csv2rdf-config :table-resolver table-resolver)
+        components-meta (components-metadata input-uri)]
+    (csvw/csv->rdf table-source (create-metadata-source input-uri components-meta) options)))
 
-(defn cube->csvw [input-csv component-specifications-csv observations-csv]
-  (with-open [reader (io/reader input-csv)
-              writer (io/writer component-specifications-csv)]
-    (write-csv writer (component-specifications reader)))
+(defn metadata-output-column-keys [meta]
+  (let [cols (get-in meta ["tableSchema" "columns"])]
+    (->> cols
+        (remove (fn [col] (get col "virtual")))
+        (mapv (fn [col] (keyword (get col "name")))))))
 
-  (with-open [reader (io/reader input-csv)
-              writer (io/writer observations-csv)]
-    (write-csv writer (observations reader))))
+(defn create-observations-source [tabular-file]
+  (let [dummy-meta (with-open [reader (io/reader tabular-file)]
+                     (observations-metadata reader (URI. "http://dummy") "dummy"))
+        col-keys (metadata-output-column-keys dummy-meta)]
+    (row-source/->TransformingRowSource tabular-file title->name col-keys derive-observation)))
 
-(defn cube->csvw->rdf [input-csv dataset-name dataset-slug component-specifications-csv observations-csv]
-  (cube->csvw input-csv component-specifications-csv observations-csv)
+(defn get-component-specification-rows
+  "Returns a collection of component specification maps from the given observations file."
+  [observations-file]
+  (with-open [reader (io/reader observations-file)]
+    (into [] (component-specifications reader))))
 
-  (let [component-specification-metadata-meta (component-specification-metadata component-specifications-csv dataset-name dataset-slug)
-        dataset-metadata-meta (dataset-metadata component-specifications-csv dataset-name dataset-slug)
-        dsd-metadata-meta (data-structure-definition-metadata component-specifications-csv dataset-name dataset-slug)
-        observations-metadata-meta (with-open [reader (io/reader input-csv)]
-                                     (observations-metadata reader observations-csv dataset-slug))
-        used-codes-codelists-metadata-meta (used-codes-codelists-metadata component-specifications-csv dataset-slug)
-        used-codes-codes-metadata-meta (with-open [reader (io/reader input-csv)]
-                                         (used-codes-codes-metadata reader observations-csv dataset-slug))]
-    ;;TODO: don't use concat
-    (concat
-      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv component-specification-metadata-meta) {:mode :standard})
-      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv dataset-metadata-meta) {:mode :standard})
-      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv dsd-metadata-meta) {:mode :standard})
-      (csvw/csv->rdf observations-csv (create-metadata-source input-csv observations-metadata-meta) {:mode :standard})
-      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv used-codes-codelists-metadata-meta) {:mode :standard})
-      (csvw/csv->rdf observations-csv (create-metadata-source input-csv used-codes-codes-metadata-meta) {:mode :standard}))))
+(defn component-specification-source [observations-file tabular-uri]
+  (let [component-specification-rows (get-component-specification-rows observations-file)
+        output-column-names [:component_slug :component_attachment :component_property]]
+    (row-source/->MemoryRowSource tabular-uri output-column-names component-specification-rows)))
 
 (defn cube-pipeline [input-csv dataset-name dataset-slug]
-  (let [component-specifications-csv (tempfile "component-specifications" ".csv")
-        observations-csv (tempfile "observations" ".csv")]
-    (cube->csvw->rdf input-csv dataset-name dataset-slug
-                     component-specifications-csv observations-csv)))
+  (let [input-file (io/file input-csv)
+        observations-source (create-observations-source input-file)
+        input-uri (.toURI input-file)
+
+        component-specifications-source (component-specification-source input-file input-uri)
+        component-spec-resolver (make-table-resolver {input-uri component-specifications-source})
+
+        component-specification-metadata-meta (component-specification-metadata input-uri dataset-name dataset-slug)
+        dataset-metadata-meta (dataset-metadata input-uri dataset-name dataset-slug)
+        dsd-metadata-meta (data-structure-definition-metadata input-uri dataset-name dataset-slug)
+        observations-metadata-meta (with-open [reader (io/reader input-csv)]
+                                     (observations-metadata reader input-uri dataset-slug))
+        used-codes-codelists-metadata-meta (used-codes-codelists-metadata input-uri dataset-slug)
+        used-codes-codes-metadata-meta (with-open [reader (io/reader input-csv)]
+                                         (used-codes-codes-metadata reader input-uri dataset-slug))]
+    ;;TODO: don't use concat
+    (concat
+      (csvw/csv->rdf component-specifications-source (create-metadata-source input-uri component-specification-metadata-meta) {:mode :standard :table-resolver component-spec-resolver})
+      (csvw/csv->rdf component-specifications-source (create-metadata-source input-uri dataset-metadata-meta) {:mode :standard :table-resolver component-spec-resolver})
+      (csvw/csv->rdf component-specifications-source (create-metadata-source input-uri dsd-metadata-meta) {:mode :standard :table-resolver component-spec-resolver})
+      (csvw/csv->rdf input-file (create-metadata-source input-uri observations-metadata-meta) {:mode :standard :table-resolver (make-table-resolver {input-uri observations-source})})
+      (csvw/csv->rdf component-specifications-source (create-metadata-source input-uri used-codes-codelists-metadata-meta) {:mode :standard :table-resolver component-spec-resolver})
+      (csvw/csv->rdf input-file (create-metadata-source input-uri used-codes-codes-metadata-meta) {:mode :standard :table-resolver (make-table-resolver {input-uri observations-source})}))))
 
 (defn serialise-demo [out-dir]
   (with-open [output-stream (io/output-stream (str out-dir "/components.ttl"))]
-     (let [writer (gio/rdf-serializer output-stream :format :ttl)]
-       (rdf/add writer
-                (components-pipeline "./examples/regional-trade/csv/components.csv"))))
+    (let [writer (gio/rdf-serializer output-stream :format :ttl)]
+      (rdf/add writer
+               (components-pipeline "./examples/regional-trade/csv/components.csv"))))
 
   (with-open [output-stream (io/output-stream (str out-dir "/flow-directions.ttl"))]
-     (let [writer (gio/rdf-serializer output-stream :format :ttl)]
-       (rdf/add writer
-                (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv"
-                                   "Flow Directions" "flow-directions"))))
+    (let [writer (gio/rdf-serializer output-stream :format :ttl)]
+      (rdf/add writer
+               (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv"
+                                  "Flow Directions" "flow-directions"))))
 
   (with-open [output-stream (io/output-stream (str out-dir "/sitc-sections.ttl"))]
      (let [writer (gio/rdf-serializer output-stream :format :ttl)]

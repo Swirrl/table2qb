@@ -1,6 +1,7 @@
 (ns table2qb.core-test
   (:require [clojure.test :refer :all]
             [table2qb.core :refer :all]
+            [table2qb.source :as source]
             [clojure.java.io :as io]
             [clojure.data :refer [diff]]
             [grafter.rdf :as rdf]
@@ -55,46 +56,51 @@
 
 (deftest components-test
   (testing "csv table"
-    (with-open [input-reader (io/reader (example-csv "regional-trade" "components.csv"))]
-      (let [components (doall (components input-reader))]
-        (testing "one row per component"
-          (is (= 4 (count components))))
-        (testing "one column per attribute"
-          (testing "flow"
-            (let [flow (first-by :label "Flow" components)]
-              (are [attribute value] (= value (attribute flow))
-                :notation "flow"
-                :description "Direction in which trade is measured"
-                :component_type "qb:DimensionProperty"
-                :component_type_slug "dimension"
-                :codelist (str domain-def "concept-scheme/flow-directions")
-                :property_slug "flow"
-                :class_slug "Flow"
-                :parent_property nil)))
-          (testing "gbp total"
-            (let [gbp-total (first-by :label "GBP Total" components)]
-              (are [attribute value] (= value (attribute gbp-total))
-                :notation "gbp-total"
-                :component_type "qb:MeasureProperty"
-                :component_type_slug "measure"
-                :property_slug "gbpTotal"
-                :class_slug "GbpTotal"
-                :parent_property "http://purl.org/linked-data/sdmx/2009/measure#obsValue")))))))
+    (let [components-file (io/file (example-csv "regional-trade" "components.csv"))
+          rows (doall (source/get-rows (components-source components-file)))
+          [[header] data-rows] (split-at 1 rows)
+          column-keys (map keyword (:cells header))
+          components (map (fn [row] (zipmap column-keys (:cells row))) data-rows)]
+      (testing "one row per component"
+        (is (= 4 (count data-rows))))
+      (testing "one column per attribute"
+        (testing "flow"
+          (let [flow (first-by :label "Flow" components)]
+            (are [attribute value] (= value (attribute flow))
+                 :notation "flow"
+              :description "Direction in which trade is measured"
+              :component_type "qb:DimensionProperty"
+              :component_type_slug "dimension"
+              :codelist (str domain-def "concept-scheme/flow-directions")
+              :property_slug "flow"
+              :class_slug "Flow"
+              :parent_property "")))
+        (testing "gbp total"
+          (let [gbp-total (first-by :label "GBP Total" components)]
+            (are [attribute value] (= value (attribute gbp-total))
+                 :notation "gbp-total"
+              :component_type "qb:MeasureProperty"
+              :component_type_slug "measure"
+              :property_slug "gbpTotal"
+              :class_slug "GbpTotal"
+              :parent_property "http://purl.org/linked-data/sdmx/2009/measure#obsValue"))))))
   (testing "json metadata"
     (with-open [target-reader (io/reader (example-csvw "regional-trade" "components.json"))]
       (maps-match? (read-json target-reader)
                    (components-metadata "components.csv")))))
 
-
 (deftest codelists-test
   (testing "csv table"
-    (with-open [input-reader (io/reader (example-csv "regional-trade" "flow-directions.csv"))]
-      (let [codes (doall (codes input-reader))]
-        (testing "one row per code"
-          (is (= 2 (count codes))))
-        (testing "one column per attribute"
-          (is (= [:label :notation :parent_notation]
-                 (-> codes first keys)))))))
+    (let [codes-file (io/file (example-csv "regional-trade" "flow-directions.csv"))
+          codes-source (codes-source codes-file)
+          codes-rows (doall (source/get-rows codes-source))
+          [[header] data-rows] (split-at 1 codes-rows)
+          column-names (:cells header)]
+      (testing "one row per code"
+        (is (= 2 (count data-rows))))
+      (testing "one column per attribute"
+        (is (= [:label :notation :parent_notation]
+               (mapv keyword column-names))))))
   (testing "json metadata"
     (with-open [target-reader (io/reader (example-csvw "regional-trade" "flow-directions.json"))]
       (maps-match? (read-json target-reader)

@@ -10,6 +10,7 @@
             [clojure.java.shell :refer [sh]]
             [environ.core :as environ]
             [csv2rdf.csvw :as csvw]
+            [csv2rdf.util :refer [concat-seq]]
             [grafter.rdf :as rdf]))
 
 ;; Config
@@ -557,14 +558,13 @@
               observations-csv observations-json
               used-codes-codelists-json used-codes-codes-json)
 
-  ;;TODO: don't use concat
-  (concat
-    (csvw/csv->rdf component-specifications-csv component-specifications-json {:mode :standard})
-    (csvw/csv->rdf component-specifications-csv dataset-json {:mode :standard})
-    (csvw/csv->rdf component-specifications-csv data-structure-definition-json {:mode :standard})
-    (csvw/csv->rdf observations-csv observations-json {:mode :standard})
-    (csvw/csv->rdf component-specifications-csv used-codes-codelists-json {:mode :standard})
-    (csvw/csv->rdf observations-csv used-codes-codes-json {:mode :standard})))
+  (concat-seq
+    [(csvw/csv->rdf component-specifications-csv component-specifications-json {:mode :standard})
+     (csvw/csv->rdf component-specifications-csv dataset-json {:mode :standard})
+     (csvw/csv->rdf component-specifications-csv data-structure-definition-json {:mode :standard})
+     (csvw/csv->rdf observations-csv observations-json {:mode :standard})
+     (csvw/csv->rdf component-specifications-csv used-codes-codelists-json {:mode :standard})
+     (csvw/csv->rdf observations-csv used-codes-codes-json {:mode :standard})]))
 
 (defn cube-pipeline [input-csv dataset-name dataset-slug]
   (let [component-specifications-csv (tempfile "component-specifications" ".csv")

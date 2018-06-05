@@ -2,6 +2,8 @@
 
 This example is executed by the project's test suite. Be careful not to replace the files by running the pipeline (or the tests will always pass!).
 
+There is a [colour-coded spreadsheet](./all-colour-coded.ods) designed to help illustrate how the data, reference data, and third-party vocabularies fit together.
+
 The [csv](csv) folder contains the inputs:
 
 - reference data:

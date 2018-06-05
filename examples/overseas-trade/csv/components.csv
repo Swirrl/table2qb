@@ -1,3 +1,3 @@
 Label,Description,Component Type,Codelist
-Commodity,The commodity of good being traded,Dimension,https://trade.ec.europa.eu/def/cn#CN_2015
-Foreign Country,The foreign country i.e. the destination of exports or source of imports.,Dimension,http://vocab.getty.edu/tgn
+Product,Good or service being traded,Dimension,https://trade.ec.europa.eu/def/cn#CN_2015
+Trade Partner Geography,Location of the trade partner. Typically a foreign geography. The destination of exports or origin of imports.,Dimension,

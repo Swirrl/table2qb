@@ -192,7 +192,7 @@
               (are [expected actual] (= expected actual)
                 "gbp-total" (:measure_type observation)
                 "gbp-million" (:unit observation)
-                "28399000" (:commodity observation)
+                "28399000" (:cn8 observation)
                 "export" (:flow observation))))))))
   (testing "observation metadata"
     (testing "regional trade example"

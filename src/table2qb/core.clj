@@ -10,6 +10,7 @@
             [clojure.java.shell :refer [sh]]
             [environ.core :as environ]
             [csv2rdf.csvw :as csvw]
+            [csv2rdf.util :refer [concat-seq]]
             [csv2rdf.source :as source]
             [grafter.rdf :as rdf]))
 
@@ -542,14 +543,13 @@
         used-codes-codelists-metadata-meta (used-codes-codelists-metadata component-specifications-csv dataset-slug)
         used-codes-codes-metadata-meta (with-open [reader (io/reader input-csv)]
                                          (used-codes-codes-metadata reader observations-csv dataset-slug))]
-    ;;TODO: don't use concat
-    (concat
-      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv component-specification-metadata-meta) {:mode :standard})
-      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv dataset-metadata-meta) {:mode :standard})
-      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv dsd-metadata-meta) {:mode :standard})
-      (csvw/csv->rdf observations-csv (create-metadata-source input-csv observations-metadata-meta) {:mode :standard})
-      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv used-codes-codelists-metadata-meta) {:mode :standard})
-      (csvw/csv->rdf observations-csv (create-metadata-source input-csv used-codes-codes-metadata-meta) {:mode :standard}))))
+    (concat-seq
+      [(csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv component-specification-metadata-meta) {:mode :standard})
+       (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv dataset-metadata-meta) {:mode :standard})
+       (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv dsd-metadata-meta) {:mode :standard})
+       (csvw/csv->rdf observations-csv (create-metadata-source input-csv observations-metadata-meta) {:mode :standard})
+       (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv used-codes-codelists-metadata-meta) {:mode :standard})
+       (csvw/csv->rdf observations-csv (create-metadata-source input-csv used-codes-codes-metadata-meta) {:mode :standard})])))
 
 (defn cube-pipeline [input-csv dataset-name dataset-slug]
   (let [component-specifications-csv (tempfile "component-specifications" ".csv")

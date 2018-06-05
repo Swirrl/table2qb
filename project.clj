@@ -6,7 +6,7 @@
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [grafter/grafter "0.11.2"]
                  [grafter/extra "0.2.2-grafter-0.11.2-SNAPSHOT"]
-                 [csv2rdf "0.2.0"]
+                 [csv2rdf "0.2.2-SNAPSHOT"]
                  [org.clojure/data.csv "0.1.4"]
                  [net.cgrand/xforms "0.16.0"]
                  [environ "1.1.0"]]

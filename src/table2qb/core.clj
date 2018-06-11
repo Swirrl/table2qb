@@ -326,7 +326,7 @@
        {"name" "type",
         "virtual" true,
         "propertyUrl" "rdf:type",
-        "valueUrl" "skos:ConceptScheme"}],
+        "valueUrl" "skos:Collection"}],
       "aboutUrl" codelist-uri}}))
 
 (defn suppress-value [row]

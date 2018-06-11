@@ -21,7 +21,7 @@
       "name": "type",
       "virtual": true,
       "propertyUrl": "rdf:type",
-      "valueUrl": "skos:ConceptScheme"
+      "valueUrl": "skos:Collection"
     }],
     "aboutUrl": "http://gss-data.org.uk/data/regional-trade/codes-used/{component_slug}"
   }

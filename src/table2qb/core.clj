@@ -12,7 +12,8 @@
             [csv2rdf.csvw :as csvw]
             [csv2rdf.util :refer [liberal-concat]]
             [csv2rdf.source :as source]
-            [grafter.rdf :as rdf]))
+            [grafter.rdf :as rdf]
+            [clojure.string :as string]))
 
 ;; Config
 (def domain (environ/env :base-uri "http://gss-data.org.uk/"))
@@ -433,7 +434,14 @@
   (let [data (read-csv reader {"Label" :label
                                "Notation" :notation
                                "Parent Notation", :parent_notation})]
-    data))
+    (map (fn [{:keys [parent_notation] :as row}]
+           ;;if there is no parent notation, the current notation is a top
+           ;;concept of the scheme. This is indicated by a non-empty value in the
+           ;;top_concept_of and has_top_concept columns. The actual value is not
+           ;;significant since it is not referenced in cell URI templates.
+           (let [tc (if (string/blank? parent_notation) "yes" "")]
+             (assoc row :top_concept_of tc :has_top_concept tc)))
+         data)))
 
 (defn codelist-metadata [csv-url codelist-name codelist-slug]
   (let [codelist-uri (str domain-def "concept-scheme/" codelist-slug)
@@ -461,17 +469,17 @@
         "datatype" "string",
         "propertyUrl" "skos:broader",
         "valueUrl" parent-uri}
+       {"name" "top_concept_of"
+        "titles" "top_concept_of"
+        "propertyUrl" "skos:topConceptOf"
+        "valueUrl" codelist-uri}
+       {"name" "has_top_concept"
+        "titles" "has_top_concept"
+        "aboutUrl" codelist-uri
+        "propertyUrl" "skos:hasTopConcept"
+        "valueUrl" code-uri}
        {"propertyUrl" "skos:inScheme",
         "valueUrl" codelist-uri,
-        "virtual" true}
-       {"propertyUrl" "skos:topConceptOf",
-        "valueUrl" codelist-uri,
-        "how-to-make-this-only-apply-when-parent-is-null?" "perhaps reasoning?",
-        "virtual" true}
-       {"propertyUrl" "skos:hasTopConcept",
-        "aboutUrl" codelist-uri,
-        "valueUrl" code-uri,
-        "how-to-make-this-only-apply-when-parent-is-null?" "perhaps reasoning?",
         "virtual" true}
        {"propertyUrl" "skos:member",
         "aboutUrl" codelist-uri,

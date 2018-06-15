@@ -24,19 +24,19 @@
       "propertyUrl": "skos:broader",
       "valueUrl": "http://gss-data.org.uk/def/concept/flow-directions/{parent_notation}"
     },{
+      "name": "top_concept_of",
+      "titles": "top_concept_of",
+      "propertyUrl": "skos:topConceptOf",
+      "valueUrl": "http://gss-data.org.uk/def/concept-scheme/flow-directions"
+    }, {
+      "name": "has_top_concept",
+      "titles" "has_top_concept",
+      "aboutUrl": "http://gss-data.org.uk/def/concept-scheme/flow-directions",
+      "propertyUrl": "skos:hasTopConcept",
+      "valueUrl": "http://gss-data.org.uk/def/concept/flow-directions/{notation}"
+    }, {
       "propertyUrl": "skos:inScheme",
       "valueUrl": "http://gss-data.org.uk/def/concept-scheme/flow-directions",
-      "virtual": true
-    },{
-      "propertyUrl": "skos:topConceptOf",
-      "valueUrl": "http://gss-data.org.uk/def/concept-scheme/flow-directions",
-      "how-to-make-this-only-apply-when-parent-is-null?": "perhaps reasoning?",
-      "virtual": true
-    },,{
-      "propertyUrl": "skos:hasTopConcept",
-      "aboutUrl": "http://gss-data.org.uk/def/concept-scheme/flow-directions",
-      "valueUrl": "http://gss-data.org.uk/def/concept/flow-directions/{notation}",
-      "how-to-make-this-only-apply-when-parent-is-null?": "perhaps reasoning?",
       "virtual": true
     },{
       "propertyUrl": "skos:member",

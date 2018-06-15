@@ -93,7 +93,7 @@
         (testing "one row per code"
           (is (= 2 (count codes))))
         (testing "one column per attribute"
-          (is (= [:label :notation :parent_notation]
+          (is (= [:label :notation :parent_notation :top_concept_of :has_top_concept]
                  (-> codes first keys)))))))
   (testing "json metadata"
     (with-open [target-reader (io/reader (example-csvw "regional-trade" "flow-directions.json"))]

@@ -1,21 +1,21 @@
-Year,Flow,CN8,Foreign Country,Measure Type,Unit,Value
-2012,Export,28399000,Singapore,GBP Total,£ million,35275
-2012,Export,42050011,Ghana,GBP Total,£ million,1709
-2012,Export,85049018,Israel,GBP Total,£ million,13205
-2012,Import,73269060,Hong Kong,GBP Total,£ million,2414
-2012,Export,71104100,South Africa,GBP Total,£ million,109721
-2012,Export,73081000,Turkey,GBP Total,£ million,1086
-2012,Export,21039090,St Vincent,GBP Total,£ million,5483
-2012,Export,90011090,Chile,GBP Total,£ million,3752
-2012,Export,96061000,Russia,GBP Total,£ million,19873
-2012,Export,95062900,Uruguay,GBP Total,£ million,3082
-2013,Export,62046239,Iran,GBP Total,£ million,2158
-2013,Import,84423099,Thailand,GBP Total,£ million,5134
-2013,Export,48211010,French Polynesia,GBP Total,£ million,3369
-2013,Export,08043000,Norway,GBP Total,£ million,1628
-2013,Export,22042122,Falkland Islands,GBP Total,£ million,1299
-2013,Export,84869090,Singapore,GBP Total,£ million,731970
-2013,Import,38231100,Australia,GBP Total,£ million,2831
-2013,Import,83014019,Panama,GBP Total,£ million,1613
-2013,Import,32139000,Australia,GBP Total,£ million,34068
-2013,Export,22071000,Israel,GBP Total,£ million,85557
+Year,Flow,Combined Nomenclature,Foreign Country,Measure Type,Unit,Value
+2012,Export,cn#cn8_28399000,Singapore,GBP Total,£ million,35275
+2012,Export,cn#cn8_42050011,Ghana,GBP Total,£ million,1709
+2012,Export,cn#cn8_85049018,Israel,GBP Total,£ million,13205
+2012,Import,cn#cn8_73269060,Hong Kong,GBP Total,£ million,2414
+2012,Export,cn#cn8_71104100,South Africa,GBP Total,£ million,109721
+2012,Export,cn#cn8_73081000,Turkey,GBP Total,£ million,1086
+2012,Export,cn#cn8_21039090,St Vincent,GBP Total,£ million,5483
+2012,Export,cn#cn8_90011090,Chile,GBP Total,£ million,3752
+2012,Export,cn#cn8_96061000,Russia,GBP Total,£ million,19873
+2012,Export,cn#cn8_95062900,Uruguay,GBP Total,£ million,3082
+2013,Export,cn#cn8_62046239,Iran,GBP Total,£ million,2158
+2013,Import,cn#cn8_84423099,Thailand,GBP Total,£ million,5134
+2013,Export,cn#cn8_48211010,French Polynesia,GBP Total,£ million,3369
+2013,Export,cn#cn8_08043000,Norway,GBP Total,£ million,1628
+2013,Export,cn#cn8_22042122,Falkland Islands,GBP Total,£ million,1299
+2013,Export,cn#cn8_84869090,Singapore,GBP Total,£ million,731970
+2013,Import,cn#cn8_38231100,Australia,GBP Total,£ million,2831
+2013,Import,cn#cn8_83014019,Panama,GBP Total,£ million,1613
+2013,Import,cn#cn8_32139000,Australia,GBP Total,£ million,34068
+2013,Export,cn#cn8_22071000,Israel,GBP Total,£ million,85557

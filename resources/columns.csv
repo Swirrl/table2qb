@@ -10,7 +10,7 @@ Net Mass,net_mass,qb:measure,http://gss-data.org.uk/def/measure/net-mass,,string
 Value,value,,http://gss-data.org.uk/def/measure/{measure_type},,number,
 Year,year,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refPeriod,http://reference.data.gov.uk/id/year/{year},string,
 Foreign Country,foreign_country,qb:dimension,http://gss-data.org.uk/def/dimension/foreign-country,http://gss-data.org.uk/def/concept/countries/{foreign_country},string,slugize
-CN8,cn8,qb:dimension,http://gss-data.org.uk/def/dimension/product,https://trade.ec.europa.eu/def/cn#cn8_{cn8},string,
+Combined Nomenclature,combined_nomenclature,qb:dimension,http://gss-data.org.uk/def/dimension/product,https://trade.ec.europa.eu/def/{combined_nomenclature},string,
 Period,period,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refPeriod,http://reference.data.gov.uk/id/{+period},string,
 CDID,cdid,qb:attribute,http://gss-data.org.uk/def/attribute/cdid,http://gss-data.org.uk/def/cdid/{cdid},string,
 BOP Services,bop_services,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://gss-data.org.uk/def/concept/bop-services/{bop_services},string,
@@ -30,7 +30,8 @@ ONS Reporter Geography,ons_reporter_geography,qb:dimension,http://gss-data.org.u
 International Trade Basis,international_trade_basis,qb:dimension,http://gss-data.org.uk/def/dimension/international-trade-basis,http://gss-data.org.uk/def/concept/international-trade-basis/{international_trade_basis},string,
 Export and Import Activity,export_and_import_activity,qb:dimension,http://gss-data.org.uk/def/dimension/export-and-import-activity,http://gss-data.org.uk/def/concept/export-and-import-activity/{export_and_import_activity},string,slugize
 Count,count,qb:measure,http://gss-data.org.uk/def/measure/count,,string,
-Proportion of all Business,proportion_of_all_business,qb:measure,http://gss-data.org.uk/def/measure/propotion-of-all-business,,,
+Proportion of all Business,proportion_of_all_business,qb:measure,http://gss-data.org.uk/def/measure/proportion-of-all-business,,,
 HMRC Industry,hmrc_industry,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://gss-data.org.uk/def/concept/hmrc-industry-groups/{hmrc_industry},string,
 Total Turnover,total_turnover,qb:measure,http://gss-data.org.uk/def/measure/total-turnover,,,
 HMRC Reporter Region,hmrc_reporter_region,qb:dimension,http://gss-data.org.uk/def/dimension/trade-reporter-geography,http://gss-data.org.uk/def/concept/hmrc-regions/{hmrc_reporter_region},string,
+SITC 4,sitc4,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://gss-data.org.uk/def/concept/sitc-4/{sitc4},,

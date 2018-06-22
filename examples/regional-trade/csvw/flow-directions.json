@@ -24,17 +24,22 @@
       "propertyUrl": "skos:broader",
       "valueUrl": "http://gss-data.org.uk/def/concept/flow-directions/{parent_notation}"
     },{
+      "name": "sort_priority",
+      "titles": "sort_priority",
+      "datatype": "integer",
+      "propertyUrl": "https://www.w3.org/ns/ui#sortPriority"
+    },{
       "name": "top_concept_of",
       "titles": "top_concept_of",
       "propertyUrl": "skos:topConceptOf",
       "valueUrl": "http://gss-data.org.uk/def/concept-scheme/flow-directions"
-    }, {
+    },{
       "name": "has_top_concept",
       "titles" "has_top_concept",
       "aboutUrl": "http://gss-data.org.uk/def/concept-scheme/flow-directions",
       "propertyUrl": "skos:hasTopConcept",
       "valueUrl": "http://gss-data.org.uk/def/concept/flow-directions/{notation}"
-    }, {
+    },{
       "propertyUrl": "skos:inScheme",
       "valueUrl": "http://gss-data.org.uk/def/concept-scheme/flow-directions",
       "virtual": true

@@ -430,18 +430,27 @@
         "valueUrl" "rdf:Property"}],
       "aboutUrl" (str domain-def "{component_type_slug}/{notation}")}})) ;; property-slug?
 
+(defn add-code-hierarchy-fields [{:keys [parent_notation] :as row}]
+  "if there is no parent notation, the current notation is a top
+  concept of the scheme. This is indicated by a non-empty value in the
+  top_concept_of and has_top_concept columns. The actual value is not
+  significant since it is not referenced in cell URI templates."
+  (let [tc (if (string/blank? parent_notation) "yes" "")]
+    (assoc row :top_concept_of tc :has_top_concept tc)))
+
+(defn ensure-sort-priority-field [row]
+  (update row :sort_priority identity))
+
+(def prepare-code
+  (comp add-code-hierarchy-fields
+        ensure-sort-priority-field))
+
 (defn codes [reader]
   (let [data (read-csv reader {"Label" :label
                                "Notation" :notation
-                               "Parent Notation", :parent_notation})]
-    (map (fn [{:keys [parent_notation] :as row}]
-           ;;if there is no parent notation, the current notation is a top
-           ;;concept of the scheme. This is indicated by a non-empty value in the
-           ;;top_concept_of and has_top_concept columns. The actual value is not
-           ;;significant since it is not referenced in cell URI templates.
-           (let [tc (if (string/blank? parent_notation) "yes" "")]
-             (assoc row :top_concept_of tc :has_top_concept tc)))
-         data)))
+                               "Parent Notation", :parent_notation
+                               "Sort Priority", :sort_priority})]
+    (map prepare-code data)))
 
 (defn codelist-metadata [csv-url codelist-name codelist-slug]
   (let [codelist-uri (str domain-def "concept-scheme/" codelist-slug)
@@ -469,6 +478,10 @@
         "datatype" "string",
         "propertyUrl" "skos:broader",
         "valueUrl" parent-uri}
+       {"name" "sort_priority"
+        "titles" "sort_priority"
+        "datatype" "integer"
+        "propertyUrl" "https://www.w3.org/ns/ui#sortPriority"}
        {"name" "top_concept_of"
         "titles" "top_concept_of"
         "propertyUrl" "skos:topConceptOf"

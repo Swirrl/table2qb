@@ -4,7 +4,7 @@
             [clojure.java.io :as io]
             [clojure.data :refer [diff]]
             [grafter.rdf :as rdf]
-            [grafter.rdf.repository :refer [sail-repo ->connection]]
+            [grafter.rdf.repository :refer [sail-repo ->connection query]]
             [grafter.extra.repository :refer [with-repository]]
             [grafter.extra.validation.pmd :as pmd]
             [grafter.extra.validation.pmd.dataset :as pmdd])
@@ -87,21 +87,37 @@
 
 
 (deftest codelists-test
-  (testing "csv table"
-    (with-open [input-reader (io/reader (example-csv "regional-trade" "flow-directions.csv"))]
-      (let [codes (doall (codes input-reader))]
-        (testing "one row per code"
-          (is (= 2 (count codes))))
-        (testing "one column per attribute"
-          (is (= [:label :notation :parent_notation :top_concept_of :has_top_concept]
-                 (-> codes first keys)))))))
-  (testing "json metadata"
-    (with-open [target-reader (io/reader (example-csvw "regional-trade" "flow-directions.json"))]
-      (maps-match? (read-json target-reader)
-                   (codelist-metadata
-                    "flow-directions-codelist.csv"
-                    "Flow Directions Codelist"
-                    "flow-directions")))))
+  (testing "default case"
+    (testing "csv table"
+      (with-open [input-reader (io/reader (example-csv "regional-trade" "flow-directions.csv"))]
+        (let [codes (doall (codes input-reader))]
+          (testing "one row per code"
+            (is (= 2 (count codes))))
+          (testing "one column per attribute"
+            (is (= [:label :notation :parent_notation :sort_priority :top_concept_of :has_top_concept]
+                   (-> codes first keys)))))))
+    (testing "json metadata"
+      (with-open [target-reader (io/reader (example-csvw "regional-trade" "flow-directions.json"))]
+        (maps-match? (read-json target-reader)
+                     (codelist-metadata
+                      "flow-directions-codelist.csv"
+                      "Flow Directions Codelist"
+                      "flow-directions")))))
+  (testing "with sort priority"
+    (testing "csv table"
+      (with-open [input-reader (io/reader (example-csv "regional-trade" "sitc-sections.csv"))]
+        (let [codes (doall (codes input-reader))]
+          (testing "extra column for sort-priority"
+            (is (= "0" (-> codes first :sort_priority)))
+            (is (= [:label :notation :parent_notation :sort_priority :top_concept_of :has_top_concept]
+                   (-> codes first keys)))))))
+    (testing "json metadata"
+      (with-open [target-reader (io/reader (example-csvw "regional-trade" "sitc-sections.json"))]
+        (maps-match? (read-json target-reader)
+                     (codelist-metadata
+                      "sitc-sections-codelist.csv"
+                      "SITC Sections Codelist"
+                      "sitc-sections"))))))
 
 
 ;; Data
@@ -273,15 +289,16 @@
             (load-from-file conn file))
 
           (let [stmts (concat
-                        ;; Existing reference data
-                        (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv" "Flow Directions" "flow-directions")
-                        (codelist-pipeline "./examples/regional-trade/csv/units.csv" "Measurement Units" "measurement-units")
-                        (components-pipeline "./examples/regional-trade/csv/components.csv")
+                       ;; Existing reference data
+                       (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv" "Flow Directions" "flow-directions")
+                       (codelist-pipeline "./examples/regional-trade/csv/sitc-sections.csv" "Flow Directions" "sitc-sections")
+                       (codelist-pipeline "./examples/regional-trade/csv/units.csv" "Measurement Units" "measurement-units")
+                       (components-pipeline "./examples/regional-trade/csv/components.csv")
 
-                        ;; This dataset
-                        (codelist-pipeline "./examples/overseas-trade/csv/countries.csv" "Countries" "countries")
-                        (components-pipeline "./examples/overseas-trade/csv/components.csv")
-                        (cube-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "Overseas Trade Sample" "overseas-trade-sample"))]
+                       ;; This dataset
+                       (codelist-pipeline "./examples/overseas-trade/csv/countries.csv" "Countries" "countries")
+                       (components-pipeline "./examples/overseas-trade/csv/components.csv")
+                       (cube-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "Overseas Trade Sample" "overseas-trade-sample"))]
             (rdf/add conn stmts)))
         (testing "PMD Validation"
           (is (empty? (pmd/errors repo))))
@@ -289,7 +306,15 @@
           (is (empty? (remove #{"is missing a reference area dimension"
                                 "is not a pmd:Dataset"
                                 "is missing a pmd:graph"}
-                              (pmdd/errors repo (str domain-data "overseas-trade-sample"))))))))))
+                              (pmdd/errors repo (str domain-data "overseas-trade-sample"))))))
+        (testing "Sort Priority"
+          (with-open [conn (->connection repo)]
+            (let [results (query conn (slurp "./examples/validation/sparql/sort-priority.sparql"))
+                  schemes (->> results (map (comp str :scheme)) distinct)]
+              (testing "may be provided"
+                (is (some #{"http://gss-data.org.uk/def/concept-scheme/sitc-sections"} schemes)))
+              (testing "is optional"
+                (is (not-any? #{"http://gss-data.org.uk/def/concept-scheme/flow-directions"} schemes))))))))))
 
 
 ;; TODO: Need to label components and their used-code codelists

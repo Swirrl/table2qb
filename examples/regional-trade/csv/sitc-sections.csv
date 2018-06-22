@@ -1,12 +1,12 @@
-Label,Notation,Parent Notation
-0 Food and Live Animals,0-food-and-live-animals,total
-1 Beverages and Tobacco,1-beverages-and-tobacco,total
-2 Crude Materials,2-crude-materials,total
-3 Mineral Fuels,3-mineral-fuels,total
-4 Animal and Vegetable Oils,4-animal-and-vegetable-oils,total
-5 Chemicals,5-chemicals,total
-6 Manufactured Goods,6-manufactured-goods,total
-7 Machinery and Transport,7-machinery-and-transport,total
-8 Miscellaneous Manufactures,8-miscellaneous-manufactures,total
-9 Other commodities nes,9-other-commodities-nes,total
-Total,total,
+Label,Notation,Parent Notation,Sort Priority
+0 Food and Live Animals,0-food-and-live-animals,total,0
+1 Beverages and Tobacco,1-beverages-and-tobacco,total,1
+2 Crude Materials,2-crude-materials,total,2
+3 Mineral Fuels,3-mineral-fuels,total,3
+4 Animal and Vegetable Oils,4-animal-and-vegetable-oils,total,4
+5 Chemicals,5-chemicals,total,5
+6 Manufactured Goods,6-manufactured-goods,total,6
+7 Machinery and Transport,7-machinery-and-transport,total,7
+8 Miscellaneous Manufactures,8-miscellaneous-manufactures,total,8
+9 Other commodities nes,9-other-commodities-nes,total,9
+Total,total,,10

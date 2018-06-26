@@ -37,6 +37,22 @@
                                 (map #(get % "name")))]
          (is (= csv-columns# meta-columns#))))))
 
+;; Configuration
+
+(deftest validate-configuration-test
+  (testing "var-names"
+    (testing "must be provided"
+      (is (thrown-with-msg? RuntimeException
+                            #"csvw:name cannot be blank"
+                            (validate-configuration {:_ {:name nil}}))))
+    (testing "shouldn't have hyphens"
+      (is (thrown-with-msg? RuntimeException
+                            #"csvw:name cannot contain hyphens \(use underscores instead\): my-column"
+                            (validate-configuration {:my-column {:name "my-column"}}))))
+    (testing "may have underscores"
+      (is (nil? (validate-configuration {:my_column {:name "my_column"}}))))))
+
+
 ;; Conventions
 
 (deftest identify-columns-test
@@ -50,6 +66,7 @@
     (is (attribute? :my-att))
     (is (not (attribute? :my-dim)))
     (is (not (attribute? :unknown)))))
+
 
 ;; Reference Data
 

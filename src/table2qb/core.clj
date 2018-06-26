@@ -5,6 +5,7 @@
             [clojure.java.io :as io]
             [grafter.extra.cell.uri :as gecu]
             [grafter.extra.cell.string :as gecs]
+            [grafter.extra.sequence :as ges]
             [grafter.rdf.io :as gio]
             [clojure.string :as st]
             [clojure.java.shell :refer [sh]]
@@ -55,12 +56,28 @@
 (defn blank->nil [value]
   (if (= "" value) nil value))
 
-;; Creates lookup of columns (from a csv) for an name (in the component_slug field)
-(def name->component ;; TODO: defonce me
+(defn validate-configuration [configuration]
+  "Validates that columns are configured correctly (names are present and contain no hyphens)"
+  (if (some nil? (map :name (vals configuration))) 
+    (throw (RuntimeException. "csvw:name cannot be blank")))
+  (let [violations (filter #(string/includes? % "-")
+                           (map :name (vals configuration)))]
+    (if (not (empty? violations)) 
+      (throw (RuntimeException. (str "csvw:name cannot contain hyphens (use underscores instead): "
+                                     (ges/to-sentence violations)))))))
+
+(defn column-configuration []
+  "Creates lookup of columns (from a csv) for a name (in the component_slug field)"
   (with-open [rdr (-> "columns.csv" io/resource io/reader)]
-    (let [columns (read-csv rdr)]
-      (zipmap (map (comp keyword :name) columns)
-              (map (partial reduce-kv (fn [m k v] (assoc m k (blank->nil v))) {}) columns)))))
+    (let [columns (read-csv rdr)
+          column->map (partial reduce-kv (fn [m k v] (assoc m k (blank->nil v))) {})
+          configuration (zipmap (map (comp keyword :name) columns)
+                                (map column->map columns))]
+      (validate-configuration configuration)
+      configuration)))
+
+(def name->component ;; TODO: defonce me
+  (column-configuration))
 
 (def title->name-lookup
   (zipmap (map :title (vals name->component))

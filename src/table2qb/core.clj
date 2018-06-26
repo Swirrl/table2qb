@@ -481,7 +481,7 @@
        {"name" "sort_priority"
         "titles" "sort_priority"
         "datatype" "integer"
-        "propertyUrl" "https://www.w3.org/ns/ui#sortPriority"}
+        "propertyUrl" "http://www.w3.org/ns/ui#sortPriority"}
        {"name" "top_concept_of"
         "titles" "top_concept_of"
         "propertyUrl" "skos:topConceptOf"

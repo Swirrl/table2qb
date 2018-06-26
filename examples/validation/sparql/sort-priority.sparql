@@ -1,4 +1,4 @@
-PREFIX ui: <https://www.w3.org/ns/ui#>
+PREFIX ui: <http://www.w3.org/ns/ui#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 SELECT ?scheme ?code ?priority WHERE {

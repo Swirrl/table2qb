@@ -5,3 +5,6 @@ target/
 tmp/
 .nrepl-port
 pom.xml
+.idea/
+.DS_Store
+table2qb.iml

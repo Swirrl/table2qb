@@ -29,6 +29,11 @@
       "datatype": "integer",
       "propertyUrl": "http://www.w3.org/ns/ui#sortPriority"
     },{
+      "name": "description",
+      "titles": "description",
+      "datatype": "string",
+      "propertyUrl": "rdfs:comment"
+    },{
       "name": "top_concept_of",
       "titles": "top_concept_of",
       "propertyUrl": "skos:topConceptOf",

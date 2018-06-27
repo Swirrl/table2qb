@@ -103,39 +103,42 @@
                    (components-metadata "components.csv")))))
 
 
+
 (deftest codelists-test
-  (testing "default case"
+  (testing "minimum case"
     (testing "csv table"
       (with-open [input-reader (io/reader (example-csv "regional-trade" "flow-directions.csv"))]
         (let [codes (doall (codes input-reader))]
           (testing "one row per code"
             (is (= 2 (count codes))))
           (testing "one column per attribute"
-            (is (= [:label :notation :parent_notation :sort_priority :top_concept_of :has_top_concept]
+            (is (= [:label :notation :parent_notation :sort_priority :description :top_concept_of :has_top_concept]
                    (-> codes first keys)))))))
     (testing "json metadata"
       (with-open [target-reader (io/reader (example-csvw "regional-trade" "flow-directions.json"))]
         (maps-match? (read-json target-reader)
                      (codelist-metadata
-                      "flow-directions-codelist.csv"
-                      "Flow Directions Codelist"
-                      "flow-directions")))))
-  (testing "with sort priority"
+                       "flow-directions-codelist.csv"
+                       "Flow Directions Codelist"
+                       "flow-directions")))))
+  (testing "with optional fields"
     (testing "csv table"
       (with-open [input-reader (io/reader (example-csv "regional-trade" "sitc-sections.csv"))]
         (let [codes (doall (codes input-reader))]
-          (testing "extra column for sort-priority"
-            (is (= "0" (-> codes first :sort_priority)))
-            (is (= [:label :notation :parent_notation :sort_priority :top_concept_of :has_top_concept]
-                   (-> codes first keys)))))))
-    (testing "json metadata"
-      (with-open [target-reader (io/reader (example-csvw "regional-trade" "sitc-sections.json"))]
-        (maps-match? (read-json target-reader)
-                     (codelist-metadata
-                      "sitc-sections-codelist.csv"
-                      "SITC Sections Codelist"
-                      "sitc-sections"))))))
-
+          (testing "one column per attribute"
+            (is (= [:label :notation :parent_notation :sort_priority :description :top_concept_of :has_top_concept]
+                   (-> codes first keys))))
+          (testing "column for sort-priority"
+            (is (= "0" (-> codes first :sort_priority))))
+          (testing "column for description"
+            (is (= "lorem ipsum" (-> codes first :description)))))
+        (testing "json metadata"
+          (with-open [target-reader (io/reader (example-csvw "regional-trade" "sitc-sections.json"))]
+            (maps-match? (read-json target-reader)
+                         (codelist-metadata
+                           "sitc-sections-codelist.csv"
+                           "SITC Sections Codelist"
+                           "sitc-sections"))))))))
 
 ;; Data
 
@@ -174,19 +177,19 @@
   (testing "compare with dataset.json"
     (with-open [target-reader (io/reader (example-csvw "regional-trade" "dataset.json"))]
       (maps-match? (read-json target-reader)
-                      (dataset-metadata
-                       "regional-trade.slugged.normalised.csv"
-                       "Regional Trade"
-                       "regional-trade")))))
+                   (dataset-metadata
+                    "regional-trade.slugged.normalised.csv"
+                    "Regional Trade"
+                    "regional-trade")))))
 
 (deftest data-structure-definition-test
   (testing "compare with data-structure-definition.json"
     (with-open [target-reader (io/reader (example-csvw "regional-trade" "data-structure-definition.json"))]
       (maps-match? (read-json target-reader)
-                      (data-structure-definition-metadata
-                       "regional-trade.slugged.normalised.csv"
-                       "Regional Trade"
-                       "regional-trade")))))
+                   (data-structure-definition-metadata
+                    "regional-trade.slugged.normalised.csv"
+                    "Regional Trade"
+                    "regional-trade")))))
 
 (deftest transform-colums-test
   (testing "converts columns with transforms specified"
@@ -268,22 +271,22 @@
       (testing "with a single measure-type column"
         (with-open [input-reader (io/reader (example-csv "validation" "measure-type-single.csv"))]
           (is (seq? (observations input-reader))))
-        (testing "and a measure column"
+        (testing "and a measure column"))
           ;; TODO - should fail (i.e. either type or measure provided)
-          ))
-      (testing "with multiple measure-type columns"
+
+      (testing "with multiple measure-type columns")
         ;; TODO - should fail - can only have one measure-type dimension
         ;; not sure this is worth testing until it's a problem!
-        ) 
+
       (testing "with no measure-type columns"
         (with-open [input-reader (io/reader (example-csv "validation" "measure-type-missing.csv"))]
           (is (thrown-with-msg?
                Throwable #"No measure type column"
                (component-specifications input-reader))))))
-    (testing "under the multi-measures approach"
+    (testing "under the multi-measures approach"))
       ;; TODO - this isn't implemented yet
       ;; Should require that no measure-type component be provided if there is a measure column
-      ))
+
 
   (testing "values must be provided for all dimensions"
     (with-open [input-reader (io/reader (example-csv "validation" "dimension-values-missing.csv"))]
@@ -331,7 +334,17 @@
               (testing "may be provided"
                 (is (some #{"http://gss-data.org.uk/def/concept-scheme/sitc-sections"} schemes)))
               (testing "is optional"
+                (is (not-any? #{"http://gss-data.org.uk/def/concept-scheme/flow-directions"} schemes))))))
+        (testing "Description"
+          (with-open [conn (->connection repo)]
+            (let [results (query conn (slurp "./examples/validation/sparql/description.sparql"))
+                  schemes (->> results (map (comp str :scheme)) distinct)]
+              (testing "may be provided"
+                (is (some #{"http://gss-data.org.uk/def/concept-scheme/sitc-sections"} schemes)))
+              (testing "is optional"
                 (is (not-any? #{"http://gss-data.org.uk/def/concept-scheme/flow-directions"} schemes))))))))))
+
+
 
 
 ;; TODO: Need to label components and their used-code codelists

@@ -257,7 +257,7 @@
   (doseq [dimension (select-keys row is-dimension?)]
     (if (gecs/blank? (val dimension))
       (throw (ex-info (str "Missing value for dimension: " (key dimension))
-                      { :row row })))))
+                      { :row row})))))
 
 (defn validate-columns [row]
   "Ensures that columns are valid"
@@ -441,7 +441,7 @@
         "valueUrl" "{+parent_property}"}
        {"propertyUrl" "rdfs:isDefinedBy",
         "virtual" true,
-        "valueUrl" ontology-uri }
+        "valueUrl" ontology-uri}
        {"propertyUrl" "rdf:type",
         "virtual" true,
         "valueUrl" "rdf:Property"}],
@@ -455,18 +455,22 @@
   (let [tc (if (string/blank? parent_notation) "yes" "")]
     (assoc row :top_concept_of tc :has_top_concept tc)))
 
-(defn ensure-sort-priority-field [row]
-  (update row :sort_priority identity))
+(defn ensure-default-fields [row]
+  (-> row
+      (update :sort_priority identity)
+      (update :description identity)))
+
 
 (def prepare-code
   (comp add-code-hierarchy-fields
-        ensure-sort-priority-field))
+        ensure-default-fields))
 
 (defn codes [reader]
   (let [data (read-csv reader {"Label" :label
                                "Notation" :notation
                                "Parent Notation", :parent_notation
-                               "Sort Priority", :sort_priority})]
+                               "Sort Priority", :sort_priority
+                               "Description" :description})]
     (map prepare-code data)))
 
 (defn codelist-metadata [csv-url codelist-name codelist-slug]
@@ -499,6 +503,10 @@
         "titles" "sort_priority"
         "datatype" "integer"
         "propertyUrl" "http://www.w3.org/ns/ui#sortPriority"}
+       {"name" "description"
+        "titles" "description"
+        "datatype" "string"
+        "propertyUrl" "rdfs:comment"}
        {"name" "top_concept_of"
         "titles" "top_concept_of"
         "propertyUrl" "skos:topConceptOf"

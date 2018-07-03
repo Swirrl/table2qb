@@ -7,7 +7,8 @@
             [grafter.rdf.repository :refer [sail-repo ->connection query]]
             [grafter.extra.repository :refer [with-repository]]
             [grafter.extra.validation.pmd :as pmd]
-            [grafter.extra.validation.pmd.dataset :as pmdd])
+            [grafter.extra.validation.pmd.dataset :as pmdd]
+            [clojure.string :as string])
   (:import [java.io StringWriter]))
 
 ;; Test Helpers
@@ -39,19 +40,20 @@
 
 ;; Configuration
 
-(deftest validate-configuration-test
-  (testing "var-names"
+(deftest configuration-row->column-test
+  (testing "var names"
     (testing "must be provided"
-      (is (thrown-with-msg? RuntimeException
-                            #"csvw:name cannot be blank"
-                            (validate-configuration {:_ {:name nil}}))))
-    (testing "shouldn't have hyphens"
-      (is (thrown-with-msg? RuntimeException
-                            #"csvw:name cannot contain hyphens \(use underscores instead\): my-column"
-                            (validate-configuration {:my-column {:name "my-column"}}))))
-    (testing "may have underscores"
-      (is (nil? (validate-configuration {:my_column {:name "my_column"}}))))))
+      (let [r (configuration-row->column 1 {:name ""})]
+        (is (instance? Exception r))
+        (is (string/includes? (.getMessage r) "csvw:name cannot be blank"))))
 
+    (testing "should not contain hyphens"
+      (let [r (configuration-row->column 1 {:name "my-column"})]
+        (is (instance? Exception r))
+        (is (string/includes? (.getMessage r) "cannot contain hyphens"))))
+
+    (testing "may have underscores"
+      (is (= {:name "my_column"} (configuration-row->column 1 {:name "my_column"}))))))
 
 ;; Conventions
 

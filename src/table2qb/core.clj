@@ -49,18 +49,13 @@
 
 ;; Conventions
 
+(defn exception? [x] (instance? Exception x))
+
+(defn- map-values [m f]
+  (into {} (map (fn [[k v]] [k (f v)]) m)))
+
 (defn blank->nil [value]
   (if (= "" value) nil value))
-
-(defn validate-configuration [configuration]
-  "Validates that columns are configured correctly (names are present and contain no hyphens)"
-  (if (some nil? (map :name (vals configuration))) 
-    (throw (RuntimeException. "csvw:name cannot be blank")))
-  (let [violations (filter #(string/includes? % "-")
-                           (map :name (vals configuration)))]
-    (if (not (empty? violations)) 
-      (throw (RuntimeException. (str "csvw:name cannot contain hyphens (use underscores instead): "
-                                     (ges/to-sentence violations)))))))
 
 (defn get-configuration
   "Loads the configuration from a resource"
@@ -68,14 +63,25 @@
   (with-open [r (io/reader (io/resource "columns.csv"))]
     (doall (read-csv r))))
 
-(defn column-configuration []
+(defn configuration-row->column
+  "Creates a column definition from a row of the configuration file. Returns an Exception if the row is invalid."
+  [row-index {:keys [name] :as row}]
+  (cond
+    (string/blank? name) (RuntimeException. (format "Row %d: csvw:name cannot be blank" row-index))
+    (string/includes? name "-") (RuntimeException. (format "Row %d: csvw:name %s cannot contain hyphens (use underscores instead): " row-index name))
+    :else (map-values row blank->nil)))
+
+(defn column-configuration
   "Creates lookup of columns (from a csv) for a name (in the component_slug field)"
-  (let [columns (get-configuration)
-        column->map (partial reduce-kv (fn [m k v] (assoc m k (blank->nil v))) {})
-        configuration (zipmap (map (comp keyword :name) columns)
-                              (map column->map columns))]
-    (validate-configuration configuration)
-    configuration))
+  []
+  (let [config-rows (get-configuration)
+        columns (map-indexed configuration-row->column config-rows)
+        errors (filter exception? columns)
+        valid-columns (remove exception? columns)]
+    (if (seq errors)
+      (let [msg (string/join "\n" (map #(.getMessage %) errors))]
+        (throw (RuntimeException. msg)))
+      (into {} (map (fn [col] [(keyword (:name col)) col]) valid-columns)))))
 
 (def name->component ;; TODO: defonce me
   (column-configuration))

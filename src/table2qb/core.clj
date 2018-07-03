@@ -36,13 +36,9 @@
                repeat)
           (rest csv-data)))))
 
-(defn unkeyword [keyword]
-  "Converts a keyword in to a string without the leading colon"
-  (subs (str keyword) 1))
-
 (defn write-csv [writer data]
   (csv/write-csv writer
-                 (cons (map unkeyword (keys (first data)))
+                 (cons (map name (keys (first data)))
                        (map vals data))))
 
 ;; JSON handling
@@ -309,7 +305,7 @@
 
 (defn observations-metadata [reader csv-url dataset-slug]
   (let [data (read-csv reader title->name)
-        column-order (->> data first keys (map unkeyword) target-order)
+        column-order (->> data first keys (map name) target-order)
         components (sequence (comp (x/multiplex [dimensions attributes values])
                                    (map name->component)
                                    (x/sort-by #(column-order (get % :name)))) data)
@@ -357,7 +353,7 @@
         codelist-uri (str domain-data dataset-slug "/codes-used/{_name}")
         components (sequence (comp (x/multiplex [dimensions attributes values])
                                    (map name->component)) data)
-        column-order (->> data first keys (map unkeyword) target-order)
+        column-order (->> data first keys (map name) target-order)
         columns (into [] (comp (map component->column)
                                (map #(assoc % "propertyUrl" "skos:member"))
                                (map suppress-value)) components)

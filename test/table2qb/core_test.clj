@@ -31,7 +31,7 @@
 (defmacro is-metadata-compatible [input-csv schema]
   `(testing "column sequence matches"
      (with-open [rdr# (io/reader ~input-csv)]
-       (let [csv-columns# (-> rdr# (read-csv title->name) first keys ((partial map unkeyword)))
+       (let [csv-columns# (-> rdr# (read-csv title->name) first keys ((partial map name)))
              meta-columns# (->> (get-in ~schema ["tableSchema" "columns"])
                                 (remove #(get % "virtual" false))
                                 (map #(get % "name")))]

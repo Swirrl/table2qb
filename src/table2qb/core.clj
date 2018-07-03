@@ -62,15 +62,20 @@
       (throw (RuntimeException. (str "csvw:name cannot contain hyphens (use underscores instead): "
                                      (ges/to-sentence violations)))))))
 
+(defn get-configuration
+  "Loads the configuration from a resource"
+  []
+  (with-open [r (io/reader (io/resource "columns.csv"))]
+    (doall (read-csv r))))
+
 (defn column-configuration []
   "Creates lookup of columns (from a csv) for a name (in the component_slug field)"
-  (with-open [rdr (-> "columns.csv" io/resource io/reader)]
-    (let [columns (read-csv rdr)
-          column->map (partial reduce-kv (fn [m k v] (assoc m k (blank->nil v))) {})
-          configuration (zipmap (map (comp keyword :name) columns)
-                                (map column->map columns))]
-      (validate-configuration configuration)
-      configuration)))
+  (let [columns (get-configuration)
+        column->map (partial reduce-kv (fn [m k v] (assoc m k (blank->nil v))) {})
+        configuration (zipmap (map (comp keyword :name) columns)
+                              (map column->map columns))]
+    (validate-configuration configuration)
+    configuration))
 
 (def name->component ;; TODO: defonce me
   (column-configuration))

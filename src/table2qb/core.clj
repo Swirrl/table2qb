@@ -136,14 +136,15 @@
 (def values
   (headers-matching is-value?))
 
-(defn measure [row]
-  (let [measure-type-columns (select-keys row is-measure-type?)] ;; TODO: this should happen once per table, not per row
-    (if (not (= 1 (count measure-type-columns)))
-      (throw (ex-info
-              (if (> (count measure-type-columns) 1)
-                "Too many measure type columns" "No measure type column")
-              {:measure-type-columns-found (keys measure-type-columns)}))
-      (first (vals measure-type-columns)))))
+(defn measure
+  "Returns the single measure value for the row. Throws an exception if there is not exactly one measure type."
+  ([row] (measure row is-measure-type?))
+  ([row measure-types]
+   (let [measure-type-columns (select-keys row measure-types)] ;; TODO: this should happen once per table, not per row
+     (case (count measure-type-columns)
+       0 (throw (ex-info "No measure type column" {:measure-type-columns-found nil}))
+       1 (first (vals measure-type-columns))
+       (throw (ex-info "Too many measure type columns" {:measure-type-columns-found (keys measure-type-columns)}))))))
 
 (def measures
   (comp (map measure)

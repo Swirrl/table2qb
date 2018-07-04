@@ -9,7 +9,8 @@
             [grafter.extra.validation.pmd :as pmd]
             [grafter.extra.validation.pmd.dataset :as pmdd]
             [clojure.string :as string])
-  (:import [java.io StringWriter]))
+  (:import [java.io StringWriter]
+           (clojure.lang ExceptionInfo)))
 
 ;; Test Helpers
 
@@ -73,6 +74,16 @@
   (let [xf (headers-matching #{:col1 :col2 :col3})
         matches (into [] xf [{:col1 "val1" :col3 "val3" :col4 "val4"}])]
     (is (= #{:col1 :col3} (set matches)))))
+
+(deftest measure-test
+  (testing "No matching measures"
+    (is (thrown? ExceptionInfo (measure {:row "val1" :row2 "val2"} #{:measure-type1 :measure-type2}))))
+
+  (testing "One matching measure"
+    (is (= "measure" (measure {:measure-type "measure" :other "value"} #{:measure-type}))))
+
+  (testing "Multiple matching measures"
+    (is (thrown? ExceptionInfo (measure {:mt1 "measure1" :mt2 "measure2" :other "value"} #{:mt1 :mt2})))))
 
 ;; Reference Data
 

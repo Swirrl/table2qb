@@ -318,13 +318,19 @@
                   (map name->component))
             observation-rows))
 
-(defn observations-metadata [reader csv-url dataset-slug]
+(defn- ordered-observation-components
+  "Returns a sequence of component records in the order they occur within an observations CSV file."
+  [reader]
   (let [csv-records (csv/read-csv reader)
         header-row (first csv-records)
         column-names (map (comp name title->name) header-row)
-        data (csv-rows header-row (rest csv-records) title->name)
         column-order (util/target-order column-names)
-        components (sort-by #(column-order (get % :name)) (observation-components data))
+        data (csv-rows header-row (rest csv-records) title->name)
+        components (observation-components data)]
+    (sort-by #(column-order (get % :name)) components)))
+
+(defn observations-metadata [reader csv-url dataset-slug]
+  (let [components (ordered-observation-components reader)
         component-columns (sequence (map component->column) components)
         columns (concat component-columns [observation-type-column (dataset-link-column dataset-slug)])]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
@@ -366,12 +372,7 @@
      column)))
 
 (defn used-codes-codes-metadata [reader csv-url dataset-slug]
-  (let [csv-records (csv/read-csv reader)
-        header-row (first csv-records)
-        column-names (map (comp name title->name) header-row)
-        column-order (util/target-order column-names)
-        data (csv-rows header-row (rest csv-records) title->name)
-        components (sort-by #(column-order (get % :name)) (observation-components data))
+  (let [components (ordered-observation-components reader)
         columns (mapv (fn [comp]
                         (-> comp
                             (component->column)
@@ -381,9 +382,8 @@
         codelist-uri (str domain-data dataset-slug "/codes-used/{_name}")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" (str csv-url)
-     "tableSchema"
-                {"columns" (vec columns)
-                 "aboutUrl" codelist-uri}}))
+     "tableSchema" {"columns" columns
+                    "aboutUrl" codelist-uri}}))
 
 (defn components [reader]
   (let [data (read-csv reader {"Label" :label

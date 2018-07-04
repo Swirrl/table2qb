@@ -11,7 +11,7 @@
             [clojure.string :as string]
             [clojure.set :as set])
   (:import [java.io StringWriter]
-           (clojure.lang ExceptionInfo)))
+           [clojure.lang ExceptionInfo]))
 
 ;; Test Helpers
 
@@ -270,10 +270,11 @@
     (testing "regional trade example"
       (with-open [input-reader (io/reader (example-csv "regional-trade" "input.csv"))
                   target-reader (io/reader (example-csvw "regional-trade" "observations.json"))]
-        (maps-match? (read-json target-reader)
-                     (observations-metadata input-reader
-                                            "observations.csv"
-                                            "regional-trade"))))
+        (let [obs-meta (observations-metadata input-reader
+                                              "observations.csv"
+                                              "regional-trade")]
+          (maps-match? (read-json target-reader)
+                       obs-meta))))
     (testing "overseas trade example"
       (with-open [input-reader (io/reader (example-csv "overseas-trade" "ots-cn-sample.csv"))]
         (let [obs-meta (observations-metadata input-reader "ignore-me.csv" "overseas-trade")]

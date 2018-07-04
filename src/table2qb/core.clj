@@ -23,6 +23,15 @@
 
 ;; CSV handling
 
+(defn- csv-rows
+  "Returns a lazy sequence of CSV row records given a header row, data row and row heading->key name mapping."
+  [header-row data-rows header-mapping]
+  (map zipmap
+       (->> header-row
+            (map header-mapping)
+            repeat)
+       data-rows))
+
 (defn read-csv
   ([reader]
    "Reads converting headers to keywords"
@@ -30,11 +39,7 @@
   ([reader header-mapping]
    "Reads csv into seq of hashes, with mapping from headers to keys"
    (let [csv-data (csv/read-csv reader)]
-     (map zipmap
-          (->> (first csv-data)
-               (map header-mapping)
-               repeat)
-          (rest csv-data)))))
+     (csv-rows (first csv-data) (rest csv-data) header-mapping))))
 
 (defn write-csv [writer data]
   (csv/write-csv writer
@@ -308,16 +313,20 @@
                         (map #(str "/{+" % "}")))]
      (str domain-data-prefix dataset-slug (st/join uri-parts)))))
 
+(defn- observation-components [observation-rows]
+  (sequence (comp (x/multiplex [dimensions attributes values])
+                  (map name->component))
+            observation-rows))
+
 (defn observations-metadata [reader csv-url dataset-slug]
-  (let [data (read-csv reader title->name)
-        column-order (->> data first keys (map name) util/target-order)
-        components (sequence (comp (x/multiplex [dimensions attributes values])
-                                   (map name->component)
-                                   (x/sort-by #(column-order (get % :name)))) data)
-        columns (into [] (comp (map component->column)
-                               (append (dataset-link-column dataset-slug))
-                               (append observation-type-column)) components)
-        columns (sort-by #(column-order (get % "name")) columns)]
+  (let [csv-records (csv/read-csv reader)
+        header-row (first csv-records)
+        column-names (map (comp name title->name) header-row)
+        data (csv-rows header-row (rest csv-records) title->name)
+        column-order (util/target-order column-names)
+        components (sort-by #(column-order (get % :name)) (observation-components data))
+        component-columns (sequence (map component->column) components)
+        columns (concat component-columns [observation-type-column (dataset-link-column dataset-slug)])]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" (str csv-url)
      "tableSchema"

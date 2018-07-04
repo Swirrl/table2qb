@@ -115,7 +115,9 @@
 
 ;; Identifying Components
 
-(defn headers-matching [pred]
+(defn headers-matching
+  "Finds the headers matching a predicate in a sequence of row maps"
+  [pred]
   (comp (take 1) (map keys) cat (filter pred)))
 
 (defn append [item]

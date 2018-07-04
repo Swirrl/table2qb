@@ -69,6 +69,10 @@
     (is (not (attribute? :my-dim)))
     (is (not (attribute? :unknown)))))
 
+(deftest headers-matching-test
+  (let [xf (headers-matching #{:col1 :col2 :col3})
+        matches (into [] xf [{:col1 "val1" :col3 "val3" :col4 "val4"}])]
+    (is (= #{:col1 :col3} (set matches)))))
 
 ;; Reference Data
 

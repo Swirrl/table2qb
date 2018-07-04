@@ -46,6 +46,12 @@
                  (cons (map name (keys (first data)))
                        (map vals data))))
 
+(defn write-csv-rows [writer column-keys data-rows]
+  (let [header (map name column-keys)
+        extract-cells (apply juxt column-keys)
+        data-records (map extract-cells data-rows)]
+    (csv/write-csv writer (cons header data-records))))
+
 ;; JSON handling
 
 (def read-json json/read)
@@ -385,26 +391,29 @@
      "tableSchema" {"columns" columns
                     "aboutUrl" codelist-uri}}))
 
+(defn annotate-component
+  "Derives extra column data for a component row"
+  [{:keys [label component_type] :as row}]
+  (-> row
+      (assoc :notation (gecu/slugize label))
+      (assoc :component_type_slug ({"Dimension" "dimension"
+                                    "Measure" "measure"
+                                    "Attribute" "attribute"}
+                                    component_type))
+      (assoc :property_slug (gecu/propertize label))
+      (assoc :class_slug (gecu/classize label))
+      (update :component_type {"Dimension" "qb:DimensionProperty"
+                               "Measure" "qb:MeasureProperty"
+                               "Attribute" "qb:AttributeProperty"})
+      (assoc :parent_property (if (= "Measure" component_type)
+                                "http://purl.org/linked-data/sdmx/2009/measure#obsValue"))))
+
 (defn components [reader]
   (let [data (read-csv reader {"Label" :label
                                "Description" :description
                                "Component Type" :component_type
                                "Codelist" :codelist})]
-    (sequence (map (fn [row]
-                     (-> row
-                         (assoc :notation (gecu/slugize (:label row)))
-                         (assoc :component_type_slug ({"Dimension" "dimension"
-                                                       "Measure" "measure"
-                                                       "Attribute" "attribute"}
-                                                      (row :component_type)))
-                         (assoc :property_slug (gecu/propertize (:label row)))
-                         (assoc :class_slug (gecu/classize (:label row)))
-                         (update :component_type {"Dimension" "qb:DimensionProperty"
-                                                  "Measure" "qb:MeasureProperty"
-                                                  "Attribute" "qb:AttributeProperty"})
-                         (assoc :parent_property (if (= "Measure" (:component_type row))
-                                                   "http://purl.org/linked-data/sdmx/2009/measure#obsValue")))))
-              data)))
+    (map annotate-component data)))
 
 (defn components-metadata [csv-url]
   (let [ontology-uri (str domain-def "ontology/components")]
@@ -475,7 +484,6 @@
   (-> row
       (update :sort_priority identity)
       (update :description identity)))
-
 
 (def prepare-code
   (comp add-code-hierarchy-fields
@@ -574,7 +582,8 @@
 (defn components->csvw [input-csv components-csv]
   (with-open [reader (io/reader input-csv)
               writer (io/writer components-csv)]
-    (write-csv writer (components reader))))
+    (let [component-columns [:label :description :component_type :codelist :notation :component_type_slug :property_slug :class_slug :parent_property]]
+      (write-csv-rows writer component-columns (components reader)))))
 
 (defn components->csvw->rdf [input-csv components-csv]
   (components->csvw input-csv components-csv)

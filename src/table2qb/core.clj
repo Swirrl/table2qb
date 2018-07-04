@@ -303,13 +303,15 @@
    "propertyUrl" "rdf:type"
    "valueUrl" "qb:Observation"})
 
-(defn observation-template [dataset-slug components]
-  (let [uri-parts (->> components
-                       (remove #(is-value? (keyword %)))
-                       (map #(str "/{+" % "}")))]
-    (str domain-data
-         dataset-slug
-         (st/join uri-parts))))
+(defn observation-template
+  "Builds an observation URI template from a domain data prefix, dataset slug, sequence of observation component
+   names and a predicate for identifying value components."
+  ([dataset-slug component-names] (observation-template dataset-slug component-names domain-data is-value?))
+  ([dataset-slug component-names domain-data-prefix is-value-component-p]
+   (let [uri-parts (->> component-names
+                        (remove #(is-value-component-p (keyword %)))
+                        (map #(str "/{+" % "}")))]
+     (str domain-data-prefix dataset-slug (st/join uri-parts)))))
 
 (defn target-order [v]
   "Returns a function for use with sort-by which returns an index of an

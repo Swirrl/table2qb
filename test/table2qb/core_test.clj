@@ -229,6 +229,12 @@
     (is (maps-match? (transform-columns {:label "not a slug" :curie "foo:bar"})
                      {:label "not a slug" :curie "foo:bar"}))))
 
+(deftest observation-template-test
+  (let [domain-data-prefix "http://example.com/data/"
+        dataset-slug "test"
+        value-components #{:value}
+        component-names ["year" "flow" "value" "code"]]
+    (is (= "http://example.com/data/test/{+year}/{+flow}/{+code}" (observation-template dataset-slug component-names domain-data-prefix value-components)))))
 
 (deftest observations-test
   (testing "sequence of observations"

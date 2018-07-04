@@ -8,7 +8,8 @@
             [grafter.extra.repository :refer [with-repository]]
             [grafter.extra.validation.pmd :as pmd]
             [grafter.extra.validation.pmd.dataset :as pmdd]
-            [clojure.string :as string])
+            [clojure.string :as string]
+            [clojure.set :as set])
   (:import [java.io StringWriter]
            (clojure.lang ExceptionInfo)))
 
@@ -85,6 +86,20 @@
   (testing "Multiple matching measures"
     (is (thrown? ExceptionInfo (measure {:mt1 "measure1" :mt2 "measure2" :other "value"} #{:mt1 :mt2})))))
 
+(deftest identify-transformers-test
+  (let [components {:column1 {:name "column1" :title "Column1" :value_transformation "slugize"}
+                    :column2 {:name "column2" :title "Column2" :value_transformation nil}
+                    :column3 {:name "column3" :title "Column3" :value_transformation "unitize"}
+                    :column4 {:name "column4" :title "Column4" :value_transformation "slugize"}}
+        row {:column1 "val1" :column2 "val2" :column3 "100 £"}
+        ts (identify-transformers row components)
+        transformed-column-names (into #{} (remove nil? (map (fn [[k m]]
+                                                               (if (some? (:value_transformation m))
+                                                                 k)) components)))
+        expected (set/intersection transformed-column-names (set (keys row)))]
+    (is (= expected (set (keys ts))))
+    (is (every? fn? (vals ts)))))
+
 ;; Reference Data
 
 (deftest components-test
@@ -118,8 +133,6 @@
     (with-open [target-reader (io/reader (example-csvw "regional-trade" "components.json"))]
       (maps-match? (read-json target-reader)
                    (components-metadata "components.csv")))))
-
-
 
 (deftest codelists-test
   (testing "minimum case"

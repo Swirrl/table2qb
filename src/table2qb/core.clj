@@ -249,13 +249,15 @@
   {"slugize" gecu/slugize
    "unitize" (comp gecu/slugize replace-symbols)})
 
-(defn identify-transformers [row]
+(defn identify-transformers
   "Returns a map from column name to transformation function (where provided)"
-  (let [columns (keys row)
-        name->transformer (comp resolve-transformer :value_transformation name->component)
-        transform-map (zipmap columns (map name->transformer columns))]
-    (select-keys transform-map
-                 (for [[k v] transform-map :when (not (nil? v))] k)))) ;; removes columns that have no transform
+  ([row] (identify-transformers row name->component))
+  ([row components]
+   (into {} (map (fn [component-name]
+                   (let [transformer-name (get-in components [component-name :value_transformation])]
+                     (if-let [transform-fn (get resolve-transformer transformer-name)]
+                       [component-name transform-fn])))
+                 (keys row)))))
 
 (defn transform-columns [row]
   "Prepares cells for inclusion in URL templates, typically by slugizing"

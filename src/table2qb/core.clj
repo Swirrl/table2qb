@@ -91,10 +91,10 @@
           (map (comp keyword :name) (vals name->component))))
 
 (defn title->name [title]
-  (let [name (title->name-lookup title)]
-    (if name name
-        (throw (ex-info (str "Unrecognised column: " title)
-                        { :known-columns (keys title->name-lookup)})))))
+  (if-let [name (title->name-lookup title)]
+    name
+    (throw (ex-info (str "Unrecognised column: " title)
+                    {:known-columns (keys title->name-lookup)}))))
 
 (defn identify-columns [conventions-map attachment]
   "Returns a predicate (set) of column names where the :component_attachment property is as specified"

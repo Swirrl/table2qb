@@ -366,20 +366,24 @@
      column)))
 
 (defn used-codes-codes-metadata [reader csv-url dataset-slug]
-  (let [data (read-csv reader title->name)
-        codelist-uri (str domain-data dataset-slug "/codes-used/{_name}")
-        components (sequence (comp (x/multiplex [dimensions attributes values])
-                                   (map name->component)) data)
-        column-order (->> data first keys (map name) util/target-order)
-        columns (into [] (comp (map component->column)
-                               (map #(assoc % "propertyUrl" "skos:member"))
-                               (map suppress-value-column)) components)
-        columns (sort-by #(column-order (get % "name")) columns)]
+  (let [csv-records (csv/read-csv reader)
+        header-row (first csv-records)
+        column-names (map (comp name title->name) header-row)
+        column-order (util/target-order column-names)
+        data (csv-rows header-row (rest csv-records) title->name)
+        components (sort-by #(column-order (get % :name)) (observation-components data))
+        columns (mapv (fn [comp]
+                        (-> comp
+                            (component->column)
+                            (assoc "propertyUrl" "skos:member")
+                            (suppress-value-column)))
+                      components)
+        codelist-uri (str domain-data dataset-slug "/codes-used/{_name}")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" (str csv-url)
      "tableSchema"
-     {"columns" (vec columns)
-      "aboutUrl" codelist-uri}}))
+                {"columns" (vec columns)
+                 "aboutUrl" codelist-uri}}))
 
 (defn components [reader]
   (let [data (read-csv reader {"Label" :label

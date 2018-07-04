@@ -9,4 +9,4 @@
       (is (= 1 (f :b))))
 
     (testing "Does not exist in collection"
-      (is (= (inc (count v)) (f :x))))))
+      (is (= (count v) (f :x))))))

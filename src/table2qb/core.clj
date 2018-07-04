@@ -5,7 +5,6 @@
             [clojure.java.io :as io]
             [grafter.extra.cell.uri :as gecu]
             [grafter.extra.cell.string :as gecs]
-            [grafter.extra.sequence :as ges]
             [grafter.rdf.io :as gio]
             [clojure.string :as st]
             [clojure.java.shell :refer [sh]]
@@ -14,7 +13,8 @@
             [csv2rdf.util :refer [liberal-concat]]
             [csv2rdf.source :as source]
             [grafter.rdf :as rdf]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [table2qb.util :refer [exception? map-values] :as util]))
 
 ;; Config
 (def domain (environ/env :base-uri "http://gss-data.org.uk/"))
@@ -48,11 +48,6 @@
   (json/write data writer))
 
 ;; Conventions
-
-(defn exception? [x] (instance? Exception x))
-
-(defn- map-values [m f]
-  (into {} (map (fn [[k v]] [k (f v)]) m)))
 
 (defn blank->nil [value]
   (if (= "" value) nil value))
@@ -313,19 +308,9 @@
                         (map #(str "/{+" % "}")))]
      (str domain-data-prefix dataset-slug (st/join uri-parts)))))
 
-(defn target-order [v]
-  "Returns a function for use with sort-by which returns an index of an
-  element according to a target vector, or an index falling after the target
-  (i.e. putting unrecognised elements at the end)."
-  (fn [element]
-    (let [i (.indexOf v element)]
-      (if (= -1 i)
-        (inc (count v))
-        i))))
-
 (defn observations-metadata [reader csv-url dataset-slug]
   (let [data (read-csv reader title->name)
-        column-order (->> data first keys (map name) target-order)
+        column-order (->> data first keys (map name) util/target-order)
         components (sequence (comp (x/multiplex [dimensions attributes values])
                                    (map name->component)
                                    (x/sort-by #(column-order (get % :name)))) data)
@@ -373,7 +358,7 @@
         codelist-uri (str domain-data dataset-slug "/codes-used/{_name}")
         components (sequence (comp (x/multiplex [dimensions attributes values])
                                    (map name->component)) data)
-        column-order (->> data first keys (map name) target-order)
+        column-order (->> data first keys (map name) util/target-order)
         columns (into [] (comp (map component->column)
                                (map #(assoc % "propertyUrl" "skos:member"))
                                (map suppress-value)) components)
@@ -383,7 +368,6 @@
      "tableSchema"
      {"columns" (vec columns)
       "aboutUrl" codelist-uri}}))
-
 
 (defn components [reader]
   (let [data (read-csv reader {"Label" :label

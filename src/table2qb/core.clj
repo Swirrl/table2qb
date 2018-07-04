@@ -269,7 +269,7 @@
   (doseq [dimension (select-keys row is-dimension?)]
     (if (gecs/blank? (val dimension))
       (throw (ex-info (str "Missing value for dimension: " (key dimension))
-                      { :row row})))))
+                      {:row row})))))
 
 (defn validate-columns [row]
   "Ensures that columns are valid"
@@ -281,24 +281,26 @@
     (sequence (map (comp transform-columns
                          validate-columns)) data)))
 
-(defn component->column [{:keys [name title property_template value_template datatype]}]
-  (merge {"name" name
-          "titles" name ;; could revert to title here (would need to do so in all output csv too)
-          "datatype" datatype
-          "propertyUrl" property_template}
-         (when (not (nil? value_template)) {"valueUrl" value_template})))
+(defn component->column [{:keys [name property_template value_template datatype]}]
+  (let [col {"name" name
+             "titles" name ;; could revert to title here (would need to do so in all output csv too)
+             "datatype" datatype
+             "propertyUrl" property_template}]
+    (if (some? value_template)
+      (assoc col "valueUrl" value_template)
+      col)))
 
-(defn dataset-link [dataset-slug]
+(defn dataset-link-column [dataset-slug]
   (let [ds-uri (str domain-data dataset-slug)]
-    {"name" "DataSet",
-     "virtual" true,
-     "propertyUrl" "qb:dataSet",
+    {"name" "DataSet"
+     "virtual" true
+     "propertyUrl" "qb:dataSet"
      "valueUrl" ds-uri}))
 
-(def observation-type
-  {"name" "Observation",
-   "virtual" true,
-   "propertyUrl" "rdf:type",
+(def observation-type-column
+  {"name" "Observation"
+   "virtual" true
+   "propertyUrl" "rdf:type"
    "valueUrl" "qb:Observation"})
 
 (defn observation-template [dataset-slug components]
@@ -326,8 +328,8 @@
                                    (map name->component)
                                    (x/sort-by #(column-order (get % :name)))) data)
         columns (into [] (comp (map component->column)
-                               (append (dataset-link dataset-slug))
-                               (append observation-type)) components)
+                               (append (dataset-link-column dataset-slug))
+                               (append observation-type-column)) components)
         columns (sort-by #(column-order (get % "name")) columns)]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" (str csv-url)

@@ -558,43 +558,56 @@
 
 (def csv2rdf-config {:mode :standard})
 
-(defn codelist->csvw [input-csv codelist-csv]
-  (with-open [reader (io/reader input-csv)
-              writer (io/writer codelist-csv)]
+(defn codelist->csvw
+  "Annotates an input codelist CSV file and writes it to the specified destination file."
+  [codelist-csv dest-file]
+  (with-open [reader (io/reader codelist-csv)
+              writer (io/writer dest-file)]
     (let [output-columns [:label :notation :parent_notation :sort_priority :description :top_concept_of :has_top_concept]]
       (write-csv-rows writer output-columns (codes reader)))))
 
-(defn codelist->csvw->rdf [input-csv codelist-name codelist-slug codelist-csv]
-  (codelist->csvw input-csv codelist-csv)
-  (let [codelist-meta (codelist-metadata codelist-csv codelist-name codelist-slug)]
-    (csvw/csv->rdf codelist-csv (create-metadata-source input-csv codelist-meta) csv2rdf-config)))
+(defn codelist->csvw->rdf
+  "Annotates an input codelist CSV file and uses it to generate RDF for the given codelist name and slug."
+  [codelist-csv codelist-name codelist-slug intermediate-file]
+  (codelist->csvw codelist-csv intermediate-file)
+  (let [codelist-meta (codelist-metadata intermediate-file codelist-name codelist-slug)]
+    (csvw/csv->rdf intermediate-file (create-metadata-source codelist-csv codelist-meta) csv2rdf-config)))
 
-(defn codelist-pipeline [input-csv codelist-name codelist-slug]
-  (let [codelist-csv (tempfile codelist-slug ".csv")]
-    (codelist->csvw->rdf input-csv codelist-name codelist-slug codelist-csv)))
+(defn codelist-pipeline
+  "Generates RDF for the given codelist CSV file"
+  [codelist-csv codelist-name codelist-slug]
+  (let [intermediate-file (tempfile codelist-slug ".csv")]
+    (codelist->csvw->rdf codelist-csv codelist-name codelist-slug intermediate-file)))
 
-(defn components->csvw [input-csv components-csv]
-  (with-open [reader (io/reader input-csv)
-              writer (io/writer components-csv)]
+(defn components->csvw
+  "Annotates an input component CSV file and writes the result to the specified destination file."
+  [components-csv dest-file]
+  (with-open [reader (io/reader components-csv)
+              writer (io/writer dest-file)]
     (let [component-columns [:label :description :component_type :codelist :notation :component_type_slug :property_slug :class_slug :parent_property]]
       (write-csv-rows writer component-columns (components reader)))))
 
-(defn components->csvw->rdf [input-csv components-csv]
-  (components->csvw input-csv components-csv)
-  (let [components-meta (components-metadata components-csv)]
-    (csvw/csv->rdf components-csv (create-metadata-source input-csv components-meta) csv2rdf-config)))
+(defn components->csvw->rdf
+  "Annotates an input components CSV file and uses it to generate RDF."
+  [components-csv intermediate-file]
+  (components->csvw components-csv intermediate-file)
+  (let [components-meta (components-metadata intermediate-file)]
+    (csvw/csv->rdf intermediate-file (create-metadata-source components-csv components-meta) csv2rdf-config)))
 
-(defn components-pipeline [input-csv]
+(defn components-pipeline
+  "Generates RDF for the given components CSV file."
+  [input-csv]
   (let [components-csv (tempfile "components" ".csv")]
     (components->csvw->rdf input-csv components-csv)))
 
 (defn cube->csvw [input-csv component-specifications-csv observations-csv]
   (with-open [reader (io/reader input-csv)
               writer (io/writer component-specifications-csv)]
-    (write-csv writer (component-specifications reader)))
+    (write-csv-rows writer [:component_slug :component_attachment :component_property] (component-specifications reader)))
 
   (with-open [reader (io/reader input-csv)
               writer (io/writer observations-csv)]
+    ;;TODO: specify column headers!
     (write-csv writer (observations reader))))
 
 (defn cube->csvw->rdf [input-csv dataset-name dataset-slug component-specifications-csv observations-csv]
@@ -616,7 +629,9 @@
       (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv used-codes-codelists-metadata-meta) {:mode :standard})
       (csvw/csv->rdf observations-csv (create-metadata-source input-csv used-codes-codes-metadata-meta) {:mode :standard}))))
 
-(defn cube-pipeline [input-csv dataset-name dataset-slug]
+(defn cube-pipeline
+  "Generates cube RDF for the given input CSV with dataset name and slug."
+  [input-csv dataset-name dataset-slug]
   (let [component-specifications-csv (tempfile "component-specifications" ".csv")
         observations-csv (tempfile "observations" ".csv")]
     (cube->csvw->rdf input-csv dataset-name dataset-slug

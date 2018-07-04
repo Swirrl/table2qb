@@ -480,14 +480,7 @@
   (let [tc (if (string/blank? parent_notation) "yes" "")]
     (assoc row :top_concept_of tc :has_top_concept tc)))
 
-(defn ensure-default-fields [row]
-  (-> row
-      (update :sort_priority identity)
-      (update :description identity)))
-
-(def prepare-code
-  (comp add-code-hierarchy-fields
-        ensure-default-fields))
+(def annotate-code add-code-hierarchy-fields)
 
 (defn codes [reader]
   (let [data (read-csv reader {"Label" :label
@@ -495,7 +488,7 @@
                                "Parent Notation", :parent_notation
                                "Sort Priority", :sort_priority
                                "Description" :description})]
-    (map prepare-code data)))
+    (map annotate-code data)))
 
 (defn codelist-metadata [csv-url codelist-name codelist-slug]
   (let [codelist-uri (str domain-def "concept-scheme/" codelist-slug)
@@ -568,7 +561,8 @@
 (defn codelist->csvw [input-csv codelist-csv]
   (with-open [reader (io/reader input-csv)
               writer (io/writer codelist-csv)]
-      (write-csv writer (codes reader))))
+    (let [output-columns [:label :notation :parent_notation :sort_priority :description :top_concept_of :has_top_concept]]
+      (write-csv-rows writer output-columns (codes reader)))))
 
 (defn codelist->csvw->rdf [input-csv codelist-name codelist-slug codelist-csv]
   (codelist->csvw input-csv codelist-csv)

@@ -153,10 +153,7 @@
       (with-open [input-reader (io/reader (example-csv "regional-trade" "flow-directions.csv"))]
         (let [codes (doall (codes input-reader))]
           (testing "one row per code"
-            (is (= 2 (count codes))))
-          (testing "one column per attribute"
-            (is (= [:label :notation :parent_notation :sort_priority :description :top_concept_of :has_top_concept]
-                   (-> codes first keys)))))))
+            (is (= 2 (count codes)))))))
     (testing "json metadata"
       (with-open [target-reader (io/reader (example-csvw "regional-trade" "flow-directions.json"))]
         (maps-match? (read-json target-reader)

@@ -357,10 +357,13 @@
         "valueUrl" "skos:Collection"}],
       "aboutUrl" codelist-uri}}))
 
-(defn suppress-value [row]
-  (if (is-value? (keyword (get row "name")))
-    (assoc row "suppressOutput" true)
-    row))
+(defn suppress-value-column
+  "Suppresses the output of a metadata column definition if it corresponds to a value component"
+  ([column] (suppress-value-column column is-value?))
+  ([column is-value-p]
+   (if (is-value-p (keyword (get column "name")))
+     (assoc column "suppressOutput" true)
+     column)))
 
 (defn used-codes-codes-metadata [reader csv-url dataset-slug]
   (let [data (read-csv reader title->name)
@@ -370,7 +373,7 @@
         column-order (->> data first keys (map name) util/target-order)
         columns (into [] (comp (map component->column)
                                (map #(assoc % "propertyUrl" "skos:member"))
-                               (map suppress-value)) components)
+                               (map suppress-value-column)) components)
         columns (sort-by #(column-order (get % "name")) columns)]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" (str csv-url)

@@ -100,6 +100,19 @@
     (is (= expected (set (keys ts))))
     (is (every? fn? (vals ts)))))
 
+(deftest suppress-value-column-test
+  (testing "value column"
+    (is (= {"name" "value"
+            "title" "Value"
+            "suppressOutput" true}
+           (suppress-value-column {"name"  "value"
+                                   "title" "Value"} #{:value}))))
+
+  (testing "non-value column"
+    (let [col {"name" "flow"
+               "title" "Flow"}]
+      (is (= col (suppress-value-column col #{:value}))))))
+
 ;; Reference Data
 
 (deftest components-test

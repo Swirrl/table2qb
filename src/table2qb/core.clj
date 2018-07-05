@@ -282,10 +282,13 @@
   (validate-dimensions row)
   row)
 
+(defn observation-rows [data]
+  (sequence (map (comp transform-columns
+                       validate-columns)) data))
+
 (defn observations [reader]
   (let [data (read-csv reader title->name)]
-    (sequence (map (comp transform-columns
-                         validate-columns)) data)))
+    (observation-rows data)))
 
 (defn component->column [{:keys [name property_template value_template datatype]}]
   (let [col {"name" name
@@ -324,12 +327,17 @@
                   (map name->component))
             observation-rows))
 
+(defn- header-row-column-names
+  "Resolves the titles within a CSV header row to the corresponding header names."
+  [header-row]
+  (mapv (comp name title->name) header-row))
+
 (defn- ordered-observation-components
   "Returns a sequence of component records in the order they occur within an observations CSV file."
   [reader]
   (let [csv-records (csv/read-csv reader)
         header-row (first csv-records)
-        column-names (map (comp name title->name) header-row)
+        column-names (header-row-column-names header-row)
         column-order (util/target-order column-names)
         data (csv-rows header-row (rest csv-records) title->name)
         components (observation-components data)]
@@ -607,8 +615,11 @@
 
   (with-open [reader (io/reader input-csv)
               writer (io/writer observations-csv)]
-    ;;TODO: specify column headers!
-    (write-csv writer (observations reader))))
+    (let [csv-records (csv/read-csv reader)
+          header-row (first csv-records)
+          column-names (header-row-column-names header-row)
+          column-keys (mapv keyword column-names)]
+      (write-csv-rows writer column-keys (observation-rows (csv-rows header-row (rest csv-records) title->name))))))
 
 (defn cube->csvw->rdf [input-csv dataset-name dataset-slug component-specifications-csv observations-csv]
   (cube->csvw input-csv component-specifications-csv observations-csv)

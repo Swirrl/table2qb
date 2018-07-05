@@ -1,7 +1,6 @@
 (ns table2qb.core
   (:require [clojure.data.csv :as csv]
             [clojure.data.json :as json]
-            [net.cgrand.xforms :as x]
             [clojure.java.io :as io]
             [grafter.extra.cell.uri :as gecu]
             [grafter.extra.cell.string :as gecs]
@@ -14,43 +13,16 @@
             [csv2rdf.source :as source]
             [grafter.rdf :as rdf]
             [clojure.string :as string]
-            [table2qb.util :refer [exception? map-values] :as util]))
+            [table2qb.util :refer [exception? map-values] :as util]
+            [table2qb.csv :refer :all]
+            [table2qb.configuration :as config]
+            [clojure.set :as set]))
 
 ;; Config
+;;TODO: move into configuration
 (def domain (environ/env :base-uri "http://gss-data.org.uk/"))
 (def domain-data (str domain "data/"))
 (def domain-def (str domain "def/"))
-
-;; CSV handling
-
-(defn- csv-rows
-  "Returns a lazy sequence of CSV row records given a header row, data row and row heading->key name mapping."
-  [header-row data-rows header-mapping]
-  (map zipmap
-       (->> header-row
-            (map header-mapping)
-            repeat)
-       data-rows))
-
-(defn read-csv
-  ([reader]
-   "Reads converting headers to keywords"
-   (read-csv reader keyword))
-  ([reader header-mapping]
-   "Reads csv into seq of hashes, with mapping from headers to keys"
-   (let [csv-data (csv/read-csv reader)]
-     (csv-rows (first csv-data) (rest csv-data) header-mapping))))
-
-(defn write-csv [writer data]
-  (csv/write-csv writer
-                 (cons (map name (keys (first data)))
-                       (map vals data))))
-
-(defn write-csv-rows [writer column-keys data-rows]
-  (let [header (map name column-keys)
-        extract-cells (apply juxt column-keys)
-        data-records (map extract-cells data-rows)]
-    (csv/write-csv writer (cons header data-records))))
 
 ;; JSON handling
 
@@ -60,116 +32,43 @@
 
 ;; Conventions
 
-(defn blank->nil [value]
-  (if (= "" value) nil value))
-
-(defn get-configuration
-  "Loads the configuration from a resource"
-  []
-  (with-open [r (io/reader (io/resource "columns.csv"))]
-    (doall (read-csv r))))
-
-(defn configuration-row->column
-  "Creates a column definition from a row of the configuration file. Returns an Exception if the row is invalid."
-  [row-index {:keys [name] :as row}]
-  (cond
-    (string/blank? name) (RuntimeException. (format "Row %d: csvw:name cannot be blank" row-index))
-    (string/includes? name "-") (RuntimeException. (format "Row %d: csvw:name %s cannot contain hyphens (use underscores instead): " row-index name))
-    :else (map-values row blank->nil)))
-
-(defn column-configuration
-  "Creates lookup of columns (from a csv) for a name (in the component_slug field)"
-  []
-  (let [config-rows (get-configuration)
-        columns (map-indexed configuration-row->column config-rows)
-        errors (filter exception? columns)
-        valid-columns (remove exception? columns)]
-    (if (seq errors)
-      (let [msg (string/join "\n" (map #(.getMessage %) errors))]
-        (throw (RuntimeException. msg)))
-      (into {} (map (fn [col] [(keyword (:name col)) col]) valid-columns)))))
-
-(def name->component ;; TODO: defonce me
-  (column-configuration))
-
-(def title->name-lookup
-  (zipmap (map :title (vals name->component))
-          (map (comp keyword :name) (vals name->component))))
-
-(defn title->name [title]
-  (if-let [name (title->name-lookup title)]
-    name
-    (throw (ex-info (str "Unrecognised column: " title)
-                    {:known-columns (keys title->name-lookup)}))))
-
-(defn identify-columns [conventions-map attachment]
-  "Returns a predicate (set) of column names where the :component_attachment property is as specified"
-  (reduce-kv (fn [s name {:keys [component_attachment]}]
-               (if (= component_attachment attachment) (conj s name) s))
-             #{}
-             conventions-map))
-
-(def is-dimension? (identify-columns name->component "qb:dimension"))
-(def is-attribute? (identify-columns name->component "qb:attribute"))
-(def is-value? (identify-columns name->component nil)) ;; if it's not attached as a component then it must be a value
-(def is-measure? (identify-columns name->component "qb:measure")) ;; as yet unused, will be needed for multi-measure cubes (note this includes single-measure ones not using the measure-dimension approach)
-(def is-measure-type? (->> name->component
-                           (map val)
-                           (filter #(= (:property_template %) "http://purl.org/linked-data/cube#measureType"))
-                           (map (comp keyword :name))
-                           set))
+(def default-config (config/real-load-configuration))
 
 ;; Identifying Components
 
-(defn headers-matching
-  "Finds the headers matching a predicate in a sequence of row maps"
-  [pred]
-  (comp (take 1) (map keys) cat (filter pred)))
-
-(defn append [item]
-  (fn [xf]
-    (fn
-      ([] (xf))
-      ([result] (xf (xf result) item))
-      ([result input] (xf result input)))))
-
-(def dimensions
-  (headers-matching is-dimension?))
-
-(def attributes
-  (headers-matching is-attribute?))
-
-(def values
-  (headers-matching is-value?))
-
-(defn measure
-  "Returns the single measure value for the row. Throws an exception if there is not exactly one measure type."
-  ([row] (measure row is-measure-type?))
-  ([row measure-types]
-   (let [measure-type-columns (select-keys row measure-types)] ;; TODO: this should happen once per table, not per row
-     (case (count measure-type-columns)
-       0 (throw (ex-info "No measure type column" {:measure-type-columns-found nil}))
-       1 (first (vals measure-type-columns))
-       (throw (ex-info "Too many measure type columns" {:measure-type-columns-found (keys measure-type-columns)}))))))
-
-(def measures
-  (comp (map measure)
-        (distinct)
-        (map title->name)))
-
-(def identify-components
-  (x/multiplex [dimensions attributes measures]))
+(defn- identify-component-names
+  "Identifies the named components within an observations CSV file"
+  [header-row data-rows column-config]
+  (let [title->name (fn [title] (config/title->name column-config title))
+        header-names (map title->name header-row)
+        names (set header-names)
+        dimensions (set/intersection names (config/dimensions column-config))
+        attributes (set/intersection names (config/attributes column-config))
+        measure-types (set/intersection names (config/measure-types column-config))]
+    ;;TODO: refactor?
+    (case (count measure-types)
+      0 (throw (ex-info "No measure type column" {:measure-type-columns-found nil}))
+      1 (let [measure-col (first measure-types)
+              records (csv-records header-names data-rows)
+              measure-names (->> records
+                                 (map measure-col)
+                                 (distinct)
+                                 (map title->name))]
+          (concat dimensions attributes measure-names))
+      (throw (ex-info "Too many measure type columns" {:measure-type-columns-found (keys measure-types)})))))
 
 (defn component-specifications
   "Takes an filename for csv of observations and returns a sequence of components"
-  [reader]
-  (let [data (read-csv reader title->name)]
-    (sequence (comp identify-components
-                    (map name->component)
-                    (map (fn [{:keys [name component_attachment property_template]}]
-                           {:component_slug name
-                            :component_attachment component_attachment
-                            :component_property property_template}))) data)))
+  [reader column-config]
+  (let [lines (csv/read-csv reader)
+        component-names (identify-component-names (first lines) (rest lines) column-config)
+        name->component (config/name->component column-config)]
+    (map (fn [component-name]
+           (let [{:keys [name component_attachment property_template]} (name->component component-name)]
+             {:component_slug       name
+              :component_attachment component_attachment
+              :component_property   property_template}))
+         component-names)))
 
 (defn component-specification-template [dataset-slug]
   (str domain-data dataset-slug "/component/{component_slug}"))
@@ -255,40 +154,59 @@
   {"slugize" gecu/slugize
    "unitize" (comp gecu/slugize replace-symbols)})
 
-(defn identify-transformers
-  "Returns a map from column name to transformation function (where provided)"
-  ([row] (identify-transformers row name->component))
-  ([row components]
-   (into {} (map (fn [component-name]
-                   (let [transformer-name (get-in components [component-name :value_transformation])]
-                     (if-let [transform-fn (get resolve-transformer transformer-name)]
-                       [component-name transform-fn])))
-                 (keys row)))))
+(defn- get-header-names
+  "Resolves the titles within a CSV header row to the corresponding header names."
+  [header-row column-config]
+  (let [title->name (fn [title] (config/title->name column-config title))]
+    (mapv (comp name title->name) header-row)))
 
-(defn transform-columns [row]
-  "Prepares cells for inclusion in URL templates, typically by slugizing"
-  (let [transformations (identify-transformers row)] ;; TODO: identify once for whole table (not per row)
-    (reduce (fn [row [col f]] (update row col f)) row transformations)))
+(defn get-header-keys [header-row column-config]
+  (let [title->name (fn [title] (config/title->name column-config title))]
+    (mapv title->name header-row)))
 
-(defn validate-dimensions [row]
+(defn identify-header-transformers
+  "Identifies the columns in the CSV header which have associated transformer functions specified in the
+   column configuration. Returns a map {header-key transformer-fn} for headers with transformers."
+  [header-row column-config]
+  (let [header-keys (get-header-keys header-row column-config)
+        components (config/name->component column-config)]
+    (into {} (map (fn [component-name]
+                    (let [transformer-name (get-in components [component-name :value_transformation])]
+                      (if-let [transform-fn (get resolve-transformer transformer-name)]
+                        [component-name transform-fn])))
+                  header-keys))))
+
+(defn transform-columns
+  "Applies the specified column transforms to a row"
+  [row transformations]
+  (reduce (fn [row [col f]] (update row col f)) row transformations))
+
+(defn validate-dimensions
   "Ensures that dimension columns have no missing values"
-  (doseq [dimension (select-keys row is-dimension?)]
-    (if (gecs/blank? (val dimension))
-      (throw (ex-info (str "Missing value for dimension: " (key dimension))
+  [row dimensions]
+  (doseq [[dim value] (select-keys row dimensions)]
+    (if (gecs/blank? value)
+      (throw (ex-info (str "Missing value for dimension: " dim)
                       {:row row})))))
 
-(defn validate-columns [row]
+(defn validate-columns [row column-config]
   "Ensures that columns are valid"
-  (validate-dimensions row)
+  (validate-dimensions row (config/dimensions column-config))
   row)
 
-(defn observation-rows [data]
-  (sequence (map (comp transform-columns
-                       validate-columns)) data))
+(defn observation-rows [header-row data-rows column-config]
+  (let [header-keys (get-header-keys header-row column-config)
+        column-transforms (identify-header-transformers header-row column-config)]
+    (map (fn [row]
+           (-> row
+               (transform-columns column-transforms)
+               (validate-columns column-config)))
+         (csv-records header-keys data-rows))))
 
-(defn observations [reader]
-  (let [data (read-csv reader title->name)]
-    (observation-rows data)))
+(defn observations
+  [reader column-config]
+  (let [lines (csv/read-csv reader)]
+    (observation-rows (first lines) (rest lines) column-config)))
 
 (defn component->column [{:keys [name property_template value_template datatype]}]
   (let [col {"name" name
@@ -315,36 +233,36 @@
 (defn observation-template
   "Builds an observation URI template from a domain data prefix, dataset slug, sequence of observation component
    names and a predicate for identifying value components."
-  ([dataset-slug component-names] (observation-template dataset-slug component-names domain-data is-value?))
+  ([dataset-slug component-names] (observation-template dataset-slug component-names domain-data (config/values default-config)))
   ([dataset-slug component-names domain-data-prefix is-value-component-p]
    (let [uri-parts (->> component-names
                         (remove #(is-value-component-p (keyword %)))
                         (map #(str "/{+" % "}")))]
      (str domain-data-prefix dataset-slug (st/join uri-parts)))))
 
-(defn- observation-components [observation-rows]
-  (sequence (comp (x/multiplex [dimensions attributes values])
-                  (map name->component))
-            observation-rows))
-
-(defn- header-row-column-names
-  "Resolves the titles within a CSV header row to the corresponding header names."
-  [header-row]
-  (mapv (comp name title->name) header-row))
+(defn- observation-components
+  [header-row column-config]
+  (let [name->component (config/name->component column-config)
+        title->name (fn [title] (config/title->name column-config title))
+        header-names (mapv title->name header-row)
+        names (set header-names)
+        dimensions (set/intersection names (config/dimensions column-config))
+        attributes (set/intersection names (config/attributes column-config))
+        values (set/intersection names (config/values column-config))]
+    (map name->component (concat dimensions attributes values))))
 
 (defn- ordered-observation-components
   "Returns a sequence of component records in the order they occur within an observations CSV file."
-  [reader]
+  [reader column-config]
   (let [csv-records (csv/read-csv reader)
         header-row (first csv-records)
-        column-names (header-row-column-names header-row)
+        column-names (get-header-names header-row column-config)
         column-order (util/target-order column-names)
-        data (csv-rows header-row (rest csv-records) title->name)
-        components (observation-components data)]
+        components (observation-components header-row column-config)]
     (sort-by #(column-order (get % :name)) components)))
 
-(defn observations-metadata [reader csv-url dataset-slug]
-  (let [components (ordered-observation-components reader)
+(defn observations-metadata [reader csv-url dataset-slug column-config]
+  (let [components (ordered-observation-components reader column-config)
         component-columns (sequence (map component->column) components)
         columns (concat component-columns [observation-type-column (dataset-link-column dataset-slug)])]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
@@ -379,19 +297,18 @@
 
 (defn suppress-value-column
   "Suppresses the output of a metadata column definition if it corresponds to a value component"
-  ([column] (suppress-value-column column is-value?))
-  ([column is-value-p]
-   (if (is-value-p (keyword (get column "name")))
-     (assoc column "suppressOutput" true)
-     column)))
+  [column is-value-p]
+  (if (is-value-p (keyword (get column "name")))
+    (assoc column "suppressOutput" true)
+    column))
 
-(defn used-codes-codes-metadata [reader csv-url dataset-slug]
-  (let [components (ordered-observation-components reader)
+(defn used-codes-codes-metadata [reader csv-url dataset-slug column-config]
+  (let [components (ordered-observation-components reader column-config)
         columns (mapv (fn [comp]
                         (-> comp
                             (component->column)
                             (assoc "propertyUrl" "skos:member")
-                            (suppress-value-column)))
+                            (suppress-value-column (config/values column-config))))
                       components)
         codelist-uri (str domain-data dataset-slug "/codes-used/{_name}")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
@@ -608,30 +525,29 @@
   (let [components-csv (tempfile "components" ".csv")]
     (components->csvw->rdf input-csv components-csv)))
 
-(defn cube->csvw [input-csv component-specifications-csv observations-csv]
+(defn cube->csvw [input-csv component-specifications-csv observations-csv column-config]
   (with-open [reader (io/reader input-csv)
               writer (io/writer component-specifications-csv)]
-    (write-csv-rows writer [:component_slug :component_attachment :component_property] (component-specifications reader)))
+    (write-csv-rows writer [:component_slug :component_attachment :component_property] (component-specifications reader column-config)))
 
   (with-open [reader (io/reader input-csv)
               writer (io/writer observations-csv)]
     (let [csv-records (csv/read-csv reader)
           header-row (first csv-records)
-          column-names (header-row-column-names header-row)
-          column-keys (mapv keyword column-names)]
-      (write-csv-rows writer column-keys (observation-rows (csv-rows header-row (rest csv-records) title->name))))))
+          header-keys (get-header-keys header-row column-config)]
+      (write-csv-rows writer header-keys (observation-rows header-row (rest csv-records) column-config)))))
 
-(defn cube->csvw->rdf [input-csv dataset-name dataset-slug component-specifications-csv observations-csv]
-  (cube->csvw input-csv component-specifications-csv observations-csv)
+(defn cube->csvw->rdf [input-csv dataset-name dataset-slug component-specifications-csv observations-csv column-config]
+  (cube->csvw input-csv component-specifications-csv observations-csv column-config)
 
   (let [component-specification-metadata-meta (component-specification-metadata component-specifications-csv dataset-name dataset-slug)
         dataset-metadata-meta (dataset-metadata component-specifications-csv dataset-name dataset-slug)
         dsd-metadata-meta (data-structure-definition-metadata component-specifications-csv dataset-name dataset-slug)
         observations-metadata-meta (with-open [reader (io/reader input-csv)]
-                                     (observations-metadata reader observations-csv dataset-slug))
+                                     (observations-metadata reader observations-csv dataset-slug column-config))
         used-codes-codelists-metadata-meta (used-codes-codelists-metadata component-specifications-csv dataset-slug)
         used-codes-codes-metadata-meta (with-open [reader (io/reader input-csv)]
-                                         (used-codes-codes-metadata reader observations-csv dataset-slug))]
+                                         (used-codes-codes-metadata reader observations-csv dataset-slug column-config))]
     (liberal-concat
       (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv component-specification-metadata-meta) {:mode :standard})
       (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv dataset-metadata-meta) {:mode :standard})
@@ -642,11 +558,12 @@
 
 (defn cube-pipeline
   "Generates cube RDF for the given input CSV with dataset name and slug."
-  [input-csv dataset-name dataset-slug]
+  [input-csv dataset-name dataset-slug column-config]
   (let [component-specifications-csv (tempfile "component-specifications" ".csv")
         observations-csv (tempfile "observations" ".csv")]
     (cube->csvw->rdf input-csv dataset-name dataset-slug
-                     component-specifications-csv observations-csv)))
+                     component-specifications-csv observations-csv
+                     column-config)))
 
 (defn serialise-demo [out-dir]
   (with-open [output-stream (io/output-stream (str out-dir "/components.ttl"))]
@@ -676,6 +593,7 @@
     (let [writer (gio/rdf-serializer output-stream :format :ttl)]
       (rdf/add writer
                (cube-pipeline "./examples/regional-trade/csv/input.csv"
-                              "Regional Trade" "regional-trade")))))
+                              "Regional Trade" "regional-trade"
+                              default-config)))))
 
 ;;(serialise-demo "./tmp")

@@ -1,6 +1,7 @@
 (ns table2qb.core-test
   (:require [clojure.test :refer :all]
             [table2qb.core :refer :all]
+            [table2qb.csv :refer [read-csv write-csv]]
             [clojure.java.io :as io]
             [clojure.data :refer [diff]]
             [grafter.rdf :as rdf]
@@ -8,10 +9,9 @@
             [grafter.extra.repository :refer [with-repository]]
             [grafter.extra.validation.pmd :as pmd]
             [grafter.extra.validation.pmd.dataset :as pmdd]
-            [clojure.string :as string]
-            [clojure.set :as set])
-  (:import [java.io StringWriter]
-           [clojure.lang ExceptionInfo]))
+            [clojure.set :as set]
+            [table2qb.configuration :as config])
+  (:import [java.io StringWriter]))
 
 ;; Test Helpers
 
@@ -21,6 +21,9 @@
 (def example-csv (partial example "csv"))
 (def example-csvw (partial example "csvw"))
 (def example-ttl (partial example "ttl"))
+
+(defn title->name [title]
+  (config/title->name default-config title))
   
 (defn maps-match? [a b]
   (let [[a-only b-only _] (diff a b)]
@@ -40,65 +43,14 @@
                                 (map #(get % "name")))]
          (is (= csv-columns# meta-columns#))))))
 
-;; Configuration
-
-(deftest configuration-row->column-test
-  (testing "var names"
-    (testing "must be provided"
-      (let [r (configuration-row->column 1 {:name ""})]
-        (is (instance? Exception r))
-        (is (string/includes? (.getMessage r) "csvw:name cannot be blank"))))
-
-    (testing "should not contain hyphens"
-      (let [r (configuration-row->column 1 {:name "my-column"})]
-        (is (instance? Exception r))
-        (is (string/includes? (.getMessage r) "cannot contain hyphens"))))
-
-    (testing "may have underscores"
-      (is (= {:name "my_column"} (configuration-row->column 1 {:name "my_column"}))))))
-
 ;; Conventions
 
-(deftest identify-columns-test
-  (let [conventions {:my-dim {:component_attachment "qb:dimension"}
-                     :my-att {:component_attachment "qb:attribute"}}
-        dimension? (identify-columns conventions "qb:dimension")
-        attribute? (identify-columns conventions "qb:attribute")]
-    (is (dimension? :my-dim))
-    (is (not (dimension? :my-att)))
-    (is (not (dimension? :unknown)))
-    (is (attribute? :my-att))
-    (is (not (attribute? :my-dim)))
-    (is (not (attribute? :unknown)))))
-
-(deftest headers-matching-test
-  (let [xf (headers-matching #{:col1 :col2 :col3})
-        matches (into [] xf [{:col1 "val1" :col3 "val3" :col4 "val4"}])]
-    (is (= #{:col1 :col3} (set matches)))))
-
-(deftest measure-test
-  (testing "No matching measures"
-    (is (thrown? ExceptionInfo (measure {:row "val1" :row2 "val2"} #{:measure-type1 :measure-type2}))))
-
-  (testing "One matching measure"
-    (is (= "measure" (measure {:measure-type "measure" :other "value"} #{:measure-type}))))
-
-  (testing "Multiple matching measures"
-    (is (thrown? ExceptionInfo (measure {:mt1 "measure1" :mt2 "measure2" :other "value"} #{:mt1 :mt2})))))
-
-(deftest identify-transformers-test
-  (let [components {:column1 {:name "column1" :title "Column1" :value_transformation "slugize"}
-                    :column2 {:name "column2" :title "Column2" :value_transformation nil}
-                    :column3 {:name "column3" :title "Column3" :value_transformation "unitize"}
-                    :column4 {:name "column4" :title "Column4" :value_transformation "slugize"}}
-        row {:column1 "val1" :column2 "val2" :column3 "100 £"}
-        ts (identify-transformers row components)
-        transformed-column-names (into #{} (remove nil? (map (fn [[k m]]
-                                                               (if (some? (:value_transformation m))
-                                                                 k)) components)))
-        expected (set/intersection transformed-column-names (set (keys row)))]
-    (is (= expected (set (keys ts))))
-    (is (every? fn? (vals ts)))))
+(deftest identify-header-transformers-test
+  (let [header ["Date" "Flow" "Unit" "CDID"]
+        config default-config
+        transformers (identify-header-transformers header config)]
+    (is (= #{:flow :unit} (set (keys transformers))))
+    (is (every? fn? (vals transformers)))))
 
 (deftest suppress-value-column-test
   (testing "value column"
@@ -185,7 +137,7 @@
 (deftest component-specifications-test
   (testing "returns a dataset of component-specifications"
     (with-open [input-reader (io/reader (example-csv "regional-trade" "input.csv"))]
-      (let [component-specifications (doall (component-specifications input-reader))]
+      (let [component-specifications (doall (component-specifications input-reader default-config))]
         (testing "one row per component"
           (is (= 8 (count component-specifications))))
         (testing "geography component"
@@ -233,10 +185,11 @@
 
 (deftest transform-colums-test
   (testing "converts columns with transforms specified"
-    (is (maps-match? (transform-columns {:unit "£ million" :sitc_section "0 Food and Live Animals"})
-                     {:unit "gbp-million" :sitc_section "0-food-and-live-animals"})))
-  (testing "leaves columsn with no transform as is"
-    (is (maps-match? (transform-columns {:label "not a slug" :curie "foo:bar"})
+    (let [transforms (identify-header-transformers ["Unit" "SITC Section"] default-config)]
+      (is (maps-match? (transform-columns {:unit "£ million" :sitc_section "0 Food and Live Animals"} transforms)
+                       {:unit "gbp-million" :sitc_section "0-food-and-live-animals"}))))
+  (testing "leaves columns with no transform as is"
+    (is (maps-match? (transform-columns {:label "not a slug" :curie "foo:bar"} {})
                      {:label "not a slug" :curie "foo:bar"}))))
 
 (deftest observation-template-test
@@ -250,7 +203,7 @@
   (testing "sequence of observations"
     (testing "regional trade example"
       (with-open [input-reader (io/reader (example-csv "regional-trade" "input.csv"))]
-        (let [observations (doall (observations input-reader))]
+        (let [observations (doall (observations input-reader default-config))]
           (testing "one observation per row"
             (is (= 44 (count observations))))
           (let [observation (first observations)]
@@ -264,7 +217,7 @@
                 "export" (:flow observation)))))))
     (testing "overseas trade example"
       (with-open [input-reader (io/reader (example-csv "overseas-trade" "ots-cn-sample.csv"))]
-        (let [observations (doall (observations input-reader))]
+        (let [observations (doall (observations input-reader default-config))]
           (testing "one observation per row"
             (is (= 20 (count observations))))
           (let [observation (first observations)]
@@ -282,12 +235,13 @@
                   target-reader (io/reader (example-csvw "regional-trade" "observations.json"))]
         (let [obs-meta (observations-metadata input-reader
                                               "observations.csv"
-                                              "regional-trade")]
+                                              "regional-trade"
+                                              default-config)]
           (maps-match? (read-json target-reader)
                        obs-meta))))
     (testing "overseas trade example"
       (with-open [input-reader (io/reader (example-csv "overseas-trade" "ots-cn-sample.csv"))]
-        (let [obs-meta (observations-metadata input-reader "ignore-me.csv" "overseas-trade")]
+        (let [obs-meta (observations-metadata input-reader "ignore-me.csv" "overseas-trade" default-config)]
           (is-metadata-compatible (example-csv "overseas-trade" "ots-cn-sample.csv")
                                   obs-meta))))))
 
@@ -303,21 +257,21 @@
       (maps-match? (read-json target-reader)
                    (used-codes-codes-metadata input-reader
                                               "regional-trade.slugged.csv"
-                                              "regional-trade")))))
-
+                                              "regional-trade"
+                                              default-config)))))
 
 (deftest validations-test
   (testing "all column must be recognised"
     (with-open [input-reader (io/reader (example-csv "validation" "unknown-columns.csv"))]
       (is (thrown-with-msg?
            Throwable #"Unrecognised column: Unknown"
-           (observations input-reader)))))
+           (observations input-reader default-config)))))
 
   (testing "a measure should be present"
     (testing "under the measures-dimension approach"
       (testing "with a single measure-type column"
         (with-open [input-reader (io/reader (example-csv "validation" "measure-type-single.csv"))]
-          (is (seq? (observations input-reader))))
+          (is (seq? (observations input-reader default-config))))
         (testing "and a measure column"))
           ;; TODO - should fail (i.e. either type or measure provided)
 
@@ -329,7 +283,7 @@
         (with-open [input-reader (io/reader (example-csv "validation" "measure-type-missing.csv"))]
           (is (thrown-with-msg?
                Throwable #"No measure type column"
-               (component-specifications input-reader))))))
+               (component-specifications input-reader default-config))))))
     (testing "under the multi-measures approach"))
       ;; TODO - this isn't implemented yet
       ;; Should require that no measure-type component be provided if there is a measure column
@@ -338,7 +292,7 @@
   (testing "values must be provided for all dimensions"
     (with-open [input-reader (io/reader (example-csv "validation" "dimension-values-missing.csv"))]
       (is (thrown? Throwable
-                   (doall (observations input-reader)))))))
+                   (doall (observations input-reader default-config)))))))
 
 (defn load-from-file [conn file]
   (rdf/add conn (rdf/statements (io/file file))))
@@ -365,7 +319,7 @@
                        ;; This dataset
                        (codelist-pipeline "./examples/overseas-trade/csv/countries.csv" "Countries" "countries")
                        (components-pipeline "./examples/overseas-trade/csv/components.csv")
-                       (cube-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "Overseas Trade Sample" "overseas-trade-sample"))]
+                       (cube-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "Overseas Trade Sample" "overseas-trade-sample" default-config))]
             (rdf/add conn stmts)))
         (testing "PMD Validation"
           (is (empty? (pmd/errors repo))))

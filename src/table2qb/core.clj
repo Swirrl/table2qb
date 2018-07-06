@@ -6,7 +6,6 @@
             [grafter.extra.cell.string :as gecs]
             [clojure.string :as st]
             [clojure.java.shell :refer [sh]]
-            [environ.core :as environ]
             [csv2rdf.csvw :as csvw]
             [csv2rdf.util :refer [liberal-concat]]
             [csv2rdf.source :as source]
@@ -16,21 +15,10 @@
             [table2qb.configuration :as config]
             [clojure.set :as set]))
 
-;; Config
-;;TODO: move into configuration
-(def domain (environ/env :base-uri "http://gss-data.org.uk/"))
-(def domain-data (str domain "data/"))
-(def domain-def (str domain "def/"))
-
 ;; JSON handling
-
 (def read-json json/read)
 (defn write-json [writer data]
   (json/write data writer))
-
-;; Conventions
-
-(def default-config (config/real-load-configuration))
 
 ;; Identifying Components
 
@@ -68,10 +56,10 @@
               :component_property   property_template}))
          component-names)))
 
-(defn component-specification-template [dataset-slug]
+(defn component-specification-template [domain-data dataset-slug]
   (str domain-data dataset-slug "/component/{component_slug}"))
 
-(defn component-specification-metadata [csv-url dataset-name dataset-slug]
+(defn component-specification-metadata [csv-url domain-data dataset-name dataset-slug]
   {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
    "url" (str csv-url)
    "dc:title" dataset-name,
@@ -98,9 +86,9 @@
       "virtual" true,
       "propertyUrl" "http://publishmydata.com/def/qb/codesUsed",
       "valueUrl" (str domain-data dataset-slug "/codes-used/{component_slug}")}],
-    "aboutUrl" (component-specification-template dataset-slug)}})
+    "aboutUrl" (component-specification-template domain-data dataset-slug)}})
 
-(defn dataset-metadata [csv-url dataset-name dataset-slug]
+(defn dataset-metadata [csv-url domain-data dataset-name dataset-slug]
   (let [ds-uri (str domain-data dataset-slug)
         dsd-uri (str ds-uri "/structure")
         ds-label dataset-name]
@@ -118,7 +106,7 @@
        {"name" "structure","virtual" true,"propertyUrl" "qb:structure","valueUrl" dsd-uri}],
       "aboutUrl" ds-uri}}))
 
-(defn data-structure-definition-metadata [csv-url dataset-name dataset-slug]
+(defn data-structure-definition-metadata [csv-url domain-data dataset-name dataset-slug]
   (let [dsd-uri (str domain-data dataset-slug "/structure")
         dsd-label (str dataset-name " (Data Structure Definition)")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
@@ -133,7 +121,7 @@
         "titles" "component_slug",
         "datatype" "string",
         "propertyUrl" "qb:component",
-        "valueUrl" (component-specification-template dataset-slug)}
+        "valueUrl" (component-specification-template domain-data dataset-slug)}
        {"name" "component_attachment",
         "titles" "component_attachment",
         "datatype" "string",
@@ -215,7 +203,7 @@
       (assoc col "valueUrl" value_template)
       col)))
 
-(defn dataset-link-column [dataset-slug]
+(defn dataset-link-column [domain-data dataset-slug]
   (let [ds-uri (str domain-data dataset-slug)]
     {"name" "DataSet"
      "virtual" true
@@ -231,12 +219,11 @@
 (defn observation-template
   "Builds an observation URI template from a domain data prefix, dataset slug, sequence of observation component
    names and a predicate for identifying value components."
-  ([dataset-slug component-names] (observation-template dataset-slug component-names domain-data (config/values default-config)))
-  ([dataset-slug component-names domain-data-prefix is-value-component-p]
-   (let [uri-parts (->> component-names
-                        (remove #(is-value-component-p (keyword %)))
-                        (map #(str "/{+" % "}")))]
-     (str domain-data-prefix dataset-slug (st/join uri-parts)))))
+  [dataset-slug component-names domain-data-prefix is-value-component-p]
+  (let [uri-parts (->> component-names
+                       (remove #(is-value-component-p (keyword %)))
+                       (map #(str "/{+" % "}")))]
+    (str domain-data-prefix dataset-slug (st/join uri-parts))))
 
 (defn- observation-components
   [header-row column-config]
@@ -259,17 +246,17 @@
         components (observation-components header-row column-config)]
     (sort-by #(column-order (get % :name)) components)))
 
-(defn observations-metadata [reader csv-url dataset-slug column-config]
+(defn observations-metadata [reader csv-url domain-data dataset-slug column-config]
   (let [components (ordered-observation-components reader column-config)
         component-columns (sequence (map component->column) components)
-        columns (concat component-columns [observation-type-column (dataset-link-column dataset-slug)])]
+        columns (concat component-columns [observation-type-column (dataset-link-column domain-data dataset-slug)])]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" (str csv-url)
      "tableSchema"
      {"columns" (vec columns)
-      "aboutUrl" (observation-template dataset-slug (map :name components))}}))
+      "aboutUrl" (observation-template dataset-slug (map :name components) domain-data (config/values column-config))}}))
 
-(defn used-codes-codelists-metadata [csv-url dataset-slug]
+(defn used-codes-codelists-metadata [csv-url domain-data dataset-slug]
   (let [codelist-uri (str domain-data dataset-slug "/codes-used/{component_slug}")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" (str csv-url)
@@ -300,7 +287,7 @@
     (assoc column "suppressOutput" true)
     column))
 
-(defn used-codes-codes-metadata [reader csv-url dataset-slug column-config]
+(defn used-codes-codes-metadata [reader csv-url domain-data dataset-slug column-config]
   (let [components (ordered-observation-components reader column-config)
         columns (mapv (fn [comp]
                         (-> comp
@@ -338,7 +325,7 @@
                                "Codelist" :codelist})]
     (map annotate-component data)))
 
-(defn components-metadata [csv-url]
+(defn components-metadata [csv-url domain-def]
   (let [ontology-uri (str domain-def "ontology/components")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "@id" ontology-uri,
@@ -413,7 +400,7 @@
                                "Description" :description})]
     (map annotate-code data)))
 
-(defn codelist-metadata [csv-url codelist-name codelist-slug]
+(defn codelist-metadata [csv-url domain-def codelist-name codelist-slug]
   (let [codelist-uri (str domain-def "concept-scheme/" codelist-slug)
         code-uri (str domain-def "concept/" codelist-slug "/{notation}")
         parent-uri (str domain-def "concept/" codelist-slug "/{parent_notation}")]
@@ -491,16 +478,17 @@
 
 (defn codelist->csvw->rdf
   "Annotates an input codelist CSV file and uses it to generate RDF for the given codelist name and slug."
-  [codelist-csv codelist-name codelist-slug intermediate-file]
+  [codelist-csv domain-def codelist-name codelist-slug intermediate-file]
   (codelist->csvw codelist-csv intermediate-file)
-  (let [codelist-meta (codelist-metadata intermediate-file codelist-name codelist-slug)]
+  (let [codelist-meta (codelist-metadata intermediate-file domain-def codelist-name codelist-slug)]
     (csvw/csv->rdf intermediate-file (create-metadata-source codelist-csv codelist-meta) csv2rdf-config)))
 
 (defn codelist-pipeline
   "Generates RDF for the given codelist CSV file"
-  [codelist-csv codelist-name codelist-slug]
-  (let [intermediate-file (tempfile codelist-slug ".csv")]
-    (codelist->csvw->rdf codelist-csv codelist-name codelist-slug intermediate-file)))
+  [codelist-csv codelist-name codelist-slug column-config]
+  (let [domain-def (config/domain-def column-config)
+        intermediate-file (tempfile codelist-slug ".csv")]
+    (codelist->csvw->rdf codelist-csv domain-def codelist-name codelist-slug intermediate-file)))
 
 (defn components->csvw
   "Annotates an input component CSV file and writes the result to the specified destination file."
@@ -512,16 +500,17 @@
 
 (defn components->csvw->rdf
   "Annotates an input components CSV file and uses it to generate RDF."
-  [components-csv intermediate-file]
+  [components-csv domain-def intermediate-file]
   (components->csvw components-csv intermediate-file)
-  (let [components-meta (components-metadata intermediate-file)]
+  (let [components-meta (components-metadata intermediate-file domain-def)]
     (csvw/csv->rdf intermediate-file (create-metadata-source components-csv components-meta) csv2rdf-config)))
 
 (defn components-pipeline
   "Generates RDF for the given components CSV file."
-  [input-csv]
-  (let [components-csv (tempfile "components" ".csv")]
-    (components->csvw->rdf input-csv components-csv)))
+  [input-csv column-config]
+  (let [domain-def (config/domain-def column-config)
+        components-csv (tempfile "components" ".csv")]
+    (components->csvw->rdf input-csv domain-def components-csv)))
 
 (defn cube->csvw [input-csv component-specifications-csv observations-csv column-config]
   (with-open [reader (io/reader input-csv)
@@ -538,14 +527,15 @@
 (defn cube->csvw->rdf [input-csv dataset-name dataset-slug component-specifications-csv observations-csv column-config]
   (cube->csvw input-csv component-specifications-csv observations-csv column-config)
 
-  (let [component-specification-metadata-meta (component-specification-metadata component-specifications-csv dataset-name dataset-slug)
-        dataset-metadata-meta (dataset-metadata component-specifications-csv dataset-name dataset-slug)
-        dsd-metadata-meta (data-structure-definition-metadata component-specifications-csv dataset-name dataset-slug)
+  (let [domain-data (config/domain-data column-config)
+        component-specification-metadata-meta (component-specification-metadata component-specifications-csv domain-data dataset-name dataset-slug)
+        dataset-metadata-meta (dataset-metadata component-specifications-csv domain-data dataset-name dataset-slug)
+        dsd-metadata-meta (data-structure-definition-metadata component-specifications-csv domain-data dataset-name dataset-slug)
         observations-metadata-meta (with-open [reader (io/reader input-csv)]
-                                     (observations-metadata reader observations-csv dataset-slug column-config))
-        used-codes-codelists-metadata-meta (used-codes-codelists-metadata component-specifications-csv dataset-slug)
+                                     (observations-metadata reader observations-csv domain-data dataset-slug column-config))
+        used-codes-codelists-metadata-meta (used-codes-codelists-metadata component-specifications-csv domain-data dataset-slug)
         used-codes-codes-metadata-meta (with-open [reader (io/reader input-csv)]
-                                         (used-codes-codes-metadata reader observations-csv dataset-slug column-config))]
+                                         (used-codes-codes-metadata reader observations-csv domain-data dataset-slug column-config))]
     (liberal-concat
       (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv component-specification-metadata-meta) {:mode :standard})
       (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv dataset-metadata-meta) {:mode :standard})

@@ -2,7 +2,8 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as string]
             [table2qb.util :refer [map-values exception?]]
-            [table2qb.csv :refer [read-csv]]))
+            [table2qb.csv :refer [read-csv]]
+            [environ.core :as environ]))
 
 (defn blank->nil [value]
   (if (= "" value) nil value))
@@ -56,6 +57,12 @@
          (throw (RuntimeException. msg)))
        (into {} (map (fn [col] [(keyword (:name col)) col]) valid-columns))))))
 
+(defn domain-def [{:keys [domain] :as config}]
+  (str domain "def/"))
+
+(defn domain-data [{:keys [domain] :as config}]
+  (str domain "data/"))
+
 (defn real-load-configuration
   ([] (real-load-configuration (io/resource "columns.csv")))
   ([source]
@@ -70,4 +77,6 @@
       :measure-types   (->> (vals name->component)
                             (filter #(= (:property_template %) "http://purl.org/linked-data/cube#measureType"))
                             (map (comp keyword :name))
-                            set)})))
+                            set)
+      ;;TODO: allow explicit definition
+      :domain          (environ/env :base-uri "http://gss-data.org.uk/")})))

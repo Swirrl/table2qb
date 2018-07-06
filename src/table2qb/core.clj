@@ -4,14 +4,12 @@
             [clojure.java.io :as io]
             [grafter.extra.cell.uri :as gecu]
             [grafter.extra.cell.string :as gecs]
-            [grafter.rdf.io :as gio]
             [clojure.string :as st]
             [clojure.java.shell :refer [sh]]
             [environ.core :as environ]
             [csv2rdf.csvw :as csvw]
             [csv2rdf.util :refer [liberal-concat]]
             [csv2rdf.source :as source]
-            [grafter.rdf :as rdf]
             [clojure.string :as string]
             [table2qb.util :refer [exception? map-values] :as util]
             [table2qb.csv :refer :all]
@@ -564,36 +562,3 @@
     (cube->csvw->rdf input-csv dataset-name dataset-slug
                      component-specifications-csv observations-csv
                      column-config)))
-
-(defn serialise-demo [out-dir]
-  (with-open [output-stream (io/output-stream (str out-dir "/components.ttl"))]
-     (let [writer (gio/rdf-serializer output-stream :format :ttl)]
-       (rdf/add writer
-                (components-pipeline "./examples/regional-trade/csv/components.csv"))))
-
-  (with-open [output-stream (io/output-stream (str out-dir "/flow-directions.ttl"))]
-     (let [writer (gio/rdf-serializer output-stream :format :ttl)]
-       (rdf/add writer
-                (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv"
-                                   "Flow Directions" "flow-directions"))))
-
-  (with-open [output-stream (io/output-stream (str out-dir "/sitc-sections.ttl"))]
-     (let [writer (gio/rdf-serializer output-stream :format :ttl)]
-       (rdf/add writer
-                (codelist-pipeline "./examples/regional-trade/csv/sitc-sections.csv"
-                                   "SITC Sections" "sitc-sections"))))
-
-  (with-open [output-stream (io/output-stream (str out-dir "/measurement-units.ttl"))]
-     (let [writer (gio/rdf-serializer output-stream :format :ttl)]
-       (rdf/add writer
-                (codelist-pipeline "./examples/regional-trade/csv/units.csv"
-                                   "Measurement Units" "measurement-units"))))
-
-  (with-open [output-stream (io/output-stream (str out-dir "/cube.ttl"))]
-    (let [writer (gio/rdf-serializer output-stream :format :ttl)]
-      (rdf/add writer
-               (cube-pipeline "./examples/regional-trade/csv/input.csv"
-                              "Regional Trade" "regional-trade"
-                              default-config)))))
-
-;;(serialise-demo "./tmp")

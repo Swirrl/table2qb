@@ -9,6 +9,7 @@
                  [csv2rdf "0.2.4"]
                  [org.clojure/data.csv "0.1.4"]
                  [net.cgrand/xforms "0.16.0"]
-                 [environ "1.1.0"]]
+                 [environ "1.1.0"]
+                 [integrant "0.6.3"]]
   :plugins [[lein-environ "1.1.0"]]
   :profiles {:dev {:env {:base-uri "http://gss-data.org.uk/"}}})

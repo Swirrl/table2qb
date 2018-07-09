@@ -1,0 +1,35 @@
+{
+ :table2qb.core/cube-pipeline {:parameters [{:name input-csv
+                                             :description "File containing observations"
+                                             :type :file}
+                                            {:name dataset-name
+                                             :description "Name of the target dataset"
+                                             :type :string}
+                                            {:name dataset-slug
+                                             :description "URI slug of the target dataset"
+                                             :type :string}
+                                            {:name column-config
+                                             :description "File containing the column configuration"
+                                             :type :file}]}
+ :table2qb.core/components-pipeline {:parameters [{:name input-csv
+                                                   :description ""
+                                                   :type :file}
+                                                  {:name column-config
+                                                   :description "File containing the column configuration"
+                                                   :type :file}]}
+ :table2qb.core/codelist-pipeline {:parameters [{:name codelist-csv
+                                                 :description "File containing codelist data"
+                                                 :type :file}
+                                                {:name codelist-name
+                                                 :description "Name of the codelist"
+                                                 :type :string}
+                                                {:name codelist-slug
+                                                 :description "URI slug of the codelist"
+                                                 :type :string}
+                                                {:name column-config
+                                                 :description "File containing the column configuration"
+                                                 :type :file}]}
+
+
+ :table2qb.core/pipeline-runner [#ig/ref :table2qb.core/cube-pipeline]
+ }

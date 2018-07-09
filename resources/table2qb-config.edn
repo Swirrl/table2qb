@@ -10,13 +10,13 @@
                                              :type :string}
                                             {:name column-config
                                              :description "File containing the column configuration"
-                                             :type :file}]}
+                                             :type :config}]}
  :table2qb.core/components-pipeline {:parameters [{:name input-csv
                                                    :description ""
                                                    :type :file}
                                                   {:name column-config
                                                    :description "File containing the column configuration"
-                                                   :type :file}]}
+                                                   :type :config}]}
  :table2qb.core/codelist-pipeline {:parameters [{:name codelist-csv
                                                  :description "File containing codelist data"
                                                  :type :file}
@@ -28,8 +28,17 @@
                                                  :type :string}
                                                 {:name column-config
                                                  :description "File containing the column configuration"
-                                                 :type :file}]}
+                                                 :type :config}]}
 
-
- :table2qb.core/pipeline-runner [#ig/ref :table2qb.core/cube-pipeline]
+ :table2qb.core/pipelines [#ig/ref :table2qb.core/cube-pipeline
+                           #ig/ref :table2qb.core/components-pipeline
+                           #ig/ref :table2qb.core/codelist-pipeline]
+ :table2qb.core/pipeline-runner {:pipelines #ig/ref :table2qb.core/pipelines}
+ :table2qb.main/tasks [{:name :help}
+                       {:name :list
+                        :pipelines #ig/ref :table2qb.core/pipelines}
+                       {:name :describe
+                        :pipelines #ig/ref :table2qb.core/pipelines}
+                       {:name :exec
+                        :pipelines #ig/ref :table2qb.core/pipelines}]
  }

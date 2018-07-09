@@ -564,6 +564,9 @@
         var (ns-resolve ns pipeline-name)]
     (assoc config :name pipeline-name :var var :description (:doc (meta var)))))
 
+(defmethod ig/init-key ::pipelines [_ pipelines]
+  pipelines)
+
 (defmethod ig/init-key ::pipeline-runner [_ pipelines]
   pipelines)
 

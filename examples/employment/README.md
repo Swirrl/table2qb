@@ -69,20 +69,20 @@ In order to execute the full table2qb process, the following 3 pipelines should 
 
 1. To run the `components-pipeline` for this example of Scottish government employment data use the following command:
 
-    ```BASE_URI=http://statistics.gov.scot java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec components-pipeline --input-csv examples/employment/csv/input.csv --column-config resources/columns.csv --output-file examples/employment/ttl/components.ttl```
+    ```BASE_URI=http://statistics.gov.scot/ java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec components-pipeline --input-csv examples/employment/csv/components.csv --column-config resources/columns.csv --output-file examples/employment/ttl/components.ttl```
 
 
 2. To run the `codelist-pipeline` for each of the codelist files in this example of Scottish government employment data use the following commands:
 
-    ```BASE_URI=http://statistics.gov.scot java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec codelist-pipeline --codelist-csv examples/employment/csv/gender.csv --codelist-name "Gender" --codelist-slug "gender" --column-config resources/columns.csv --output-file examples/employment/ttl/gender.ttl```
+    ```BASE_URI=http://statistics.gov.scot/ java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec codelist-pipeline --codelist-csv examples/employment/csv/gender.csv --codelist-name "Gender" --codelist-slug "gender" --column-config resources/columns.csv --output-file examples/employment/ttl/gender.ttl```
     
     
-    ```BASE_URI=http://statistics.gov.scot java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec codelist-pipeline --codelist-csv examples/employment/csv/units.csv --codelist-name "Measurement Units" --codelist-slug "measurement-units" --column-config resources/columns.csv --output-file examples/employment/ttl/measurement-units.ttl```
+    ```BASE_URI=http://statistics.gov.scot/ java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec codelist-pipeline --codelist-csv examples/employment/csv/units.csv --codelist-name "Measurement Units" --codelist-slug "measurement-units" --column-config resources/columns.csv --output-file examples/employment/ttl/measurement-units.ttl```
     
 
 3. To run the `cube-pipeline` for this example of Scottish government employment data use the following command:
 
-    ```BASE_URI=http://statistics.gov.scot java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec codelist-pipeline --input-csv examples/employment/csv/input.csv --dataset-name "Employment" --dataset-slug "employment" --column-config resources/columns.csv --output-file examples/employment/ttl/cube.ttl```
+    ```BASE_URI=http://statistics.gov.scot/ java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec cube-pipeline --input-csv examples/employment/csv/input.csv --dataset-name "Employment" --dataset-slug "employment" --column-config resources/columns.csv --output-file examples/employment/ttl/cube.ttl```
 
 
 The outputs of the pipelines will be stored as TTL files in the given output directories.

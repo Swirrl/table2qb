@@ -35,7 +35,7 @@ The below briefly outlines the preparation steps:
 1. [components.csv](https://github.com/Swirrl/table2qb/tree/employment-example/examples/employment/csv/components.csv):
 
     - Should contain a list of those components (i.e. dimensions/attributes/measures) from the [input.csv](https://github.com/Swirrl/table2qb/tree/employment-example/examples/employment/csv/input.csv) file that you want to define vocabularies for. 
-    - In addition to the list of components, this file should also contain the uniques value of the `Measure Type` dimension. For example, in this employment data example the `Measure Type` dimension only contains one value of `Count`, which should be added to the [components.csv](https://github.com/Swirrl/table2qb/tree/employment-example/examples/employment/csv/components.csv) file.
+    - In addition to the list of components, this file should also contain the unique value of the `Measure Type` dimension. For example, in this employment data example the `Measure Type` dimension only contains one value of `Count`, which should be added to the [components.csv](https://github.com/Swirrl/table2qb/tree/employment-example/examples/employment/csv/components.csv) file.
  
  2. codelists ([gender.csv](https://github.com/Swirrl/table2qb/tree/employment-example/examples/employment/csv/gender.csv) and [units.csv](https://github.com/Swirrl/table2qb/tree/employment-example/examples/employment/csv/units.csv))
  
@@ -55,11 +55,6 @@ It should contain one row per component, as well as one row per each unique valu
 
 ## Running table2qb
 
-Clone the `cli` branch of the project and build the jar by running:
-
-`lein uberjar` - This will create the `/target` directory.
-
-
 In order to execute the full table2qb process, the following 3 pipelines should be run (in no particular order):
 
 - `components-pipeline`
@@ -74,15 +69,15 @@ In order to execute the full table2qb process, the following 3 pipelines should 
 
 2. To run the `codelist-pipeline` for each of the codelist files in this example of Scottish government employment data use the following commands:
 
-    ```BASE_URI=http://statistics.gov.scot/ java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec codelist-pipeline --codelist-csv examples/employment/csv/gender.csv --codelist-name "Gender" --codelist-slug "gender" --column-config resources/columns.csv --output-file examples/employment/ttl/gender.ttl```
+```BASE_URI=http://statistics.gov.scot/ java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec codelist-pipeline --codelist-csv examples/employment/csv/gender.csv --codelist-name "Gender" --codelist-slug "gender" --column-config resources/columns.csv --output-file examples/employment/ttl/gender.ttl```
     
     
-    ```BASE_URI=http://statistics.gov.scot/ java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec codelist-pipeline --codelist-csv examples/employment/csv/units.csv --codelist-name "Measurement Units" --codelist-slug "measurement-units" --column-config resources/columns.csv --output-file examples/employment/ttl/measurement-units.ttl```
+```BASE_URI=http://statistics.gov.scot/ java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec codelist-pipeline --codelist-csv examples/employment/csv/units.csv --codelist-name "Measurement Units" --codelist-slug "measurement-units" --column-config resources/columns.csv --output-file examples/employment/ttl/measurement-units.ttl```
     
 
 3. To run the `cube-pipeline` for this example of Scottish government employment data use the following command:
 
-    ```BASE_URI=http://statistics.gov.scot/ java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec cube-pipeline --input-csv examples/employment/csv/input.csv --dataset-name "Employment" --dataset-slug "employment" --column-config resources/columns.csv --output-file examples/employment/ttl/cube.ttl```
+```BASE_URI=http://statistics.gov.scot/ java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec cube-pipeline --input-csv examples/employment/csv/input.csv --dataset-name "Employment" --dataset-slug "employment" --column-config resources/columns.csv --output-file examples/employment/ttl/cube.ttl```
 
 
 The outputs of the pipelines will be stored as TTL files in the given output directories.

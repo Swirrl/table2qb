@@ -13,7 +13,8 @@
             [table2qb.util :refer [exception? map-values] :as util]
             [table2qb.csv :refer :all]
             [table2qb.configuration :as config]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [integrant.core :as ig]))
 
 ;; JSON handling
 (def read-json json/read)
@@ -552,3 +553,23 @@
     (cube->csvw->rdf input-csv dataset-name dataset-slug
                      component-specifications-csv observations-csv
                      column-config)))
+
+(defn get-config []
+  (ig/read-string (slurp (io/resource "table2qb-config.edn"))))
+
+(defmethod ig/init-key ::pipeline [key config]
+  (let [ns (find-ns (symbol (namespace key)))
+        pipeline-name (symbol (name key))
+        ;;TODO: require namespace?
+        var (ns-resolve ns pipeline-name)]
+    (assoc config :name pipeline-name :var var :description (:doc (meta var)))))
+
+(defmethod ig/init-key ::pipelines [_ pipelines]
+  pipelines)
+
+(defmethod ig/init-key ::pipeline-runner [_ pipelines]
+  pipelines)
+
+(derive ::cube-pipeline ::pipeline)
+(derive ::components-pipeline ::pipeline)
+(derive ::codelist-pipeline ::pipeline)

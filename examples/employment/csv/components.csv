@@ -1,0 +1,3 @@
+Label,Description,Component Type,Codelist
+Gender,The state of being male or female,Dimension,http://statistics.gov.scot/def/concept-scheme/gender
+Count,Total number of items,Measure,

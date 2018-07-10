@@ -11,32 +11,26 @@
     (with-open [output-stream (io/output-stream (str out-dir "/components.ttl"))]
       (let [writer (gio/rdf-serializer output-stream :format :ttl)]
         (rdf/add writer
-                 (components-pipeline "./examples/regional-trade/csv/components.csv" config))))
+                 (components-pipeline "./examples/employment/csv/components.csv" config))))
 
-    (with-open [output-stream (io/output-stream (str out-dir "/flow-directions.ttl"))]
+    (with-open [output-stream (io/output-stream (str out-dir "/gender.ttl"))]
       (let [writer (gio/rdf-serializer output-stream :format :ttl)]
         (rdf/add writer
-                 (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv"
-                                    "Flow Directions" "flow-directions" config))))
-
-    (with-open [output-stream (io/output-stream (str out-dir "/sitc-sections.ttl"))]
-      (let [writer (gio/rdf-serializer output-stream :format :ttl)]
-        (rdf/add writer
-                 (codelist-pipeline "./examples/regional-trade/csv/sitc-sections.csv"
-                                    "SITC Sections" "sitc-sections" config))))
+                 (codelist-pipeline "./examples/employment/csv/gender.csv"
+                                    "Gender" "gender" config))))
 
     (with-open [output-stream (io/output-stream (str out-dir "/measurement-units.ttl"))]
       (let [writer (gio/rdf-serializer output-stream :format :ttl)]
         (rdf/add writer
-                 (codelist-pipeline "./examples/regional-trade/csv/units.csv"
+                 (codelist-pipeline "./examples/employment/csv/units.csv"
                                     "Measurement Units" "measurement-units"
                                     config))))
 
     (with-open [output-stream (io/output-stream (str out-dir "/cube.ttl"))]
       (let [writer (gio/rdf-serializer output-stream :format :ttl)]
         (rdf/add writer
-                 (cube-pipeline "./examples/regional-trade/csv/input.csv"
-                                "Regional Trade" "regional-trade"
+                 (cube-pipeline "./examples/employment/csv/input.csv"
+                                "Employment" "employment"
                                 config))))))
 
 (defn cli-serialise-demo [out-dir]

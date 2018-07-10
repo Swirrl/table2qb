@@ -1,0 +1,52 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sdmx-attribute: <http://purl.org/linked-data/sdmx/2009/attribute#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sdmx-concept: <http://purl.org/linked-data/sdmx/2009/concept#> .
+
+
+_:tablegroup164 a <http://www.w3.org/ns/csvw#TableGroup> ;
+	<http://www.w3.org/ns/csvw#table> <http://statistics.gov.scot/def/concept-scheme/measurement-units> .
+
+<http://statistics.gov.scot/def/concept-scheme/measurement-units> a <http://www.w3.org/ns/csvw#Table> ;
+	<http://www.w3.org/ns/csvw#url> <file:/var/folders/v4/8n97sxf17cg1mk62c9q7hgvr0000gn/T/measurement-units164303011458763970.csv> ;
+	dcterms:title "Measurement Units"@en ;
+	rdfs:label "Measurement Units"@en ;
+	a skos:ConceptScheme ;
+	<http://www.w3.org/ns/csvw#row> _:row165 .
+
+_:row165 a <http://www.w3.org/ns/csvw#Row> ;
+	<http://www.w3.org/ns/csvw#rownum> 1 ;
+	<http://www.w3.org/ns/csvw#url> <file:/var/folders/v4/8n97sxf17cg1mk62c9q7hgvr0000gn/T/measurement-units164303011458763970.csv#row=2> ;
+	<http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept/measurement-units/people> .
+
+<http://statistics.gov.scot/def/concept/measurement-units/people> rdfs:label "People" .
+
+_:row165 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept/measurement-units/people> .
+
+<http://statistics.gov.scot/def/concept/measurement-units/people> skos:notation "people" .
+
+_:row165 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept/measurement-units/people> , <http://statistics.gov.scot/def/concept/measurement-units/people> , <http://statistics.gov.scot/def/concept/measurement-units/people> , <http://statistics.gov.scot/def/concept/measurement-units/people> .
+
+<http://statistics.gov.scot/def/concept/measurement-units/people> skos:topConceptOf <http://statistics.gov.scot/def/concept-scheme/measurement-units> .
+
+_:row165 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept-scheme/measurement-units> .
+
+<http://statistics.gov.scot/def/concept-scheme/measurement-units> skos:hasTopConcept <http://statistics.gov.scot/def/concept/measurement-units/people> .
+
+_:row165 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept/measurement-units/people> .
+
+<http://statistics.gov.scot/def/concept/measurement-units/people> skos:inScheme <http://statistics.gov.scot/def/concept-scheme/measurement-units> .
+
+_:row165 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept-scheme/measurement-units> .
+
+<http://statistics.gov.scot/def/concept-scheme/measurement-units> skos:member <http://statistics.gov.scot/def/concept/measurement-units/people> .
+
+_:row165 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept/measurement-units/people> .

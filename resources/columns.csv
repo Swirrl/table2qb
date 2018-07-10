@@ -35,3 +35,4 @@ HMRC Industry,hmrc_industry,qb:dimension,http://gss-data.org.uk/def/dimension/pr
 Total Turnover,total_turnover,qb:measure,http://gss-data.org.uk/def/measure/total-turnover,,,
 HMRC Reporter Region,hmrc_reporter_region,qb:dimension,http://gss-data.org.uk/def/dimension/trade-reporter-geography,http://gss-data.org.uk/def/concept/hmrc-regions/{hmrc_reporter_region},string,
 SITC 4,sitc4,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://gss-data.org.uk/def/concept/sitc-4/{sitc4},,
+ONS ABS Trade,ons_abs_trades,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://gss-data.org.uk/def/concept/ons-abs-trades/{ons_abs_trades},string,slugize

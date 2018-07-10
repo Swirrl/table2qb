@@ -13,5 +13,6 @@
                  [integrant "0.6.3"]
                  [org.clojure/tools.cli "0.3.7"]]
   :plugins [[lein-environ "1.1.0"]]
-  :profiles {:uberjar {:main table2qb.main}
+  :profiles {:uberjar {:main table2qb.main
+                       :uberjar-name "table2qb.jar"}
              :dev {:env {:base-uri "http://gss-data.org.uk/"}}})

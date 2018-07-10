@@ -64,7 +64,7 @@ In order to execute the full table2qb process, the following 3 pipelines should 
 
 1. To run the `components-pipeline` for this example of Scottish government employment data use the following command:
 
-    ```BASE_URI=http://statistics.gov.scot/ java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec components-pipeline --input-csv examples/employment/csv/components.csv --column-config resources/columns.csv --output-file examples/employment/ttl/components.ttl```
+```BASE_URI=http://statistics.gov.scot/ java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec components-pipeline --input-csv examples/employment/csv/components.csv --column-config resources/columns.csv --output-file examples/employment/ttl/components.ttl```
 
 
 2. To run the `codelist-pipeline` for each of the codelist files in this example of Scottish government employment data use the following commands:

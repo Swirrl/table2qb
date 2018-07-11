@@ -6,3 +6,6 @@ before_install:
   - sudo mv ./travis/profiles.clj /etc/leiningen/profiles.clj
 after_success:
   - lein uberjar
+  - mkdir "target/table2qb-$TRAVIS_BRANCH"
+  - cp target/table2qb.jar "target/table2qb-$TRAVIS_BRANCH"
+  - zip -r "target/table2qb-$TRAVIS_BRANCH.zip" "target/table2qb-$TRAVIS_BRANCH"

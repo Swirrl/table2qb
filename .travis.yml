@@ -1,0 +1,21 @@
+language: clojure
+sudo: required
+lein: 2.7.1
+before_install:
+  - sudo mkdir -p /etc/leiningen/
+  - sudo mv ./travis/profiles.clj /etc/leiningen/profiles.clj
+after_success:
+  - lein uberjar
+  - mkdir "target/table2qb-$TRAVIS_BRANCH"
+  - cp target/table2qb.jar "target/table2qb-$TRAVIS_BRANCH"
+  - zip -r "target/table2qb-$TRAVIS_BRANCH.zip" "target/table2qb-$TRAVIS_BRANCH"
+
+deploy:
+  provider: releases
+  api_key: "$RELEASE_OAUTH_TOKEN"
+  file: "target/table2qb-$TRAVIS_BRANCH.zip"
+  skip_cleanup: true
+  on:
+    tags: true
+    condition: $TRAVIS_TAG =~ ^[0-9]+\.[0-9]+\.[0-9]+$
+

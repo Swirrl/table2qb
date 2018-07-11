@@ -8,7 +8,6 @@
                  [grafter/extra "0.2.2"]
                  [csv2rdf "0.2.4"]
                  [org.clojure/data.csv "0.1.4"]
-                 [net.cgrand/xforms "0.16.0"]
                  [integrant "0.6.3"]
                  [org.clojure/tools.cli "0.3.7"]]
   :profiles {:uberjar {:main table2qb.main

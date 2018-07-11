@@ -1,1 +1,5 @@
 language: clojure
+sudo: required
+lein: 2.8.1
+before_install:
+  - sudo mv ./travis/profiles.clj /etc/leiningen/profiles.clj

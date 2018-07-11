@@ -10,4 +10,5 @@
      :username :env
      :passphrase :env
      :snapshots false}]]}
- :plugins [[s3-wagon-private "1.1.2" :exclusions [commons-logging commons-codec]]]}
+ :user
+ {:plugins [[s3-wagon-private "1.1.2" :exclusions [commons-logging commons-codec]]]}}

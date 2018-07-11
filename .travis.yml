@@ -8,6 +8,7 @@ after_success:
   - lein uberjar
   - mkdir "target/table2qb-$TRAVIS_BRANCH"
   - cp target/table2qb.jar "target/table2qb-$TRAVIS_BRANCH"
+  - cp travis/table2qb.sh "target/table2qb-$TRAVIS_BRANCH/table2qb"
   - zip -r "target/table2qb-$TRAVIS_BRANCH.zip" "target/table2qb-$TRAVIS_BRANCH"
 
 deploy:

@@ -18,4 +18,5 @@
                                       [org.apache.logging.log4j/log4j-slf4j-impl "2.11.0"]]}
              :dev {:dependencies [[org.apache.logging.log4j/log4j-api "2.11.0"]
                                   [org.apache.logging.log4j/log4j-core "2.11.0"]
-                                  [org.apache.logging.log4j/log4j-slf4j-impl "2.11.0"]]}})
+                                  [org.apache.logging.log4j/log4j-slf4j-impl "2.11.0"]]
+                   :resource-paths ["test/resources"]}})

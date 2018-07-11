@@ -5,7 +5,7 @@ SCRIPT_DIR=$(dirname "$0")
 JAR="$SCRIPT_DIR/target/table2qb.jar"
 OUT_DIR="$SCRIPT_DIR/tmp"
 CSV_DIR="$SCRIPT_DIR/examples/regional-trade/csv"
-COLUMN_CONFIG="$SCRIPT_DIR/resources/columns.csv"
+COLUMN_CONFIG="$SCRIPT_DIR/test/resources/columns.csv"
 BASE_URI="http://gss-data.org.uk/"
 
 # build uberjar if it does not exist

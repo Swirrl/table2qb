@@ -4,31 +4,30 @@
 
 ## Overview
 
+_extend this_
+
 This project transforms tables of observations and reference data into [rdf data cube](https://www.w3.org/TR/vocab-data-cube/) resources specified as [csvw](https://github.com/w3c/csvw).
 
 ## How to run table2qb
 
-UPDATE THIS ONCE WE'VE DONE ISSUES [47](https://github.com/Swirrl/table2qb/issues/47) and [45](https://github.com/Swirrl/table2qb/issues/45).
+_UPDATE THIS ONCE WE'VE DONE ISSUES [47](https://github.com/Swirrl/table2qb/issues/47) and [45](https://github.com/Swirrl/table2qb/issues/45)_.
 
 ```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec pipeline --input-csv input_file --column-config config_file --output-file output_file```
 
 ### pipeline
 
-This parameter must be one of:
+This parameter must be one of: `cube-pipeline` | `components-pipeline` | `codelist-pipeline`
 
-* cube-pipeline
-* components-pipeline
-* codelist-pipeline
 
 ### input_file
 
-a csv file of the correct structure - contents must correspond to the choice of pipeline - see section below describing the structure required for each.
+_a csv file of the correct structure - contents must correspond to the choice of pipeline - see section below describing the structure required for each_.
 
-explain how the config file ('columns.csv') is used to determine how the data is interpreted
+_explain how the config file ('columns.csv') is used to determine how the data is interpreted_
 
 ### config_file
 
-explain the structure of the config file
+_explain the structure of the config file_
 
 ### output_file
 
@@ -36,6 +35,8 @@ The output of the process: a single file as RDF in Turtle format.
 
 
 ### Observation Data
+
+_needs updated_
 
 The observation input table should be arranged as [tidy-data](http://vita.had.co.nz/papers/tidy-data.pdf) e.g. one row per observation, one column per component (i.e. dimension, attribute or measure). The output is a set of csvw documents - i.e. csv with json-ld metadata - that can be translated into RDF via a [csv2rdf](http://www.w3.org/TR/csv2rdf/) processor. The outputs that make up the cube are:
 
@@ -50,6 +51,8 @@ We also provide a set of `skos:ConceptScheme`s enumerating all of the codes used
 
 ### Definition of components
 
+_needs updated_
+
 The project provides pipelines for preparing reference data. These can be used for managing reference data across multiple `qb:DataSet`s.
 
 - Components: given a tidy-data input of one component per row, this pipeline creates a `components.csv` file and a `components.json` for creating `qb:ComponentProperty`s in an `owl:Ontology`. Note that components are the dimensions, attributes and measures themselves whereas the component-specifications are what links these to a given data-structure-definition.
@@ -57,13 +60,17 @@ The project provides pipelines for preparing reference data. These can be used f
 
 ### Definition of code-lists
 
+_needs updated_ 
+
 - Codelists: given a tidy-data input of one code per row, this pipeline creates a `codelist.csv` file and a `codelist.json` for creating `skos:Concepts` in an `skos:ConceptScheme`. Note that these codelists describe the universal set of codes that may be the object of a component (making it a `qb:CodedProperty`) not the (sub)set that have been used within a cube.
 
 ## Configuration
 
-The table2qb pipeline is configured with a dataset describing the columns it can expect to find in the input csv files. We'll currently provide this as a [columns.csv](./resources/columns.csv) file although we may later store/ retreive this from the database.
+The table2qb pipeline is configured with a CSV file describing the columns it can expect to find in the input CSV files. The location of this file is specified with the `--column-config` parameter.
 
-The dataset should have the following columns:
+The CSV file should have the following columns:
+
+_check this is still correct_
 
 - `title` - a human readable title (like csvw:title) that will be provided in the (first) header row of the input
 - `name` - a machine-readable identifier (like csvw:name) used in uri templates
@@ -73,7 +80,9 @@ The dataset should have the following columns:
 - `datatype` - as per csvw:datatype, how the cell value should be parsed (typically `string` for everything except the value column which will be `number`)
 - `value-transformation` - WHAT DOES THIS DO? WHAT ARE THE ALLOWED OPTIONS
 
-This initial draft also includes several conventions in the code that ought to be generalised to configuration - particularly how cell values are slugged.
+_check: is this right?_
+
+This version of table2qb also includes several conventions in the code that ought to be generalised to configuration - particularly how cell values are slugged.
 
 
 ## Example
@@ -81,6 +90,8 @@ This initial draft also includes several conventions in the code that ought to b
 The [./examples/employment](./examples/employment) directory provides a full example and instructions for running it.
 
 ## How to compile table2qb
+
+_fill in the details_
 
 table2qb is written in Clojure
 

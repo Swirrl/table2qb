@@ -9,4 +9,5 @@
     {:url "s3p://swirrl-jars/releases/"
      :username :env
      :passphrase :env
-     :snapshots false}]]}}
+     :snapshots false}]]}
+ :plugins [[s3-wagon-private "1.1.2" :exclusions [commons-logging commons-codec]]]}

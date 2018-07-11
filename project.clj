@@ -14,5 +14,11 @@
                  [org.clojure/tools.cli "0.3.7"]]
   :plugins [[lein-environ "1.1.0"]]
   :profiles {:uberjar {:main table2qb.main
-                       :uberjar-name "table2qb.jar"}
-             :dev {:env {:base-uri "http://gss-data.org.uk/"}}})
+                       :uberjar-name "table2qb.jar"
+                       :dependencies [[org.apache.logging.log4j/log4j-api "2.11.0"]
+                                      [org.apache.logging.log4j/log4j-core "2.11.0"]
+                                      [org.apache.logging.log4j/log4j-slf4j-impl "2.11.0"]]}
+             :dev {:env {:base-uri "http://gss-data.org.uk/"}
+                   :dependencies [[org.apache.logging.log4j/log4j-api "2.11.0"]
+                                  [org.apache.logging.log4j/log4j-core "2.11.0"]
+                                  [org.apache.logging.log4j/log4j-slf4j-impl "2.11.0"]]}})

@@ -2,8 +2,7 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as string]
             [table2qb.util :refer [map-values exception?]]
-            [table2qb.csv :refer [read-csv]]
-            [environ.core :as environ]))
+            [table2qb.csv :refer [read-csv]]))
 
 (defn blank->nil [value]
   (if (= "" value) nil value))
@@ -44,39 +43,35 @@
 
 (def name->component :name->component)
 
-(defn load-configuration
+(defn load-column-components
   "Creates lookup of columns (from a csv) for a name (in the component_slug field)"
-  ([] (load-configuration (io/resource "columns.csv")))
-  ([source]
-   (let [config-rows (configuration-rows source)
-         columns (map-indexed configuration-row->column config-rows)
-         errors (filter exception? columns)
-         valid-columns (remove exception? columns)]
-     (if (seq errors)
-       (let [msg (string/join "\n" (map #(.getMessage %) errors))]
-         (throw (RuntimeException. msg)))
-       (into {} (map (fn [col] [(keyword (:name col)) col]) valid-columns))))))
+  [source]
+  (let [config-rows (configuration-rows source)
+        columns (map-indexed configuration-row->column config-rows)
+        errors (filter exception? columns)
+        valid-columns (remove exception? columns)]
+    (if (seq errors)
+      (let [msg (string/join "\n" (map #(.getMessage %) errors))]
+        (throw (RuntimeException. msg)))
+      (into {} (map (fn [col] [(keyword (:name col)) col]) valid-columns)))))
 
-(defn domain-def [{:keys [domain] :as config}]
+(defn domain-def [domain]
   (str domain "def/"))
 
-(defn domain-data [{:keys [domain] :as config}]
+(defn domain-data [domain]
   (str domain "data/"))
 
-(defn real-load-configuration
-  ([] (real-load-configuration (io/resource "columns.csv")))
-  ([source]
-   (let [name->component (load-configuration source)]
-     {:name->component name->component
-      :title->name     (zipmap (map :title (vals name->component))
-                               (map (comp keyword :name) (vals name->component)))
-      :dimensions      (identify-columns name->component "qb:dimension")
-      :attributes      (identify-columns name->component "qb:attribute")
-      :values          (identify-columns name->component nil) ;; if it's not attached as a component then it must be a value
-      :measures        (identify-columns name->component "qb:measure") ;; as yet unused, will be needed for multi-measure cubes (note this includes single-measure ones not using the measure-dimension approach)
-      :measure-types   (->> (vals name->component)
-                            (filter #(= (:property_template %) "http://purl.org/linked-data/cube#measureType"))
-                            (map (comp keyword :name))
-                            set)
-      ;;TODO: allow explicit definition
-      :domain          (environ/env :base-uri "http://gss-data.org.uk/")})))
+(defn load-column-configuration
+  [source]
+  (let [name->component (load-column-components source)]
+    {:name->component name->component
+     :title->name     (zipmap (map :title (vals name->component))
+                              (map (comp keyword :name) (vals name->component)))
+     :dimensions      (identify-columns name->component "qb:dimension")
+     :attributes      (identify-columns name->component "qb:attribute")
+     :values          (identify-columns name->component nil) ;; if it's not attached as a component then it must be a value
+     :measures        (identify-columns name->component "qb:measure") ;; as yet unused, will be needed for multi-measure cubes (note this includes single-measure ones not using the measure-dimension approach)
+     :measure-types   (->> (vals name->component)
+                           (filter #(= (:property_template %) "http://purl.org/linked-data/cube#measureType"))
+                           (map (comp keyword :name))
+                           set)}))

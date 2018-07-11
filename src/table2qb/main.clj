@@ -84,7 +84,7 @@
   (io/file arg-string))
 
 (defmethod parse-arg :config [_type arg-string]
-  (config/real-load-configuration (io/file arg-string)))
+  (config/load-column-configuration (io/file arg-string)))
 
 (defn pipeline-parameter->cli-desc [{:keys [description type] param-name :name :as param}]
   [:id (keyword param-name)

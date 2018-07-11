@@ -12,9 +12,14 @@
             [table2qb.configuration :as config])
   (:import [java.io StringWriter]))
 
-(def default-config (config/real-load-configuration))
-(def default-domain-def (config/domain-def default-config))
-(def default-domain-data (config/domain-data default-config))
+(defn- load-test-configuration []
+  (config/load-column-configuration (io/resource "columns.csv")))
+
+(def default-config (load-test-configuration))
+
+(def test-domain "http://gss-data.org.uk/")
+(def test-domain-def (config/domain-def test-domain))
+(def test-domain-data (config/domain-data test-domain))
 
 (defn example [type name filename]
   (str "./examples/" name "/" type "/" filename))
@@ -82,7 +87,7 @@
                 :description "Direction in which trade is measured"
                 :component_type "qb:DimensionProperty"
                 :component_type_slug "dimension"
-                :codelist (str default-domain-def "concept-scheme/flow-directions")
+                :codelist (str test-domain-def "concept-scheme/flow-directions")
                 :property_slug "flow"
                 :class_slug "Flow"
                 :parent_property nil)))
@@ -98,7 +103,7 @@
   (testing "json metadata"
     (with-open [target-reader (io/reader (example-csvw "regional-trade" "components.json"))]
       (maps-match? (read-json target-reader)
-                   (components-metadata "components.csv" default-domain-def)))))
+                   (components-metadata "components.csv" test-domain-def)))))
 
 (deftest codelists-test
   (testing "minimum case"
@@ -112,7 +117,7 @@
         (maps-match? (read-json target-reader)
                      (codelist-metadata
                        "flow-directions-codelist.csv"
-                       default-domain-def
+                       test-domain-def
                        "Flow Directions Codelist"
                        "flow-directions")))))
   (testing "with optional fields"
@@ -131,7 +136,7 @@
             (maps-match? (read-json target-reader)
                          (codelist-metadata
                            "sitc-sections-codelist.csv"
-                           default-domain-def
+                           test-domain-def
                            "SITC Sections Codelist"
                            "sitc-sections"))))))))
 
@@ -164,30 +169,30 @@
             (with-open [target-reader (io/reader (example-csvw "regional-trade" "component-specifications.json"))]
               (maps-match? (read-json target-reader)
                            (component-specification-metadata
-                            "regional-trade.slugged.normalised.csv"
-                            default-domain-data
-                            "Regional Trade Component Specifications"
-                            "regional-trade")))))))))
+                             "regional-trade.slugged.normalised.csv"
+                             test-domain-data
+                             "Regional Trade Component Specifications"
+                             "regional-trade")))))))))
 
 (deftest dataset-test
   (testing "compare with dataset.json"
     (with-open [target-reader (io/reader (example-csvw "regional-trade" "dataset.json"))]
       (maps-match? (read-json target-reader)
                    (dataset-metadata
-                    "regional-trade.slugged.normalised.csv"
-                    default-domain-data
-                    "Regional Trade"
-                    "regional-trade")))))
+                     "regional-trade.slugged.normalised.csv"
+                     test-domain-data
+                     "Regional Trade"
+                     "regional-trade")))))
 
 (deftest data-structure-definition-test
   (testing "compare with data-structure-definition.json"
     (with-open [target-reader (io/reader (example-csvw "regional-trade" "data-structure-definition.json"))]
       (maps-match? (read-json target-reader)
                    (data-structure-definition-metadata
-                    "regional-trade.slugged.normalised.csv"
-                    default-domain-data
-                    "Regional Trade"
-                    "regional-trade")))))
+                     "regional-trade.slugged.normalised.csv"
+                     test-domain-data
+                     "Regional Trade"
+                     "regional-trade")))))
 
 (deftest transform-colums-test
   (testing "converts columns with transforms specified"
@@ -241,14 +246,14 @@
                   target-reader (io/reader (example-csvw "regional-trade" "observations.json"))]
         (let [obs-meta (observations-metadata input-reader
                                               "observations.csv"
-                                              default-domain-data
+                                              test-domain-data
                                               "regional-trade"
                                               default-config)]
           (maps-match? (read-json target-reader)
                        obs-meta))))
     (testing "overseas trade example"
       (with-open [input-reader (io/reader (example-csv "overseas-trade" "ots-cn-sample.csv"))]
-        (let [obs-meta (observations-metadata input-reader "ignore-me.csv" default-domain-data "overseas-trade" default-config)]
+        (let [obs-meta (observations-metadata input-reader "ignore-me.csv" test-domain-data "overseas-trade" default-config)]
           (is-metadata-compatible (example-csv "overseas-trade" "ots-cn-sample.csv")
                                   obs-meta))))))
 
@@ -257,7 +262,7 @@
     (with-open [target-reader (io/reader (example-csvw "regional-trade" "used-codes-codelists.json"))]
       (maps-match? (read-json target-reader)
                    (used-codes-codelists-metadata "regional-trade.slugged.normalised.csv"
-                                                  default-domain-data
+                                                  test-domain-data
                                                   "regional-trade"))))
   (testing "codes metadata"
     (with-open [input-reader (io/reader (example-csv "regional-trade" "input.csv"))
@@ -265,7 +270,7 @@
       (maps-match? (read-json target-reader)
                    (used-codes-codes-metadata input-reader
                                               "regional-trade.slugged.csv"
-                                              default-domain-data
+                                              test-domain-data
                                               "regional-trade"
                                               default-config)))))
 
@@ -320,15 +325,15 @@
 
           (let [stmts (concat
                        ;; Existing reference data
-                       (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv" "Flow Directions" "flow-directions" default-config)
-                       (codelist-pipeline "./examples/regional-trade/csv/sitc-sections.csv" "Flow Directions" "sitc-sections" default-config)
-                       (codelist-pipeline "./examples/regional-trade/csv/units.csv" "Measurement Units" "measurement-units" default-config)
-                       (components-pipeline "./examples/regional-trade/csv/components.csv" default-config)
+                       (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv" "Flow Directions" "flow-directions" test-domain)
+                       (codelist-pipeline "./examples/regional-trade/csv/sitc-sections.csv" "Flow Directions" "sitc-sections" test-domain)
+                       (codelist-pipeline "./examples/regional-trade/csv/units.csv" "Measurement Units" "measurement-units" test-domain)
+                       (components-pipeline "./examples/regional-trade/csv/components.csv" test-domain)
 
                        ;; This dataset
-                       (codelist-pipeline "./examples/overseas-trade/csv/countries.csv" "Countries" "countries" default-config)
-                       (components-pipeline "./examples/overseas-trade/csv/components.csv" default-config)
-                       (cube-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "Overseas Trade Sample" "overseas-trade-sample" default-config))]
+                       (codelist-pipeline "./examples/overseas-trade/csv/countries.csv" "Countries" "countries" test-domain)
+                       (components-pipeline "./examples/overseas-trade/csv/components.csv" test-domain)
+                       (cube-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "Overseas Trade Sample" "overseas-trade-sample" default-config test-domain))]
             (rdf/add conn stmts)))
         (testing "PMD Validation"
           (is (empty? (pmd/errors repo))))
@@ -336,7 +341,7 @@
           (is (empty? (remove #{"is missing a reference area dimension"
                                 "is not a pmd:Dataset"
                                 "is missing a pmd:graph"}
-                              (pmdd/errors repo (str default-domain-data "overseas-trade-sample"))))))
+                              (pmdd/errors repo (str test-domain-data "overseas-trade-sample"))))))
         (testing "Sort Priority"
           (with-open [conn (->connection repo)]
             (let [results (query conn (slurp "./examples/validation/sparql/sort-priority.sparql"))
@@ -354,9 +359,5 @@
               (testing "is optional"
                 (is (not-any? #{"http://gss-data.org.uk/def/concept-scheme/flow-directions"} schemes))))))))))
 
-
-
-
 ;; TODO: Need to label components and their used-code codelists
 ;; TODO: Vocabulary for pmd:usedCode
-

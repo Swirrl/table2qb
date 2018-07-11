@@ -10,13 +10,16 @@
                                              :type :string}
                                             {:name column-config
                                              :description "File containing the column configuration"
-                                             :type :config}]}
+                                             :type :config}
+                                            {:name base-uri
+                                             :description "Base URI for generated URIs"
+                                             :type :string}]}
  :table2qb.core/components-pipeline {:parameters [{:name input-csv
                                                    :description ""
                                                    :type :file}
-                                                  {:name column-config
-                                                   :description "File containing the column configuration"
-                                                   :type :config}]}
+                                                  {:name base-uri
+                                                   :description "Base URI for generated URIs"
+                                                   :type :string}]}
  :table2qb.core/codelist-pipeline {:parameters [{:name codelist-csv
                                                  :description "File containing codelist data"
                                                  :type :file}
@@ -26,9 +29,9 @@
                                                 {:name codelist-slug
                                                  :description "URI slug of the codelist"
                                                  :type :string}
-                                                {:name column-config
-                                                 :description "File containing the column configuration"
-                                                 :type :config}]}
+                                                {:name base-uri
+                                                 :description "Base URI for generated URIs"
+                                                 :type :string}]}
 
  :table2qb.core/pipelines [#ig/ref :table2qb.core/cube-pipeline
                            #ig/ref :table2qb.core/components-pipeline

@@ -486,8 +486,8 @@
 
 (defn codelist-pipeline
   "Generates RDF for the given codelist CSV file"
-  [codelist-csv codelist-name codelist-slug column-config]
-  (let [domain-def (config/domain-def column-config)
+  [codelist-csv codelist-name codelist-slug base-uri]
+  (let [domain-def (config/domain-def base-uri)
         intermediate-file (tempfile codelist-slug ".csv")]
     (codelist->csvw->rdf codelist-csv domain-def codelist-name codelist-slug intermediate-file)))
 
@@ -508,8 +508,8 @@
 
 (defn components-pipeline
   "Generates RDF for the given components CSV file."
-  [input-csv column-config]
-  (let [domain-def (config/domain-def column-config)
+  [input-csv base-uri]
+  (let [domain-def (config/domain-def base-uri)
         components-csv (tempfile "components" ".csv")]
     (components->csvw->rdf input-csv domain-def components-csv)))
 
@@ -525,10 +525,10 @@
           header-keys (get-header-keys header-row column-config)]
       (write-csv-rows writer header-keys (observation-rows header-row (rest csv-records) column-config)))))
 
-(defn cube->csvw->rdf [input-csv dataset-name dataset-slug component-specifications-csv observations-csv column-config]
+(defn cube->csvw->rdf [input-csv dataset-name dataset-slug component-specifications-csv observations-csv column-config base-uri]
   (cube->csvw input-csv component-specifications-csv observations-csv column-config)
 
-  (let [domain-data (config/domain-data column-config)
+  (let [domain-data (config/domain-data base-uri)
         component-specification-metadata-meta (component-specification-metadata component-specifications-csv domain-data dataset-name dataset-slug)
         dataset-metadata-meta (dataset-metadata component-specifications-csv domain-data dataset-name dataset-slug)
         dsd-metadata-meta (data-structure-definition-metadata component-specifications-csv domain-data dataset-name dataset-slug)
@@ -547,15 +547,12 @@
 
 (defn cube-pipeline
   "Generates cube RDF for the given input CSV with dataset name and slug."
-  [input-csv dataset-name dataset-slug column-config]
+  [input-csv dataset-name dataset-slug column-config base-uri]
   (let [component-specifications-csv (tempfile "component-specifications" ".csv")
         observations-csv (tempfile "observations" ".csv")]
     (cube->csvw->rdf input-csv dataset-name dataset-slug
                      component-specifications-csv observations-csv
-                     column-config)))
-
-(defn get-config []
-  (ig/read-string (slurp (io/resource "table2qb-config.edn"))))
+                     column-config base-uri)))
 
 (defmethod ig/init-key ::pipeline [key config]
   (let [ns (find-ns (symbol (namespace key)))

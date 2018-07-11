@@ -64,7 +64,7 @@ Name of the output codelist file in Turtle format. The value of codelist_name is
 
 ### codelist_slug
 
-[Slug](http://patterns.dataincubator.org/book/url-slug.html) of the output codelist file.
+[Slug](http://patterns.dataincubator.org/book/url-slug.html) of the output codelist file. The slug string provided will appear in a particular position in the generated URLs - e.g. a URL containing the `codelist_slug` "gender" might look like this: <http://statistics.gov.scot/def/concept/gender/female>
 
 ### dataset_name
 
@@ -72,7 +72,7 @@ Name of the output file in Turtle format. The value of dataset_name is used as t
 
 ### dataset_slug
 
-[Slug](http://patterns.dataincubator.org/book/url-slug.html) of the output file.
+[Slug](http://patterns.dataincubator.org/book/url-slug.html) of the output file. The slug string provided will appear in a particular position in the generated URLs - e.g. a URL containing the `dataset_slug` "employment" might look like this: <http://statistics.gov.scot/data/employment/S12000039/2017-Q1/Female/count/people>
 
 
 ### Observation Data

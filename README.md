@@ -65,6 +65,8 @@ The CSV file should have the following columns:
 - `datatype` - how the cell value should be parsed (typically `string` for everything except the value column which will be `number`)
 - `value-transformation` - possible values here are: `slugize` and `unitize`. `slugize` converts column values into URI components, e.g. `(slugize "Some column value")` is `some-column-value`. `unitize` works similar to `slugize` and in addition also translates literal `£` into `GBP`, e.g. `(unitize "£ 100")` is `gpb-100`.
 
+The configuration file should contain one row per component, as well as one row per each unique value of the `Measure Type` dimension (as above).
+
 ## Example
 
 The [./examples/employment](./examples/employment) directory provides a full example and instructions for running it.

@@ -26,13 +26,13 @@ __To run the `components-pipeline` use the following command:__
 
 __To run the `codelist-pipeline` for each of the codelist files use the following command:__
 
-```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec codelist-pipeline --codelist-csv codelist_file --codelist-name "File name" --codelist-slug "file-name" --column-config config_file --output-file output_file```
+```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec codelist-pipeline --codelist-csv codelist_file --codelist-name codelist_name --codelist-slug codelist_slug --column-config config_file --output-file output_file```
 
 
 
 __To run the `cube-pipeline` use the following command:__
 
-```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec cube-pipeline --input-csv input_file --dataset-name "File name" --dataset-slug "file-name" --column-config config_file --output-file output_file```
+```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec cube-pipeline --input-csv input_file --dataset-name dataset_name --dataset-slug dataset_slug --column-config config_file --output-file output_file```
 
 
 
@@ -58,19 +58,19 @@ The output of the process: a single file as RDF in Turtle format.
 
 Input CSV codelist file.
 
-### codelist-name
+### codelist_name
 
-Name of the output codelist file in Turtle format.
+Name of the output codelist file in Turtle format. The value of codelist_name is used as the value of the `dcterms:title` property of the created codelist.
 
-### codelist-slug
+### codelist_slug
 
 [Slug](http://patterns.dataincubator.org/book/url-slug.html) of the output codelist file.
 
-### dataset-name
+### dataset_name
 
-Name of the output file in Turtle format.
+Name of the output file in Turtle format. The value of dataset_name is used as the value of the `dcterms:title` property of the created dataset.
 
-### dataset-slug
+### dataset_slug
 
 [Slug](http://patterns.dataincubator.org/book/url-slug.html) of the output file.
 
@@ -100,6 +100,12 @@ In addition to the list of components, this file should also contain the unique 
 
 Codelists describe the universal set of codes that may be the object of a component, not just the (sub)set that has been used within a cube. In other words, all the possible codes for a given codelist should be listed in the input CSV file for each codelist.
 
+Each codelist CSV file should have the following columns:
+
+- `Label` - a code from the codelist, there should be one row per code
+- `Notation` - a slug of `Label`, e.g. `3 Mineral Fuels` becomes `3-mineral-fuels`
+- `Parent Notation` - a slug of the parent code for the given code value
+
 ## Configuration
 
 The table2qb pipeline is configured with a CSV file (e.g. `columns.csv`) describing the components it can expect to find in the observation data file. The location of this file is specified with the `--column-config` parameter.
@@ -125,6 +131,8 @@ The [./examples/employment](./examples/employment) directory provides a full exa
 table2qb is written in Clojure, and so [Leiningen](https://leiningen.org/) should be installed to enable Clojure code to run.
 
 The following version of Java is recommended: [Java 8](https://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html)
+
+Prior to running table2qb for the first time, a new jar file should be created by running the following command in the root folder of the project: `lein uberjar`
 
 ## License
 

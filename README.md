@@ -160,3 +160,7 @@ The jar file is created in `./target`.
 Copyright © 2018 Swirrl IT Ltd.
 
 Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.
+
+## Acknowledgements
+
+The development of table2qb was funded by Swirrl, by the UK Office for National Statistics and by the European Union’s Horizon 2020 research and innovation programme under grant agreement No 693849 (the [OpenGovIntelligence](http://opengovintelligence.eu) project).

@@ -49,11 +49,14 @@ __To run the `cube-pipeline` use the following command:__
 
 ```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec cube-pipeline --input-csv input_file --dataset-name dataset_name --dataset-slug dataset_slug --column-config config_file --output-file output_file```
 
+### base_uri
+
+Defines the domain and any other URI sections that will be prefixed to all generated URIs in the output.
 
 
 ### input_file
 
-Input CSV file of the correct structure - contents must correspond to the choice of pipeline, as outlined below:
+Input CSV file of the correct structure - the contents must correspond to the choice of pipeline. More details on the required structure are provided below.  See also the [worked example](./examples/employment/README.md).
 
 - `components-pipeline` uses the CSV defining the components (e.g. `components.csv`) as input_file
 - `codelist-pipeline` uses individual codelist CSV files as input_files
@@ -63,7 +66,7 @@ The config_file (described below) is used to determine how the data in the input
 
 ### config_file
 
-config_file (e.g. `columns.csv`) defines the mapping between a column name and the relevant component and sets out any preparatory transformations and URI templates.
+config_file (e.g. `columns.csv`) defines the mapping between a column name and the relevant component and sets out any preparatory transformations and URI templates.  This parameter is only needed for the cube-pipeline.
 
 ### output_file
 
@@ -71,23 +74,23 @@ The output of the process: a single file as RDF in Turtle format.
 
 ### codelist_file
 
-Input CSV codelist file.
+Input CSV codelist file.  This parameter is used only with the codelist-pipeline.
 
 ### codelist_name
 
-Name of the output codelist file in Turtle format. The value of codelist_name is used as the value of the `dcterms:title` property of the created codelist.
+Name of the output codelist file in Turtle format. The value of codelist_name is used as the value of the `dcterms:title` property of the created codelist.  This parameter is used only with the codelist-pipeline.
 
 ### codelist_slug
 
-[Slug](http://patterns.dataincubator.org/book/url-slug.html) of the output codelist file. The slug string provided will appear in a particular position in the generated URLs - e.g. a URL containing the `codelist_slug` "gender" might look like this: <http://statistics.gov.scot/def/concept/gender/female>
+[Slug](http://patterns.dataincubator.org/book/url-slug.html) of the output codelist file. The slug string provided will appear in a particular position in the generated URLs - e.g. a URL containing the `codelist_slug` "gender" might look like this: <http://statistics.gov.scot/def/concept/gender/female> .  This parameter is used only with the codelist-pipeline.
 
 ### dataset_name
 
-Name of the output file in Turtle format. The value of dataset_name is used as the value of the `dcterms:title` property of the created dataset.
+Name of the output file in Turtle format. The value of dataset_name is used as the value of the `dcterms:title` property of the created dataset.  This parameter is used only with the cube-pipeline.
 
 ### dataset_slug
 
-[Slug](http://patterns.dataincubator.org/book/url-slug.html) of the output file. The slug string provided will appear in a particular position in the generated URLs - e.g. a URL containing the `dataset_slug` "employment" might look like this: <http://statistics.gov.scot/data/employment/S12000039/2017-Q1/Female/count/people>
+[Slug](http://patterns.dataincubator.org/book/url-slug.html) of the output file. The slug string provided will appear in a particular position in the generated URLs - e.g. a URL containing the `dataset_slug` "employment" might look like this: <http://statistics.gov.scot/data/employment/S12000039/2017-Q1/Female/count/people> . This parameter is used only with the cube-pipeline.
 
 
 ### Observation Data
@@ -103,10 +106,10 @@ As mentioned above, components are the dimensions, attributes and measures prese
 
 The CSV file should have the following columns:
 
-- `Label` - a human readable label that corresponds to the column heading in the input observation data file
+- `Label` - a human readable label that corresponds to the column heading in the input observation data file, and to the `Title` of the component in the configuration file.
 - `Description` - a human readable description of the component
 - `Component Type` - what type of component this is - i.e. a Measure, Dimension or Attribute
-- `Codelist` - a link to the full codelist of all possible codes for a given codelist
+- `Codelist` - for Dimension components only, a URI for the codelist of all possible values for this dimension.  
 
 In addition to the list of components, this file should also contain the unique values of the `Measure Type` dimension. For example, if the `Measure Type` dimension contains values of "Count" and "Net Mass", then both of them should be added to the components list.
 
@@ -118,24 +121,24 @@ Codelists describe the universal set of codes that may be the object of a compon
 Each codelist CSV file should have the following columns:
 
 - `Label` - a code from the codelist, there should be one row per code
-- `Notation` - a slug of `Label`, e.g. `3 Mineral Fuels` becomes `3-mineral-fuels`
-- `Parent Notation` - a slug of the parent code for the given code value
+- `Notation` - every item in the codelist must have a different value for notation.  It will be used in the creation of the URI for this item, so should only contain URI-compatible characters (no spaces).  A common option is to make a slug of the label,  e.g. `3 Mineral Fuels` becomes `3-mineral-fuels`, or to use a pre-existing set of alpha-numeric codes.
+- `Parent Notation` - optional: to support hierarchical codelists, if this item has a skos:broader relationship to one of the other items in the codelist, then include the notation of the parent item in this column. 
 
 ## Configuration
 
 The table2qb pipeline is configured with a CSV file (e.g. `columns.csv`) describing the components it can expect to find in the observation data file. The location of this file is specified with the `--column-config` parameter.
 
-The CSV file should have the following columns:
+This CSV file should have the following columns:
 
-- `title` - a human readable title that will be provided in the (first) header row of the input
-- `name` - a machine-readable identifier used in uri templates
-- `component_attachment` - how the component in the column should be attached to the Data Structure Definition (i.e. one of `qb:dimension`, `qb:attribute`, `qb:measure` or nil)
-- `property_template` - the predicate used to attach the (cell) values to the observations
+- `title` - a human readable title for a component, that is used as a column header in the observations input file. Each row of the configuration file (and hence each column of an observations file) must have a different title.
+- `name` - a machine-readable identifier used in uri templates. Each row of the configuration file (and hence each column of an observations file) must have a different title.
+- `component_attachment` - how the component defined by this row of the configuration file should be attached to the Data Structure Definition (i.e. one of `qb:dimension`, `qb:attribute`, `qb:measure` or nil if the configuration file row is defining the value of the observation).
+- `property_template` - the predicate used to attach the (cell) values to the observations.  This can either be a full URI, or it can be a URI template, where the `name` of any item in the configuration file can be inserted inside {} to indicate which column of the pipeline input file should be used to provide a value.
 - `value_template` - the URI template applied to the cell values. The argument inside the {} should match the corresponding value of the `name` column.
 - `datatype` - how the cell value should be parsed (typically `string` for everything except the value column which will be `number`)
-- `value-transformation` - possible values here are: `slugize`, `unitize` or blank. `slugize` converts column values into URI components, e.g. `(slugize "Some column value")` is `some-column-value`. `unitize` works similar to `slugize` and in addition also translates literal `£` into `GBP`, e.g. `(unitize "£ 100")` is `gpb-100`.
+- `value-transformation` - possible values here are: `slugize`, `unitize` or blank. `slugize` converts column values into URI components, e.g. `(slugize "Some column value")` is `some-column-value`. `unitize` works similarly to `slugize` and in addition also translates literal `£` into `GBP`, e.g. `(unitize "£ 100")` is `gpb-100`. Other unit-related special cases will be added to `unitize` in future.
 
-The configuration file should contain one row per component, as well as one row per each unique value of the `Measure Type` dimension (as above).
+The configuration file should contain one row for each dimension, measure and attribute used in any input file. 
 
 ## Example
 

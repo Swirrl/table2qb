@@ -18,7 +18,17 @@ The output of table2qb is RDF in [Turtle](https://www.w3.org/TR/turtle/) format.
 
 ## How to install table2qb
 
-TO DO
+Download the release from [https://github.com/Swirrl/table2qb/releases](https://github.com/Swirrl/table2qb/releases). 
+
+Currently the latest is 0.3.0.
+
+Once downloaded, unzip.  The main 'table2qb' executable is in the directory `./target/table2qb-0.3.0` You can add this directory to your `PATH` environment variable, or just run it with the full file path on your system.
+
+To get help on the available commands, type `table2qb help`.
+
+To see the available pipelines (described in more detail below), type `table2qb list`.
+
+To see the required command structure for one of the pipelines (for example the cube-pipeline), type `table2qb describe cube-pipeline`
 
 ## How to run table2qb
 
@@ -32,26 +42,23 @@ In order to execute the full table2qb process, the following 3 pipelines should 
 - `codelist-pipeline` (run for each codelist CSV input file)
 - `cube-pipeline`
 
-After cloning or downloading the repository, run the following commands from the root folder (or add an appropriate entry to your _PATH_ environment variable).
-
-_UPDATE THIS ONCE WE'VE DONE ISSUES [47](https://github.com/Swirrl/table2qb/issues/47) and [45](https://github.com/Swirrl/table2qb/issues/45)_.
-
+After installing as described in the previous section, you can run table2qb as follows.
 
 __To run the `components-pipeline` use the following command:__
 
-```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec components-pipeline --input-csv my_input.csv --output-file my_output.ttl```
+```table2qb exec components-pipeline --input-csv components.csv --base-uri http://example.com/ --output-file output.ttl```
 
 
 
 __To run the `codelist-pipeline` for each of the codelist files use the following command:__
 
-```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec codelist-pipeline --codelist-csv my_codelist.csv --codelist-name "Example codes" --codelist-slug "example" --output-file my_output.ttl```
+```table2qb exec codelist-pipeline --codelist-csv codelist.csv --codelist-name "Example codes" --codelist-slug "example" --base-uri http://example.com/ --output-file output.ttl```
 
 
 
 __To run the `cube-pipeline` use the following command:__
 
-```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec cube-pipeline --input-csv my_input.csv --dataset-name "Example Dataset" --dataset-slug "example" --column-config my_columns_config.csv --output-file my_output.ttl```
+```table2qb exec cube-pipeline --input-csv my_input.csv --dataset-name "Example Dataset" --dataset-slug "example" --column-config columns.csv --base-uri http://example.com/ --output-file output.ttl```
 
 ### --base-uri
 

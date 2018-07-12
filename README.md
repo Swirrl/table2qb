@@ -28,6 +28,8 @@ In order to execute the full table2qb process, the following 3 pipelines should 
 - `codelist-pipeline` (run for each codelist CSV input file)
 - `cube-pipeline`
 
+After cloning or downloading the repository, run the following commands from the root folder (or add an appropriate entry to your _PATH_ environment variable).
+
 _UPDATE THIS ONCE WE'VE DONE ISSUES [47](https://github.com/Swirrl/table2qb/issues/47) and [45](https://github.com/Swirrl/table2qb/issues/45)_.
 
 
@@ -141,11 +143,14 @@ The [./examples/employment](./examples/employment) directory provides a full exa
 
 ## How to compile table2qb
 
-table2qb is written in Clojure, and so [Leiningen](https://leiningen.org/) should be installed to enable Clojure code to run.
+The repository includes a compiled Java jar file, so no compilation is necessary to use table2qb.
+
+If you want to edit your copy of the code, you will need to recompile before use.  Table2qb is written in Clojure, and so [Leiningen](https://leiningen.org/) should be installed in order to compile the code.
 
 The following version of Java is recommended: [Java 8](https://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html)
 
-Prior to running table2qb for the first time, a new jar file should be created by running the following command in the root folder of the project: `lein uberjar`
+To create a new jar file, run the following command in the root folder of the project: `lein uberjar`.
+The jar file is created in `./target`.
 
 ## License
 

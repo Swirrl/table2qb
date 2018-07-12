@@ -18,6 +18,10 @@ The output of table2qb is RDF in [Turtle](https://www.w3.org/TR/turtle/) format.
 
 ## How to run table2qb
 
+Table2qb has three main options, each with its own data transformation 'pipeline' to create the different aspects of a data cube: the components (dimensions, measures, attributes), the codelists (defined possible values of components) and the observations themselves. 
+
+Components and codelists can often be re-used by many data cubes, so if those pipelines have been run previously it may not always be necessary to run them again, but to create a new data cube from scratch will require all three pipelines to be run, and possibly the codelist pipeline to be run once for each dimension.
+
 In order to execute the full table2qb process, the following 3 pipelines should be run (in no particular order):
 
 - `components-pipeline`

@@ -1,11 +1,20 @@
-# table2cube
+# table2qb
 
 ![animated tesseract](https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Tesseract-1K.gif/240px-Tesseract-1K.gif)
 
 ## Overview
 
-This project transforms tabular input files in CSV format into RDF [Turtle](https://www.w3.org/TR/turtle/) format.
-During the transformation the input files comprised of tables of observations and reference data get converted into [rdf data cube](https://www.w3.org/TR/vocab-data-cube/) resources specified as [csvw](https://www.w3.org/TR/csv2rdf/).
+Table2qb (pronounced 'table to cube') is designed for representation of statistical data as Linked Data, using the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/). It is aimed at users who understand statistical data and are comfortable with common data processing tools, but it does not require programming skills or detailed knowledge of RDF.
+
+Choices of predicates and URI design are encapsulated in a configuration file that can be prepared once and used for all datasets in a collection.
+
+Table2qb separates out the three main aspects of data in a data-cube structure: the observations, components (dimensions, measures, attributes) and the codelists that define possible values of the components.
+
+The input to table2qb takes the form of a CSV file in the ['tidy data'](http://vita.had.co.nz/papers/tidy-data.pdf) structure.  The interpretation of the columns in the input data is defined by the configuration file and follows set conventions, described in more detail below.
+
+The implementation makes use of the W3C [Tabular Data and Metadata on the Web](https://www.w3.org/TR/tabular-data-model/) standards, in particular [CSV2RDF](https://www.w3.org/TR/csv2rdf/).  It incorporates this open source [CSV2RDF processing library](https://github.com/swirrl/csv2rdf).  Behind the scenes there is a two step process, first converting the defined tabular inputs into an updated table and accompanying JSON metadata as defined by the CSV2RDF standard, then using the standard CSV2RDF processor to create the final outputs.  The generated RDF includes links from observations to table rows, as per that standard.  A future version of table2qb will allow the option of outputting the JSON metadata and accompanying table for the CSV2RDF representation.
+
+The output of table2qb is RDF in [Turtle](https://www.w3.org/TR/turtle/) format. Future versions will allow alternative RDF serialisations as an option.
 
 ## How to run table2qb
 

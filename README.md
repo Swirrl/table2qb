@@ -12,7 +12,7 @@ Table2qb separates out the three main aspects of data in a data-cube structure: 
 
 The input to table2qb takes the form of a CSV file in the ['tidy data'](http://vita.had.co.nz/papers/tidy-data.pdf) structure.  The interpretation of the columns in the input data is defined by the configuration file and follows set conventions, described in more detail below.
 
-The implementation makes use of the W3C [Tabular Data and Metadata on the Web](https://www.w3.org/TR/tabular-data-model/) standards, in particular [csv2rdf](https://www.w3.org/TR/csv2rdf/).  It incorporates this open source [csv2rdf processing library](https://github.com/swirrl/csv2rdf).  Behind the scenes there is a two step process, first converting the defined tabular inputs into an updated table and accompanying JSON metadata as defined by the csv2rdf standard, then using the standard csv2rdf processor to create the final outputs.  The generated RDF includes links from observations to table rows, as per that standard.  A future version of table2qb will allow the option of outputting the JSON metadata and accompanying table for the csv2rdf representation.
+The implementation makes use of the W3C [Tabular Data and Metadata on the Web](https://www.w3.org/TR/tabular-data-model/) standards, in particular [csv2rdf](https://www.w3.org/TR/csv2rdf/).  It incorporates this open source [csv2rdf processing library](https://github.com/swirrl/csv2rdf).  Behind the scenes there is a two step process, first converting the defined tabular inputs into an updated table and accompanying JSON metadata as defined by the csv2rdf standard, then using the standard csv2rdf processor to create the final outputs. A future version of table2qb will allow the option of outputting the JSON metadata and accompanying table for the csv2rdf representation.
 
 The output of table2qb is RDF in [Turtle](https://www.w3.org/TR/turtle/) format. Future versions will allow alternative RDF serialisations as an option.
 
@@ -35,26 +35,26 @@ _UPDATE THIS ONCE WE'VE DONE ISSUES [47](https://github.com/Swirrl/table2qb/issu
 
 __To run the `components-pipeline` use the following command:__
 
-```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec components-pipeline --input-csv input_file --column-config config_file --output-file output_file```
+```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec components-pipeline --input-csv my_input.csv --output-file my_output.ttl```
 
 
 
 __To run the `codelist-pipeline` for each of the codelist files use the following command:__
 
-```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec codelist-pipeline --codelist-csv codelist_file --codelist-name codelist_name --codelist-slug codelist_slug --column-config config_file --output-file output_file```
+```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec codelist-pipeline --codelist-csv my_codelist.csv --codelist-name "Example codes" --codelist-slug "example" --output-file my_output.ttl```
 
 
 
 __To run the `cube-pipeline` use the following command:__
 
-```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec cube-pipeline --input-csv input_file --dataset-name dataset_name --dataset-slug dataset_slug --column-config config_file --output-file output_file```
+```BASE_URI=your_domain java -jar target/table2qb-0.1.3-SNAPSHOT-standalone.jar exec cube-pipeline --input-csv my_input.csv --dataset-name "Example Dataset" --dataset-slug "example" --column-config my_columns_config.csv --output-file my_output.ttl```
 
-### base_uri
+### --base-uri
 
 Defines the domain and any other URI sections that will be prefixed to all generated URIs in the output.
 
 
-### input_file
+### --input-csv
 
 Input CSV file of the correct structure - the contents must correspond to the choice of pipeline. More details on the required structure are provided below.  See also the [worked example](./examples/employment/README.md).
 
@@ -64,31 +64,31 @@ Input CSV file of the correct structure - the contents must correspond to the ch
 
 The config_file (described below) is used to determine how the data in the input_file is interpreted.
 
-### config_file
+### --column-config
 
 config_file (e.g. `columns.csv`) defines the mapping between a column name and the relevant component and sets out any preparatory transformations and URI templates.  This parameter is only needed for the cube-pipeline.
 
-### output_file
+### --output-file
 
 The output of the process: a single file as RDF in Turtle format.
 
-### codelist_file
+### --codelist-csv
 
 Input CSV codelist file.  This parameter is used only with the codelist-pipeline.
 
-### codelist_name
+### --codelist-name
 
 Name of the output codelist file in Turtle format. The value of codelist_name is used as the value of the `dcterms:title` property of the created codelist.  This parameter is used only with the codelist-pipeline.
 
-### codelist_slug
+### --codelist-slug
 
 [Slug](http://patterns.dataincubator.org/book/url-slug.html) of the output codelist file. The slug string provided will appear in a particular position in the generated URLs - e.g. a URL containing the `codelist_slug` "gender" might look like this: <http://statistics.gov.scot/def/concept/gender/female> .  This parameter is used only with the codelist-pipeline.
 
-### dataset_name
+### --dataset-name
 
 Name of the output file in Turtle format. The value of dataset_name is used as the value of the `dcterms:title` property of the created dataset.  This parameter is used only with the cube-pipeline.
 
-### dataset_slug
+### --dataset-slug
 
 [Slug](http://patterns.dataincubator.org/book/url-slug.html) of the output file. The slug string provided will appear in a particular position in the generated URLs - e.g. a URL containing the `dataset_slug` "employment" might look like this: <http://statistics.gov.scot/data/employment/S12000039/2017-Q1/Female/count/people> . This parameter is used only with the cube-pipeline.
 

@@ -16,6 +16,10 @@ The implementation makes use of the W3C [Tabular Data and Metadata on the Web](h
 
 The output of table2qb is RDF in [Turtle](https://www.w3.org/TR/turtle/) format. Future versions will allow alternative RDF serialisations as an option.
 
+## How to install table2qb
+
+TO DO
+
 ## How to run table2qb
 
 Table2qb has three main options, each with its own data transformation 'pipeline' to create the different aspects of a data cube: the components (dimensions, measures, attributes), the codelists (defined possible values of components) and the observations themselves. 

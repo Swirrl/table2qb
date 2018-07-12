@@ -1,37 +1,48 @@
 {
  :table2qb.core/cube-pipeline {:parameters [{:name input-csv
                                              :description "File containing observations"
-                                             :type :file}
+                                             :type :file
+                                             :example "input.csv"}
                                             {:name dataset-name
                                              :description "Name of the target dataset"
-                                             :type :string}
+                                             :type :string
+                                             :example "'My Dataset'"}
                                             {:name dataset-slug
                                              :description "URI slug of the target dataset"
-                                             :type :string}
+                                             :type :string
+                                             :example "my-dataset"}
                                             {:name column-config
                                              :description "File containing the column configuration"
-                                             :type :config}
+                                             :type :config
+                                             :example "columns.csv"}
                                             {:name base-uri
                                              :description "Base URI for generated URIs"
-                                             :type :string}]}
+                                             :type :string
+                                             :example "http://example.com/dataset/"}]}
  :table2qb.core/components-pipeline {:parameters [{:name input-csv
-                                                   :description ""
-                                                   :type :file}
+                                                   :description "File containing component definitions"
+                                                   :type :file
+                                                   :example "components.csv"}
                                                   {:name base-uri
                                                    :description "Base URI for generated URIs"
-                                                   :type :string}]}
+                                                   :type :string
+                                                   :example "http://example.com/dataset/"}]}
  :table2qb.core/codelist-pipeline {:parameters [{:name codelist-csv
                                                  :description "File containing codelist data"
-                                                 :type :file}
+                                                 :type :file
+                                                 :example "codelist.csv"}
                                                 {:name codelist-name
                                                  :description "Name of the codelist"
-                                                 :type :string}
+                                                 :type :string
+                                                 :example "Codes"}
                                                 {:name codelist-slug
                                                  :description "URI slug of the codelist"
-                                                 :type :string}
+                                                 :type :string
+                                                 :example "codes"}
                                                 {:name base-uri
                                                  :description "Base URI for generated URIs"
-                                                 :type :string}]}
+                                                 :type :string
+                                                 :example "http://example.com/dataset/"}]}
 
  :table2qb.core/pipelines [#ig/ref :table2qb.core/cube-pipeline
                            #ig/ref :table2qb.core/components-pipeline

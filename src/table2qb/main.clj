@@ -96,14 +96,18 @@
 (def shared-pipeline-parameters
   [{:name        'output-file
     :description "File to write RDF output to"
-    :type        :file}])
+    :type        :file
+    :example "output.ttl"}])
 
 (defn- get-pipeline-parameters [pipeline]
   (concat (:parameters pipeline) shared-pipeline-parameters))
 
+(defn- example-pipeline-argument [{param-name :name example :example}]
+  (format "--%s %s" param-name (or example (string/upper-case param-name))))
+
 (defn- get-example-exec-command-line [pipeline]
   (let [params (get-pipeline-parameters pipeline)
-        args (map (fn [{param-name :name}] (format "--%s %s" param-name (string/upper-case param-name))) params)]
+        args (map (fn [param] (example-pipeline-argument param)) params)]
     (format "table2qb exec %s %s" (name (:name pipeline)) (string/join " " args))))
 
 (defn- unknown-pipeline [pipelines pipeline-name]

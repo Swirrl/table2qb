@@ -143,7 +143,7 @@ This CSV file should have the following columns:
 
 - `title` - a human readable title for a component, that is used as a column header in the observations input file. Each row of the configuration file (and hence each column of an observations file) must have a different title.
 - `name` - a machine-readable identifier used in uri templates. Each row of the configuration file (and hence each column of an observations file) must have a different title.
-- `component_attachment` - how the component defined by this row of the configuration file should be attached to the Data Structure Definition (i.e. one of `qb:dimension`, `qb:attribute`, `qb:measure` or nil if the configuration file row is defining the value of the observation).
+- `component_attachment` - how the component defined by this row of the configuration file should be attached to the Data Structure Definition (i.e. one of `qb:dimension`, `qb:attribute`, `qb:measure`, or just a blank cell if the configuration file row is defining the value of the observation).
 - `property_template` - the predicate used to attach the (cell) values to the observations.  This can either be a full URI, or it can be a URI template, where the `name` of any item in the configuration file can be inserted inside {} to indicate which column of the pipeline input file should be used to provide a value.
 - `value_template` - the URI template applied to the cell values. The argument inside the {} should match the corresponding value of the `name` column.
 - `datatype` - how the cell value should be parsed (typically `string` for everything except the value column which will be `number`)

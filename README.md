@@ -1,5 +1,7 @@
 # table2qb
 
+[![Build Status](https://travis-ci.com/Swirrl/table2qb.svg?branch=master)](https://travis-ci.com/Swirrl/table2qb)
+
 ![animated tesseract](https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Tesseract-1K.gif/240px-Tesseract-1K.gif)
 
 ## Overview

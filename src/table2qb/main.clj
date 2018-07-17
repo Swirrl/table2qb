@@ -2,7 +2,6 @@
   (:gen-class)
   (:require [clojure.java.io :as io]
             [integrant.core :as ig]
-            [table2qb.core]
             [clojure.string :as string]
             [clojure.tools.cli :as cli]
             [grafter.rdf.io :as gio]
@@ -179,6 +178,7 @@
 
 (defn inner-main [args]
   (let [config (get-config)
+        _loaded-namespaces (ig/load-namespaces config)
         system (ig/init config)
         tasks (::tasks system)
         task-name (or (first args) "help")]

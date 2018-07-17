@@ -11,6 +11,7 @@
                  [integrant "0.6.3"]
                  [org.clojure/tools.cli "0.3.7"]]
   :profiles {:uberjar {:main table2qb.main
+                       :aot :all
                        :uberjar-name "table2qb.jar"
                        :dependencies [[org.apache.logging.log4j/log4j-api "2.11.0"]
                                       [org.apache.logging.log4j/log4j-core "2.11.0"]

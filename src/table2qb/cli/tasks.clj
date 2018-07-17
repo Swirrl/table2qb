@@ -1,6 +1,5 @@
 (ns table2qb.cli.tasks
   (:require [clojure.java.io :as io]
-            [integrant.core :as ig]
             [clojure.string :as string]
             [clojure.tools.cli :as cli]
             [grafter.rdf.io :as gio]
@@ -8,15 +7,23 @@
             [table2qb.configuration :as config]
             [clojure.set :as set]))
 
-(defn- display-tasks [tasks]
-  (println "Available tasks are:")
-  (doseq [task tasks]
-    (println (name (:name task)))))
+(defn display-lines [lines]
+  (doseq [line lines]
+    (println line)))
+
+(defn- display-tasks-lines [tasks]
+  (concat ["Available tasks are:"
+           ""]
+          (map (fn [task] (name (:name task))) tasks)))
+
+(defn usage-lines [tasks]
+  (concat ["Usage: table2qb task-name [args]"]
+          (display-tasks-lines tasks)
+          [""
+           "Use table2qb help task-name for more information about a task"]))
 
 (defn usage [tasks]
-  (println "Usage: table2qb task-name [args]")
-  (display-tasks tasks)
-  (println "Use table2qb help task-name for more information about a task"))
+  (display-lines (usage-lines tasks)))
 
 (defn find-task [tasks task-name]
   (first (filter (fn [task] (= task-name (name (:name task)))) tasks)))
@@ -45,17 +52,17 @@
   (if-let [task-name (first args)]
     (if-let [task (find-task all-tasks task-name)]
       (describe-task task)
-      (binding [*out* *err*]
-        (println "Unknown task name " task-name)
-        (display-tasks all-tasks)
-        1))
+      (throw (ex-info (str "Unknown task name " task-name)
+                      {:error-lines (display-tasks-lines all-tasks)})))
     (usage all-tasks)))
 
+(defn- display-pipelines-lines [pipelines]
+  (concat ["Available pipelines"
+           ""]
+          (map (fn [p] (name (:name p))) pipelines)))
+
 (defn display-pipelines [pipelines]
-  (println "Available pipelines:")
-  (println)
-  (doseq [pipeline pipelines]
-    (println (:name pipeline))))
+  (display-lines (display-pipelines-lines pipelines)))
 
 (defmethod exec-task :list [{:keys [pipelines] :as list-task} all-tasks args]
   (display-pipelines pipelines)
@@ -103,9 +110,8 @@
     (format "table2qb exec %s %s" (name (:name pipeline)) (string/join " " args))))
 
 (defn- unknown-pipeline [pipelines pipeline-name]
-  (binding [*out* *err*]
-    (println "Unknown pipeline " pipeline-name)
-    (display-pipelines pipelines)))
+  (throw (ex-info (str "Unknown pipeline " pipeline-name)
+                  {:error-lines (display-pipelines-lines pipelines)})))
 
 (defmethod exec-task :describe [{:keys [pipelines] :as describe-task} _all-tasks args]
   (if-let [pipeline-name (first args)]
@@ -121,13 +127,9 @@
         (println)
         (println "To execute pipeline:")
         (println (get-example-exec-command-line pipeline)))
-      (do
-        (unknown-pipeline pipelines pipeline-name)
-        1))
-    (binding [*out* *err*]
-      (println "Pipeline name required")
-      (println "Usage: table2qb describe pipeline-name")
-      1)))
+      (unknown-pipeline pipelines pipeline-name))
+    (throw (ex-info "Pipeline name required"
+                    {:error-lines ["Usage: table2qb describe pipeline-name"]}))))
 
 (defn- exec-pipeline [{:keys [parameters var] :as pipeline} {:keys [output-file] :as options}]
   (let [args (mapv (fn [param] (get options (keyword (:name param)))) parameters)]
@@ -155,16 +157,9 @@
             params-spec (mapv pipeline-parameter->cli-desc params)
             {:keys [options errors]} (parse-and-validate-pipeline-arguments params-spec (rest args))]
         (if (seq errors)
-          (binding [*out* *err*]
-            (println "Invalid pipeline arguments:")
-            (doseq [err errors]
-              (println err))
-            1)
+          (throw (ex-info "Invalid pipeline arguments:"
+                          {:error-lines (vec errors)}))
           (exec-pipeline pipeline options)))
-      (do
-        (unknown-pipeline pipelines pipeline-name)
-        1))
-    (binding [*out* *err*]
-      (println "Pipeline name required")
-      (println "Usage: table2qb describe pipeline-name")
-      1)))
+      (unknown-pipeline pipelines pipeline-name))
+    (throw (ex-info "Pipeline name required"
+                    {:error-lines ["Usage: table2qb describe pipeline-name"]}))))

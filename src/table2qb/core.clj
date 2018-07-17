@@ -391,7 +391,13 @@
   (let [tc (if (string/blank? parent_notation) "yes" "")]
     (assoc row :top_concept_of tc :has_top_concept tc)))
 
-(def annotate-code add-code-hierarchy-fields)
+(defn add-pref-label [{:keys [label] :as row}]
+  (assoc row :pref_label label))
+
+(defn annotate-code [row]
+  (-> row
+      (add-code-hierarchy-fields)
+      (add-pref-label)))
 
 (defn codes [reader]
   (let [data (read-csv reader {"Label" :label
@@ -444,15 +450,15 @@
         "aboutUrl" codelist-uri
         "propertyUrl" "skos:hasTopConcept"
         "valueUrl" code-uri}
+       {"name" "pref_label"
+        "titles" "pref_label"
+        "propertyUrl" "skos:prefLabel"}
        {"propertyUrl" "skos:inScheme",
         "valueUrl" codelist-uri,
         "virtual" true}
        {"propertyUrl" "skos:member",
         "aboutUrl" codelist-uri,
         "valueUrl" code-uri,
-        "virtual" true}
-       {"propertyUrl" "skos:prefLabel",
-        "value" "{label}",
         "virtual" true}]}}))
 
 ;; pipelines
@@ -474,7 +480,7 @@
   [codelist-csv dest-file]
   (with-open [reader (io/reader codelist-csv)
               writer (io/writer dest-file)]
-    (let [output-columns [:label :notation :parent_notation :sort_priority :description :top_concept_of :has_top_concept]]
+    (let [output-columns [:label :notation :parent_notation :sort_priority :description :top_concept_of :has_top_concept :pref_label]]
       (write-csv-rows writer output-columns (codes reader)))))
 
 (defn codelist->csvw->rdf

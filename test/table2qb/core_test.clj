@@ -125,7 +125,7 @@
       (with-open [input-reader (io/reader (example-csv "regional-trade" "sitc-sections.csv"))]
         (let [codes (doall (codes input-reader))]
           (testing "one column per attribute"
-            (is (= [:label :notation :parent_notation :sort_priority :description :top_concept_of :has_top_concept]
+            (is (= [:label :notation :parent_notation :sort_priority :description :top_concept_of :has_top_concept :pref_label]
                    (-> codes first keys))))
           (testing "column for sort-priority"
             (is (= "0" (-> codes first :sort_priority))))

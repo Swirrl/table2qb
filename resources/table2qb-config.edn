@@ -1,58 +1,58 @@
 {
- :table2qb.core/cube-pipeline {:parameters [{:name input-csv
-                                             :description "File containing observations"
-                                             :type :file
-                                             :example "input.csv"}
-                                            {:name dataset-name
-                                             :description "Name of the target dataset"
-                                             :type :string
-                                             :example "'My Dataset'"}
-                                            {:name dataset-slug
-                                             :description "URI slug of the target dataset"
-                                             :type :string
-                                             :example "my-dataset"}
-                                            {:name column-config
-                                             :description "File containing the column configuration"
-                                             :type :config
-                                             :example "columns.csv"}
-                                            {:name base-uri
-                                             :description "Base URI for generated URIs"
-                                             :type :string
-                                             :example "http://example.com/dataset/"}]}
- :table2qb.core/components-pipeline {:parameters [{:name input-csv
-                                                   :description "File containing component definitions"
-                                                   :type :file
-                                                   :example "components.csv"}
-                                                  {:name base-uri
-                                                   :description "Base URI for generated URIs"
-                                                   :type :string
-                                                   :example "http://example.com/dataset/"}]}
- :table2qb.core/codelist-pipeline {:parameters [{:name codelist-csv
-                                                 :description "File containing codelist data"
-                                                 :type :file
-                                                 :example "codelist.csv"}
-                                                {:name codelist-name
-                                                 :description "Name of the codelist"
-                                                 :type :string
-                                                 :example "Codes"}
-                                                {:name codelist-slug
-                                                 :description "URI slug of the codelist"
-                                                 :type :string
-                                                 :example "codes"}
-                                                {:name base-uri
-                                                 :description "Base URI for generated URIs"
-                                                 :type :string
-                                                 :example "http://example.com/dataset/"}]}
+ :table2qb.pipelines.cube/cube-pipeline {:parameters [{:name input-csv
+                                                       :description "File containing observations"
+                                                       :type :file
+                                                       :example "input.csv"}
+                                                      {:name dataset-name
+                                                       :description "Name of the target dataset"
+                                                       :type :string
+                                                       :example "'My Dataset'"}
+                                                      {:name dataset-slug
+                                                       :description "URI slug of the target dataset"
+                                                       :type :string
+                                                       :example "my-dataset"}
+                                                      {:name column-config
+                                                       :description "File containing the column configuration"
+                                                       :type :config
+                                                       :example "columns.csv"}
+                                                      {:name base-uri
+                                                       :description "Base URI for generated URIs"
+                                                       :type :string
+                                                       :example "http://example.com/dataset/"}]}
+ :table2qb.pipelines.components/components-pipeline {:parameters [{:name input-csv
+                                                                   :description "File containing component definitions"
+                                                                   :type :file
+                                                                   :example "components.csv"}
+                                                                  {:name base-uri
+                                                                   :description "Base URI for generated URIs"
+                                                                   :type :string
+                                                                   :example "http://example.com/dataset/"}]}
+ :table2qb.pipelines.codelist/codelist-pipeline {:parameters [{:name codelist-csv
+                                                               :description "File containing codelist data"
+                                                               :type :file
+                                                               :example "codelist.csv"}
+                                                              {:name codelist-name
+                                                               :description "Name of the codelist"
+                                                               :type :string
+                                                               :example "Codes"}
+                                                              {:name codelist-slug
+                                                               :description "URI slug of the codelist"
+                                                               :type :string
+                                                               :example "codes"}
+                                                              {:name base-uri
+                                                               :description "Base URI for generated URIs"
+                                                               :type :string
+                                                               :example "http://example.com/dataset/"}]}
 
- :table2qb.core/pipelines [#ig/ref :table2qb.core/cube-pipeline
-                           #ig/ref :table2qb.core/components-pipeline
-                           #ig/ref :table2qb.core/codelist-pipeline]
- :table2qb.core/pipeline-runner {:pipelines #ig/ref :table2qb.core/pipelines}
+ :table2qb.pipelines/pipelines [#ig/ref :table2qb.pipelines.cube/cube-pipeline
+                                #ig/ref :table2qb.pipelines.components/components-pipeline
+                                #ig/ref :table2qb.pipelines.codelist/codelist-pipeline]
+ :table2qb.pipelines/pipeline-runner {:pipelines #ig/ref :table2qb.pipelines/pipelines}
  :table2qb.main/tasks [{:name :help}
                        {:name :list
-                        :pipelines #ig/ref :table2qb.core/pipelines}
+                        :pipelines #ig/ref :table2qb.pipelines/pipelines}
                        {:name :describe
-                        :pipelines #ig/ref :table2qb.core/pipelines}
+                        :pipelines #ig/ref :table2qb.pipelines/pipelines}
                        {:name :exec
-                        :pipelines #ig/ref :table2qb.core/pipelines}]
+                        :pipelines #ig/ref :table2qb.pipelines/pipelines}]
  }

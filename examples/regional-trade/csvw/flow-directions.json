@@ -59,6 +59,10 @@
       "aboutUrl": "http://gss-data.org.uk/def/concept-scheme/flow-directions",
       "valueUrl": "http://gss-data.org.uk/def/concept/flow-directions/{notation}",
       "virtual": true
+    },{
+      "propertyUrl": "rdf:type",
+      "valueUrl": "skos:Concept",
+      "virtual": true
     }]
   }
 }

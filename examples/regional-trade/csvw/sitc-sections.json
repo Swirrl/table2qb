@@ -59,6 +59,10 @@
       "aboutUrl": "http://gss-data.org.uk/def/concept-scheme/sitc-sections",
       "valueUrl": "http://gss-data.org.uk/def/concept/sitc-sections/{notation}",
       "virtual": true
+    },{
+      "propertyUrl": "rdf:type",
+      "valueUrl": "skos:Concept",
+      "virtual": true
     }]
   }
 }

@@ -5,7 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [grafter/grafter "0.11.2"]
-                 [grafter/extra "0.2.2"]
+                 [grafter/extra "0.2.2-rename-codesUsed-predicate"]
                  [swirrl/csv2rdf "0.2.6"]
                  [org.clojure/data.csv "0.1.4"]
                  [integrant "0.6.3"]

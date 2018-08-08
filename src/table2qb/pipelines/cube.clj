@@ -219,7 +219,7 @@
                             "valueUrl" "qb:ComponentSpecification"}
                            {"name" "codes_used",
                             "virtual" true,
-                            "propertyUrl" "http://publishmydata.com/def/qb/codesUsed",
+                            "propertyUrl" "http://publishmydata.com/def/cube/codesUsed",
                             "valueUrl" (str domain-data dataset-slug "/codes-used/{component_slug}")}],
                "aboutUrl" (component-specification-template domain-data dataset-slug)}})
 

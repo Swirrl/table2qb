@@ -49,9 +49,8 @@
 (deftest observation-template-test
   (let [domain-data-prefix "http://example.com/data/"
         dataset-slug "test"
-        value-components #{:value}
-        component-names ["year" "flow" "value" "code"]]
-    (is (= "http://example.com/data/test/{+year}/{+flow}/{+code}" (observation-template dataset-slug component-names domain-data-prefix value-components)))))
+        dimension-names ["year" "flow" "code"]]
+    (is (= "http://example.com/data/test/{+year}/{+flow}/{+code}" (observation-template domain-data-prefix dataset-slug dimension-names)))))
 
 (deftest component-specifications-test
   (testing "returns a dataset of component-specifications"
@@ -117,7 +116,7 @@
               (is (= 7 (count observation))))
             (testing "slugged columns"
               (are [expected actual] (= expected actual)
-                   "gbp-total" (:measure_type observation)
+                "gbp-total" (:measure_type observation)
                 "gbp-million" (:unit observation)
                 "0-food-and-live-animals" (:sitc_section observation)
                 "export" (:flow observation)))))))
@@ -131,7 +130,7 @@
               (is (= 7 (count observation))))
             (testing "slugged columns"
               (are [expected actual] (= expected actual)
-                   "gbp-total" (:measure_type observation)
+                "gbp-total" (:measure_type observation)
                 "gbp-million" (:unit observation)
                 "cn#cn8_28399000" (:combined_nomenclature observation)
                 "export" (:flow observation))))))))

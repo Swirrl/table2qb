@@ -120,47 +120,50 @@
    "valueUrl" "qb:Observation"})
 
 (defn observation-template
-  "Builds an observation URI template from a domain data prefix, dataset slug, sequence of observation component
-   names and a predicate for identifying value components."
-  [dataset-slug component-names domain-data-prefix is-value-component-p]
-  (let [uri-parts (->> component-names
-                       (remove #(is-value-component-p (keyword %)))
+  "Builds an observation URI template from a domain data prefix, dataset slug, sequence of dimension names."
+  [domain-data-prefix dataset-slug dimension-names]
+  (let [uri-parts (->> dimension-names
                        (map #(str "/{+" % "}")))]
     (str domain-data-prefix dataset-slug (string/join uri-parts))))
+
+(defn unkeyword [keyword]
+  "Converts a keyword in to a string without the leading colon"
+  (subs (str keyword) 1))
 
 (defn observations-metadata [reader csv-url domain-data dataset-slug column-config]
   (let [components (ordered-observation-components reader column-config)
         component-columns (sequence (map component->column) components)
-        columns (concat component-columns [observation-type-column (dataset-link-column domain-data dataset-slug)])]
+        columns (concat component-columns [observation-type-column (dataset-link-column domain-data dataset-slug)])
+        dimension-names (->> components (map :name) (filter (set (map unkeyword (config/dimensions column-config)))))]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" (str csv-url)
      "tableSchema"
                 {"columns" (vec columns)
-                 "aboutUrl" (observation-template dataset-slug (map :name components) domain-data (config/values column-config))}}))
+                 "aboutUrl" (observation-template domain-data dataset-slug dimension-names)}}))
 
 (defn used-codes-codelists-metadata [csv-url domain-data dataset-slug]
   (let [codelist-uri (str domain-data dataset-slug "/codes-used/{component_slug}")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" (str csv-url)
      "tableSchema"
-                {"columns"
-                            [{"name" "component_slug",
-                              "titles" "component_slug",
-                              "datatype" "string",
-                              "suppressOutput" true}
-                             {"name" "component_attachment",
-                              "titles" "component_attachment",
-                              "datatype" "string",
-                              "suppressOutput" true}
-                             {"name" "component_property",
-                              "titles" "component_property",
-                              "datatype" "string",
-                              "suppressOutput" true}
-                             {"name" "type",
-                              "virtual" true,
-                              "propertyUrl" "rdf:type",
-                              "valueUrl" "skos:Collection"}],
-                 "aboutUrl" codelist-uri}}))
+     {"columns"
+      [{"name" "component_slug",
+        "titles" "component_slug",
+        "datatype" "string",
+        "suppressOutput" true}
+       {"name" "component_attachment",
+        "titles" "component_attachment",
+        "datatype" "string",
+        "suppressOutput" true}
+       {"name" "component_property",
+        "titles" "component_property",
+        "datatype" "string",
+        "suppressOutput" true}
+       {"name" "type",
+        "virtual" true,
+        "propertyUrl" "rdf:type",
+        "valueUrl" "skos:Collection"}],
+      "aboutUrl" codelist-uri}}))
 
 (defn component-specification-template [domain-data dataset-slug]
   (str domain-data dataset-slug "/component/{component_slug}"))

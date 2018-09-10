@@ -5,7 +5,8 @@
             [grafter.rdf.io :as gio]
             [grafter.rdf :as rdf]
             [table2qb.configuration :as config]
-            [clojure.set :as set]))
+            [clojure.set :as set])
+  (:import (java.net URI)))
 
 (defn display-lines [lines]
   (doseq [line lines]
@@ -82,6 +83,9 @@
 (defmethod parse-arg :file [_type arg-string]
   (io/file arg-string))
 
+(defmethod parse-arg :uri [_type arg-string]
+  (URI. arg-string))
+
 (defmethod parse-arg :config [_type arg-string]
   (config/load-column-configuration (io/file arg-string)))
 
@@ -96,7 +100,11 @@
   [{:name        'output-file
     :description "File to write RDF output to"
     :type        :file
-    :example "output.ttl"}])
+    :example "output.ttl"}
+   {:name        'graph
+    :description "File to write RDF output to"
+    :type        :uri
+    :example     "http://example.com/graph/dataset"}])
 
 (defn- get-pipeline-parameters [pipeline]
   (concat (:parameters pipeline) shared-pipeline-parameters))
@@ -131,11 +139,15 @@
     (throw (ex-info "Pipeline name required"
                     {:error-lines ["Usage: table2qb describe pipeline-name"]}))))
 
-(defn- exec-pipeline [{:keys [parameters var] :as pipeline} {:keys [output-file] :as options}]
-  (let [args (mapv (fn [param] (get options (keyword (:name param)))) parameters)]
+(defn- exec-pipeline [{:keys [parameters var] :as pipeline} {:keys [output-file graph] :as options}]
+  (let [args (mapv (fn [param] (get options (keyword (:name param)))) parameters)
+        format (if graph :trig :ttl)]
     (with-open [os (io/output-stream output-file)]
-      (let [s (gio/rdf-serializer os :format :ttl)]
-        (rdf/add s (apply var args))))
+      (let [s (gio/rdf-serializer os :format format)]
+        (when graph
+          (rdf/add s graph (apply var args)))
+        (when-not graph
+          (rdf/add s (apply var args)))))
     nil))
 
 (defn- parse-and-validate-pipeline-arguments [param-specs args]

@@ -9,7 +9,8 @@
             [clojure.set :as set]
             [clojure.string :as string]
             [grafter.extra.cell.string :as gecs]
-            [grafter.extra.cell.uri :as gecu]))
+            [grafter.extra.cell.uri :as gecu])
+  (:import [java.io File]))
 
 (defn get-header-keys [header-row column-config]
   (let [title->name (fn [title] (config/title->name column-config title))]
@@ -308,18 +309,19 @@
 
 (def csv2rdf-config {:mode :standard})
 
-(defn cube->csvw->rdf [input-csv dataset-name dataset-slug component-specifications-csv observations-csv column-config base-uri]
+(defn cube->csvw->rdf [input-csv dataset-name dataset-slug ^File component-specifications-csv observations-csv column-config base-uri]
   (cube->csvw input-csv component-specifications-csv observations-csv column-config)
 
   (let [domain-data (config/domain-data base-uri)
-        component-specification-metadata-meta (component-specification-metadata component-specifications-csv domain-data dataset-name dataset-slug)
-        dataset-metadata-meta (dataset-metadata component-specifications-csv domain-data dataset-name dataset-slug)
-        dsd-metadata-meta (data-structure-definition-metadata component-specifications-csv domain-data dataset-name dataset-slug)
+        component-specifications-uri (.toURI component-specifications-csv)
+        component-specification-metadata-meta (component-specification-metadata component-specifications-uri domain-data dataset-name dataset-slug)
+        dataset-metadata-meta (dataset-metadata component-specifications-uri domain-data dataset-name dataset-slug)
+        dsd-metadata-meta (data-structure-definition-metadata component-specifications-uri domain-data dataset-name dataset-slug)
         observations-metadata-meta (with-open [reader (io/reader input-csv)]
-                                     (observations-metadata reader observations-csv domain-data dataset-slug column-config))
-        used-codes-codelists-metadata-meta (used-codes-codelists-metadata component-specifications-csv domain-data dataset-slug)
+                                     (observations-metadata reader (.toURI observations-csv) domain-data dataset-slug column-config))
+        used-codes-codelists-metadata-meta (used-codes-codelists-metadata component-specifications-uri domain-data dataset-slug)
         used-codes-codes-metadata-meta (with-open [reader (io/reader input-csv)]
-                                         (used-codes-codes-metadata reader observations-csv domain-data dataset-slug column-config))]
+                                         (used-codes-codes-metadata reader (.toURI observations-csv) domain-data dataset-slug column-config))]
     (liberal-concat
       (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv component-specification-metadata-meta) csv2rdf-config)
       (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv dataset-metadata-meta) csv2rdf-config)

@@ -4,7 +4,8 @@
             [clojure.java.io :as io]
             [table2qb.csv :refer [write-csv-rows read-csv]]
             [table2qb.util :refer [create-metadata-source tempfile]]
-            [clojure.string :as string]))
+            [clojure.string :as string])
+  (:import [java.io File]))
 
 (defn codelist-metadata [csv-url domain-def codelist-name codelist-slug]
   (let [codelist-uri (str domain-def "concept-scheme/" codelist-slug)
@@ -102,9 +103,9 @@
 
 (defn codelist->csvw->rdf
   "Annotates an input codelist CSV file and uses it to generate RDF for the given codelist name and slug."
-  [codelist-csv domain-def codelist-name codelist-slug intermediate-file]
+  [codelist-csv domain-def codelist-name codelist-slug ^File intermediate-file]
   (codelist->csvw codelist-csv intermediate-file)
-  (let [codelist-meta (codelist-metadata intermediate-file domain-def codelist-name codelist-slug)]
+  (let [codelist-meta (codelist-metadata (.toURI intermediate-file) domain-def codelist-name codelist-slug)]
     (csvw/csv->rdf intermediate-file (create-metadata-source codelist-csv codelist-meta) csv2rdf-config)))
 
 (defn codelist-pipeline

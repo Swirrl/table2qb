@@ -4,7 +4,8 @@
             [csv2rdf.csvw :as csvw]
             [clojure.java.io :as io]
             [table2qb.csv :refer [write-csv-rows read-csv]]
-            [grafter.extra.cell.uri :as gecu]))
+            [grafter.extra.cell.uri :as gecu])
+  (:import [java.io File]))
 
 (defn components-metadata [csv-url domain-def]
   (let [ontology-uri (str domain-def "ontology/components")]
@@ -101,9 +102,9 @@
 
 (defn components->csvw->rdf
   "Annotates an input components CSV file and uses it to generate RDF."
-  [components-csv domain-def intermediate-file]
+  [components-csv domain-def ^File intermediate-file]
   (components->csvw components-csv intermediate-file)
-  (let [components-meta (components-metadata intermediate-file domain-def)]
+  (let [components-meta (components-metadata (.toURI intermediate-file) domain-def)]
     (csvw/csv->rdf intermediate-file (create-metadata-source components-csv components-meta) csv2rdf-config)))
 
 (defn components-pipeline

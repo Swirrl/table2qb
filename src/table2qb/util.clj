@@ -16,8 +16,10 @@
     (fn [element]
       (get item->index element (count s)))))
 
-(defn csv-file->metadata-uri [csv-file]
-  (.resolve (.toURI csv-file) "meta.json"))
+(defn csv-file->metadata-uri [^File csv-file]
+  (let [csv-dir (.getParentFile csv-file)
+        meta-file (io/file csv-dir "meta.json")]
+    (.toURI meta-file)))
 
 (defn create-metadata-source [csv-file-str metadata-json]
   (let [meta-uri (csv-file->metadata-uri (io/file csv-file-str))]

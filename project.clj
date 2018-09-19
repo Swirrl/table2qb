@@ -10,8 +10,7 @@
                  [org.clojure/data.csv "0.1.4"]
                  [integrant "0.6.3"]
                  [org.clojure/tools.cli "0.3.7"]]
-  :profiles {:uberjar {:main table2qb.main
-                       :aot :all
+  :profiles {:uberjar {:aot :all
                        :uberjar-name "table2qb.jar"
                        :dependencies [[org.apache.logging.log4j/log4j-api "2.11.0"]
                                       [org.apache.logging.log4j/log4j-core "2.11.0"]
@@ -19,4 +18,5 @@
              :dev {:dependencies [[org.apache.logging.log4j/log4j-api "2.11.0"]
                                   [org.apache.logging.log4j/log4j-core "2.11.0"]
                                   [org.apache.logging.log4j/log4j-slf4j-impl "2.11.0"]]
-                   :resource-paths ["test/resources"]}})
+                   :resource-paths ["test/resources"]}}
+  :main table2qb.main)

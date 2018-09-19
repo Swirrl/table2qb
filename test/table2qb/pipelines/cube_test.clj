@@ -82,8 +82,11 @@
                              "regional-trade.slugged.normalised.csv"
                              test-domain-data
                              "Regional Trade Component Specifications"
-                             "regional-trade")))))))))
-
+                             "regional-trade"))))))))
+  (testing "name is optional"
+    (let [metadata (component-specification-metadata "components.csv" test-domain-data "" "ds-slug")]
+      (is (= nil (get metadata "dc:title"))))))
+    
 (deftest dataset-test
   (testing "compare with dataset.json"
     (with-open [target-reader (io/reader (example-csvw "regional-trade" "dataset.json"))]
@@ -92,17 +95,23 @@
                      "regional-trade.slugged.normalised.csv"
                      test-domain-data
                      "Regional Trade"
-                     "regional-trade")))))
+                     "regional-trade"))))
+ (testing "name is optional"
+   (let [metadata (dataset-metadata "components.csv" test-domain-data "" "ds-slug")]
+     (is (= nil (get metadata "rdfs:label"))))))
 
 (deftest data-structure-definition-test
   (testing "compare with data-structure-definition.json"
     (with-open [target-reader (io/reader (example-csvw "regional-trade" "data-structure-definition.json"))]
       (maps-match? (json/read target-reader)
                    (data-structure-definition-metadata
-                     "regional-trade.slugged.normalised.csv"
-                     test-domain-data
-                     "Regional Trade"
-                     "regional-trade")))))
+                    "regional-trade.slugged.normalised.csv"
+                    test-domain-data
+                    "Regional Trade"
+                    "regional-trade"))))
+  (testing "name is optional"
+    (let [metadata (data-structure-definition-metadata "components.csv" test-domain-data "" "ds-slug")]
+      (is (= nil (get metadata "rdfs:label"))))))
 
 (deftest observations-test
   (testing "sequence of observations"
@@ -202,4 +211,4 @@
       (is (thrown? Throwable
                    (doall (observations input-reader default-config)))))))
 
-;; TODO: Need to label components and their used-code codelists
+;; TODO: Need to label components and their used-code codelists if dataset-name is not blank

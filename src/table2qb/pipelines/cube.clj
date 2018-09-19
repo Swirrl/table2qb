@@ -11,6 +11,8 @@
             [grafter.extra.cell.string :as gecs]
             [grafter.extra.cell.uri :as gecu]))
 
+(defn nil-if-blank [s] (if (= "" s) nil s))
+
 (defn get-header-keys [header-row column-config]
   (let [title->name (fn [title] (config/title->name column-config title))]
     (mapv title->name header-row)))
@@ -170,7 +172,7 @@
 
 (defn data-structure-definition-metadata [csv-url domain-data dataset-name dataset-slug]
   (let [dsd-uri (str domain-data dataset-slug "/structure")
-        dsd-label (str dataset-name " (Data Structure Definition)")]
+        dsd-label (-> dataset-name nil-if-blank (#(when % (str % " (Data Structure Definition)"))))]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "@id" dsd-uri,
      "url" (str csv-url)
@@ -197,7 +199,7 @@
 (defn component-specification-metadata [csv-url domain-data dataset-name dataset-slug]
   {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
    "url" (str csv-url)
-   "dc:title" dataset-name,
+   "dc:title" (nil-if-blank dataset-name)
    "tableSchema"
               {"columns"
                           [{"name" "component_slug",
@@ -226,7 +228,7 @@
 (defn dataset-metadata [csv-url domain-data dataset-name dataset-slug]
   (let [ds-uri (str domain-data dataset-slug)
         dsd-uri (str ds-uri "/structure")
-        ds-label dataset-name]
+        ds-label (nil-if-blank dataset-name)]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "@id" ds-uri,
      "url" (str csv-url)

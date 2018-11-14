@@ -1,8 +1,7 @@
 (ns table2qb.configuration
-  (:require [clojure.java.io :as io]
-            [clojure.string :as string]
+  (:require [clojure.string :as string]
             [table2qb.util :refer [map-values exception?]]
-            [table2qb.csv :refer [read-csv]]))
+            [table2qb.csv :refer [read-csv reader]]))
 
 (defn blank->nil [value]
   (if (= "" value) nil value))
@@ -10,7 +9,7 @@
 (defn- configuration-rows
   "Loads the configuration from a readable source"
   [source]
-  (with-open [r (io/reader source)]
+  (with-open [r (reader source)]
     (doall (read-csv r))))
 
 (defn configuration-row->column

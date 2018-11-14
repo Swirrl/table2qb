@@ -9,7 +9,8 @@
                  [swirrl/csv2rdf "0.2.6"]
                  [org.clojure/data.csv "0.1.4"]
                  [integrant "0.6.3"]
-                 [org.clojure/tools.cli "0.3.7"]]
+                 [org.clojure/tools.cli "0.3.7"]
+                 [commons-io/commons-io "2.4"]]
   :profiles {:uberjar {:aot :all
                        :uberjar-name "table2qb.jar"
                        :dependencies [[org.apache.logging.log4j/log4j-api "2.11.0"]

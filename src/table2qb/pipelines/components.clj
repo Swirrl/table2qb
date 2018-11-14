@@ -3,7 +3,7 @@
             [table2qb.util :refer [tempfile create-metadata-source]]
             [csv2rdf.csvw :as csvw]
             [clojure.java.io :as io]
-            [table2qb.csv :refer [write-csv-rows read-csv]]
+            [table2qb.csv :refer [write-csv-rows read-csv reader]]
             [grafter.extra.cell.uri :as gecu])
   (:import [java.io File]))
 
@@ -92,7 +92,7 @@
 (defn components->csvw
   "Annotates an input component CSV file and writes the result to the specified destination file."
   [components-csv dest-file]
-  (with-open [reader (io/reader components-csv)
+  (with-open [reader (reader components-csv)
               writer (io/writer dest-file)]
     (let [component-columns [:label :description :component_type :codelist :notation :component_type_slug :property_slug :class_slug :parent_property]]
       (write-csv-rows writer component-columns (components reader)))))

@@ -1,5 +1,7 @@
 (ns table2qb.csv
-  (:require [clojure.data.csv :as csv]))
+  (:require [clojure.data.csv :as csv]
+            [clojure.java.io :as io])
+  (:import [org.apache.commons.io.input BOMInputStream]))
 
 (defn csv-records [header-keys data-rows]
   (map (fn [row] (zipmap header-keys row)) data-rows))
@@ -30,3 +32,6 @@
         data-records (map extract-cells data-rows)]
     (csv/write-csv writer (cons header data-records))))
 
+(defn reader [filename]
+  "Returns a reader to the file contents with the BOM (if present) removed"
+  (-> filename io/input-stream BOMInputStream. io/reader))

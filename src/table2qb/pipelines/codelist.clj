@@ -2,7 +2,7 @@
   (:require [table2qb.configuration :as config]
             [csv2rdf.csvw :as csvw]
             [clojure.java.io :as io]
-            [table2qb.csv :refer [write-csv-rows read-csv]]
+            [table2qb.csv :refer [write-csv-rows read-csv reader]]
             [table2qb.util :refer [create-metadata-source tempfile]]
             [clojure.string :as string])
   (:import [java.io File]))
@@ -93,7 +93,7 @@
 (defn codelist->csvw
   "Annotates an input codelist CSV file and writes it to the specified destination file."
   [codelist-csv dest-file]
-  (with-open [reader (io/reader codelist-csv)
+  (with-open [reader (reader codelist-csv)
               writer (io/writer dest-file)]
     (let [output-columns [:label :notation :parent_notation :sort_priority :description :top_concept_of :has_top_concept :pref_label]]
       (write-csv-rows writer output-columns (codes reader)))))

@@ -1,7 +1,7 @@
 (ns table2qb.pipelines.cube
   (:require [table2qb.util :refer [tempfile create-metadata-source] :as util]
             [table2qb.configuration :as config]
-            [table2qb.csv :refer [write-csv-rows csv-records]]
+            [table2qb.csv :refer [write-csv-rows csv-records reader]]
             [clojure.java.io :as io]
             [csv2rdf.csvw :as csvw]
             [csv2rdf.util :refer [liberal-concat]]
@@ -298,11 +298,11 @@
     (observation-rows (first lines) (rest lines) column-config)))
 
 (defn cube->csvw [input-csv component-specifications-csv observations-csv column-config]
-  (with-open [reader (io/reader input-csv)
+  (with-open [reader (reader input-csv)
               writer (io/writer component-specifications-csv)]
     (write-csv-rows writer [:component_slug :component_attachment :component_property] (component-specifications reader column-config)))
 
-  (with-open [reader (io/reader input-csv)
+  (with-open [reader (reader input-csv)
               writer (io/writer observations-csv)]
     (let [csv-records (csv/read-csv reader)
           header-row (first csv-records)
@@ -319,10 +319,10 @@
         component-specification-metadata-meta (component-specification-metadata component-specifications-uri domain-data dataset-name dataset-slug)
         dataset-metadata-meta (dataset-metadata component-specifications-uri domain-data dataset-name dataset-slug)
         dsd-metadata-meta (data-structure-definition-metadata component-specifications-uri domain-data dataset-name dataset-slug)
-        observations-metadata-meta (with-open [reader (io/reader input-csv)]
+        observations-metadata-meta (with-open [reader (reader input-csv)]
                                      (observations-metadata reader (.toURI observations-csv) domain-data dataset-slug column-config))
         used-codes-codelists-metadata-meta (used-codes-codelists-metadata component-specifications-uri domain-data dataset-slug)
-        used-codes-codes-metadata-meta (with-open [reader (io/reader input-csv)]
+        used-codes-codes-metadata-meta (with-open [reader (reader input-csv)]
                                          (used-codes-codes-metadata reader (.toURI observations-csv) domain-data dataset-slug column-config))]
     (liberal-concat
       (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv component-specification-metadata-meta) csv2rdf-config)

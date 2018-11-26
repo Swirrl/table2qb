@@ -185,12 +185,12 @@ The [./examples/employment](./examples/employment) directory provides a full exa
 
 The repository includes a compiled Java jar file, so no compilation is necessary to use table2qb.
 
-If you want to edit your copy of the code, you will need to recompile before use.  Table2qb is written in Clojure, and so [Leiningen](https://leiningen.org/) should be installed in order to compile the code.
+If you want to edit your copy of the code, you will need to recompile before use.  Table2qb is written in Clojure, and so [Leiningen](https://leiningen.org/) should be installed in order to compile the code. We recommend [Java 8](https://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html).
 
-The following version of Java is recommended: [Java 8](https://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html)
+You can call a development version from the command line with `lein run list`.
 
-To create a new jar file, run the following command in the root folder of the project: `lein uberjar`.
-The jar file is created in `./target`.
+To create a new jar file, run the following command in the root folder of the project: `lein uberjar`. This will create a jar file in `./target` which you can then call with `java -jar target/table2qb.jar list`.
+
 
 ## License
 

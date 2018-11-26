@@ -18,4 +18,5 @@
                        :uberjar-name "table2qb.jar"
                        :lein-tools-deps/config {:resolve-aliases [:with-logging]}}
              :dev {:lein-tools-deps/config {:resolve-aliases [:with-logging]}
-                   :resource-paths ["test/resources"]}})
+                   :resource-paths ["test/resources"]}}
+  :main table2qb.main)

@@ -1,13 +1,13 @@
 (ns table2qb.pipelines.components-test
   (:require [clojure.test :refer :all]
+            [table2qb.csv :refer [reader]]
             [table2qb.pipelines.components :refer :all]
             [table2qb.pipelines.test-common :refer [first-by maps-match? example-csv example-csvw test-domain-def]]
-            [clojure.java.io :as io]
             [clojure.data.json :as json]))
 
 (deftest components-test
   (testing "csv table"
-    (with-open [input-reader (io/reader (example-csv "regional-trade" "components.csv"))]
+    (with-open [input-reader (reader (example-csv "regional-trade" "components.csv"))]
       (let [components (doall (components input-reader))]
         (testing "one row per component"
           (is (= 4 (count components))))
@@ -33,6 +33,6 @@
                 :class_slug "GbpTotal"
                 :parent_property "http://purl.org/linked-data/sdmx/2009/measure#obsValue")))))))
   (testing "json metadata"
-    (with-open [target-reader (io/reader (example-csvw "regional-trade" "components.json"))]
+    (with-open [target-reader (reader (example-csvw "regional-trade" "components.json"))]
       (maps-match? (json/read target-reader)
                    (components-metadata "components.csv" test-domain-def)))))

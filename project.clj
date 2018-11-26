@@ -3,6 +3,9 @@
   :url "http://publishmydata.com"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :plugins [[lein-tools-deps "0.4.1"]]
+  :middleware [lein-tools-deps.plugin/resolve-dependencies-with-deps-edn]
+  :lein-tools-deps/config {:config-files [:project]}
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [grafter/grafter "0.11.2"]
                  [grafter/extra "0.2.2"]
@@ -13,10 +16,6 @@
   :profiles {:uberjar {:main table2qb.main
                        :aot :all
                        :uberjar-name "table2qb.jar"
-                       :dependencies [[org.apache.logging.log4j/log4j-api "2.11.0"]
-                                      [org.apache.logging.log4j/log4j-core "2.11.0"]
-                                      [org.apache.logging.log4j/log4j-slf4j-impl "2.11.0"]]}
-             :dev {:dependencies [[org.apache.logging.log4j/log4j-api "2.11.0"]
-                                  [org.apache.logging.log4j/log4j-core "2.11.0"]
-                                  [org.apache.logging.log4j/log4j-slf4j-impl "2.11.0"]]
+                       :lein-tools-deps/config {:resolve-aliases [:with-logging]}}
+             :dev {:lein-tools-deps/config {:resolve-aliases [:with-logging]}
                    :resource-paths ["test/resources"]}})

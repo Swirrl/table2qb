@@ -104,34 +104,76 @@
    {:name        'graph
     :description "Target graph for result triples"
     :type        :uri
-    :example     "http://example.com/graph/dataset"}])
+    :example     "http://example.com/graph/dataset"
+    :optional?   true}])
+
+(defn- is-optional? [param]
+  (= true (:optional? param)))
+
+(defn- is-required? [param]
+  (not (is-optional? param)))
 
 (defn- get-pipeline-parameters [pipeline]
   (concat (:parameters pipeline) shared-pipeline-parameters))
 
-(defn- example-pipeline-argument [{param-name :name example :example}]
-  (format "--%s %s" param-name (or example (string/upper-case param-name))))
+(defn- example-pipeline-argument [{param-name :name example :example :as param}]
+  (let [example (or example (string/upper-case param-name))]
+    (if (is-optional? param)
+      (format "[--%s %s]" param-name example)
+      (format "--%s %s" param-name example))))
 
 (defn- get-example-exec-command-line [pipeline]
   (let [params (get-pipeline-parameters pipeline)
-        args (map (fn [param] (example-pipeline-argument param)) params)]
+        required-params (remove is-optional? params)
+        optional-params (filter is-optional? params)
+        args (map (fn [param] (example-pipeline-argument param)) (concat required-params optional-params))]
     (format "table2qb exec %s %s" (name (:name pipeline)) (string/join " " args))))
 
 (defn- unknown-pipeline [pipelines pipeline-name]
   (throw (ex-info (str "Unknown pipeline " pipeline-name)
                   {:error-lines (display-pipelines-lines pipelines)})))
 
+(defn- pad-to-length
+  "Pads a string with spaces to the specified length"
+  [^String s length]
+  (if (>= (.length s) length)
+    s
+    (let [sb (StringBuilder. s)]
+      (dotimes [_ (- length (.length s))]
+        (.append sb \space))
+      (.toString sb))))
+
+(defn- pad-rows
+  "Takes a sequence of row sequences and pads each string within each column to be the
+   length of the longest contained string."
+  [rows]
+  (when (seq rows)
+    (let [column-lengths (apply map (fn [& col]
+                                      (apply max (map #(.length %) col))) rows)]
+      (map (fn [row]
+             (map pad-to-length row column-lengths))
+           rows))))
+
+(defn- row->string [row]
+  (string/join " " row))
+
+(defn- parameter-summary-row [{param-name :name description :description :as param}]
+  [(format "--%s %s" param-name (string/upper-case (name param-name)))
+   (if (is-optional? param) "optional" "required")
+   description])
+
 (defmethod exec-task :describe [{:keys [pipelines] :as describe-task} _all-tasks args]
   (if-let [pipeline-name (first args)]
     (if-let [{:keys [name description] :as pipeline} (find-pipeline pipelines pipeline-name)]
       (let [params (get-pipeline-parameters pipeline)
-            opts (mapv pipeline-parameter->cli-desc params)
-            {:keys [summary]} (cli/parse-opts [] opts)]
+            summary-rows (map parameter-summary-row params)
+            padded-rows (pad-rows summary-rows)]
         (println name)
         (println description)
         (println)
         (println "Parameters:")
-        (println summary)
+        (doseq [row padded-rows]
+          (println "  " (row->string row)))
         (println)
         (println "To execute pipeline:")
         (println (get-example-exec-command-line pipeline)))
@@ -150,15 +192,17 @@
           (rdf/add s (apply var args)))))
     nil))
 
-(defn- parse-and-validate-pipeline-arguments [param-specs args]
-  (let [{:keys [options errors]} (cli/parse-opts args param-specs)
-        id->opt-name (into {} (map (fn [spec]
-                                     (let [{:keys [id long-opt] :as spec-map} (apply hash-map spec)]
-                                       [id long-opt]))
-                                   param-specs))
-        expected-keys (set (keys id->opt-name))
-        missing-keys (set/difference expected-keys (set (keys options)))
-        missing-args-errors (map (fn [k] (format "Missing required argument %s" (get id->opt-name k))) missing-keys)]
+(defn- parse-and-validate-pipeline-arguments [params args]
+  (let [param-specs (mapv pipeline-parameter->cli-desc params)
+        {:keys [options errors]} (cli/parse-opts args param-specs)
+        required-params (filter is-required? params)
+        required-id->opt-name (into {} (map (fn [param]
+                                              (let [param-spec (pipeline-parameter->cli-desc param)]
+                                                ((juxt :id :long-opt) (apply hash-map param-spec))))
+                                            required-params))
+        required-keys (set (keys required-id->opt-name))
+        missing-keys (set/difference required-keys (set (keys options)))
+        missing-args-errors (map (fn [k] (format "Missing required argument %s" (get required-id->opt-name k))) missing-keys)]
     {:options options
      :errors (concat errors missing-args-errors)}))
 
@@ -166,8 +210,7 @@
   (if-let [pipeline-name (first args)]
     (if-let [pipeline (find-pipeline pipelines pipeline-name)]
       (let [params (get-pipeline-parameters pipeline)
-            params-spec (mapv pipeline-parameter->cli-desc params)
-            {:keys [options errors]} (parse-and-validate-pipeline-arguments params-spec (rest args))]
+            {:keys [options errors]} (parse-and-validate-pipeline-arguments params (rest args))]
         (if (seq errors)
           (throw (ex-info "Invalid pipeline arguments:"
                           {:error-lines (vec errors)}))

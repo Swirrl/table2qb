@@ -20,6 +20,8 @@ The output of table2qb is RDF in [Turtle](https://www.w3.org/TR/turtle/) format.
 
 ## How to install table2qb
 
+### Github release
+
 Download the release from [https://github.com/Swirrl/table2qb/releases](https://github.com/Swirrl/table2qb/releases). 
 
 Currently the latest is 0.3.0.
@@ -31,6 +33,28 @@ To get help on the available commands, type `table2qb help`.
 To see the available pipelines (described in more detail below), type `table2qb list`.
 
 To see the required command structure for one of the pipelines (for example the cube-pipeline), type `table2qb describe cube-pipeline`
+
+### Clojure CLI
+
+Clojure now distributes `clojure` and `cli` command-line programs for running clojure programs. To run `table2qb` through the `clojure` command, first
+[install the Clojure CLI tools](https://clojure.org/guides/getting_started). Then create a file `deps.edn` containing the following:   
+
+**deps.edn**
+```clojure
+{:deps {swirrl/table2qb {:git/url "https://github.com/Swirrl/table2qb.git" :tag "0.3.1"}
+        org.apache.logging.log4j/log4j-api {:mvn/version "2.11.0"}
+        org.apache.logging.log4j/log4j-core {:mvn/version "2.11.0"}
+        org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.11.0"}}
+ :aliases
+ {:table2qb
+  {:main-opts ["-m" "table2qb.main"]}}}
+```
+
+You can then run `table2qb` using
+
+    clojure -A:table2qb
+    
+More details about the `clojure` CLI and the format of the `deps.edn` file can be found [on the Clojure website](https://clojure.org/reference/deps_and_cli)
 
 ## How to run table2qb
 

@@ -36,7 +36,7 @@ To see the required command structure for one of the pipelines (for example the 
 
 ### Clojure CLI
 
-Clojure now distributes `clojure` and `cli` command-line programs for running clojure programs. To run `table2qb` through the `clojure`, first
+Clojure now distributes `clojure` and `cli` command-line programs for running clojure programs. To run `table2qb` through the `clojure` command, first
 [install the Clojure CLI tools](https://clojure.org/guides/getting_started). Then create a file `deps.edn` containing the following:   
 
 **deps.edn**

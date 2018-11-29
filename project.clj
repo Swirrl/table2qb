@@ -5,7 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :plugins [[lein-tools-deps "0.4.1"]]
   :middleware [lein-tools-deps.plugin/resolve-dependencies-with-deps-edn]
-  :lein-tools-deps/config {:config-files [:install :project]}
+  :lein-tools-deps/config {:config-files [:install :user :project]}
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [grafter/grafter "0.11.2"]
                  [grafter/extra "0.2.2"]

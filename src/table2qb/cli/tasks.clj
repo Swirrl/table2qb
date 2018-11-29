@@ -6,7 +6,7 @@
             [grafter.rdf :as rdf]
             [table2qb.configuration :as config]
             [clojure.set :as set])
-  (:import (java.net URI)))
+  (:import [java.net URI]))
 
 (defn display-lines [lines]
   (doseq [line lines]
@@ -102,7 +102,7 @@
     :type        :file
     :example "output.ttl"}
    {:name        'graph
-    :description "File to write RDF output to"
+    :description "Target graph for result triples"
     :type        :uri
     :example     "http://example.com/graph/dataset"}])
 

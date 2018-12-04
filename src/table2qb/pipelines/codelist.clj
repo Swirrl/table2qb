@@ -56,10 +56,6 @@
        {"propertyUrl" "skos:inScheme",
         "valueUrl" codelist-uri,
         "virtual" true}
-       {"propertyUrl" "skos:member",
-        "aboutUrl" codelist-uri,
-        "valueUrl" code-uri,
-        "virtual" true}
        {"propertyUrl" "rdf:type"
         "valueUrl" "skos:Concept"
         "virtual" true}]}}))

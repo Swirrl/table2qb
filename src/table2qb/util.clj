@@ -1,11 +1,14 @@
 (ns table2qb.util
   (:require [csv2rdf.source :as source]
-            [clojure.java.io :as io])
+            [clojure.java.io :as io]
+            [clojure.data.json :as json])
   (:import [java.io File]))
 
 (defn exception? [x] (instance? Exception x))
 
-(defn map-values [m f]
+(defn map-values
+  "Transforms each value within a map with the given transform function. Returns a new map."
+  [m f]
   (into {} (map (fn [[k v]] [k (f v)]) m)))
 
 (defn target-order [s]
@@ -28,3 +31,8 @@
 (defn tempfile [filename extension]
   (File/createTempFile filename extension))
 
+(defn read-json
+  "Reads a JSON document from an io/IOFactory source"
+  [json-source]
+  (with-open [r (io/reader json-source)]
+    (json/read r)))

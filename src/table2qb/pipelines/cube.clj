@@ -6,6 +6,7 @@
             [csv2rdf.csvw :as csvw]
             [csv2rdf.util :refer [liberal-concat]]
             [clojure.data.csv :as csv]
+            [table2qb.csv :as tcsv]
             [clojure.set :as set]
             [clojure.string :as string]
             [grafter.extra.cell.string :as gecs]
@@ -53,10 +54,8 @@
 
 (defn- ordered-observation-components
   "Returns a sequence of component records in the order they occur within an observations CSV file."
-  [reader column-config]
-  (let [csv-records (csv/read-csv reader)
-        header-row (first csv-records)
-        column-names (get-header-names header-row column-config)
+  [header-row column-config]
+  (let [column-names (get-header-names header-row column-config)
         column-order (util/target-order column-names)
         components (observation-components header-row column-config)]
     (sort-by #(column-order (get % :name)) components)))
@@ -75,6 +74,7 @@
       0 (throw (ex-info "No measure type column" {:measure-type-columns-found nil}))
       1 (let [measure-col (first measure-types)
               records (csv-records header-names data-rows)
+              ;;TODO: validate all measures can be resolved
               measure-names (->> records
                                  (map measure-col)
                                  (distinct)
@@ -82,11 +82,8 @@
           (concat dimensions attributes measure-names))
       (throw (ex-info "Too many measure type columns" {:measure-type-columns-found (keys measure-types)})))))
 
-(defn component-specifications
-  "Takes an filename for csv of observations and returns a sequence of components"
-  [reader column-config]
-  (let [lines (csv/read-csv reader)
-        component-names (identify-component-names (first lines) (rest lines) column-config)
+(defn component-specifications [header-row data-rows column-config]
+  (let [component-names (identify-component-names header-row data-rows column-config)
         name->component (config/name->component column-config)]
     (map (fn [component-name]
            (let [{:keys [name component_attachment property_template]} (name->component component-name)]
@@ -95,8 +92,15 @@
               :component_property   property_template}))
          component-names)))
 
-(defn used-codes-codes-metadata [reader csv-url domain-data dataset-slug column-config]
-  (let [components (ordered-observation-components reader column-config)
+(defn read-component-specifications
+  "Takes an source for csv of observations and returns a sequence of components"
+  [observation-source column-config]
+  (with-open [r (tcsv/reader observation-source)]
+    (let [lines (csv/read-csv r)]
+      (vec (component-specifications (first lines) (rest lines) column-config)))))
+
+(defn used-codes-codes-metadata [header-row csv-url domain-data dataset-slug column-config]
+  (let [components (ordered-observation-components header-row column-config)
         columns (mapv (fn [comp]
                         (-> comp
                             (component->column)
@@ -129,15 +133,21 @@
                        (map #(str "/{+" % "}")))]
     (str domain-data-prefix dataset-slug (string/join uri-parts))))
 
-(defn unkeyword [keyword]
-  "Converts a keyword in to a string without the leading colon"
-  (subs (str keyword) 1))
 
-(defn observations-metadata [reader csv-url domain-data dataset-slug column-config]
-  (let [components (ordered-observation-components reader column-config)
-        component-columns (sequence (map component->column) components)
+(defn get-ordered-dimension-names
+  "Returns an ordered list of dimension names given an ordered list of components and a predicate indicating
+   when the specified name corresponds to a dimension."
+  [ordered-components dimension-component-p]
+  (keep (fn [{comp-name :name :as component}]
+          (if (dimension-component-p (keyword comp-name))
+            comp-name))
+        ordered-components))
+
+(defn observations-metadata [observations-header-row csv-url domain-data dataset-slug column-config]
+  (let [components (ordered-observation-components observations-header-row column-config)
+        component-columns (map component->column components)
         columns (concat component-columns [observation-type-column (dataset-link-column domain-data dataset-slug)])
-        dimension-names (->> components (map :name) (filter (set (map unkeyword (config/dimensions column-config)))))]
+        dimension-names (get-ordered-dimension-names components (config/dimensions column-config))]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" (str csv-url)
      "tableSchema"
@@ -171,9 +181,15 @@
 (defn component-specification-template [domain-data dataset-slug]
   (str domain-data dataset-slug "/component/{component_slug}"))
 
+(defn- derive-dsd-label
+  "Derives the DataSet Definition label from the dataset name"
+  [dataset-name]
+  (when-let [dataset-name (nil-if-blank dataset-name)]
+    (str dataset-name " (Data Structure Definition)")))
+
 (defn data-structure-definition-metadata [csv-url domain-data dataset-name dataset-slug]
   (let [dsd-uri (str domain-data dataset-slug "/structure")
-        dsd-label (-> dataset-name nil-if-blank (#(when % (str % " (Data Structure Definition)"))))]
+        dsd-label (derive-dsd-label dataset-name)]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "@id" dsd-uri,
      "url" (str csv-url)
@@ -292,22 +308,29 @@
                (validate-columns column-config)))
          (csv-records header-keys data-rows))))
 
-(defn observations
-  [reader column-config]
-  (let [lines (csv/read-csv reader)]
-    (observation-rows (first lines) (rest lines) column-config)))
+(defn- components->csvw
+  "Writes an intermediate components CSV file to the specified output-csv given a column configuration and input
+   observations CSV file"
+  [observations-csv output-csv column-config]
+  (with-open [writer (io/writer output-csv)]
+    (write-csv-rows writer [:component_slug :component_attachment :component_property] (read-component-specifications observations-csv column-config))))
 
-(defn cube->csvw [input-csv component-specifications-csv observations-csv column-config]
-  (with-open [reader (reader input-csv)
-              writer (io/writer component-specifications-csv)]
-    (write-csv-rows writer [:component_slug :component_attachment :component_property] (component-specifications reader column-config)))
-
-  (with-open [reader (reader input-csv)
-              writer (io/writer observations-csv)]
+(defn- observations->csvw
+  "Writes an intermediate observations CSV file for a given column configuration to the specified location."
+  [observations-csv output-csv column-config]
+  (with-open [reader (reader observations-csv)
+              writer (io/writer output-csv)]
     (let [csv-records (csv/read-csv reader)
           header-row (first csv-records)
           header-keys (get-header-keys header-row column-config)]
       (write-csv-rows writer header-keys (observation-rows header-row (rest csv-records) column-config)))))
+
+(defn cube->csvw
+  "Writes intermediate CSV files for component specifications and observations to component-specifications-csv and
+   observations-csv respectively given a column configuration and input observations CSV file."
+  [input-csv component-specifications-csv observations-csv column-config]
+  (components->csvw input-csv component-specifications-csv column-config)
+  (observations->csvw input-csv observations-csv column-config))
 
 (def csv2rdf-config {:mode :standard})
 
@@ -319,11 +342,10 @@
         component-specification-metadata-meta (component-specification-metadata component-specifications-uri domain-data dataset-name dataset-slug)
         dataset-metadata-meta (dataset-metadata component-specifications-uri domain-data dataset-name dataset-slug)
         dsd-metadata-meta (data-structure-definition-metadata component-specifications-uri domain-data dataset-name dataset-slug)
-        observations-metadata-meta (with-open [reader (reader input-csv)]
-                                     (observations-metadata reader (.toURI observations-csv) domain-data dataset-slug column-config))
+        observations-header-row (tcsv/read-header-row input-csv)
+        observations-metadata-meta (observations-metadata observations-header-row (.toURI observations-csv) domain-data dataset-slug column-config)
         used-codes-codelists-metadata-meta (used-codes-codelists-metadata component-specifications-uri domain-data dataset-slug)
-        used-codes-codes-metadata-meta (with-open [reader (reader input-csv)]
-                                         (used-codes-codes-metadata reader (.toURI observations-csv) domain-data dataset-slug column-config))]
+        used-codes-codes-metadata-meta (used-codes-codes-metadata observations-header-row (.toURI observations-csv) domain-data dataset-slug column-config)]
     (liberal-concat
       (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv component-specification-metadata-meta) csv2rdf-config)
       (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv dataset-metadata-meta) csv2rdf-config)

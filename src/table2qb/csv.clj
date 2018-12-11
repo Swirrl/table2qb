@@ -35,3 +35,9 @@
 (defn reader [filename]
   "Returns a reader to the file contents with the BOM (if present) removed"
   (-> filename io/input-stream BOMInputStream. io/reader))
+
+(defn read-header-row
+  "Reads the header row from the given CSV data source."
+  [csv-source]
+  (with-open [r (reader csv-source)]
+    (first (csv/read-csv r))))

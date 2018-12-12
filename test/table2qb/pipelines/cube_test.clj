@@ -1,7 +1,6 @@
 (ns table2qb.pipelines.cube-test
   (:require [clojure.test :refer :all]
-            [table2qb.csv :refer [reader read-csv write-csv] :as csv]
-            [clojure.data.csv :as dcsv]
+            [table2qb.csv :refer [reader read-csv] :as csv]
             [table2qb.pipelines.cube :refer :all]
             [table2qb.pipelines.test-common :refer [default-config first-by example-csvw example-csv test-domain-data
                                                     maps-match? title->name]]
@@ -64,15 +63,14 @@
           (is (= component_property "http://purl.org/linked-data/sdmx/2009/dimension#refArea"))))
       (testing "compare with component-specifications.csv"
         (testing "parsed contents match"
-          (with-open [target-reader (reader (example-csvw "regional-trade" "component-specifications.csv"))]
-            (is (= (set (read-csv target-reader))
+          (let [expected-records (csv/read-all-csv-records (example-csvw "regional-trade" "component-specifications.csv"))]
+            (is (= (set expected-records)
                    (set component-specifications)))))
         (testing "serialised contents match"
-          (with-open [target-reader (reader (example-csvw "regional-trade" "component-specifications.csv"))]
-            (let [string-writer (StringWriter.)]
-              (write-csv string-writer (sort-by :component_slug component-specifications))
-              (is (= (slurp target-reader)
-                     (str string-writer)))))))
+          (let [string-writer (StringWriter.)]
+            (csv/write-csv string-writer (sort-by :component_slug component-specifications))
+            (is (= (slurp (example-csvw "regional-trade" "component-specifications.csv"))
+                   (str string-writer))))))
       (testing "compare with component-specifications.json"
         (testing "parsed contents match"
           (maps-match? (util/read-json (example-csvw "regional-trade" "component-specifications.json"))
@@ -120,9 +118,8 @@
 
 (defn get-observations
   [observations-source column-config]
-  (with-open [r (csv/reader observations-source)]
-    (let [lines (dcsv/read-csv r)]
-      (doall (observation-rows (first lines) (rest lines) column-config)))))
+  (let [lines (csv/read-all-csv-rows observations-source)]
+    (doall (observation-rows (first lines) (rest lines) column-config))))
 
 (deftest observations-test
   (testing "sequence of observations"

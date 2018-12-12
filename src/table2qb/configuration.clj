@@ -1,16 +1,11 @@
 (ns table2qb.configuration
   (:require [clojure.string :as string]
             [table2qb.util :refer [map-values exception?]]
-            [table2qb.csv :refer [read-csv reader]]))
+            [table2qb.csv :as csv]))
 
 (defn blank->nil [value]
-  (if (= "" value) nil value))
-
-(defn- configuration-rows
-  "Loads the configuration from a readable source"
-  [source]
-  (with-open [r (reader source)]
-    (doall (read-csv r))))
+  (if-not (string/blank? value)
+    value))
 
 (defn configuration-row->column
   "Creates a column definition from a row of the configuration file. Returns an Exception if the row is invalid."
@@ -45,7 +40,7 @@
 (defn load-column-components
   "Creates lookup of columns (from a csv) for a name (in the component_slug field)"
   [source]
-  (let [config-rows (configuration-rows source)
+  (let [config-rows (csv/read-all-csv-records source)
         columns (map-indexed configuration-row->column config-rows)
         errors (filter exception? columns)
         valid-columns (remove exception? columns)]

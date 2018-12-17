@@ -1,7 +1,8 @@
 (ns table2qb.util
   (:require [csv2rdf.source :as source]
             [clojure.java.io :as io]
-            [clojure.data.json :as json])
+            [clojure.data.json :as json]
+            [clojure.string :as string])
   (:import [java.io File]))
 
 (defn exception? [x] (instance? Exception x))
@@ -36,3 +37,9 @@
   [json-source]
   (with-open [r (io/reader json-source)]
     (json/read r)))
+
+(defn blank->nil
+  "Returns the input value if it is not blank, otherwise nil."
+  [value]
+  (if-not (string/blank? value)
+    value))

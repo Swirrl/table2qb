@@ -9,11 +9,8 @@
             [table2qb.csv :as tcsv]
             [clojure.set :as set]
             [clojure.string :as string]
-            [grafter.extra.cell.string :as gecs]
-            [grafter.extra.cell.uri :as gecu])
+            [grafter.extra.cell.string :as gecs])
   (:import [java.io File]))
-
-(defn nil-if-blank [s] (if (= "" s) nil s))
 
 (defn get-header-keys [header-row column-config]
   (let [title->name (fn [title] (config/title->name column-config title))]
@@ -184,7 +181,7 @@
 (defn- derive-dsd-label
   "Derives the DataSet Definition label from the dataset name"
   [dataset-name]
-  (when-let [dataset-name (nil-if-blank dataset-name)]
+  (when-let [dataset-name (util/blank->nil dataset-name)]
     (str dataset-name " (Data Structure Definition)")))
 
 (defn data-structure-definition-metadata [csv-url domain-data dataset-name dataset-slug]
@@ -216,7 +213,7 @@
 (defn component-specification-metadata [csv-url domain-data dataset-name dataset-slug]
   {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
    "url" (str csv-url)
-   "dc:title" (nil-if-blank dataset-name)
+   "dc:title" (util/blank->nil dataset-name)
    "tableSchema"
               {"columns"
                           [{"name" "component_slug",
@@ -245,7 +242,7 @@
 (defn dataset-metadata [csv-url domain-data dataset-name dataset-slug]
   (let [ds-uri (str domain-data dataset-slug)
         dsd-uri (str ds-uri "/structure")
-        ds-label (nil-if-blank dataset-name)]
+        ds-label (util/blank->nil dataset-name)]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "@id" ds-uri,
      "url" (str csv-url)
@@ -278,25 +275,15 @@
   (validate-dimensions row (config/dimensions column-config))
   row)
 
-(defn replace-symbols [s]
-  (string/replace s #"£" "GBP"))
-
-;; TODO resolve on the basis of other component attributes? https://github.com/Swirrl/table2qb/issues/18
-(def resolve-transformer
-  {"slugize" gecu/slugize
-   "unitize" (comp gecu/slugize replace-symbols)})
-
-
 (defn identify-header-transformers
   "Identifies the columns in the CSV header which have associated transformer functions specified in the
    column configuration. Returns a map {header-key transformer-fn} for headers with transformers."
   [header-row column-config]
   (let [header-keys (get-header-keys header-row column-config)
         components (config/name->component column-config)]
-    (into {} (map (fn [component-name]
-                    (let [transformer-name (get-in components [component-name :value_transformation])]
-                      (if-let [transform-fn (get resolve-transformer transformer-name)]
-                        [component-name transform-fn])))
+    (into {} (keep (fn [component-name]
+                     (if-let [transform-fn (get-in components [component-name :value_transformation])]
+                       [component-name transform-fn]))
                   header-keys))))
 
 (defn observation-rows [header-row data-rows column-config]

@@ -1,22 +1,38 @@
 (ns table2qb.configuration-test
   (:require [clojure.test :refer :all]
             [table2qb.configuration :refer :all]
-            [clojure.string :as string]))
+            [table2qb.util :refer [exception?]]))
 
 (deftest configuration-row->column-test
   (testing "var names"
     (testing "must be provided"
       (let [r (configuration-row->column 1 {:name ""})]
         (is (instance? Exception r))
-        (is (string/includes? (.getMessage r) "csvw:name cannot be blank"))))
+        (is (= :blank-name (:type (ex-data r))))))
 
     (testing "should not contain hyphens"
       (let [r (configuration-row->column 1 {:name "my-column"})]
         (is (instance? Exception r))
-        (is (string/includes? (.getMessage r) "cannot contain hyphens"))))
+        (is (= :invalid-name (:type (ex-data r))))))
 
     (testing "may have underscores"
-      (is (= {:name "my_column"} (configuration-row->column 1 {:name "my_column"}))))))
+      (is (= {:name "my_column"} (configuration-row->column 1 {:name "my_column"})))))
+
+  (testing "transformations"
+    (testing "Empty transformation"
+      (let [r (configuration-row->column 1 {:name "col" :value_transformation "    "})]
+        (is (map? r))
+        (is (nil? (:value_transformation r)))))
+
+    (testing "Valid transformation"
+      (let [{tf :value_transformation :as r} (configuration-row->column 1 {:name "col" :value_transformation "slugize"})]
+        (is (map? r))
+        (is (fn? tf))))
+
+    (testing "Invalid transformation"
+      (let [r (configuration-row->column 1 {:name "col" :value_transformation "invalid"})]
+        (is (exception? r))
+        (is (= :invalid-transform (:type (ex-data r))))))))
 
 (deftest identify-columns-test
   (let [conventions {:my-dim {:component_attachment "qb:dimension"}

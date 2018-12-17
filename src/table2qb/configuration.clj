@@ -1,19 +1,50 @@
 (ns table2qb.configuration
   (:require [clojure.string :as string]
-            [table2qb.util :refer [map-values exception?]]
-            [table2qb.csv :as csv]))
+            [table2qb.util :refer [map-values exception? blank->nil]]
+            [table2qb.csv :as csv]
+            [grafter.extra.cell.uri :as gecu]))
 
-(defn blank->nil [value]
-  (if-not (string/blank? value)
-    value))
+(defn- replace-symbols [s]
+  (string/replace s #"£" "GBP"))
+
+(defn- unitize [s]
+  (gecu/slugize (replace-symbols s)))
+
+;; TODO resolve on the basis of other component attributes? https://github.com/Swirrl/table2qb/issues/18
+(def column-transformers
+  {"slugize" gecu/slugize
+   "unitize" unitize})
+
+(defn- resolve-component-row-transform
+  "Resolves the value_transformation cell of a configuration row to the corresponding transform function. Returns
+   an exception if the function cannot be resolved."
+  [row row-index]
+  (if-let [vt (:value_transformation row)]
+    (let [transform-fn (get column-transformers vt ::invalid)]
+      (if (= ::invalid transform-fn)
+        (let [msg (format "Row %d: Invalid value_transformation function %s. Valid transformations: %s"
+                          row-index
+                          vt
+                          (string/join ", " (keys column-transformers)))]
+          (ex-info msg {:type :invalid-transform
+                        :row row-index
+                        :transform vt}))
+        (assoc row :value_transformation transform-fn)))
+    row))
 
 (defn configuration-row->column
   "Creates a column definition from a row of the configuration file. Returns an Exception if the row is invalid."
   [row-index {:keys [name] :as row}]
   (cond
-    (string/blank? name) (RuntimeException. (format "Row %d: csvw:name cannot be blank" row-index))
-    (string/includes? name "-") (RuntimeException. (format "Row %d: csvw:name %s cannot contain hyphens (use underscores instead): " row-index name))
-    :else (map-values row blank->nil)))
+    (string/blank? name) (ex-info (format "Row %d: csvw:name cannot be blank" row-index) {:type :blank-name
+                                                                                          :row row-index})
+    (string/includes? name "-") (ex-info (format "Row %d: csvw:name %s cannot contain hyphens (use underscores instead): " row-index name)
+                                         {:type :invalid-name
+                                          :row row-index
+                                          :name name})
+    :else (-> row
+              (map-values blank->nil)
+              (resolve-component-row-transform row-index))))
 
 (defn identify-columns [conventions-map attachment]
   "Returns a predicate (set) of column names where the :component_attachment property is as specified"

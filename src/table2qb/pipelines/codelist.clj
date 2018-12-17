@@ -1,5 +1,5 @@
 (ns table2qb.pipelines.codelist
-  (:require [table2qb.configuration :as config]
+  (:require [table2qb.configuration.uris :as uri-config]
             [csv2rdf.csvw :as csvw]
             [clojure.java.io :as io]
             [table2qb.csv :refer [write-csv-rows read-csv reader]]
@@ -64,7 +64,6 @@
         "valueUrl" "skos:Concept"
         "virtual" true}]}}))
 
-
 (defn add-code-hierarchy-fields [{:keys [parent_notation] :as row}]
   "if there is no parent notation, the current notation is a top
   concept of the scheme. This is indicated by a non-empty value in the
@@ -111,7 +110,7 @@
 (defn codelist-pipeline
   "Generates RDF for the given codelist CSV file"
   [codelist-csv codelist-name codelist-slug base-uri]
-  (let [domain-def (config/domain-def base-uri)
+  (let [domain-def (uri-config/domain-def base-uri)
         intermediate-file (tempfile codelist-slug ".csv")]
     (codelist->csvw->rdf codelist-csv domain-def codelist-name codelist-slug intermediate-file)))
 

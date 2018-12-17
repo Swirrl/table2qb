@@ -2,19 +2,20 @@
   (:require [clojure.java.io :as io]
             [clojure.test :refer [is]]
             [clojure.data :refer [diff]]
-            [table2qb.configuration :as config]))
+            [table2qb.configuration.columns :as column-config]
+            [table2qb.configuration.uris :as uri-config]))
 
 (defn- load-test-configuration []
-  (config/load-column-configuration (io/resource "columns.csv")))
+  (column-config/load-column-configuration (io/resource "columns.csv")))
 
 (def default-config (load-test-configuration))
 
 (defn title->name [title]
-  (config/title->name default-config title))
+  (column-config/title->name default-config title))
 
 (def test-domain "http://gss-data.org.uk/")
-(def test-domain-def (config/domain-def test-domain))
-(def test-domain-data (config/domain-data test-domain))
+(def test-domain-def (uri-config/domain-def test-domain))
+(def test-domain-data (uri-config/domain-data test-domain))
 
 (defn first-by [attr val coll]
   "Finds first item in collection with attribute having value"

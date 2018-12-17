@@ -1,6 +1,6 @@
 (ns table2qb.pipelines.cube
   (:require [table2qb.util :refer [tempfile create-metadata-source] :as util]
-            [table2qb.configuration :as config]
+            [table2qb.configuration.columns :as column-config]
             [table2qb.csv :refer [write-csv-rows csv-records reader]]
             [clojure.java.io :as io]
             [csv2rdf.csvw :as csvw]
@@ -9,11 +9,12 @@
             [table2qb.csv :as tcsv]
             [clojure.set :as set]
             [clojure.string :as string]
-            [grafter.extra.cell.string :as gecs])
+            [grafter.extra.cell.string :as gecs]
+            [table2qb.configuration.uris :as uri-config])
   (:import [java.io File]))
 
 (defn get-header-keys [header-row column-config]
-  (let [title->name (fn [title] (config/title->name column-config title))]
+  (let [title->name (fn [title] (column-config/title->name column-config title))]
     (mapv title->name header-row)))
 
 (defn suppress-value-column
@@ -34,19 +35,19 @@
 
 (defn- observation-components
   [header-row column-config]
-  (let [name->component (config/name->component column-config)
-        title->name (fn [title] (config/title->name column-config title))
+  (let [name->component (column-config/name->component column-config)
+        title->name (fn [title] (column-config/title->name column-config title))
         header-names (mapv title->name header-row)
         names (set header-names)
-        dimensions (set/intersection names (config/dimensions column-config))
-        attributes (set/intersection names (config/attributes column-config))
-        values (set/intersection names (config/values column-config))]
+        dimensions (set/intersection names (column-config/dimensions column-config))
+        attributes (set/intersection names (column-config/attributes column-config))
+        values (set/intersection names (column-config/values column-config))]
     (map name->component (concat dimensions attributes values))))
 
 (defn- get-header-names
   "Resolves the titles within a CSV header row to the corresponding header names."
   [header-row column-config]
-  (let [title->name (fn [title] (config/title->name column-config title))]
+  (let [title->name (fn [title] (column-config/title->name column-config title))]
     (mapv (comp name title->name) header-row)))
 
 (defn- ordered-observation-components
@@ -60,12 +61,12 @@
 (defn- identify-component-names
   "Identifies the named components within an observations CSV file"
   [header-row data-rows column-config]
-  (let [title->name (fn [title] (config/title->name column-config title))
+  (let [title->name (fn [title] (column-config/title->name column-config title))
         header-names (map title->name header-row)
         names (set header-names)
-        dimensions (set/intersection names (config/dimensions column-config))
-        attributes (set/intersection names (config/attributes column-config))
-        measure-types (set/intersection names (config/measure-types column-config))]
+        dimensions (set/intersection names (column-config/dimensions column-config))
+        attributes (set/intersection names (column-config/attributes column-config))
+        measure-types (set/intersection names (column-config/measure-types column-config))]
     ;;TODO: refactor?
     (case (count measure-types)
       0 (throw (ex-info "No measure type column" {:measure-type-columns-found nil}))
@@ -81,7 +82,7 @@
 
 (defn component-specifications [header-row data-rows column-config]
   (let [component-names (identify-component-names header-row data-rows column-config)
-        name->component (config/name->component column-config)]
+        name->component (column-config/name->component column-config)]
     (map (fn [component-name]
            (let [{:keys [name component_attachment property_template]} (name->component component-name)]
              {:component_slug       name
@@ -102,7 +103,7 @@
                         (-> comp
                             (component->column)
                             (assoc "propertyUrl" "skos:member")
-                            (suppress-value-column (config/values column-config))))
+                            (suppress-value-column (column-config/values column-config))))
                       components)
         codelist-uri (str domain-data dataset-slug "/codes-used/{_name}")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
@@ -144,7 +145,7 @@
   (let [components (ordered-observation-components observations-header-row column-config)
         component-columns (map component->column components)
         columns (concat component-columns [observation-type-column (dataset-link-column domain-data dataset-slug)])
-        dimension-names (get-ordered-dimension-names components (config/dimensions column-config))]
+        dimension-names (get-ordered-dimension-names components (column-config/dimensions column-config))]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" (str csv-url)
      "tableSchema"
@@ -272,7 +273,7 @@
 
 (defn validate-columns [row column-config]
   "Ensures that columns are valid"
-  (validate-dimensions row (config/dimensions column-config))
+  (validate-dimensions row (column-config/dimensions column-config))
   row)
 
 (defn identify-header-transformers
@@ -280,7 +281,7 @@
    column configuration. Returns a map {header-key transformer-fn} for headers with transformers."
   [header-row column-config]
   (let [header-keys (get-header-keys header-row column-config)
-        components (config/name->component column-config)]
+        components (column-config/name->component column-config)]
     (into {} (keep (fn [component-name]
                      (if-let [transform-fn (get-in components [component-name :value_transformation])]
                        [component-name transform-fn]))
@@ -324,7 +325,7 @@
 (defn cube->csvw->rdf [input-csv dataset-name dataset-slug ^File component-specifications-csv observations-csv column-config base-uri]
   (cube->csvw input-csv component-specifications-csv observations-csv column-config)
 
-  (let [domain-data (config/domain-data base-uri)
+  (let [domain-data (uri-config/domain-data base-uri)
         component-specifications-uri (.toURI component-specifications-csv)
         component-specification-metadata-meta (component-specification-metadata component-specifications-uri domain-data dataset-name dataset-slug)
         dataset-metadata-meta (dataset-metadata component-specifications-uri domain-data dataset-name dataset-slug)

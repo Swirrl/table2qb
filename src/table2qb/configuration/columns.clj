@@ -1,4 +1,4 @@
-(ns table2qb.configuration
+(ns table2qb.configuration.columns
   (:require [clojure.string :as string]
             [table2qb.util :refer [map-values exception? blank->nil]]
             [table2qb.csv :as csv]
@@ -79,12 +79,6 @@
       (let [msg (string/join "\n" (map #(.getMessage %) errors))]
         (throw (RuntimeException. msg)))
       (into {} (map (fn [col] [(keyword (:name col)) col]) valid-columns)))))
-
-(defn domain-def [domain]
-  (str domain "def/"))
-
-(defn domain-data [domain]
-  (str domain "data/"))
 
 (defn load-column-configuration
   [source]

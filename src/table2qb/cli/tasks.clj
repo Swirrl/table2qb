@@ -4,7 +4,7 @@
             [clojure.tools.cli :as cli]
             [grafter.rdf.io :as gio]
             [grafter.rdf :as rdf]
-            [table2qb.configuration :as config]
+            [table2qb.configuration.columns :as column-config]
             [clojure.set :as set])
   (:import [java.net URI]))
 
@@ -87,7 +87,7 @@
   (URI. arg-string))
 
 (defmethod parse-arg :config [_type arg-string]
-  (config/load-column-configuration (io/file arg-string)))
+  (column-config/load-column-configuration (io/file arg-string)))
 
 (defn pipeline-parameter->cli-desc [{:keys [description type] param-name :name :as param}]
   [:id (keyword param-name)

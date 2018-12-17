@@ -1,10 +1,10 @@
 (ns table2qb.pipelines.components
-  (:require [table2qb.configuration :as config]
-            [table2qb.util :refer [tempfile create-metadata-source]]
+  (:require [table2qb.util :refer [tempfile create-metadata-source]]
             [csv2rdf.csvw :as csvw]
             [clojure.java.io :as io]
             [table2qb.csv :refer [write-csv-rows read-csv reader]]
-            [grafter.extra.cell.uri :as gecu])
+            [grafter.extra.cell.uri :as gecu]
+            [table2qb.configuration.uris :as uri-config])
   (:import [java.io File]))
 
 (defn components-metadata [csv-url domain-def]
@@ -110,7 +110,7 @@
 (defn components-pipeline
   "Generates RDF for the given components CSV file."
   [input-csv base-uri]
-  (let [domain-def (config/domain-def base-uri)
+  (let [domain-def (uri-config/domain-def base-uri)
         components-csv (tempfile "components" ".csv")]
     (components->csvw->rdf input-csv domain-def components-csv)))
 

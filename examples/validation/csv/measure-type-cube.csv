@@ -1,0 +1,5 @@
+Geography,Date,Flow,Measure Type,Value,Unit
+uk,2011,import,Count,30000,crates
+uk,2011,import,GBP Total,100000,gbp
+uk,2012,import,Count,31000,crates
+uk,2012,import,GBP Total,110000,gbp

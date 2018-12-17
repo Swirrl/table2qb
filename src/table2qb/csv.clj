@@ -36,20 +36,8 @@
   "Returns a reader to the file contents with the BOM (if present) removed"
   (-> source io/input-stream BOMInputStream. io/reader))
 
-(defn read-header-row
-  "Reads the header row from the given CSV data source."
-  [csv-source]
-  (with-open [r (reader csv-source)]
-    (first (csv/read-csv r))))
-
 (defn read-all-csv-records
   "Eagerly reads a collection of CSV record maps from the given CSV data source."
   [csv-source]
   (with-open [r (reader csv-source)]
     (doall (read-csv r))))
-
-(defn read-all-csv-rows
-  "Eagerly reads a collection of CSV row vectors from a CSV data source"
-  [csv-source]
-  (with-open [r (reader csv-source)]
-    (doall (csv/read-csv r))))

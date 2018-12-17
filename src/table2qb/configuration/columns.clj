@@ -7,7 +7,7 @@
 (defn- replace-symbols [s]
   (string/replace s #"£" "GBP"))
 
-(defn- unitize [s]
+(defn unitize [s]
   (gecu/slugize (replace-symbols s)))
 
 ;; TODO resolve on the basis of other component attributes? https://github.com/Swirrl/table2qb/issues/18
@@ -67,6 +67,11 @@
                       {:known-columns (keys title->name-lookup)})))))
 
 (def name->component :name->component)
+
+(defn component-name->title [{:keys [name->component] :as config} component-name]
+  (if-let [comp (get name->component component-name)]
+    (:title comp)
+    (throw (ex-info (str "Unknown component name " component-name) {:component-name component-name}))))
 
 (defn load-column-components
   "Creates lookup of columns (from a csv) for a name (in the component_slug field)"

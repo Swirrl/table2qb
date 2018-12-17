@@ -1,4 +1,4 @@
-Date,Value
-2016,42
-,43
-2018,44
+Date,Measure Type,Value
+2016,Count,42
+,Count,43
+2018,Count,44

@@ -12,14 +12,6 @@
   [m f]
   (into {} (map (fn [[k v]] [k (f v)]) m)))
 
-(defn target-order [s]
-  "Returns a function for use with sort-by which returns an index of an
-  element according to a target sequence, or an index falling after the target
-  (i.e. putting unrecognised elements at the end)."
-  (let [item->index (zipmap s (range))]
-    (fn [element]
-      (get item->index element (count s)))))
-
 (defn csv-file->metadata-uri [^File csv-file]
   (let [csv-dir (.getParentFile csv-file)
         meta-file (io/file csv-dir "meta.json")]

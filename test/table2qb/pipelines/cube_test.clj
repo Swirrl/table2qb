@@ -43,7 +43,7 @@
       (testing "one row per component"
         (is (= 8 (count component-specifications))))
       (testing "geography component"
-        (let [{:keys [:component_attachment :component_property]}
+        (let [{:keys [component_attachment component_property]}
               (first-by :component_slug "geography" component-specifications)]
           (is (= component_attachment "qb:dimension"))
           (is (= component_property "http://purl.org/linked-data/sdmx/2009/dimension#refArea"))))

@@ -11,7 +11,10 @@
 (def default-config (load-test-configuration))
 
 (defn title->name [title]
-  (column-config/title->name default-config title))
+  (if-let [k (column-config/title->key default-config title)]
+    k
+    (throw (ex-info (str "Unrecognised column: " title)
+                    {:known-columns (column-config/known-titles default-config)}))))
 
 (def test-domain "http://gss-data.org.uk/")
 (def test-domain-def (uri-config/domain-def test-domain))
@@ -31,5 +34,3 @@
   (let [[a-only b-only _] (diff a b)]
     (is (nil? a-only) "Found only in first argument: ")
     (is (nil? b-only) "Found only in second argument: ")))
-
-

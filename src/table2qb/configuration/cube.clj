@@ -13,7 +13,7 @@
 (defn- resolve-component-names
   "Returns a sequence of component names of the corresponding observation column titles."
   [titles column-config]
-  (let [title-name-pairs (map (fn [t] [t (column-config/title->name column-config t)]) titles)
+  (let [title-name-pairs (map (fn [t] [t (column-config/title->key column-config t)]) titles)
         invalid-titles (map first (filter (fn [[_t n]] (nil? n)) title-name-pairs))]
     (if (seq invalid-titles)
       (throw (RuntimeException. (str "Unknown column titles: " (string/join ", " invalid-titles))))
@@ -91,7 +91,7 @@
         mt-component-name (get-measure-type-component-name name-set column-config)
         measures (resolve-measures mt-component-name (tcsv/csv-records header-component-names data-rows) column-config)
         component-names (concat header-component-names measures)
-        name->component (select-keys (:name->component column-config) component-names)]
+        name->component (select-keys (column-config/name->component column-config) component-names)]
     (validate-no-measure-columns name-set column-config)
     {:titles                 titles
      :names                  header-component-names
@@ -134,8 +134,8 @@
 (defn find-header-transformers
   "Returns a map of {column name -> transform fn} for each column in a cube configuration
    which declares a transformation to be applied to cells in the corresponding column."
-  [cube-config]
-  (let [components (map (:name->component cube-config) (:names cube-config))]
+  [{:keys [name->component] :as cube-config}]
+  (let [components (map name->component (:names cube-config))]
     (->> components
          (filter (fn [comp] (some? (:value_transformation comp))))
          (map (juxt (comp keyword :name) :value_transformation))

@@ -12,6 +12,14 @@
   [m f]
   (into {} (map (fn [[k v]] [k (f v)]) m)))
 
+(defn filter-vals
+  "Filters a map according to the given predicate on values."
+  [val-p m]
+  (into {} (filter (comp val-p val) m)))
+
+(defn map-by [f s]
+  (into {} (map (fn [v] [(f v) v]) s)))
+
 (defn csv-file->metadata-uri [^File csv-file]
   (let [csv-dir (.getParentFile csv-file)
         meta-file (io/file csv-dir "meta.json")]

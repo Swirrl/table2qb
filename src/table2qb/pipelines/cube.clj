@@ -6,7 +6,8 @@
             [csv2rdf.csvw :as csvw]
             [csv2rdf.util :refer [liberal-concat]]
             [clojure.string :as string]
-            [table2qb.configuration.uris :as uri-config])
+            [table2qb.configuration.uris :as uri-config]
+            [table2qb.configuration.column :as column])
   (:import [java.io File]))
 
 (defn suppress-value-column
@@ -177,10 +178,10 @@
       "aboutUrl" ds-uri}}))
 
 (defn read-component-specifications [cube-config]
-  (map (fn [{:keys [name component_attachment property_template]}]
-         {:component_slug       name
-          :component_attachment component_attachment
-          :component_property   property_template})
+  (map (fn [column]
+         {:component_slug (column/column-name column)
+          :component_attachment (column/component-attachment column)
+          :component_property (column/property-template column)})
        (cube-config/dimension-attribute-measure-columns cube-config)))
 
 (defn- components->csvw

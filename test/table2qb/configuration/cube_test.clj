@@ -1,7 +1,7 @@
 (ns table2qb.configuration.cube-test
   (:require [clojure.test :refer :all]
             [table2qb.configuration.cube :refer :all]
-            [table2qb.configuration.columns :refer [unitize]]
+            [table2qb.configuration.column :refer [unitize]]
             [grafter.extra.cell.uri :refer [slugize]]
             [table2qb.pipelines.test-common :refer [maps-match? example-csv default-config]]
             [table2qb.csv :as tcsv]))
@@ -61,7 +61,7 @@
 
   (testing "invalid column headers"
     (is (thrown-with-msg?
-          Throwable #"Unrecognised column: Unknown"
+          Throwable #"Unknown column titles"
           (get-cube-configuration (example-csv "validation" "unknown-columns.csv") default-config))))
 
   (testing "no measure-type columns"

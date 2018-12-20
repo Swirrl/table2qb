@@ -47,57 +47,80 @@
     (is (= ["dim1" "dim2"] (get-ordered-dimension-names cube-config)))))
 
 (deftest get-cube-configuration-test
-  (testing "valid cube configuration"
-    (let [{:keys [names dimensions measures attributes
-                  measure-type-component value-component
-                  name->component] :as config} (get-cube-configuration (example-csv "validation" "measure-type-cube.csv") default-config)
-          expected-keys (into #{value-component measure-type-component} (concat dimensions measures attributes))]
-      (is (= [:geography :date :flow :measure_type :value :unit] names))
-      (is (= #{:geography :date :flow :measure_type} dimensions))
-      (is (= #{:count :gbp_total} measures))
-      (is (= :value value-component))
-      (is (= :measure_type measure-type-component))
-      (is (= expected-keys (set (keys name->component))))))
+  (testing "qb:measureType cube"
+    (testing "valid cube configuration"
+      (let [{:keys [names dimensions measures attributes type
+                    measure-type-component value-component
+                    name->component] :as config} (get-cube-configuration (example-csv "validation" "measure-type-cube.csv") default-config)
+            expected-keys (into #{value-component measure-type-component} (concat dimensions measures attributes))]
+        (is (= :measure-dimension type))
+        (is (= [:geography :date :flow :measure_type :value :unit] names))
+        (is (= #{:geography :date :flow :measure_type} dimensions))
+        (is (= #{:count :gbp_total} measures))
+        (is (= :value value-component))
+        (is (= :measure_type measure-type-component))
+        (is (= expected-keys (set (keys name->component))))))
+
+    (testing "measure type column references invalid column"
+      (is (thrown?
+            Throwable
+            (get-cube-configuration (example-csv "validation" "measure-type-invalid-column-reference.csv") default-config))))
+
+    (testing "measure type column references non-measure column"
+      (is (thrown?
+            Throwable
+            (get-cube-configuration (example-csv "validation" "measure-type-invalid-measure-reference.csv") default-config))))
+
+    (testing "no value column"
+      (is (thrown-with-msg?
+            Throwable
+            #"No value column"
+            (get-cube-configuration (example-csv "validation" "value-column-missing.csv") default-config))))
+
+    (testing "multiple value columns"
+      (is (thrown-with-msg? Throwable
+                            #"multiple value columns"
+                            (get-cube-configuration (example-csv "validation" "multiple-value-columns.csv") default-config))))
+
+    (testing "contains measure columns"
+      (is (thrown? Throwable (get-cube-configuration (example-csv "validation" "measure-type-and-measures.csv") default-config)))))
+
+  (testing "Multi-measure cube"
+    (testing "valid cube"
+      (let [{:keys [names dimensions measures
+                    attributes type] :as cube-config} (get-cube-configuration (example-csv "validation" "multi-measure-cube.csv") default-config)]
+        (is (= :multi-measure type))
+        (is (= [:date :geography :flow :count :gbp_total] names))
+        (is (= #{:date :geography :flow} dimensions))
+        (is (= #{:count :gbp_total} measures))
+        (is (= #{} attributes))))
+
+    (testing "with no dimensions"
+      (is (thrown-with-msg?
+            Throwable
+            #"No dimension columns found"
+            (get-cube-configuration (example-csv "validation" "multi-measure-no-dimensions.csv") default-config))))
+
+    (testing "with value column"
+      (is (thrown-with-msg?
+            Throwable #"Columns Value represent observation values"
+            (get-cube-configuration (example-csv "validation" "multi-measure-with-value-column.csv") default-config)))))
 
   (testing "invalid column headers"
     (is (thrown-with-msg?
           Throwable #"Unknown column titles"
           (get-cube-configuration (example-csv "validation" "unknown-columns.csv") default-config))))
 
-  (testing "no measure-type columns"
+  (testing "no measure-type or measure columns"
     (is (thrown-with-msg?
-          Throwable #"No measure type column"
+          Throwable #"at least one measure column"
           (get-cube-configuration (example-csv "validation" "measure-type-missing.csv") default-config))))
-
-  (testing "measure type column references invalid column"
-    (is (thrown?
-          Throwable
-          (get-cube-configuration (example-csv "validation" "measure-type-invalid-column-reference.csv") default-config))))
-
-  (testing "measure type column references non-measure column"
-    (is (thrown?
-          Throwable
-          (get-cube-configuration (example-csv "validation" "measure-type-invalid-measure-reference.csv") default-config))))
-
-  (testing "no value column"
-    (is (thrown-with-msg?
-          Throwable
-          #"No value column"
-          (get-cube-configuration (example-csv "validation" "value-column-missing.csv") default-config))))
 
   (testing "multiple qb:measureType columns"
     (is (thrown-with-msg?
           Throwable
           #"multiple qb:measureType columns"
-          (get-cube-configuration (example-csv "validation" "multiple-measure-type-columns.csv") default-config))))
-
-  (testing "multiple value columns"
-    (is (thrown-with-msg? Throwable
-                          #"multiple value columns"
-                          (get-cube-configuration (example-csv "validation" "multiple-value-columns.csv") default-config))))
-
-  (testing "contains measure columns"
-    (is (thrown? Throwable (get-cube-configuration (example-csv "validation" "measure-type-and-measures.csv") default-config)))))
+          (get-cube-configuration (example-csv "validation" "multiple-measure-type-columns.csv") default-config)))))
 
 (deftest observation-records-test
   (testing "Missing dimension values"

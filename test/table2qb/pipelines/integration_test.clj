@@ -7,36 +7,30 @@
             [grafter.rdf :as rdf]
             [grafter.rdf.repository :refer [query] :as repo]
             [grafter.extra.repository :refer [with-repository]]
-            [clojure.java.io :as io]
             [grafter.extra.validation.pmd :as pmd]
             [grafter.extra.validation.pmd.dataset :as pmdd]))
-
-(defn load-from-file [conn file]
-  (rdf/add conn (rdf/statements (io/file file))))
 
 (deftest integration-test
   (testing "Validates table2qb outputs against pmd, dataset, and cube tests"
     (testing "Overseas Trade"
-      (with-repository [repo (repo/sail-repo)]
-                       (with-open [conn (repo/->connection repo)]
-                         ;; Third party vocabularies
-                         (doseq [file ["./examples/vocabularies/sdmx-dimension.ttl"
-                                       "./examples/vocabularies/qb.ttl"
-                                       "./examples/overseas-trade/vocabularies/2012.rdf"
-                                       "./examples/overseas-trade/vocabularies/CN_2015_20180206_105537.ttl"]]
-                           (load-from-file conn file))
+      (with-repository [repo (repo/fixture-repo
+                               ;; Third party vocabularies
+                               "./examples/vocabularies/sdmx-dimension.ttl"
+                               "./examples/vocabularies/qb.ttl"
+                               "./examples/overseas-trade/vocabularies/2012.rdf"
+                               "./examples/overseas-trade/vocabularies/CN_2015_20180206_105537.ttl")]
+                       (let [stmts (concat
+                                     ;; Existing reference data
+                                     (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv" "Flow Directions" "flow-directions" test-domain)
+                                     (codelist-pipeline "./examples/regional-trade/csv/sitc-sections.csv" "Flow Directions" "sitc-sections" test-domain)
+                                     (codelist-pipeline "./examples/regional-trade/csv/units.csv" "Measurement Units" "measurement-units" test-domain)
+                                     (components-pipeline "./examples/regional-trade/csv/components.csv" test-domain)
 
-                         (let [stmts (concat
-                                       ;; Existing reference data
-                                       (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv" "Flow Directions" "flow-directions" test-domain)
-                                       (codelist-pipeline "./examples/regional-trade/csv/sitc-sections.csv" "Flow Directions" "sitc-sections" test-domain)
-                                       (codelist-pipeline "./examples/regional-trade/csv/units.csv" "Measurement Units" "measurement-units" test-domain)
-                                       (components-pipeline "./examples/regional-trade/csv/components.csv" test-domain)
-
-                                       ;; This dataset
-                                       (codelist-pipeline "./examples/overseas-trade/csv/countries.csv" "Countries" "countries" test-domain)
-                                       (components-pipeline "./examples/overseas-trade/csv/components.csv" test-domain)
-                                       (cube-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "Overseas Trade Sample" "overseas-trade-sample" default-config test-domain))]
+                                     ;; This dataset
+                                     (codelist-pipeline "./examples/overseas-trade/csv/countries.csv" "Countries" "countries" test-domain)
+                                     (components-pipeline "./examples/overseas-trade/csv/components.csv" test-domain)
+                                     (cube-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "Overseas Trade Sample" "overseas-trade-sample" default-config test-domain))]
+                         (with-open [conn (repo/->connection repo)]
                            (rdf/add conn stmts)))
                        (testing "PMD Validation"
                          (is (empty? (pmd/errors repo))))

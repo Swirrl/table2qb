@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [table2qb.csv :refer [reader read-csv] :as csv]
             [table2qb.pipelines.cube :refer :all]
-            [table2qb.pipelines.test-common :refer [default-config first-by example-csvw example-csv test-domain-data
+            [table2qb.pipelines.test-common :refer [default-config first-by example-csvw example-csv test-domain-data test-domain
                                                     maps-match? title->name]]
             [table2qb.util :as util]
             [table2qb.configuration.cube :as cube-config])
@@ -62,11 +62,10 @@
           (maps-match? (util/read-json (example-csvw "regional-trade" "component-specifications.json"))
                        (component-specification-metadata
                          "regional-trade.slugged.normalised.csv"
-                         test-domain-data
                          "Regional Trade Component Specifications"
-                         "regional-trade"))))))
+                         (get-uris test-domain "regional-trade")))))))
   (testing "name is optional"
-    (let [metadata (component-specification-metadata "components.csv" test-domain-data "" "ds-slug")]
+    (let [metadata (component-specification-metadata "components.csv" "" (get-uris test-domain "ds-slug"))]
       (is (= nil (get metadata "dc:title"))))))
     
 (deftest dataset-test
@@ -74,11 +73,10 @@
     (maps-match? (util/read-json (example-csvw "regional-trade" "dataset.json"))
                  (dataset-metadata
                    "regional-trade.slugged.normalised.csv"
-                   test-domain-data
                    "Regional Trade"
-                   "regional-trade")))
+                   (get-uris test-domain "regional-trade"))))
  (testing "name is optional"
-   (let [metadata (dataset-metadata "components.csv" test-domain-data "" "ds-slug")]
+   (let [metadata (dataset-metadata "components.csv" "" (get-uris test-domain "ds-slug"))]
      (is (= nil (get metadata "rdfs:label"))))))
 
 (deftest data-structure-definition-test
@@ -86,11 +84,10 @@
     (maps-match? (util/read-json (example-csvw "regional-trade" "data-structure-definition.json"))
                  (data-structure-definition-metadata
                    "regional-trade.slugged.normalised.csv"
-                   test-domain-data
                    "Regional Trade"
-                   "regional-trade")))
+                   (get-uris test-domain "regional-trade"))))
   (testing "name is optional"
-    (let [metadata (data-structure-definition-metadata "components.csv" test-domain-data "" "ds-slug")]
+    (let [metadata (data-structure-definition-metadata "components.csv" ""(get-uris test-domain "ds-slug"))]
       (is (= nil (get metadata "rdfs:label"))))))
 
 (defn get-observations
@@ -134,13 +131,14 @@
             obs-meta (observations-metadata "observations.csv"
                                             test-domain-data
                                             "regional-trade"
-                                            cube-config)]
+                                            cube-config
+                                            (get-uris test-domain "regional-trade"))]
         (maps-match? (util/read-json (example-csvw "regional-trade" "observations.json"))
                      obs-meta)))
     (testing "overseas trade example"
       (let [obs-source (example-csv "overseas-trade" "ots-cn-sample.csv")
             cube-config (cube-config/get-cube-configuration obs-source default-config)
-            obs-meta (observations-metadata "ignore-me.csv" test-domain-data "overseas-trade" cube-config)]
+            obs-meta (observations-metadata "ignore-me.csv" test-domain-data "overseas-trade" cube-config (get-uris test-domain "overseas-trade"))]
         (is-metadata-compatible (example-csv "overseas-trade" "ots-cn-sample.csv")
                                 obs-meta)))))
 
@@ -148,17 +146,15 @@
   (testing "codelists metadata"
     (maps-match? (util/read-json (example-csvw "regional-trade" "used-codes-codelists.json"))
                  (used-codes-codelists-metadata "regional-trade.slugged.normalised.csv"
-                                                test-domain-data
-                                                "regional-trade")))
+                                                (get-uris test-domain "regional-trade"))))
   (testing "codes metadata"
     (let [obs-source (example-csv "regional-trade" "input.csv")
           cube-config (cube-config/get-cube-configuration obs-source default-config)
           expected-json (util/read-json (example-csvw "regional-trade" "used-codes-codes.json"))]
       (maps-match? expected-json
                    (used-codes-codes-metadata "regional-trade.slugged.csv"
-                                              test-domain-data
-                                              "regional-trade"
-                                              cube-config)))))
+                                              cube-config
+                                              (get-uris test-domain "regional-trade"))))))
 
 
 ;; TODO: Need to label components and their used-code codelists if dataset-name is not blank

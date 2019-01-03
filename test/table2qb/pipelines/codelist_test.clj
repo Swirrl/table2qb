@@ -2,8 +2,8 @@
   (:require [clojure.test :refer :all]
             [table2qb.csv :refer [reader]]
             [table2qb.pipelines.codelist :refer :all]
-            [table2qb.pipelines.test-common :refer [example-csvw example-csv maps-match? test-domain-def]]
-            [clojure.data.json :as json]))
+            [table2qb.pipelines.test-common :refer [example-csvw example-csv maps-match? test-domain]]
+            [csv2rdf.util :as util]))
 
 (deftest codelists-test
   (testing "minimum case"
@@ -13,13 +13,11 @@
           (testing "one row per code"
             (is (= 2 (count codes)))))))
     (testing "json metadata"
-      (with-open [target-reader (reader (example-csvw "regional-trade" "flow-directions.json"))]
-        (maps-match? (json/read target-reader)
-                     (codelist-metadata
-                       "flow-directions-codelist.csv"
-                       test-domain-def
-                       "Flow Directions Codelist"
-                       "flow-directions")))))
+      (maps-match? (util/read-json (example-csvw "regional-trade" "flow-directions.json"))
+                   (codelist-metadata
+                     "flow-directions-codelist.csv"
+                     "Flow Directions Codelist"
+                     (get-uris test-domain "flow-directions")))))
   (testing "with optional fields"
     (testing "csv table"
       (with-open [input-reader (reader (example-csv "regional-trade" "sitc-sections.csv"))]
@@ -32,10 +30,8 @@
           (testing "column for description"
             (is (= "lorem ipsum" (-> codes first :description)))))
         (testing "json metadata"
-          (with-open [target-reader (reader (example-csvw "regional-trade" "sitc-sections.json"))]
-            (maps-match? (json/read target-reader)
-                         (codelist-metadata
-                           "sitc-sections-codelist.csv"
-                           test-domain-def
-                           "SITC Sections Codelist"
-                           "sitc-sections"))))))))
+          (maps-match? (util/read-json (example-csvw "regional-trade" "sitc-sections.json"))
+                       (codelist-metadata
+                         "sitc-sections-codelist.csv"
+                         "SITC Sections Codelist"
+                         (get-uris test-domain "sitc-sections"))))))))

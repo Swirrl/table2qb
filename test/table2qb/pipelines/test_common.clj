@@ -6,7 +6,7 @@
             [table2qb.configuration.uris :as uri-config]))
 
 (defn- load-test-configuration []
-  (column-config/load-column-configuration (io/resource "columns.csv")))
+  (column-config/load-column-configuration (io/file "test/resources/columns.csv")))
 
 (def default-config (load-test-configuration))
 
@@ -17,7 +17,6 @@
                     {:known-columns (column-config/known-titles default-config)}))))
 
 (def test-domain "http://gss-data.org.uk/")
-(def test-domain-def (uri-config/domain-def test-domain))
 (def test-domain-data (uri-config/domain-data test-domain))
 
 (defn first-by [attr val coll]

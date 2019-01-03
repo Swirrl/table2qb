@@ -1,0 +1,3 @@
+{:ontology-uri "$(base-uri)/def/ontology/components"
+ :component-uri "$(base-uri)/def/{component_type_slug}/{notation}"
+ :component-class-uri "$(base-uri)/def/{class_slug}"}

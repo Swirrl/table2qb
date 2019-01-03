@@ -1,5 +1,5 @@
 (ns table2qb.pipelines.components
-  (:require [table2qb.util :refer [tempfile create-metadata-source]]
+  (:require [table2qb.util :refer [tempfile create-metadata-source] :as util]
             [csv2rdf.csvw :as csvw]
             [clojure.java.io :as io]
             [table2qb.csv :refer [write-csv-rows read-csv reader]]
@@ -7,62 +7,65 @@
             [table2qb.configuration.uris :as uri-config])
   (:import [java.io File]))
 
-(defn components-metadata [csv-url domain-def]
-  (let [ontology-uri (str domain-def "ontology/components")]
-    {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
-     "@id" ontology-uri,
-     "url" (str csv-url)
-     "dc:title" "Components Ontology",
-     "rdfs:label" "Components Ontology",
-     "rdf:type" {"@id" "owl:Ontology"},
-     "tableSchema"
-     {"columns"
-                 [{"name" "label",
-                   "titles" "label",
-                   "datatype" "string",
-                   "propertyUrl" "rdfs:label"}
-                  {"name" "description",
-                   "titles" "description",
-                   "datatype" "string",
-                   "propertyUrl" "dc:description"}
-                  {"name" "component_type",
-                   "titles" "component_type",
-                   "propertyUrl" "rdf:type",
-                   "valueUrl" "{+component_type}"}
-                  {"name" "codelist",
-                   "titles" "codelist",
-                   "datatype" "string",
-                   "propertyUrl" "qb:codeList",
-                   "valueUrl" "{+codelist}"}
-                  {"name" "notation",
-                   "titles" "notation",
-                   "datatype" "string",
-                   "propertyUrl" "skos:notation"}
-                  {"name" "component_type_slug",
-                   "titles" "component_type_slug",
-                   "datatype" "string",
-                   "suppressOutput" true}
-                  {"name" "property_slug",
-                   "titles" "property_slug",
-                   "datatype" "string",
-                   "suppressOutput" true}
-                  {"name" "class_slug",
-                   "titles" "class_slug",
-                   "datatype" "string",
-                   "propertyUrl" "rdfs:range",
-                   "valueUrl" (str domain-def "{class_slug}")}
-                  {"name" "parent_property",
-                   "titles" "parent_property",
-                   "datatype" "string",
-                   "propertyUrl" "rdfs:subPropertyOf",
-                   "valueUrl" "{+parent_property}"}
-                  {"propertyUrl" "rdfs:isDefinedBy",
-                   "virtual" true,
-                   "valueUrl" ontology-uri}
-                  {"propertyUrl" "rdf:type",
-                   "virtual" true,
-                   "valueUrl" "rdf:Property"}],
-      "aboutUrl" (str domain-def "{component_type_slug}/{notation}")}}))
+(defn get-uris [base-uri]
+  (let [uri-map (util/read-edn (io/resource "uris/components-pipeline-uris.edn"))
+        vars {:base-uri (uri-config/strip-trailing-path-separator base-uri)}]
+    (uri-config/expand-uris uri-map vars)))
+
+(defn components-metadata [csv-url {:keys [ontology-uri component-uri component-class-uri] :as uris}]
+  {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
+   "@id" ontology-uri,
+   "url" (str csv-url)
+   "dc:title" "Components Ontology",
+   "rdfs:label" "Components Ontology",
+   "rdf:type" {"@id" "owl:Ontology"},
+   "tableSchema"
+   {"columns" [{"name" "label",
+                "titles" "label",
+                "datatype" "string",
+                "propertyUrl" "rdfs:label"}
+               {"name" "description",
+                "titles" "description",
+                "datatype" "string",
+                "propertyUrl" "dc:description"}
+               {"name" "component_type",
+                "titles" "component_type",
+                "propertyUrl" "rdf:type",
+                "valueUrl" "{+component_type}"}
+               {"name" "codelist",
+                "titles" "codelist",
+                "datatype" "string",
+                "propertyUrl" "qb:codeList",
+                "valueUrl" "{+codelist}"}
+               {"name" "notation",
+                "titles" "notation",
+                "datatype" "string",
+                "propertyUrl" "skos:notation"}
+               {"name" "component_type_slug",
+                "titles" "component_type_slug",
+                "datatype" "string",
+                "suppressOutput" true}
+               {"name" "property_slug",
+                "titles" "property_slug",
+                "datatype" "string",
+                "suppressOutput" true}
+               {"name" "class_slug",
+                "titles" "class_slug",
+                "datatype" "string",
+                "propertyUrl" "rdfs:range",
+                "valueUrl" component-class-uri}
+               {"name" "parent_property",
+                "titles" "parent_property",
+                "datatype" "string",
+                "propertyUrl" "rdfs:subPropertyOf",
+                "valueUrl" "{+parent_property}"}
+               {"propertyUrl" "rdfs:isDefinedBy",
+                "virtual" true,
+                "valueUrl" ontology-uri}
+               {"propertyUrl" "rdf:type",
+                "virtual" true,
+                "valueUrl" "rdf:Property"}],
+    "aboutUrl" component-uri}})
 
 (defn annotate-component
   "Derives extra column data for a component row"
@@ -102,16 +105,16 @@
 
 (defn components->csvw->rdf
   "Annotates an input components CSV file and uses it to generate RDF."
-  [components-csv domain-def ^File intermediate-file]
+  [components-csv base-uri ^File intermediate-file]
   (components->csvw components-csv intermediate-file)
-  (let [components-meta (components-metadata (.toURI intermediate-file) domain-def)]
+  (let [uris (get-uris base-uri)
+        components-meta (components-metadata (.toURI intermediate-file) uris)]
     (csvw/csv->rdf intermediate-file (create-metadata-source components-csv components-meta) csv2rdf-config)))
 
 (defn components-pipeline
   "Generates RDF for the given components CSV file."
   [input-csv base-uri]
-  (let [domain-def (uri-config/domain-def base-uri)
-        components-csv (tempfile "components" ".csv")]
-    (components->csvw->rdf input-csv domain-def components-csv)))
+  (let [components-csv (tempfile "components" ".csv")]
+    (components->csvw->rdf input-csv base-uri components-csv)))
 
 (derive ::components-pipeline :table2qb.pipelines/pipeline)

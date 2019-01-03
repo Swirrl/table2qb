@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [table2qb.csv :refer [reader]]
             [table2qb.pipelines.components :refer :all]
-            [table2qb.pipelines.test-common :refer [first-by maps-match? example-csv example-csvw test-domain-def]]
+            [table2qb.pipelines.test-common :refer [first-by maps-match? example-csv example-csvw test-domain]]
             [clojure.data.json :as json]))
 
 (deftest components-test
@@ -19,7 +19,7 @@
                 :description "Direction in which trade is measured"
                 :component_type "qb:DimensionProperty"
                 :component_type_slug "dimension"
-                :codelist (str test-domain-def "concept-scheme/flow-directions")
+                :codelist "http://gss-data.org.uk/def/concept-scheme/flow-directions"
                 :property_slug "flow"
                 :class_slug "Flow"
                 :parent_property nil)))
@@ -35,4 +35,4 @@
   (testing "json metadata"
     (with-open [target-reader (reader (example-csvw "regional-trade" "components.json"))]
       (maps-match? (json/read target-reader)
-                   (components-metadata "components.csv" test-domain-def)))))
+                   (components-metadata "components.csv" (get-uris test-domain))))))

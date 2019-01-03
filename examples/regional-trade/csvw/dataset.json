@@ -9,16 +9,17 @@
       {"titles": "component_slug", "name": "component_slug", "suppressOutput": true},
       {"titles": "component_attachment", "name": "component_attachment", "suppressOutput": true},
       {"titles": "component_property", "name": "component_property", "suppressOutput": true},
+      {"name": "codes_used", "titles": "codes_used", "suppressOutput": true},
       {
-	"name": "type",
-	"virtual": true,
-	"propertyUrl": "rdf:type",
-	"valueUrl": "qb:DataSet"
+        "name": "type",
+        "virtual": true,
+        "propertyUrl": "rdf:type",
+        "valueUrl": "qb:DataSet"
       },{
-	"name": "structure",
-	"virtual": true,
-	"propertyUrl": "qb:structure",
-	"valueUrl": "http://gss-data.org.uk/data/regional-trade/structure"
+        "name": "structure",
+        "virtual": true,
+        "propertyUrl": "qb:structure",
+        "valueUrl": "http://gss-data.org.uk/data/regional-trade/structure"
       }],
     "aboutUrl": "http://gss-data.org.uk/data/regional-trade"
   }

@@ -18,8 +18,8 @@
       "datatype": "string",
       "suppressOutput": true
     },{
-      "name": "type",
-      "virtual": true,
+      "name": "codes_used",
+      "titles": "codes_used",
       "propertyUrl": "rdf:type",
       "valueUrl": "skos:Collection"
     }],

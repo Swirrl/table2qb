@@ -22,6 +22,10 @@
       "titles": "component_property",
       "datatype": "string",
       "suppressOutput": true
+    },{
+      "name": "codes_used",
+      "titles": "codes_used",
+      "suppressOutput": true
     }],
     "aboutUrl": "http://gss-data.org.uk/data/regional-trade/structure"
   }

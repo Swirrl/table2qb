@@ -17,19 +17,6 @@
                                 (map #(get % "name")))]
          (is (= csv-columns# meta-columns#))))))
 
-(deftest suppress-value-column-test
-  (testing "value column"
-    (is (= {"name" "value"
-            "title" "Value"
-            "suppressOutput" true}
-           (suppress-value-column {"name"  "value"
-                                   "title" "Value"} #{:value}))))
-
-  (testing "non-value column"
-    (let [col {"name" "flow"
-               "title" "Flow"}]
-      (is (= col (suppress-value-column col #{:value}))))))
-
 (deftest observation-template-test
   (let [domain-data-prefix "http://example.com/data/"
         dataset-slug "test"

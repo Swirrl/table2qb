@@ -8,7 +8,9 @@
         commons-io/commons-io {:mvn/version "2.4"}}
  :paths ["src" "resources"]
  :aliases
- {:with-logging
+ {:test {:extra-paths ["test" "test/resources"]
+         :extra-deps {lambdaisland/kaocha {:mvn/version "0.0-343"}}}
+  :with-logging
   {:extra-deps
    {org.apache.logging.log4j/log4j-api {:mvn/version "2.11.0"}
     org.apache.logging.log4j/log4j-core {:mvn/version "2.11.0"}

@@ -11,7 +11,7 @@
             [grafter.extra.validation.pmd :as pmd]
             [grafter.extra.validation.pmd.dataset :as pmdd]))
 
-(deftest integration-test
+(deftest ^:integration integration-test
   (testing "Validates table2qb outputs against pmd, dataset, and cube tests"
     (testing "Overseas Trade"
       (with-repository [repo (repo/fixture-repo

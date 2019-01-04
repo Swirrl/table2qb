@@ -56,141 +56,25 @@ You can then run `table2qb` using
     
 More details about the `clojure` CLI and the format of the `deps.edn` file can be found [on the Clojure website](https://clojure.org/reference/deps_and_cli)
 
+## Compiling table2qb
+
+Table2qb is written in Clojure and can be built using [Leiningen](https://leiningen.org/). It is recommended you use [Java 8](https://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html) or later.
+
+`table2qb` can be run through `leiningen` with `lein run` e.g.
+
+    lein run list
+    
+Alternatively it can be run from an uberjar built with `lein uberjar`. The resulting .jar file in the `target` directory can then be run:
+
+    java -jar target/table2qb.jar list
+
 ## How to run table2qb
 
-Table2qb has three main options, each with its own data transformation 'pipeline' to create the different aspects of a data cube: the components (dimensions, measures, attributes), the codelists (defined possible values of components) and the observations themselves. 
-
-Components and codelists can often be re-used by many data cubes, so if those pipelines have been run previously it may not always be necessary to run them again, but to create a new data cube from scratch will require all three pipelines to be run, and possibly the codelist pipeline to be run once for each dimension.
-
-In order to execute the full table2qb process, the following 3 pipelines should be run (in no particular order):
-
-- `components-pipeline`
-- `codelist-pipeline` (run for each codelist CSV input file)
-- `cube-pipeline`
-
-After installing as described in the previous section, you can run table2qb as follows.
-
-__To run the `components-pipeline` use the following command:__
-
-```table2qb exec components-pipeline --input-csv components.csv --base-uri http://example.com/ --output-file output.ttl```
-
-
-
-__To run the `codelist-pipeline` for each of the codelist files use the following command:__
-
-```table2qb exec codelist-pipeline --codelist-csv codelist.csv --codelist-name "Example codes" --codelist-slug "example" --base-uri http://example.com/ --output-file output.ttl```
-
-
-
-__To run the `cube-pipeline` use the following command:__
-
-```table2qb exec cube-pipeline --input-csv my_input.csv --dataset-name "Example Dataset" --dataset-slug "example" --column-config columns.csv --base-uri http://example.com/ --output-file output.ttl```
-
-### --base-uri
-
-Defines the domain and any other URI sections that will be prefixed to all generated URIs in the output.
-
-
-### --input-csv
-
-Input CSV file of the correct structure - the contents must correspond to the choice of pipeline. More details on the required structure are provided below.  See also the [worked example](./examples/employment/README.md).
-
-- `components-pipeline` uses the CSV defining the components (e.g. `components.csv`) as input_file
-- `codelist-pipeline` uses individual codelist CSV files as input_files
-- `cube-pipeline` uses the input observation data file ( e.g. `input.csv`) as input_file
-
-The config_file (described below) is used to determine how the data in the input_file is interpreted.
-
-### --column-config
-
-config_file (e.g. `columns.csv`) defines the mapping between a column name and the relevant component and sets out any preparatory transformations and URI templates.  This parameter is only needed for the cube-pipeline.
-
-### --output-file
-
-The output of the process: a single file as RDF in Turtle format.
-
-### --codelist-csv
-
-Input CSV codelist file.  This parameter is used only with the codelist-pipeline.
-
-### --codelist-name
-
-Name of the output codelist file in Turtle format. The value of codelist_name is used as the value of the `dcterms:title` property of the created codelist.  This parameter is used only with the codelist-pipeline.
-
-### --codelist-slug
-
-[Slug](http://patterns.dataincubator.org/book/url-slug.html) of the output codelist file. The slug string provided will appear in a particular position in the generated URLs - e.g. a URL containing the `codelist_slug` "gender" might look like this: <http://statistics.gov.scot/def/concept/gender/female> .  This parameter is used only with the codelist-pipeline.
-
-### --dataset-name
-
-Name of the output file in Turtle format. The value of dataset_name is used as the value of the `dcterms:title` property of the created dataset.  This parameter is used only with the cube-pipeline.
-
-### --dataset-slug
-
-[Slug](http://patterns.dataincubator.org/book/url-slug.html) of the output file. The slug string provided will appear in a particular position in the generated URLs - e.g. a URL containing the `dataset_slug` "employment" might look like this: <http://statistics.gov.scot/data/employment/S12000039/2017-Q1/Female/count/people> . This parameter is used only with the cube-pipeline.
-
-
-### Observation Data
-
-The observation input table should be arranged as [tidy-data](http://vita.had.co.nz/papers/tidy-data.pdf) e.g. one row per observation, one column per component (i.e. dimension, attribute or measure). This should be done prior to running table2qb using your choice of tool/software.
-
-The column headers and column contents in the observation input file correspond to the components listed in the column configuration file (e.g. `columns.csv`). This means that column headers in the input CSV file (e.g. `input.csv`) should match the values under the "Title" column in the column configuration file (e.g. `columns.csv`).
-
-
-### Definition of components
-
-As mentioned above, components are the dimensions, attributes and measures present in the input observation data. The CSV components file (e.g. `components.csv`) should contain a list of those components from the input file that you want to define vocabularies for. If there are external vocabularies that are reused for certain components, then they don't need to be listed here.
-
-The CSV file should have the following columns:
-
-- `Label` - a human readable label that corresponds to the column heading in the input observation data file, and to the `Title` of the component in the configuration file.
-- `Description` - a human readable description of the component
-- `Component Type` - what type of component this is - i.e. a Measure, Dimension or Attribute
-- `Codelist` - for Dimension components only, a URI for the codelist of all possible values for this dimension.  
-
-In addition to the list of components, this file should also contain the unique values of the `Measure Type` dimension. For example, if the `Measure Type` dimension contains values of "Count" and "Net Mass", then both of them should be added to the components list.
-
-
-### Definition of codelists
-
-Codelists describe the universal set of codes that may be the object of a component, not just the (sub)set that has been used within a cube. In other words, all the possible codes for a given codelist should be listed in the input CSV file for each codelist.
-
-Each codelist CSV file should have the following columns:
-
-- `Label` - a code from the codelist, there should be one row per code
-- `Notation` - every item in the codelist must have a different value for notation.  It will be used in the creation of the URI for this item, so should only contain URI-compatible characters (no spaces).  A common option is to make a slug of the label,  e.g. `3 Mineral Fuels` becomes `3-mineral-fuels`, or to use a pre-existing set of alpha-numeric codes.
-- `Parent Notation` - optional: to support hierarchical codelists, if this item has a skos:broader relationship to one of the other items in the codelist, then include the notation of the parent item in this column. 
-
-## Configuration
-
-The table2qb pipeline is configured with a CSV file (e.g. `columns.csv`) describing the components it can expect to find in the observation data file. The location of this file is specified with the `--column-config` parameter.
-
-This CSV file should have the following columns:
-
-- `title` - a human readable title for a component, that is used as a column header in the observations input file. Each row of the configuration file (and hence each column of an observations file) must have a different title.
-- `name` - a machine-readable identifier used in uri templates. Each row of the configuration file (and hence each column of an observations file) must have a different title.
-- `component_attachment` - how the component defined by this row of the configuration file should be attached to the Data Structure Definition (i.e. one of `qb:dimension`, `qb:attribute`, `qb:measure`, or just a blank cell if the configuration file row is defining the value of the observation).
-- `property_template` - the predicate used to attach the (cell) values to the observations.  This can either be a full URI, or it can be a URI template, where the `name` of any item in the configuration file can be inserted inside {} to indicate which column of the pipeline input file should be used to provide a value.
-- `value_template` - the URI template applied to the cell values. The argument inside the {} should match the corresponding value of the `name` column.
-- `datatype` - how the cell value should be parsed (typically `string` for everything except the value column which will be `number`)
-- `value-transformation` - possible values here are: `slugize`, `unitize` or blank. `slugize` converts column values into URI components, e.g. `(slugize "Some column value")` is `some-column-value`. `unitize` works similarly to `slugize` and in addition also translates literal `£` into `GBP`, e.g. `(unitize "£ 100")` is `gpb-100`. Other unit-related special cases will be added to `unitize` in future.
-
-The configuration file should contain one row for each dimension, measure and attribute used in any input file. 
+See [using table2qb](doc/usage.md) for documentation on how to generate RDF data cubes using `table2qb`.
 
 ## Example
 
-The [./examples/employment](./examples/employment) directory provides a full example and instructions for running it.
-
-## How to compile table2qb
-
-The repository includes a compiled Java jar file, so no compilation is necessary to use table2qb.
-
-If you want to edit your copy of the code, you will need to recompile before use.  Table2qb is written in Clojure, and so [Leiningen](https://leiningen.org/) should be installed in order to compile the code. We recommend [Java 8](https://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html).
-
-You can call a development version from the command line with `lein run list`.
-
-To create a new jar file, run the following command in the root folder of the project: `lein uberjar`. This will create a jar file in `./target` which you can then call with `java -jar target/table2qb.jar list`.
-
+The [./examples/employment](./examples/employment) directory provides an example of creating a data cube from scratch with `table2qb`.
 
 ## License
 

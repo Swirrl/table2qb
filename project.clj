@@ -6,13 +6,6 @@
   :plugins [[lein-tools-deps "0.4.3"]]
   :middleware [lein-tools-deps.plugin/resolve-dependencies-with-deps-edn]
   :lein-tools-deps/config {:config-files [:install :user :project]}
-  :dependencies [[org.clojure/clojure "1.9.0"]
-                 [grafter/grafter "0.11.2"]
-                 [grafter/extra "0.2.2"]
-                 [swirrl/csv2rdf "0.2.6"]
-                 [org.clojure/data.csv "0.1.4"]
-                 [integrant "0.6.3"]
-                 [org.clojure/tools.cli "0.3.7"]]
   :profiles {:uberjar {:main table2qb.main
                        :aot :all
                        :uberjar-name "table2qb.jar"

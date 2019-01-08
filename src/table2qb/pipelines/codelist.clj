@@ -4,7 +4,8 @@
             [clojure.java.io :as io]
             [table2qb.csv :refer [write-csv-rows read-csv reader]]
             [table2qb.util :refer [create-metadata-source tempfile]]
-            [clojure.string :as string])
+            [clojure.string :as string]
+            [table2qb.configuration.csvw :refer [csv2rdf-config]])
   (:import [java.io File]))
 
 (defn codelist-metadata [csv-url domain-def codelist-name codelist-slug]
@@ -96,9 +97,6 @@
               writer (io/writer dest-file)]
     (let [output-columns [:label :notation :parent_notation :sort_priority :description :top_concept_of :has_top_concept :pref_label]]
       (write-csv-rows writer output-columns (codes reader)))))
-
-;;TODO: merge CSV2RDF configs
-(def csv2rdf-config {:mode :standard})
 
 (defn codelist->csvw->rdf
   "Annotates an input codelist CSV file and uses it to generate RDF for the given codelist name and slug."

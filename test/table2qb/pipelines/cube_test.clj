@@ -3,10 +3,13 @@
             [table2qb.csv :refer [reader read-csv] :as csv]
             [table2qb.pipelines.cube :refer :all]
             [table2qb.pipelines.test-common :refer [default-config first-by example-csvw example-csv test-domain-data
-                                                    maps-match? title->name]]
+                                                    maps-match? title->name eager-select]]
             [table2qb.util :as util]
-            [table2qb.configuration.cube :as cube-config])
-  (:import [java.io StringWriter]))
+            [table2qb.configuration.cube :as cube-config]
+            [grafter.rdf.repository :as repo]
+            [grafter.rdf :as rdf])
+  (:import [java.io StringWriter]
+           [java.net URI]))
 
 (defmacro is-metadata-compatible [input-csv schema]
   `(testing "column sequence matches"
@@ -160,5 +163,47 @@
                                               "regional-trade"
                                               cube-config)))))
 
+(deftest cube-pipeline-test
+  (let [dataset-name "Regional Trade"
+        dataset-slug "regional-trade"
+        base-uri (URI. "http://example.com/")
+        dataset-uri "http://example.com/data/regional-trade"
+        dsd-uri (str dataset-uri "/structure")
+        repo (repo/sail-repo)]
+    (rdf/add repo (cube-pipeline (example-csv "regional-trade" "input.csv")
+                                 dataset-name
+                                 dataset-slug
+                                 default-config
+                                 base-uri))
+
+    (testing "Dataset title and label"
+      (let [q (str "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+                   "PREFIX dc: <http://purl.org/dc/terms/>"
+                   "SELECT ?title ?label WHERE {"
+                   "  <" dataset-uri "> dc:title ?title ;"
+                   "                    rdfs:label ?label ."
+                   "}")
+            {:keys [title label] :as binding} (first (eager-select repo q))]
+        (is (= dataset-name (str title)))
+        (is (= dataset-name (str label)))))
+
+    (testing "DSD title and label"
+      (let [dsd-label (derive-dsd-label dataset-name)
+            q (str "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+                   "PREFIX dc: <http://purl.org/dc/terms/>"
+                   "SELECT ?title ?label WHERE {"
+                   "  <" dsd-uri "> dc:title ?title ;"
+                   "                    rdfs:label ?label ."
+                   "}")
+            {:keys [title label] :as binding} (first (eager-select repo q))]
+        (is (= dsd-label (str title)))
+        (is (= dsd-label (str label)))))
+
+    (testing "DSD type"
+      (let [q (str "PREFIX qb: <http://purl.org/linked-data/cube#>"
+                   "ASK WHERE {"
+                   "  <" dsd-uri "> a qb:DataStructureDefinition ."
+                   "}")]
+        (is (repo/query repo q))))))
 
 ;; TODO: Need to label components and their used-code codelists if dataset-name is not blank

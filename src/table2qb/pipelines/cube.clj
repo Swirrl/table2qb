@@ -99,7 +99,7 @@
 (defn component-specification-template [domain-data dataset-slug]
   (str domain-data dataset-slug "/component/{component_slug}"))
 
-(defn- derive-dsd-label
+(defn derive-dsd-label
   "Derives the DataSet Definition label from the dataset name"
   [dataset-name]
   (when-let [dataset-name (util/blank->nil dataset-name)]

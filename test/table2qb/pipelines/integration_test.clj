@@ -19,19 +19,18 @@
                                "./examples/vocabularies/qb.ttl"
                                "./examples/overseas-trade/vocabularies/2012.rdf"
                                "./examples/overseas-trade/vocabularies/CN_2015_20180206_105537.ttl")]
-                       (let [stmts (concat
-                                     ;; Existing reference data
-                                     (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv" "Flow Directions" "flow-directions" test-domain)
-                                     (codelist-pipeline "./examples/regional-trade/csv/sitc-sections.csv" "Flow Directions" "sitc-sections" test-domain)
-                                     (codelist-pipeline "./examples/regional-trade/csv/units.csv" "Measurement Units" "measurement-units" test-domain)
-                                     (components-pipeline "./examples/regional-trade/csv/components.csv" test-domain)
+                       (with-open [conn (repo/->connection repo)]
+                         (rdf/add conn (concat
+                                         ;; Existing reference data
+                                         (codelist-pipeline "./examples/regional-trade/csv/flow-directions.csv" "Flow Directions" "flow-directions" test-domain)
+                                         (codelist-pipeline "./examples/regional-trade/csv/sitc-sections.csv" "Flow Directions" "sitc-sections" test-domain)
+                                         (codelist-pipeline "./examples/regional-trade/csv/units.csv" "Measurement Units" "measurement-units" test-domain)
+                                         (components-pipeline "./examples/regional-trade/csv/components.csv" test-domain)
 
-                                     ;; This dataset
-                                     (codelist-pipeline "./examples/overseas-trade/csv/countries.csv" "Countries" "countries" test-domain)
-                                     (components-pipeline "./examples/overseas-trade/csv/components.csv" test-domain)
-                                     (cube-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "Overseas Trade Sample" "overseas-trade-sample" default-config test-domain))]
-                         (with-open [conn (repo/->connection repo)]
-                           (rdf/add conn stmts)))
+                                         ;; This dataset
+                                         (codelist-pipeline "./examples/overseas-trade/csv/countries.csv" "Countries" "countries" test-domain)
+                                         (components-pipeline "./examples/overseas-trade/csv/components.csv" test-domain)
+                                         (cube-pipeline "./examples/overseas-trade/csv/ots-cn-sample.csv" "Overseas Trade Sample" "overseas-trade-sample" default-config test-domain))))
                        (testing "PMD Validation"
                          (is (empty? (pmd/errors repo))))
                        (testing "PMD Dataset Validation"
@@ -54,7 +53,25 @@
                              (testing "may be provided"
                                (is (some #{"http://gss-data.org.uk/def/concept-scheme/sitc-sections"} schemes)))
                              (testing "is optional"
-                               (is (not-any? #{"http://gss-data.org.uk/def/concept-scheme/flow-directions"} schemes))))))))))
+                               (is (not-any? #{"http://gss-data.org.uk/def/concept-scheme/flow-directions"} schemes))))))
+
+                       (testing "pmd:codesUsed"
+                         (testing "should exist for dimensions"
+                           (let [q (str "SELECT ?dim WHERE {"
+                                        "  ?comp <http://purl.org/linked-data/cube#dimension> ?dim ."
+                                        "  ?comp <http://publishmydata.com/def/qb/codesUsed> ?codes ."
+                                        "}")
+                                 dims (with-open [conn (repo/->connection repo)]
+                                        (mapv :dim (repo/query conn q)))]
+                             (is (= 5 (count dims)))))
+
+                         (testing "should not exist for measures"
+                           (let [q (str "ASK WHERE {"
+                                        "  ?comp <http://purl.org/linked-data/cube#measure> ?m ."
+                                        "  ?comp <http://publishmydata.com/def/qb/codesUsed> ?codes ."
+                                        "}")]
+                             (is (= false (with-open [conn (repo/->connection repo)]
+                                            (repo/query conn q)))))))))))
 
 
 ;; TODO: Vocabulary for pmd:usedCode

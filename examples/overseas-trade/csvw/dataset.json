@@ -1,1 +1,14 @@
-{"@context":["http:\/\/www.w3.org\/ns\/csvw",{"@language":"en"}],"@id":"http:\/\/gss-data.org.uk\/data\/overseas-trade-sample","url":"component-specifications.csv","dc:title":"Overseas Trade Sample","tableSchema":{"columns":[{"name":"component_slug","titles":"component_slug","suppressOutput":true},{"name":"component_attachment","titles":"component_attachment","suppressOutput":true},{"name":"component_property","titles":"component_property","suppressOutput":true},{"name":"type","virtual":true,"propertyUrl":"rdf:type","valueUrl":"qb:DataSet"},{"name":"structure","virtual":true,"propertyUrl":"qb:structure","valueUrl":"http:\/\/gss-data.org.uk\/data\/overseas-trade-sample\/structure"}],"aboutUrl":"http:\/\/gss-data.org.uk\/data\/overseas-trade-sample"}}
+{"@context":["http:\/\/www.w3.org\/ns\/csvw",{"@language":"en"}],
+  "@id":"http:\/\/gss-data.org.uk\/data\/overseas-trade-sample",
+  "url":"component-specifications.csv",
+  "dc:title":"Overseas Trade Sample",
+  "tableSchema":{
+    "columns":[
+      {"name":"component_slug","titles":"component_slug","suppressOutput":true},
+      {"name":"component_attachment","titles":"component_attachment","suppressOutput":true},
+      {"name":"component_property","titles":"component_property","suppressOutput":true},
+      {"name": "codes_used", "titles": "codes_used", "suppressOutput": true},
+      {"name":"type","virtual":true,"propertyUrl":"rdf:type","valueUrl":"qb:DataSet"},
+      {"name":"structure","virtual":true,"propertyUrl":"qb:structure","valueUrl":"http:\/\/gss-data.org.uk\/data\/overseas-trade-sample\/structure"}
+    ],
+    "aboutUrl":"http:\/\/gss-data.org.uk\/data\/overseas-trade-sample"}}

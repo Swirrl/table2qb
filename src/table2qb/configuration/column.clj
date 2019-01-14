@@ -36,6 +36,12 @@
        (:type column)))
 (def property-template :property_template)
 
+(defn is-dimension-column? [column]
+  (= :dimension (:type column)))
+
+(defn is-attribute-column? [column]
+  (= :attribute (:type column)))
+
 (defn- replace-symbols [s]
   (string/replace s #"£" "GBP"))
 

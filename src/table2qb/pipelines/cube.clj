@@ -10,12 +10,12 @@
             [table2qb.configuration.column :as column])
   (:import [java.io File]))
 
-(defn suppress-value-column
-  "Suppresses the output of a metadata column definition if it corresponds to a value component"
-  [column is-value-p]
-  (if (is-value-p (keyword (get column "name")))
-    (assoc column "suppressOutput" true)
-    column))
+(defn- component-has-codes-used-list?
+  "Indicates whether the DSD component for the given column has an associated pmd:codesUsed list."
+  [column]
+  ;;TODO: check dimension range?
+  (or (column/is-dimension-column? column)
+      (column/is-attribute-column? column)))
 
 (defn component->column [{:keys [name property_template value_template datatype]}]
   (let [col {"name" name
@@ -26,14 +26,19 @@
       (assoc col "valueUrl" value_template)
       col)))
 
+(defn- code-list-metadata-column
+  "Returns a code list metadata CSVW column JSON for a cube column defintion."
+  [column]
+  (let [col (component->column column)]
+    (if (component-has-codes-used-list? column)
+      (assoc col "propertyUrl" "skos:member")
+      (-> col
+          (assoc "suppressOutput" true)
+          (dissoc "propertyUrl")))))
+
 (defn used-codes-codes-metadata [csv-url domain-data dataset-slug cube-config]
   (let [components (cube-config/ordered-columns cube-config)
-        columns (mapv (fn [comp]
-                        (-> comp
-                            (component->column)
-                            (assoc "propertyUrl" "skos:member")
-                            (suppress-value-column (cube-config/values cube-config))))
-                      components)
+        columns (mapv code-list-metadata-column components)
         codelist-uri (str domain-data dataset-slug "/codes-used/{_name}")]
     {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
      "url" (str csv-url)
@@ -89,9 +94,9 @@
         "titles" "component_property",
         "datatype" "string",
         "suppressOutput" true}
-       {"name" "type",
-        "virtual" true,
-        "propertyUrl" "rdf:type",
+       {"name" "codes_used"
+        "titles" "codes_used"
+        "propertyUrl" "rdf:type"
         "valueUrl" "skos:Collection"}],
       "aboutUrl" codelist-uri}}))
 
@@ -127,6 +132,9 @@
                   {"name" "component_property",
                    "titles" "component_property",
                    "datatype" "string",
+                   "suppressOutput" true}
+                  {"name" "codes_used"
+                   "titles" "codes_used"
                    "suppressOutput" true}],
       "aboutUrl" dsd-uri}}))
 
@@ -135,28 +143,27 @@
    "url" (str csv-url)
    "dc:title" (util/blank->nil dataset-name)
    "tableSchema"
-              {"columns"
-                          [{"name" "component_slug",
-                            "titles" "component_slug",
-                            "datatype" "string",
-                            "suppressOutput" true}
-                           {"name" "component_attachment",
-                            "titles" "component_attachment",
-                            "datatype" "string",
-                            "suppressOutput" true}
-                           {"name" "component_property",
-                            "titles" "component_property",
-                            "datatype" "string",
-                            "propertyUrl" "{+component_attachment}",
-                            "valueUrl" "{+component_property}"}
-                           {"name" "type",
-                            "virtual" true,
-                            "propertyUrl" "rdf:type",
-                            "valueUrl" "qb:ComponentSpecification"}
-                           {"name" "codes_used",
-                            "virtual" true,
-                            "propertyUrl" "http://publishmydata.com/def/qb/codesUsed",
-                            "valueUrl" (str domain-data dataset-slug "/codes-used/{component_slug}")}],
+              {"columns" [{"name" "component_slug"
+                           "titles" "component_slug"
+                           "datatype" "string"
+                           "suppressOutput" true}
+                          {"name" "component_attachment"
+                           "titles" "component_attachment"
+                           "datatype" "string"
+                           "suppressOutput" true}
+                          {"name" "component_property"
+                           "titles" "component_property"
+                           "datatype" "string"
+                           "propertyUrl" "{+component_attachment}"
+                           "valueUrl" "{+component_property}"}
+                          {"name" "codes_used"
+                           "titles" "codes_used"
+                           "propertyUrl" "http://publishmydata.com/def/qb/codesUsed"
+                           "valueUrl" (str domain-data dataset-slug "/codes-used/{component_slug}")}
+                          {"name" "type"
+                           "virtual" true
+                           "propertyUrl" "rdf:type"
+                           "valueUrl" "qb:ComponentSpecification"}]
                "aboutUrl" (component-specification-template domain-data dataset-slug)}})
 
 (defn dataset-metadata [csv-url domain-data dataset-name dataset-slug]
@@ -173,6 +180,7 @@
                  [{"name" "component_slug", "titles" "component_slug", "suppressOutput" true}
                   {"name" "component_attachment", "titles" "component_attachment", "suppressOutput" true}
                   {"name" "component_property", "titles" "component_property", "suppressOutput" true}
+                  {"name" "codes_used" "titles" "codes_used" "suppressOutput" true}
                   {"name" "type","virtual" true,"propertyUrl" "rdf:type","valueUrl" "qb:DataSet"}
                   {"name" "structure","virtual" true,"propertyUrl" "qb:structure","valueUrl" dsd-uri}],
       "aboutUrl" ds-uri}}))
@@ -181,7 +189,8 @@
   (map (fn [column]
          {:component_slug (column/column-name column)
           :component_attachment (column/component-attachment column)
-          :component_property (column/property-template column)})
+          :component_property (column/property-template column)
+          :codes_used (if (component-has-codes-used-list? column) "yes" "")})
        (cube-config/dimension-attribute-measure-columns cube-config)))
 
 (defn- components->csvw
@@ -189,7 +198,7 @@
    observations CSV file"
   [output-csv cube-config]
   (with-open [writer (io/writer output-csv)]
-    (write-csv-rows writer [:component_slug :component_attachment :component_property] (read-component-specifications cube-config))))
+    (write-csv-rows writer [:component_slug :component_attachment :component_property :codes_used] (read-component-specifications cube-config))))
 
 (defn- observations->csvw
   "Writes an intermediate observations CSV file for a given column configuration to the specified location."

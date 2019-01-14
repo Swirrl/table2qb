@@ -42,7 +42,6 @@
       "name": "value",
       "titles": "value",
       "datatype": "number",
-      "propertyUrl": "skos:member",
       "suppressOutput": true
     }],
     "aboutUrl": "http://gss-data.org.uk/data/regional-trade/codes-used/{_name}"

@@ -2,9 +2,10 @@
   (:require [table2qb.util :refer [tempfile create-metadata-source]]
             [csv2rdf.csvw :as csvw]
             [clojure.java.io :as io]
-            [table2qb.csv :refer [write-csv-rows read-csv reader]]
+            [table2qb.csv :refer [write-csv-rows reader]]
             [grafter.extra.cell.uri :as gecu]
-            [table2qb.configuration.uris :as uri-config])
+            [table2qb.configuration.uris :as uri-config]
+            [table2qb.csv :as csv])
   (:import [java.io File]))
 
 (defn components-metadata [csv-url domain-def]
@@ -64,6 +65,10 @@
                    "valueUrl" "rdf:Property"}],
       "aboutUrl" (str domain-def "{component_type_slug}/{notation}")}}))
 
+(def component-type-mapping {"Dimension" "qb:DimensionProperty"
+                             "Measure"   "qb:MeasureProperty"
+                             "Attribute" "qb:AttributeProperty"})
+
 (defn annotate-component
   "Derives extra column data for a component row"
   [{:keys [label component_type] :as row}]
@@ -73,19 +78,29 @@
                                     "Measure" "measure"
                                     "Attribute" "attribute"}
                                     component_type))
+      (update :component_type component-type-mapping)
       (assoc :property_slug (gecu/propertize label))
       (assoc :class_slug (gecu/classize label))
-      (update :component_type {"Dimension" "qb:DimensionProperty"
-                               "Measure" "qb:MeasureProperty"
-                               "Attribute" "qb:AttributeProperty"})
       (assoc :parent_property (if (= "Measure" component_type)
                                 "http://purl.org/linked-data/sdmx/2009/measure#obsValue"))))
 
+(def csv-columns [{:title    "Label"
+                   :key      :label
+                   :required true
+                   :validate [csv/validate-not-blank]}
+                  {:title "Description"
+                   :key :description
+                   :required true
+                   :validate [csv/validate-not-blank]}
+                  {:title "Component Type"
+                   :key :component_type
+                   :required true
+                   :validate [(csv/validate-one-of (set (keys component-type-mapping)))]}
+                  {:title "Codelist"
+                   :key :codelist}])
+
 (defn components [reader]
-  (let [data (read-csv reader {"Label" :label
-                               "Description" :description
-                               "Component Type" :component_type
-                               "Codelist" :codelist})]
+  (let [data (csv/read-csv-records reader csv-columns)]
     (map annotate-component data)))
 
 

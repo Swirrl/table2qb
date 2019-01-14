@@ -89,7 +89,7 @@
   (let [header-component-names (resolve-component-names titles column-config)
         name-set (set header-component-names)
         mt-component-name (get-measure-type-component-name name-set column-config)
-        measures (resolve-measures mt-component-name (tcsv/csv-records header-component-names data-rows) column-config)
+        measures (resolve-measures mt-component-name (tcsv/csv-maps header-component-names data-rows) column-config)
         component-names (concat header-component-names measures)
         name->component (select-keys (column-config/name->component column-config) component-names)]
     (validate-no-measure-columns name-set column-config)
@@ -163,7 +163,7 @@
   [reader cube-config]
   (let [csv-records (csv/read-csv reader)
         data-records (rest csv-records)
-        csv-records (tcsv/csv-records (:names cube-config) data-records)
+        csv-records (tcsv/csv-maps (:names cube-config) data-records)
         column-transforms (find-header-transformers cube-config)]
     (map (fn [record]
            (-> record

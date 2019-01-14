@@ -1,7 +1,7 @@
 (ns table2qb.pipelines.cube
   (:require [table2qb.util :refer [tempfile create-metadata-source] :as util]
             [table2qb.configuration.cube :as cube-config]
-            [table2qb.csv :refer [write-csv-rows csv-records reader]]
+            [table2qb.csv :refer [write-csv-rows reader]]
             [clojure.java.io :as io]
             [csv2rdf.csvw :as csvw]
             [csv2rdf.util :refer [liberal-concat]]

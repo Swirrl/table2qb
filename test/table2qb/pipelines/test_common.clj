@@ -6,7 +6,7 @@
             [table2qb.configuration.uris :as uri-config]))
 
 (defn- load-test-configuration []
-  (column-config/load-column-configuration (io/resource "columns.csv")))
+  (column-config/load-column-configuration (io/file "test/resources/columns.csv")))
 
 (def default-config (load-test-configuration))
 

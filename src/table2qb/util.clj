@@ -3,7 +3,8 @@
             [clojure.java.io :as io]
             [clojure.data.json :as json]
             [clojure.string :as string])
-  (:import [java.io File]))
+  (:import [java.io File]
+           [java.net URI]))
 
 (defn exception? [x] (instance? Exception x))
 
@@ -20,13 +21,12 @@
 (defn map-by [f s]
   (into {} (map (fn [v] [(f v) v]) s)))
 
-(defn csv-file->metadata-uri [^File csv-file]
-  (let [csv-dir (.getParentFile csv-file)
-        meta-file (io/file csv-dir "meta.json")]
-    (.toURI meta-file)))
+(defn csv-file->metadata-uri [csv-file-str]
+  (let [meta-file (str csv-file-str "meta.json")]
+    (URI. meta-file)))
 
 (defn create-metadata-source [csv-file-str metadata-json]
-  (let [meta-uri (csv-file->metadata-uri (io/file csv-file-str))]
+  (let [meta-uri (csv-file->metadata-uri csv-file-str)]
     (source/->MapMetadataSource meta-uri metadata-json)))
 
 (defn tempfile [filename extension]

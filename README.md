@@ -72,8 +72,7 @@ After installing as described in the previous section, you can run table2qb as f
 
 __To run the `components-pipeline` use the following command:__
 
-```table2qb exec components-pipeline --input-csv components.csv --base-uri http://example.com/ --output-file output.ttl```
-
+    table2qb exec components-pipeline --input-csv components.csv --base-uri http://example.com/ --output-file output.ttl
 
 
 __To run the `codelist-pipeline` for each of the codelist files use the following command:__

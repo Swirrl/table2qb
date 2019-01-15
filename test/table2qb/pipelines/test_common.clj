@@ -25,7 +25,7 @@
   (first (filter #(= val (attr %)) coll)))
 
 (defn example [type name filename]
-  (str "./examples/" name "/" type "/" filename))
+  (io/resource (str "./examples/" name "/" type "/" filename)))
 
 (def example-csv (partial example "csv"))
 (def example-csvw (partial example "csvw"))

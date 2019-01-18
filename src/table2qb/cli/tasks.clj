@@ -5,7 +5,9 @@
             [grafter.rdf.io :as gio]
             [grafter.rdf :as rdf]
             [table2qb.configuration.columns :as column-config]
-            [clojure.set :as set])
+            [table2qb.configuration.uris :as uri-config]
+            [clojure.set :as set]
+            [table2qb.util :as util])
   (:import [java.net URI]))
 
 (defn display-lines [lines]
@@ -47,7 +49,12 @@
 
 (defmethod describe-task :exec [_task]
   (println "Executes a named pipeline")
-  (println "Usage table2qb exec pipeline-name args"))
+  (println "Usage: table2qb exec pipeline-name args"))
+
+(defmethod describe-task :uris [_task]
+  (println "Lists and describes the URI templates used by a named pipeline")
+  (println "If an EDN file containing overriding URI definitions is provided, the resolved URIs will be displayed")
+  (println "Usage: table2qb uris pipeline-name [uris-file]"))
 
 (defmethod exec-task :help [_help-task all-tasks args]
   (if-let [task-name (first args)]
@@ -129,6 +136,9 @@
         args (map (fn [param] (example-pipeline-argument param)) (concat required-params optional-params))]
     (format "table2qb exec %s %s" (name (:name pipeline)) (string/join " " args))))
 
+(defn- get-example-uris-command-line [pipeline]
+  (format "table2qb uris %s" (name (:name pipeline))))
+
 (defn- unknown-pipeline [pipelines pipeline-name]
   (throw (ex-info (str "Unknown pipeline " pipeline-name)
                   {:error-lines (display-pipelines-lines pipelines)})))
@@ -164,8 +174,9 @@
 
 (defmethod exec-task :describe [{:keys [pipelines] :as describe-task} _all-tasks args]
   (if-let [pipeline-name (first args)]
-    (if-let [{:keys [name description] :as pipeline} (find-pipeline pipelines pipeline-name)]
+    (if-let [{:keys [name description uris-resource] :as pipeline} (find-pipeline pipelines pipeline-name)]
       (let [params (get-pipeline-parameters pipeline)
+            uris (util/read-edn (io/resource uris-resource))
             summary-rows (map parameter-summary-row params)
             padded-rows (pad-rows summary-rows)]
         (println name)
@@ -174,6 +185,15 @@
         (println "Parameters:")
         (doseq [row padded-rows]
           (println "  " (row->string row)))
+        (println)
+        (println "URIs:")
+        (let [uri-header ["" "Default"]
+              uri-rows (pad-rows (cons uri-header (map (fn [[key uri]] [(str "  " key) uri]) uris)))]
+          (doseq [row uri-rows]
+            (println (row->string row))))
+        (println)
+        (println "To describe pipeline URIs:")
+        (println (get-example-uris-command-line pipeline))
         (println)
         (println "To execute pipeline:")
         (println (get-example-exec-command-line pipeline)))
@@ -218,3 +238,31 @@
       (unknown-pipeline pipelines pipeline-name))
     (throw (ex-info "Pipeline name required"
                     {:error-lines ["Usage: table2qb describe pipeline-name"]}))))
+
+(defn- load-user-uris-file [file-str]
+  ;;TODO: handle file errors, validate loaded EDN
+  (util/read-edn (io/file file-str)))
+
+(defmethod exec-task :uris [{:keys [pipelines]} _all-tasks [pipeline-name uris-file & _ignored]]
+  (if (some? pipeline-name)
+    (if-let [{:keys [uris-resource uri-vars] :as pipeline} (find-pipeline pipelines pipeline-name)]
+      (if (some? uris-file)
+        (let [base-uris (util/read-edn (io/resource uris-resource))
+              user-uris (load-user-uris-file uris-file)
+              resolved-uris (uri-config/merge-uris base-uris user-uris)
+              rows (cons ["Name" "Template"] (map (fn [[key uri]] [(str "  " key) uri]) resolved-uris))]
+          (doseq [row (pad-rows rows)]
+            (println (row->string row))))
+        (let [uris (util/read-edn (io/resource uris-resource))
+              var-rows (cons ["Name" "Description"] (util/map-keys name uri-vars))
+              uri-rows (cons ["Name" "Default"] (map (fn [[key uri]] [(str "  " key) uri]) uris))]
+          (println "URIs:")
+          (doseq [row (pad-rows uri-rows)]
+            (println (row->string row)))
+          (println)
+          (println "Template variables:")
+          (doseq [row (pad-rows var-rows)]
+            (println (row->string row)))))
+      (unknown-pipeline pipelines pipeline-name))
+    (throw (ex-info "Pipeline name required"
+                    {:error-lines ["Usage: table2qb uris pipeline-name [uris-file]"]}))))

@@ -92,7 +92,7 @@
 (defn parse-column [{:keys [title name] :as row}]
   (validate-title title)
   (validate-column-name name)
-  (let [{vt :value_transformation :as normalised} (util/map-values row util/blank->nil)
+  (let [{vt :value_transformation :as normalised} (util/map-values util/blank->nil row)
         optional-keys [:property_template :value_template :datatype :value_transformation]]
     (merge
       {:title                title

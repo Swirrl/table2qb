@@ -18,7 +18,10 @@
                                                       {:name base-uri
                                                        :description "Base URI for generated URIs"
                                                        :type :string
-                                                       :example "http://example.com/dataset/"}]}
+                                                       :example "http://example.com/dataset/"}]
+                                         :uris-resource "uris/cube-pipeline-uris.edn"
+                                         :uri-vars {base-uri "Base URI"
+                                                    dataset-slug "Provided slug for the dataset"}}
  :table2qb.pipelines.components/components-pipeline {:parameters [{:name input-csv
                                                                    :description "File containing component definitions"
                                                                    :type :file
@@ -26,7 +29,9 @@
                                                                   {:name base-uri
                                                                    :description "Base URI for generated URIs"
                                                                    :type :string
-                                                                   :example "http://example.com/dataset/"}]}
+                                                                   :example "http://example.com/dataset/"}]
+                                                     :uris-resource "uris/components-pipeline-uris.edn"
+                                                     :uri-vars {base-uri "Base URI"}}
  :table2qb.pipelines.codelist/codelist-pipeline {:parameters [{:name codelist-csv
                                                                :description "File containing codelist data"
                                                                :type :file
@@ -42,7 +47,10 @@
                                                               {:name base-uri
                                                                :description "Base URI for generated URIs"
                                                                :type :string
-                                                               :example "http://example.com/dataset/"}]}
+                                                               :example "http://example.com/dataset/"}]
+                                                 :uris-resource "uris/codelist-pipeline-uris.edn"
+                                                 :uri-vars {base-uri "Base URI"
+                                                            codelist-slug "Provided slug for the codelist"}}
 
  :table2qb.pipelines/pipelines [#ig/ref :table2qb.pipelines.cube/cube-pipeline
                                 #ig/ref :table2qb.pipelines.components/components-pipeline
@@ -54,5 +62,7 @@
                        {:name :describe
                         :pipelines #ig/ref :table2qb.pipelines/pipelines}
                        {:name :exec
+                        :pipelines #ig/ref :table2qb.pipelines/pipelines}
+                       {:name :uris
                         :pipelines #ig/ref :table2qb.pipelines/pipelines}]
  }

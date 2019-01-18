@@ -1,5 +1,5 @@
 (ns table2qb.configuration.uris
-  (:require [csv2rdf.util :as util]))
+  (:require [table2qb.util :as util]))
 
 (defn domain-data [domain]
   (str domain "data/"))
@@ -23,3 +23,8 @@
    override some of the definitions in the base and any unknown definitions are ignored."
   [base-uris user-uris]
   (select-keys (merge base-uris user-uris) (keys base-uris)))
+
+(defn resolve-uri-defs [base-source user-source]
+  (let [base-uris (util/read-edn base-source)
+        user-uris (when user-source (util/read-edn user-source))]
+    (merge-uris base-uris user-uris)))

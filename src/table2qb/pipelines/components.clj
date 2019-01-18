@@ -7,10 +7,12 @@
             [table2qb.configuration.uris :as uri-config])
   (:import [java.io File]))
 
+(defn- resolve-uris [uri-defs base-uri]
+  (uri-config/expand-uris uri-defs {:base-uri (uri-config/strip-trailing-path-separator base-uri)}))
+
 (defn get-uris [base-uri]
-  (let [uri-map (util/read-edn (io/resource "uris/components-pipeline-uris.edn"))
-        vars {:base-uri (uri-config/strip-trailing-path-separator base-uri)}]
-    (uri-config/expand-uris uri-map vars)))
+  (let [uri-map (util/read-edn (io/resource "uris/components-pipeline-uris.edn"))]
+    (resolve-uris uri-map base-uri)))
 
 (defn components-metadata [csv-url {:keys [ontology-uri component-uri component-class-uri] :as uris}]
   {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
@@ -105,16 +107,18 @@
 
 (defn components->csvw->rdf
   "Annotates an input components CSV file and uses it to generate RDF."
-  [components-csv base-uri ^File intermediate-file]
+  [components-csv ^File intermediate-file uris]
   (components->csvw components-csv intermediate-file)
-  (let [uris (get-uris base-uri)
-        components-meta (components-metadata (.toURI intermediate-file) uris)]
+  (let [components-meta (components-metadata (.toURI intermediate-file) uris)]
     (csvw/csv->rdf intermediate-file (create-metadata-source components-csv components-meta) csv2rdf-config)))
 
 (defn components-pipeline
   "Generates RDF for the given components CSV file."
-  [input-csv base-uri]
-  (let [components-csv (tempfile "components" ".csv")]
-    (components->csvw->rdf input-csv base-uri components-csv)))
+  ([input-csv base-uri] (components-pipeline input-csv base-uri nil))
+  ([input-csv base-uri uris-file]
+   (let [components-csv (tempfile "components" ".csv")
+         uri-defs (uri-config/resolve-uri-defs (io/resource "uris/components-pipeline-uris.edn") uris-file)
+         uris (resolve-uris uri-defs base-uri)]
+     (components->csvw->rdf input-csv components-csv uris))))
 
 (derive ::components-pipeline :table2qb.pipelines/pipeline)

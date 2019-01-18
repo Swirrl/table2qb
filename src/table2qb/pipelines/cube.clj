@@ -69,11 +69,14 @@
                 {"columns" (vec columns)
                  "aboutUrl" (observation-template domain-data dataset-slug dimension-names)}}))
 
+(defn- resolve-uris [uri-defs base-uri dataset-slug]
+  (let [vars {:base-uri (uri-config/strip-trailing-path-separator base-uri) :dataset-slug dataset-slug}]
+    (uri-config/expand-uris uri-defs vars)))
+
 (defn get-uris [base-uri dataset-slug]
   ;;TODO: rename templates to end with template e.g. codelist-uri-template or codelist-template
-  (let [uri-map (util/read-edn (io/resource "uris/cube-pipeline-uris.edn"))
-        vars {:base-uri (uri-config/strip-trailing-path-separator base-uri) :dataset-slug dataset-slug}]
-    (uri-config/expand-uris uri-map vars)))
+  (let [base-defs (util/read-edn (io/resource "uris/cube-pipeline-uris.edn"))]
+    (resolve-uris base-defs base-uri dataset-slug)))
 
 (defn used-codes-codelists-metadata [csv-url {:keys [codelist-uri] :as uri-config}]
   {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
@@ -204,11 +207,10 @@
 
 (def csv2rdf-config {:mode :standard})
 
-(defn cube->csvw->rdf [input-csv dataset-name dataset-slug ^File component-specifications-csv observations-csv cube-config base-uri]
+(defn cube->csvw->rdf [input-csv dataset-name dataset-slug ^File component-specifications-csv observations-csv cube-config base-uri uris]
   (cube->csvw input-csv component-specifications-csv observations-csv cube-config)
 
-  (let [uris (get-uris base-uri dataset-slug)
-        domain-data (uri-config/domain-data base-uri)
+  (let [domain-data (uri-config/domain-data base-uri)
         component-specifications-uri (.toURI component-specifications-csv)
         component-specification-metadata-meta (component-specification-metadata component-specifications-uri dataset-name uris)
         dataset-metadata-meta (dataset-metadata component-specifications-uri dataset-name uris)
@@ -226,12 +228,16 @@
 
 (defn cube-pipeline
   "Generates cube RDF for the given input CSV with dataset name and slug."
-  [input-csv dataset-name dataset-slug column-config base-uri]
-  (let [cube-config (cube-config/get-cube-configuration input-csv column-config)
-        component-specifications-csv (tempfile "component-specifications" ".csv")
-        observations-csv (tempfile "observations" ".csv")]
-    (cube->csvw->rdf input-csv dataset-name dataset-slug
-                     component-specifications-csv observations-csv
-                     cube-config base-uri)))
+  ([input-csv dataset-name dataset-slug column-config base-uri]
+    (cube-pipeline input-csv dataset-name dataset-slug column-config base-uri nil))
+  ([input-csv dataset-name dataset-slug column-config base-uri uris-file]
+   (let [uri-defs (uri-config/resolve-uri-defs (io/resource "uris/cube-pipeline-uris.edn") uris-file)
+         uris (resolve-uris uri-defs base-uri dataset-slug)
+         cube-config (cube-config/get-cube-configuration input-csv column-config)
+         component-specifications-csv (tempfile "component-specifications" ".csv")
+         observations-csv (tempfile "observations" ".csv")]
+     (cube->csvw->rdf input-csv dataset-name dataset-slug
+                      component-specifications-csv observations-csv
+                      cube-config base-uri uris))))
 
 (derive ::cube-pipeline :table2qb.pipelines/pipeline)

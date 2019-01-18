@@ -18,7 +18,12 @@
                                                       {:name base-uri
                                                        :description "Base URI for generated URIs"
                                                        :type :string
-                                                       :example "http://example.com/dataset/"}]
+                                                       :example "http://example.com/dataset/"}
+                                                      {:name uris
+                                                       :description "EDN file containing named URI template definitions"
+                                                       :type :file
+                                                       :example "uris.edn"
+                                                       :optional? true}]
                                          :uris-resource "uris/cube-pipeline-uris.edn"
                                          :uri-vars {base-uri "Base URI"
                                                     dataset-slug "Provided slug for the dataset"}}
@@ -29,7 +34,12 @@
                                                                   {:name base-uri
                                                                    :description "Base URI for generated URIs"
                                                                    :type :string
-                                                                   :example "http://example.com/dataset/"}]
+                                                                   :example "http://example.com/dataset/"}
+                                                                  {:name uris
+                                                                   :description "EDN file containing named URI template definitions"
+                                                                   :type :file
+                                                                   :example "uris.edn"
+                                                                   :optional? true}]
                                                      :uris-resource "uris/components-pipeline-uris.edn"
                                                      :uri-vars {base-uri "Base URI"}}
  :table2qb.pipelines.codelist/codelist-pipeline {:parameters [{:name codelist-csv
@@ -47,7 +57,12 @@
                                                               {:name base-uri
                                                                :description "Base URI for generated URIs"
                                                                :type :string
-                                                               :example "http://example.com/dataset/"}]
+                                                               :example "http://example.com/dataset/"}
+                                                              {:name uris
+                                                               :description "EDN file containing named URI template definitions"
+                                                               :type :file
+                                                               :example "uris.edn"
+                                                               :optional? true}]
                                                  :uris-resource "uris/codelist-pipeline-uris.edn"
                                                  :uri-vars {base-uri "Base URI"
                                                             codelist-slug "Provided slug for the codelist"}}

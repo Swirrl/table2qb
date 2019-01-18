@@ -7,10 +7,13 @@
             [table2qb.configuration.uris :as uri-config])
   (:import [java.io File]))
 
+(defn resolve-uris [uri-defs base-uri codelist-slug]
+  (let [vars {:base-uri (uri-config/strip-trailing-path-separator base-uri) :codelist-slug codelist-slug}]
+    (uri-config/expand-uris uri-defs vars)))
+
 (defn get-uris [base-uri codelist-slug]
-  (let [uri-map (util/read-edn (io/resource "uris/codelist-pipeline-uris.edn"))
-        vars {:base-uri (uri-config/strip-trailing-path-separator base-uri) :codelist-slug codelist-slug}]
-    (uri-config/expand-uris uri-map vars)))
+  (let [uri-map (util/read-edn (io/resource "uris/codelist-pipeline-uris.edn"))]
+    (resolve-uris uri-map base-uri codelist-slug)))
 
 (defn codelist-metadata [csv-url codelist-name {:keys [codelist-uri code-uri parent-uri] :as column-config}]
   {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
@@ -104,16 +107,19 @@
 
 (defn codelist->csvw->rdf
   "Annotates an input codelist CSV file and uses it to generate RDF for the given codelist name and slug."
-  [codelist-csv base-uri codelist-name codelist-slug ^File intermediate-file]
+  [codelist-csv codelist-name ^File intermediate-file uris]
   (codelist->csvw codelist-csv intermediate-file)
-  (let [uris (get-uris base-uri codelist-slug)
-        codelist-meta (codelist-metadata (.toURI intermediate-file) codelist-name uris)]
+  (let [codelist-meta (codelist-metadata (.toURI intermediate-file) codelist-name uris)]
     (csvw/csv->rdf intermediate-file (create-metadata-source codelist-csv codelist-meta) csv2rdf-config)))
 
 (defn codelist-pipeline
   "Generates RDF for the given codelist CSV file"
-  [codelist-csv codelist-name codelist-slug base-uri]
-  (let [intermediate-file (tempfile codelist-slug ".csv")]
-    (codelist->csvw->rdf codelist-csv base-uri codelist-name codelist-slug intermediate-file)))
+  ([codelist-csv codelist-name codelist-slug base-uri]
+    (codelist-pipeline codelist-csv codelist-name codelist-slug base-uri nil))
+  ([codelist-csv codelist-name codelist-slug base-uri uris-file]
+   (let [intermediate-file (tempfile codelist-slug ".csv")
+         uri-defs (uri-config/resolve-uri-defs (io/resource "uris/codelist-pipeline-uris.edn") uris-file)
+         uris (resolve-uris uri-defs base-uri codelist-slug)]
+     (codelist->csvw->rdf codelist-csv codelist-name intermediate-file uris))))
 
 (derive ::codelist-pipeline :table2qb.pipelines/pipeline)

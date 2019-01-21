@@ -242,20 +242,16 @@
     (throw (ex-info "Pipeline name required"
                     {:error-lines ["Usage: table2qb describe pipeline-name"]}))))
 
-(defn- load-user-uris-file [file-str]
-  ;;TODO: handle file errors, validate loaded EDN
-  (util/read-edn (io/file file-str)))
-
 (defmethod exec-task :uris [{:keys [pipelines] :as uri-task} _all-tasks [pipeline-name uris-file & _ignored]]
   (if (some? pipeline-name)
-    (if-let [{:keys [uris-resource uri-vars] :as pipeline} (find-pipeline pipelines pipeline-name)]
+    (if-let [{:keys [uris-resource template-vars csvw-vars] :as pipeline} (find-pipeline pipelines pipeline-name)]
       (if (some? uris-file)
         (let [resolved-uris (uri-config/resolve-uri-defs (io/resource uris-resource) (io/file uris-file))
               rows (cons ["Name" "Template"] (map (fn [[key uri]] [(str "  " key) uri]) resolved-uris))]
           (doseq [row (pad-rows rows)]
             (println (row->string row))))
         (let [uris (util/read-edn (io/resource uris-resource))
-              var-rows (cons ["Name" "Description"] (util/map-keys name uri-vars))
+              var-rows (cons ["Name" "Description"] (util/map-keys name template-vars))
               uri-rows (cons ["Name" "Default"] (map (fn [[key uri]] [(str "  " key) uri]) uris))]
           (println "URIs:")
           (doseq [row (pad-rows uri-rows)]
@@ -263,6 +259,11 @@
           (println)
           (println "Template variables:")
           (doseq [row (pad-rows var-rows)]
-            (println (row->string row)))))
+            (println (row->string row)))
+          (println)
+          (println "CSVW variables:")
+          (let [csvw-uri-rows (cons ["Name" "Description"] (util/map-keys name csvw-vars))]
+            (doseq [row (pad-rows csvw-uri-rows)]
+              (println (row->string row))))))
       (unknown-pipeline pipelines pipeline-name))
     (describe-task uri-task)))

@@ -25,8 +25,9 @@
                                                        :example "uris.edn"
                                                        :optional? true}]
                                          :uris-resource "uris/cube-pipeline-uris.edn"
-                                         :uri-vars {base-uri "Base URI"
-                                                    dataset-slug "Provided slug for the dataset"}}
+                                         :template-vars {base-uri "Base URI"
+                                                         dataset-slug "Provided slug for the dataset"}
+                                         :csvw-vars {}}
  :table2qb.pipelines.components/components-pipeline {:parameters [{:name input-csv
                                                                    :description "File containing component definitions"
                                                                    :type :file
@@ -41,7 +42,14 @@
                                                                    :example "uris.edn"
                                                                    :optional? true}]
                                                      :uris-resource "uris/components-pipeline-uris.edn"
-                                                     :uri-vars {base-uri "Base URI"}}
+                                                     :template-vars {base-uri "Base URI"}
+                                                     :csvw-vars {label "Component label"
+                                                                 description "Component description"
+                                                                 component_type "Component property e.g. qb:Dimension, qb:Measure"
+                                                                 codelist "Optional codelist URI"
+                                                                 component_type_slug "Slugized version of Component Type input value"
+                                                                 property_slug "Propertized version of the component Label"
+                                                                 class_slug "Classized version of the component Label"}}
  :table2qb.pipelines.codelist/codelist-pipeline {:parameters [{:name codelist-csv
                                                                :description "File containing codelist data"
                                                                :type :file
@@ -64,8 +72,13 @@
                                                                :example "uris.edn"
                                                                :optional? true}]
                                                  :uris-resource "uris/codelist-pipeline-uris.edn"
-                                                 :uri-vars {base-uri "Base URI"
-                                                            codelist-slug "Provided slug for the codelist"}}
+                                                 :template-vars {base-uri "Base URI"
+                                                                 codelist-slug "Provided slug for the codelist"}
+                                                 :csvw-vars {label "Code Label"
+                                                             notation "Code Notation"
+                                                             parent_notation "Optional parent code"
+                                                             sort_priority "Optional code Sort Priority"
+                                                             description "Optional code Description"}}
 
  :table2qb.pipelines/pipelines [#ig/ref :table2qb.pipelines.cube/cube-pipeline
                                 #ig/ref :table2qb.pipelines.components/components-pipeline

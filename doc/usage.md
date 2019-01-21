@@ -241,6 +241,18 @@ For example the text "date of birth" is converted into `DateOfBirth`.
 
 Note this transformation is only used internally for generating some URIs and is not a valid value for the `value_transformation` in the data cube columns configuration.
 
+#### Propertize
+
+The `propertize` transformation is defined as:
+
+1. Lower-case the first letter of the first word
+2. Upper-case the first letter of all other words
+3. Remove the whitespace around words
+
+For example the test "date of birth" is converted into `dateOfBirth`.
+
+Note this transformation is only used internally for generating some URIs and is not a valid value for the `value_transformation` in the data cube columns configuration.
+
 ## Customising URIs
 
 Table2qb defines default conventions for the structure of URIs for generated resources, for example the default structure of a component URI was shown above:

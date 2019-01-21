@@ -170,6 +170,16 @@
 (defn- row->string [row]
   (string/join " " row))
 
+(defn- display-table
+  "Displays the table with given data rows and optional header. Nothing is displayed if rows is empty, if
+  header is provided it will be displayed before the rows."
+  ([rows] (display-table rows nil))
+  ([rows header]
+   (when (seq rows)
+     (let [rows (if header (cons header rows) rows)]
+       (doseq [row (pad-rows rows)]
+         (println (row->string row)))))))
+
 (defn- parameter-summary-row [{param-name :name description :description :as param}]
   [(format "--%s %s" param-name (string/upper-case (name param-name)))
    (if (is-optional? param) "optional" "required")
@@ -180,20 +190,16 @@
     (if-let [{:keys [name description uris-resource] :as pipeline} (find-pipeline pipelines pipeline-name)]
       (let [params (get-pipeline-parameters pipeline)
             uris (util/read-edn (io/resource uris-resource))
-            summary-rows (map parameter-summary-row params)
-            padded-rows (pad-rows summary-rows)]
+            summary-rows (map parameter-summary-row params)]
         (println name)
         (println description)
         (println)
         (println "Parameters:")
-        (doseq [row padded-rows]
-          (println "  " (row->string row)))
+        (display-table summary-rows)
+
         (println)
         (println "URIs:")
-        (let [uri-header ["" "Default"]
-              uri-rows (pad-rows (cons uri-header (map (fn [[key uri]] [(str "  " key) uri]) uris)))]
-          (doseq [row uri-rows]
-            (println (row->string row))))
+        (display-table (map (fn [[key uri]] [(str "  " key) uri]) uris) ["" "Default"])
         (println)
         (println "To describe pipeline URIs:")
         (println (get-example-uris-command-line pipeline))
@@ -242,28 +248,33 @@
     (throw (ex-info "Pipeline name required"
                     {:error-lines ["Usage: table2qb describe pipeline-name"]}))))
 
+(defn- indent
+  "Wraps the given function with one which pads the result strings with the specified number of spaces"
+  [num-spaces f]
+  (let [padding (String. (char-array num-spaces \space))]
+    (fn [x] (str padding (f x)))))
+
+(defn- format-csvw-variable [var-sym]
+  (str "{" (name var-sym) "}"))
+
+(defn- format-template-variable [var-sym]
+  (str "$(" (name var-sym) ")"))
+
 (defmethod exec-task :uris [{:keys [pipelines] :as uri-task} _all-tasks [pipeline-name uris-file & _ignored]]
   (if (some? pipeline-name)
     (if-let [{:keys [uris-resource template-vars csvw-vars] :as pipeline} (find-pipeline pipelines pipeline-name)]
       (if (some? uris-file)
-        (let [resolved-uris (uri-config/resolve-uri-defs (io/resource uris-resource) (io/file uris-file))
-              rows (cons ["Name" "Template"] (map (fn [[key uri]] [(str "  " key) uri]) resolved-uris))]
-          (doseq [row (pad-rows rows)]
-            (println (row->string row))))
-        (let [uris (util/read-edn (io/resource uris-resource))
-              var-rows (cons ["Name" "Description"] (util/map-keys name template-vars))
-              uri-rows (cons ["Name" "Default"] (map (fn [[key uri]] [(str "  " key) uri]) uris))]
+        (let [resolved-uris (uri-config/resolve-uri-defs (io/resource uris-resource) (io/file uris-file))]
+          (display-table (map (fn [[key uri]] [(str "  " key) uri]) resolved-uris) ["Name" "Template"]))
+
+        (let [uris (util/read-edn (io/resource uris-resource))]
           (println "URIs:")
-          (doseq [row (pad-rows uri-rows)]
-            (println (row->string row)))
+          (display-table (util/map-keys (indent 4 identity) uris) ["Name" "Default"])
           (println)
           (println "Template variables:")
-          (doseq [row (pad-rows var-rows)]
-            (println (row->string row)))
+          (display-table (util/map-keys (indent 4 format-template-variable) template-vars) ["Name" "Description"])
           (println)
           (println "CSVW variables:")
-          (let [csvw-uri-rows (cons ["Name" "Description"] (util/map-keys name csvw-vars))]
-            (doseq [row (pad-rows csvw-uri-rows)]
-              (println (row->string row))))))
+          (display-table (util/map-keys (indent 4 format-csvw-variable) csvw-vars) ["Name" "Description"])))
       (unknown-pipeline pipelines pipeline-name))
     (describe-task uri-task)))

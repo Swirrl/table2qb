@@ -241,6 +241,62 @@ For example the text "date of birth" is converted into `DateOfBirth`.
 
 Note this transformation is only used internally for generating some URIs and is not a valid value for the `value_transformation` in the data cube columns configuration.
 
+## Customising URIs
+
+Table2qb defines default conventions for the structure of URIs for generated resources, for example the default structure of a component URI was shown above:
+
+    {base-uri}/def/{component-type}/{slugged-label}
+    
+Each pipeline defines their own set of named URI templates which it uses when defining resources such as components and codelists. The default
+URI templates can be displayed using the `uris` task, e.g.
+
+    table2qb uris components-pipeline
+    
+This displays the default structure of the URIs defined within the `components-pipeline`. Each entry has a name and template containing two types of variable - template
+variables and CSVW variables.
+
+### Template variables
+
+Template variables have the form `$(variable-name)`. These are not defined by the URI templates specification and are expanded by each pipeline based on its required
+input parameters. The result of this exapansion should be a valid URI or URI template. As an example, the `components-pipeline` defines the following default template
+for the URIs of generated components:
+
+    :component-uri       $(base-uri)/def/{component_type_slug}/{notation}
+    
+`base-uri` is a required parameter for the `components-pipeline` so the resulting `:component-uri` template will be the result of replacing `$(base-uri)` with the 
+provided `base-uri` parameter value when invoking the pipeline e.g.
+
+    table2qb exec components-pipeline --base-uri http://my-linked-domain ...
+    
+will result in `:component-uri` being expanded to `http://my-linked-domain/def/{component_type_slug}/{notation}`.
+
+### CSVW variables
+
+CSVW variables have the form `{variable_name}` and reference columns within the intermediate CSVW `table2qb` uses to generate RDF. These support the operators
+defined within the [URI templates specification](https://tools.ietf.org/html/rfc6570).
+
+### Overriding defaults
+
+Users can override the default URI templates by providing their own definitions in an EDN file containing a map of name to template. For `component-uri` example above
+this file could be defined as:
+
+**custom_uris.edn**
+```clojure
+{:component-uri "$(base-uri)/id/components/{notation}"}
+```
+
+No all URIs for a pipeline need to be defined within the file, any not specified will use the default value. The effective URI templates for the pipeline
+can be output by providing this file to the `uris` task e.g.
+
+    table2qb uris components-pipeline custom_uris.edn
+    
+This displays the URI templates that would be used by the pipeline on execution if the specified URIs file was provided.
+
+If you are happy with the resulting URI structure, you can run the pipeline by specifying the optional `--uris` parameter e.g.
+
+    table2qb exec components-pipeline --base-uri http://example.com --uris custom_uris.edn ... 
+
+
 ## Validation
 
 The pipelines used to define data cubes are run independently and `table2qb` makes no attempt to validate that the various elements are defined and referenced consistently. For example, users

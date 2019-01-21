@@ -31,6 +31,14 @@
 (defn find-task [tasks task-name]
   (first (filter (fn [task] (= task-name (name (:name task)))) tasks)))
 
+(defn- display-pipelines-lines [pipelines]
+  (concat ["Available pipelines"
+           ""]
+          (map (fn [p] (name (:name p))) pipelines)))
+
+(defn display-pipelines [pipelines]
+  (display-lines (display-pipelines-lines pipelines)))
+
 (defmulti exec-task (fn [task all-tasks args] (:name task)))
 
 (defmulti describe-task (fn [task] (:name task)))
@@ -51,10 +59,13 @@
   (println "Executes a named pipeline")
   (println "Usage: table2qb exec pipeline-name args"))
 
-(defmethod describe-task :uris [_task]
+(defmethod describe-task :uris [{:keys [pipelines] :as uris-task}]
+  (println "Usage: table2qb uris pipeline-name [uris-file]")
+  (println)
   (println "Lists and describes the URI templates used by a named pipeline")
-  (println "If an EDN file containing overriding URI definitions is provided, the resolved URIs will be displayed")
-  (println "Usage: table2qb uris pipeline-name [uris-file]"))
+  (println "If an EDN file containing overriding URI definitions is provided, the resolved URIs that would be used by the pipeline will be displayed")
+  (println)
+  (display-pipelines pipelines))
 
 (defmethod exec-task :help [_help-task all-tasks args]
   (if-let [task-name (first args)]
@@ -63,14 +74,6 @@
       (throw (ex-info (str "Unknown task name " task-name)
                       {:error-lines (display-tasks-lines all-tasks)})))
     (usage all-tasks)))
-
-(defn- display-pipelines-lines [pipelines]
-  (concat ["Available pipelines"
-           ""]
-          (map (fn [p] (name (:name p))) pipelines)))
-
-(defn display-pipelines [pipelines]
-  (display-lines (display-pipelines-lines pipelines)))
 
 (defmethod exec-task :list [{:keys [pipelines] :as list-task} all-tasks args]
   (display-pipelines pipelines)
@@ -243,13 +246,11 @@
   ;;TODO: handle file errors, validate loaded EDN
   (util/read-edn (io/file file-str)))
 
-(defmethod exec-task :uris [{:keys [pipelines]} _all-tasks [pipeline-name uris-file & _ignored]]
+(defmethod exec-task :uris [{:keys [pipelines] :as uri-task} _all-tasks [pipeline-name uris-file & _ignored]]
   (if (some? pipeline-name)
     (if-let [{:keys [uris-resource uri-vars] :as pipeline} (find-pipeline pipelines pipeline-name)]
       (if (some? uris-file)
-        (let [base-uris (util/read-edn (io/resource uris-resource))
-              user-uris (load-user-uris-file uris-file)
-              resolved-uris (uri-config/merge-uris base-uris user-uris)
+        (let [resolved-uris (uri-config/resolve-uri-defs (io/resource uris-resource) (io/file uris-file))
               rows (cons ["Name" "Template"] (map (fn [[key uri]] [(str "  " key) uri]) resolved-uris))]
           (doseq [row (pad-rows rows)]
             (println (row->string row))))
@@ -264,5 +265,4 @@
           (doseq [row (pad-rows var-rows)]
             (println (row->string row)))))
       (unknown-pipeline pipelines pipeline-name))
-    (throw (ex-info "Pipeline name required"
-                    {:error-lines ["Usage: table2qb uris pipeline-name [uris-file]"]}))))
+    (describe-task uri-task)))

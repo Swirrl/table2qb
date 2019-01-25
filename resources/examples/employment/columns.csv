@@ -5,4 +5,4 @@ Gender,gender,qb:dimension,http://statistics.gov.scot/def/dimension/gender,http:
 Measure Type,measure_type,qb:dimension,http://purl.org/linked-data/cube#measureType,http://statistics.gov.scot/def/measure/{measure_type},string,slugize
 Unit,unit,qb:attribute,http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure,http://statistics.gov.scot/def/concept/measure-units/{unit},string,unitize
 Value,value,,http://statistics.gov.scot/def/measure/{measure_type},,number,
-Count,count,qb:measure,http://statistics.gov.scot/def/measure/count,,string,
+Count,count,qb:measure,http://statistics.gov.scot/def/measure/count,,number,

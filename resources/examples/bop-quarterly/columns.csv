@@ -5,8 +5,8 @@ Measure Type,measure_type,qb:dimension,http://purl.org/linked-data/cube#measureT
 Unit,unit,qb:attribute,http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure,http://gss-data.org.uk/def/concept/measurement-units/{unit},string,unitize
 SITC Section,sitc_section,qb:dimension,http://gss-data.org.uk/def/dimension/sitc-section,http://gss-data.org.uk/def/concept/sitc-sections/{sitc_section},string,slugize
 Flow,flow,qb:dimension,http://gss-data.org.uk/def/dimension/flow,http://gss-data.org.uk/def/concept/flow-directions/{flow},string,slugize
-GBP Total,gbp_total,qb:measure,http://gss-data.org.uk/def/measure/gbp-total,,string,
-Net Mass,net_mass,qb:measure,http://gss-data.org.uk/def/measure/net-mass,,string,
+GBP Total,gbp_total,qb:measure,http://gss-data.org.uk/def/measure/gbp-total,,number,
+Net Mass,net_mass,qb:measure,http://gss-data.org.uk/def/measure/net-mass,,number,
 Value,value,,http://gss-data.org.uk/def/measure/{measure_type},,number,
 Year,year,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refPeriod,http://reference.data.gov.uk/id/year/{year},string,
 Foreign Country,foreign_country,qb:dimension,http://gss-data.org.uk/def/dimension/foreign-country,http://gss-data.org.uk/def/concept/countries/{foreign_country},string,slugize
@@ -29,10 +29,10 @@ ONS Partner Geography,ons_partner_geography,qb:dimension,http://gss-data.org.uk/
 ONS Reporter Geography,ons_reporter_geography,qb:dimension,http://gss-data.org.uk/def/dimension/trade-reporter-geography,http://statistics.data.gov.uk/id/statistical-geography/{ons_reporter_geography},string,
 International Trade Basis,international_trade_basis,qb:dimension,http://gss-data.org.uk/def/dimension/international-trade-basis,http://gss-data.org.uk/def/concept/international-trade-basis/{international_trade_basis},string,
 Export and Import Activity,export_and_import_activity,qb:dimension,http://gss-data.org.uk/def/dimension/export-and-import-activity,http://gss-data.org.uk/def/concept/export-and-import-activity/{export_and_import_activity},string,slugize
-Count,count,qb:measure,http://gss-data.org.uk/def/measure/count,,string,
-Proportion of all Business,proportion_of_all_business,qb:measure,http://gss-data.org.uk/def/measure/proportion-of-all-business,,,
+Count,count,qb:measure,http://gss-data.org.uk/def/measure/count,,number,
+Proportion of all Business,proportion_of_all_business,qb:measure,http://gss-data.org.uk/def/measure/proportion-of-all-business,,number,
 HMRC Industry,hmrc_industry,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://gss-data.org.uk/def/concept/hmrc-industry-groups/{hmrc_industry},string,
-Total Turnover,total_turnover,qb:measure,http://gss-data.org.uk/def/measure/total-turnover,,,
+Total Turnover,total_turnover,qb:measure,http://gss-data.org.uk/def/measure/total-turnover,,number,
 HMRC Reporter Region,hmrc_reporter_region,qb:dimension,http://gss-data.org.uk/def/dimension/trade-reporter-geography,http://gss-data.org.uk/def/concept/hmrc-regions/{hmrc_reporter_region},string,
-SITC 4,sitc4,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://gss-data.org.uk/def/concept/sitc-4/{sitc4},,
+SITC 4,sitc4,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://gss-data.org.uk/def/concept/sitc-4/{sitc4},string,
 ONS ABS Trade,ons_abs_trades,qb:dimension,http://gss-data.org.uk/def/dimension/product,http://gss-data.org.uk/def/concept/ons-abs-trades/{ons_abs_trades},string,slugize

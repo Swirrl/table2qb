@@ -24,7 +24,7 @@
     (is (= #{:flow :unit} (set (keys transformers))))
     (is (every? fn? (vals transformers)))))
 
-(deftest transform-colums-test
+(deftest transform-columns-test
   (testing "converts columns with transforms specified"
     (let [transforms {:unit unitize :sitc_section slugize}]
       (is (maps-match? (transform-columns {:unit "£ million" :sitc_section "0 Food and Live Animals"} transforms)
@@ -47,7 +47,7 @@
     (is (= ["dim1" "dim2"] (get-ordered-dimension-names cube-config)))))
 
 (deftest get-cube-configuration-test
-  (testing "qb:measureType cube"
+  (testing "Measures Dimension Cube"
     (testing "valid cube configuration"
       (let [{:keys [names dimensions measures attributes type
                     measure-type-component value-component
@@ -83,9 +83,9 @@
                             (get-cube-configuration (example-csv "validation" "multiple-value-columns.csv") default-config))))
 
     (testing "contains measure columns"
-      (is (thrown? Throwable (get-cube-configuration (example-csv "validation" "measure-type-and-measures.csv") default-config)))))
+      (is (thrown? Throwable (get-cube-configuration (example-csv "validation" "measure-type-with-value-column-and-measures.csv") default-config)))))
 
-  (testing "Multi-measure cube"
+  (testing "Multi-measure Cube"
     (testing "valid cube"
       (let [{:keys [names dimensions measures
                     attributes type] :as cube-config} (get-cube-configuration (example-csv "validation" "multi-measure-cube.csv") default-config)]

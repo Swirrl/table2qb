@@ -4,7 +4,8 @@
             [clojure.java.io :as io]
             [table2qb.csv :refer [write-csv-rows read-csv reader]]
             [grafter.extra.cell.uri :as gecu]
-            [table2qb.configuration.uris :as uri-config])
+            [table2qb.configuration.uris :as uri-config]
+            [table2qb.configuration.csvw :refer [csv2rdf-config]])
   (:import [java.io File]))
 
 (defn components-metadata [csv-url domain-def]
@@ -96,9 +97,6 @@
               writer (io/writer dest-file)]
     (let [component-columns [:label :description :component_type :codelist :notation :component_type_slug :property_slug :class_slug :parent_property]]
       (write-csv-rows writer component-columns (components reader)))))
-
-;;TODO: merge CSV2RDF configs
-(def csv2rdf-config {:mode :standard})
 
 (defn components->csvw->rdf
   "Annotates an input components CSV file and uses it to generate RDF."

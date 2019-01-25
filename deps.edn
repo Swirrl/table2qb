@@ -1,7 +1,7 @@
 {:deps {org.clojure/clojure {:mvn/version "1.9.0"}
         grafter/grafter {:mvn/version "0.11.2"}
         grafter/extra {:mvn/version "0.2.2"}
-        swirrl/csv2rdf {:mvn/version "0.2.6"}
+        swirrl/csv2rdf {:mvn/version "0.2.7"}
         org.clojure/data.csv {:mvn/version "0.1.4"}
         integrant {:mvn/version "0.6.3"}
         org.clojure/tools.cli {:mvn/version "0.3.7"}

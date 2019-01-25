@@ -7,7 +7,8 @@
             [csv2rdf.util :refer [liberal-concat]]
             [clojure.string :as string]
             [table2qb.configuration.uris :as uri-config]
-            [table2qb.configuration.column :as column])
+            [table2qb.configuration.column :as column]
+            [table2qb.configuration.csvw :refer [csv2rdf-config]])
   (:import [java.io File]))
 
 (defn suppress-value-column
@@ -98,7 +99,7 @@
 (defn component-specification-template [domain-data dataset-slug]
   (str domain-data dataset-slug "/component/{component_slug}"))
 
-(defn- derive-dsd-label
+(defn derive-dsd-label
   "Derives the DataSet Definition label from the dataset name"
   [dataset-name]
   (when-let [dataset-name (util/blank->nil dataset-name)]
@@ -204,8 +205,6 @@
   [input-csv component-specifications-csv observations-csv cube-config]
   (components->csvw component-specifications-csv cube-config)
   (observations->csvw input-csv observations-csv cube-config))
-
-(def csv2rdf-config {:mode :standard})
 
 (defn cube->csvw->rdf [input-csv dataset-name dataset-slug ^File component-specifications-csv observations-csv cube-config base-uri]
   (cube->csvw input-csv component-specifications-csv observations-csv cube-config)

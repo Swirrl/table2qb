@@ -1,4 +1,4 @@
-(defproject swirrl/table2qb "0.3.2"
+(defproject swirrl/table2qb "0.3.3-SNAPSHOT"
   :description "Transform tables of observations and reference data into RDF data cube resources specified as csvw"
   :url "http://publishmydata.com"
   :license {:name "Eclipse Public License"

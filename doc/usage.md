@@ -1,5 +1,16 @@
 # Using table2qb
 
+* [Running and getting help](#running-and-getting-help)
+* [Creating components](#creating-components)
+* [Creating codelists](#creating-codelists)
+* [Creating cubes](#creating-cubes)
+    * [Measure-dimension cubes](#measure-dimension-cubes)
+    * [Running the cube pipeline](#running-the-cube-pipeline)
+* [URIs](#uris)
+    * [URI templates](#uri-templates)
+    * [Transforms](#transforms)
+* [Validation](#validation)
+
 `table2qb` is a utility for specifying and generating elements of an [RDF Data Cube](https://www.w3.org/TR/vocab-data-cube/). A data cube contains
 a collection of homogeneous statistical observations along with a definition of their structure. Each observation is identified by a collection of
 _dimension_ values corresponding to one or more observed _measure_ values along with an optional set of _attributes_ which allow further interpretation 

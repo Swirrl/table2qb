@@ -40,7 +40,7 @@
       "valueUrl": "http://gss-data.org.uk/def/concept-scheme/sitc-sections"
     },{
       "name": "has_top_concept",
-      "titles" "has_top_concept",
+      "titles": "has_top_concept",
       "aboutUrl": "http://gss-data.org.uk/def/concept-scheme/sitc-sections",
       "propertyUrl": "skos:hasTopConcept",
       "valueUrl": "http://gss-data.org.uk/def/concept/sitc-sections/{notation}"

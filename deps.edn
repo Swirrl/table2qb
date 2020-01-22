@@ -1,9 +1,11 @@
 {:deps {org.clojure/clojure {:mvn/version "1.9.0"}
-        grafter/grafter {:mvn/version "0.11.2"}
-        grafter/extra {:mvn/version "0.2.2"}
-        swirrl/csv2rdf {:mvn/version "0.2.7"}
+        grafter/grafter {:mvn/version "2.1.7"}
+         grafter/extra {:mvn/version "0.3.0"}
+        ;;swirrl/csv2rdf {:mvn/version "0.2.6"}
+        swirrl/csv2rdf {:git/url "git@github.com:Swirrl/csv2rdf.git"
+                        :sha "060582f5c101ce97f08bb747dee3171ef34049d5"}
         org.clojure/data.csv {:mvn/version "0.1.4"}
-        integrant {:mvn/version "0.6.3"}
+        integrant {:mvn/version "0.8.0"}
         org.clojure/tools.cli {:mvn/version "0.3.7"}
         commons-io/commons-io {:mvn/version "2.4"}}
  :paths ["src" "resources"]

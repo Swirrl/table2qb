@@ -6,8 +6,8 @@
                                                     maps-match? title->name eager-select]]
             [table2qb.util :as util]
             [table2qb.configuration.cube :as cube-config]
-            [grafter.rdf.repository :as repo]
-            [grafter.rdf :as rdf])
+            [grafter-2.rdf4j.repository :as repo]
+            [grafter-2.rdf.protocols :as pr])
   (:import [java.io StringWriter]
            [java.net URI]))
 
@@ -71,7 +71,7 @@
   (testing "name is optional"
     (let [metadata (component-specification-metadata "components.csv" test-domain-data "" "ds-slug")]
       (is (= nil (get metadata "dc:title"))))))
-    
+
 (deftest dataset-test
   (testing "compare with dataset.json"
     (maps-match? (util/read-json (example-csvw "regional-trade" "dataset.json"))
@@ -170,11 +170,12 @@
         dataset-uri "http://example.com/data/regional-trade"
         dsd-uri (str dataset-uri "/structure")
         repo (repo/sail-repo)]
-    (rdf/add repo (cube-pipeline (example-csv "regional-trade" "input.csv")
-                                 dataset-name
-                                 dataset-slug
-                                 default-config
-                                 base-uri))
+    (with-open [conn (repo/->connection repo)]
+      (pr/add conn (cube-pipeline (example-csv "regional-trade" "input.csv")
+                                  dataset-name
+                                  dataset-slug
+                                  default-config
+                                  base-uri)))
 
     (testing "Dataset title and label"
       (let [q (str "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
@@ -204,6 +205,7 @@
                    "ASK WHERE {"
                    "  <" dsd-uri "> a qb:DataStructureDefinition ."
                    "}")]
-        (is (repo/query repo q))))))
+        (with-open [conn (repo/->connection repo)]
+          (is (repo/query conn q)))))))
 
 ;; TODO: Need to label components and their used-code codelists if dataset-name is not blank

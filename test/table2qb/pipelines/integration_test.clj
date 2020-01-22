@@ -5,8 +5,8 @@
             [table2qb.pipelines.components :refer [components-pipeline]]
             [table2qb.pipelines.codelist :refer [codelist-pipeline]]
             [table2qb.pipelines.cube :refer [cube-pipeline]]
-            [grafter.rdf :as rdf]
-            [grafter.rdf.repository :refer [query] :as repo]
+            [grafter-2.rdf.protocols :as pr]
+            [grafter-2.rdf4j.repository :refer [query] :as repo]
             [grafter.extra.repository :refer [with-repository]]
             [grafter.extra.validation.pmd :as pmd]
             [grafter.extra.validation.pmd.dataset :as pmdd]))
@@ -27,36 +27,35 @@
                      (codelist-pipeline (io/resource "examples/regional-trade/csv/units.csv") "Measurement Units" "measurement-units" test-domain)
                      (components-pipeline (io/resource "examples/regional-trade/csv/components.csv") test-domain)
 
-                     ;; This dataset
-                     (codelist-pipeline (io/resource "examples/overseas-trade/csv/countries.csv") "Countries" "countries" test-domain)
-                     (components-pipeline (io/resource "examples/overseas-trade/csv/components.csv") test-domain)
-                     (cube-pipeline (io/resource "examples/overseas-trade/csv/ots-cn-sample.csv") "Overseas Trade Sample" "overseas-trade-sample" default-config test-domain))]
-          (with-open [conn (repo/->connection repo)]
-            (rdf/add conn stmts)
-
-            (testing "PMD Validation"
-              (is (empty? (pmd/errors repo))))
-            (testing "PMD Dataset Validation"
-              (is (empty? (remove #{"is missing a reference area dimension"
-                                    "is not a pmd:Dataset"
-                                    "is missing a pmd:graph"}
-                                  (pmdd/errors repo (str test-domain-data "overseas-trade-sample"))))))
-            (testing "Sort Priority"
-              (with-open [conn (repo/->connection repo)]
-                (let [results (query conn (slurp (io/resource "examples/validation/sparql/sort-priority.sparql")))
-                      schemes (->> results (map (comp str :scheme)) distinct)]
-                  (testing "may be provided"
-                    (is (some #{"http://gss-data.org.uk/def/concept-scheme/sitc-sections"} schemes)))
-                  (testing "is optional"
-                    (is (not-any? #{"http://gss-data.org.uk/def/concept-scheme/flow-directions"} schemes))))))
-            (testing "Description"
-              (with-open [conn (repo/->connection repo)]
-                (let [results (query conn (slurp (io/resource "examples/validation/sparql/description.sparql")))
-                      schemes (->> results (map (comp str :scheme)) distinct)]
-                  (testing "may be provided"
-                    (is (some #{"http://gss-data.org.uk/def/concept-scheme/sitc-sections"} schemes)))
-                  (testing "is optional"
-                    (is (not-any? #{"http://gss-data.org.uk/def/concept-scheme/flow-directions"} schemes))))))))))))
+                                     ;; This dataset
+                                     (codelist-pipeline (io/resource "examples/overseas-trade/csv/countries.csv") "Countries" "countries" test-domain)
+                                     (components-pipeline (io/resource "examples/overseas-trade/csv/components.csv") test-domain)
+                                     (cube-pipeline (io/resource "examples/overseas-trade/csv/ots-cn-sample.csv") "Overseas Trade Sample" "overseas-trade-sample" default-config test-domain))]
+                         (with-open [conn (repo/->connection repo)]
+                           (pr/add conn stmts)))
+                       (testing "PMD Validation"
+                         (is (empty? (pmd/errors repo))))
+                       (testing "PMD Dataset Validation"
+                         (is (empty? (remove #{"is missing a reference area dimension"
+                                               "is not a pmd:Dataset"
+                                               "is missing a pmd:graph"}
+                                             (pmdd/errors repo (str test-domain-data "overseas-trade-sample"))))))
+                       (testing "Sort Priority"
+                         (with-open [conn (repo/->connection repo)]
+                           (let [results (query conn (slurp (io/resource "examples/validation/sparql/sort-priority.sparql")))
+                                 schemes (->> results (map (comp str :scheme)) distinct)]
+                             (testing "may be provided"
+                               (is (some #{"http://gss-data.org.uk/def/concept-scheme/sitc-sections"} schemes)))
+                             (testing "is optional"
+                               (is (not-any? #{"http://gss-data.org.uk/def/concept-scheme/flow-directions"} schemes))))))
+                       (testing "Description"
+                         (with-open [conn (repo/->connection repo)]
+                           (let [results (query conn (slurp (io/resource "examples/validation/sparql/description.sparql")))
+                                 schemes (->> results (map (comp str :scheme)) distinct)]
+                             (testing "may be provided"
+                               (is (some #{"http://gss-data.org.uk/def/concept-scheme/sitc-sections"} schemes)))
+                             (testing "is optional"
+                               (is (not-any? #{"http://gss-data.org.uk/def/concept-scheme/flow-directions"} schemes))))))))))
 
 
 ;; TODO: Vocabulary for pmd:usedCode

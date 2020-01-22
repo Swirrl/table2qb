@@ -4,7 +4,7 @@
             [clojure.data :refer [diff]]
             [table2qb.configuration.columns :as column-config]
             [table2qb.configuration.uris :as uri-config]
-            [grafter.rdf.repository :as repo]))
+            [grafter-2.rdf4j.repository :as repo]))
 
 (defn- load-test-configuration []
   (column-config/load-column-configuration (io/resource "columns.csv")))

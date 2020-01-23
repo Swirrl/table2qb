@@ -6,3 +6,14 @@ chmod +x $INSTALL_SCRIPT
 sudo ./$INSTALL_SCRIPT
 
 clojure -Sdescribe
+
+
+curl -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+chmod +x lein
+sudo mv lein /usr/local/bin
+
+pushd ..
+
+lein version
+
+popd

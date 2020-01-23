@@ -1,6 +1,4 @@
-language: clojure
-sudo: required
-lein: 2.9.1
+language: generic  # Main thing we need from generic over minimal is the JVM
 
 cache:
   directories:

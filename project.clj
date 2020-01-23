@@ -20,4 +20,5 @@
                        :lein-tools-deps/config {:resolve-aliases [:with-logging]}}
              :dev {:lein-tools-deps/config {:resolve-aliases [:with-logging]}
                    :resource-paths ["test/resources"]}}
-  :main table2qb.main)
+  :main table2qb.main
+  :min-lein-version "2.9.1")

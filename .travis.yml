@@ -8,8 +8,8 @@ cache:
     - ~/.gitlibs
 
 
-before_install:
-  - sudo apt-get install -y curl rlwrap
+install:
+  - sudo apt-get install -y rlwrap
   - "travis/install_clojure.sh"
   - "sudo travis/configure_private_maven.sh"
 

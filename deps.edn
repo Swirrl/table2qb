@@ -10,7 +10,7 @@
         commons-io/commons-io {:mvn/version "2.4"}}
  :paths ["src" "resources"]
  :aliases
- {:test {:extra-paths ["test" "test/resources"]
+ {:test {:extra-paths ["test" "test/resources" "examples"]
          :extra-deps {lambdaisland/kaocha {:mvn/version "0.0-343"}}}
   :with-logging
   {:extra-deps

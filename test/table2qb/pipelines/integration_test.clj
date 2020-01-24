@@ -16,21 +16,21 @@
     (testing "Overseas Trade"
       (with-repository [repo (repo/fixture-repo
                                ;; Third party vocabularies
-                               (io/resource "examples/vocabularies/sdmx-dimension.ttl")
-                               (io/resource "examples/vocabularies/qb.ttl")
-                               (io/resource "examples/overseas-trade/vocabularies/2012.rdf")
-                               (io/resource "examples/overseas-trade/vocabularies/CN_2015_20180206_105537.ttl"))]
+                               (io/resource "vocabularies/sdmx-dimension.ttl")
+                               (io/resource "vocabularies/qb.ttl")
+                               (io/resource "overseas-trade/vocabularies/2012.rdf")
+                               (io/resource "overseas-trade/vocabularies/CN_2015_20180206_105537.ttl"))]
         (let [stmts (concat
                      ;; Existing reference data
-                     (codelist-pipeline (io/resource "examples/regional-trade/csv/flow-directions.csv") "Flow Directions" "flow-directions" test-domain)
-                     (codelist-pipeline (io/resource "examples/regional-trade/csv/sitc-sections.csv") "Flow Directions" "sitc-sections" test-domain)
-                     (codelist-pipeline (io/resource "examples/regional-trade/csv/units.csv") "Measurement Units" "measurement-units" test-domain)
-                     (components-pipeline (io/resource "examples/regional-trade/csv/components.csv") test-domain)
+                     (codelist-pipeline (io/resource "regional-trade/csv/flow-directions.csv") "Flow Directions" "flow-directions" test-domain)
+                     (codelist-pipeline (io/resource "regional-trade/csv/sitc-sections.csv") "Flow Directions" "sitc-sections" test-domain)
+                     (codelist-pipeline (io/resource "regional-trade/csv/units.csv") "Measurement Units" "measurement-units" test-domain)
+                     (components-pipeline (io/resource "regional-trade/csv/components.csv") test-domain)
 
                                      ;; This dataset
-                                     (codelist-pipeline (io/resource "examples/overseas-trade/csv/countries.csv") "Countries" "countries" test-domain)
-                                     (components-pipeline (io/resource "examples/overseas-trade/csv/components.csv") test-domain)
-                                     (cube-pipeline (io/resource "examples/overseas-trade/csv/ots-cn-sample.csv") "Overseas Trade Sample" "overseas-trade-sample" default-config test-domain))]
+                                     (codelist-pipeline (io/resource "overseas-trade/csv/countries.csv") "Countries" "countries" test-domain)
+                                     (components-pipeline (io/resource "overseas-trade/csv/components.csv") test-domain)
+                                     (cube-pipeline (io/resource "overseas-trade/csv/ots-cn-sample.csv") "Overseas Trade Sample" "overseas-trade-sample" default-config test-domain))]
                          (with-open [conn (repo/->connection repo)]
                            (pr/add conn stmts)))
                        (testing "PMD Validation"
@@ -42,7 +42,7 @@
                                              (pmdd/errors repo (str test-domain-data "overseas-trade-sample"))))))
                        (testing "Sort Priority"
                          (with-open [conn (repo/->connection repo)]
-                           (let [results (query conn (slurp (io/resource "examples/validation/sparql/sort-priority.sparql")))
+                           (let [results (query conn (slurp (io/resource "validation/sparql/sort-priority.sparql")))
                                  schemes (->> results (map (comp str :scheme)) distinct)]
                              (testing "may be provided"
                                (is (some #{"http://gss-data.org.uk/def/concept-scheme/sitc-sections"} schemes)))
@@ -50,7 +50,7 @@
                                (is (not-any? #{"http://gss-data.org.uk/def/concept-scheme/flow-directions"} schemes))))))
                        (testing "Description"
                          (with-open [conn (repo/->connection repo)]
-                           (let [results (query conn (slurp (io/resource "examples/validation/sparql/description.sparql")))
+                           (let [results (query conn (slurp (io/resource "validation/sparql/description.sparql")))
                                  schemes (->> results (map (comp str :scheme)) distinct)]
                              (testing "may be provided"
                                (is (some #{"http://gss-data.org.uk/def/concept-scheme/sitc-sections"} schemes)))

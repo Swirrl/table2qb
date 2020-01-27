@@ -4,8 +4,8 @@
             [table2qb.pipelines.codelist :refer :all]
             [table2qb.pipelines.test-common :refer [example-csvw example-csv maps-match? test-domain-def eager-select]]
             [table2qb.util :as util]
-            [grafter.rdf.repository :as repo]
-            [grafter.rdf :as rdf])
+            [grafter-2.rdf4j.repository :as repo]
+            [grafter-2.rdf.protocols :as pr])
   (:import [java.net URI]))
 
 (defn- read-codes [csv-source]
@@ -51,7 +51,8 @@
         base-uri (URI. "http://example.com/")
         codelist-uri "http://example.com/def/concept-scheme/flow-directions"
         repo (repo/sail-repo)]
-    (rdf/add repo (codelist-pipeline codelist-csv codelist-name codelist-slug base-uri))
+    (with-open [conn (repo/->connection repo)]
+      (pr/add conn (codelist-pipeline codelist-csv codelist-name codelist-slug base-uri)))
 
     (testing "codelist title and label"
       (let [q (str "PREFIX dc: <http://purl.org/dc/terms/>"
@@ -69,4 +70,6 @@
                    "ASK WHERE {"
                    "  <" codelist-uri "> a skos:ConceptScheme ."
                    "}")]
-        (is (repo/query repo q))))))
+
+        (with-open [conn (repo/->connection repo)]
+          (is (repo/query conn q)))))))

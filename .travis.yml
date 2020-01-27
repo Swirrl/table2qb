@@ -1,11 +1,20 @@
-language: clojure
-sudo: required
-lein: 2.8.1
+language: generic  # Main thing we need from generic over minimal is the JVM
 
-before_install:
-  - sudo apt-get install -y curl rlwrap
+cache:
+  directories:
+    - $HOME/.m2
+    - .cpcache # tools.deps classpath cache
+    - ~/.cache
+    - ~/.gitlibs
+
+
+install:
+  - sudo apt-get install -y rlwrap
   - "travis/install_clojure.sh"
   - "sudo travis/configure_private_maven.sh"
+
+script:
+  - ./bin/kaocha --reporter documentation --fail-fast
 
 after_success:
   - lein uberjar
@@ -24,4 +33,3 @@ deploy:
       condition: $TRAVIS_TAG =~ ^[0-9]+\.[0-9]+\.[0-9]+$
   - provider: script
     script: lein deploy
-

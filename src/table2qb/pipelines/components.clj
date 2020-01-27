@@ -5,7 +5,8 @@
             [table2qb.csv :refer [write-csv-rows read-csv reader]]
             [grafter.extra.cell.uri :as gecu]
             [table2qb.configuration.uris :as uri-config]
-            [table2qb.configuration.csvw :refer [csv2rdf-config]])
+            [table2qb.configuration.csvw :refer [csv2rdf-config]]
+            [integrant.core :as ig])
   (:import [java.io File]))
 
 (defn components-metadata [csv-url domain-def]
@@ -112,4 +113,9 @@
         components-csv (tempfile "components" ".csv")]
     (components->csvw->rdf input-csv domain-def components-csv)))
 
-(derive ::components-pipeline :table2qb.pipelines/pipeline)
+(defmethod ig/init-key :table2qb.pipelines.components/components-pipeline [_ opts]
+  (assoc opts
+         :table2qb/pipeline-fn components-pipeline
+         :description (:doc (meta #'components-pipeline))))
+
+(derive :table2qb.pipelines.components/components-pipeline :table2qb.pipelines/pipeline)

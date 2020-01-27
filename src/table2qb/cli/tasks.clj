@@ -181,15 +181,20 @@
     (throw (ex-info "Pipeline name required"
                     {:error-lines ["Usage: table2qb describe pipeline-name"]}))))
 
+(defn write-rdf [{:keys [table2qb/pipeline-fn] :as pipeline} args writer graph]
+  (let [exec! (fn exec! []
+                (apply pipeline-fn args))]
+    (when graph
+      (pr/add writer graph (exec!)))
+    (when-not graph
+      (pr/add writer (exec!)))))
+
 (defn- exec-pipeline [{:keys [parameters var] :as pipeline} {:keys [output-file graph] :as options}]
   (let [args (mapv (fn [param] (get options (keyword (:name param)))) parameters)
         format (if graph :trig :ttl)]
     (with-open [os (io/output-stream output-file)]
-      (let [s (gio/rdf-writer os :format format)]
-        (when graph
-          (pr/add s graph (apply var args)))
-        (when-not graph
-          (pr/add s (apply var args)))))
+      (let [writer (gio/rdf-writer os :format format)]
+        (write-rdf pipeline args writer graph)))
     nil))
 
 (defn- parse-and-validate-pipeline-arguments [params args]

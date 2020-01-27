@@ -24,6 +24,7 @@
     (if-let [task (find-task tasks task-name)]
       (try
         (exec-task task tasks (rest args))
+        0
         (catch ExceptionInfo ex
           (display-error-lines (cons (.getMessage ex) (:error-lines (ex-data ex))))
           1)

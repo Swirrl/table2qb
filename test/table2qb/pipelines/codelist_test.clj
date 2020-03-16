@@ -73,3 +73,23 @@
 
         (with-open [conn (repo/->connection repo)]
           (is (repo/query conn q)))))))
+
+(deftest codelist-pipeline-whitespace-test
+  (let [codelist-csv (example-csv "input" "space_in_notation_heading.csv")
+        codelist-name "Example Code List"
+        codelist-slug "example-code-list"
+        base-uri (URI. "http://example.com/")
+        codelist-uri "http://example.com/def/concept-scheme/example-code-list"
+        repo (repo/sail-repo)]
+    (with-open [conn (repo/->connection repo)]
+      (pr/add conn (codelist-pipeline codelist-csv codelist-name codelist-slug base-uri)))
+
+    (testing "codelist has expected number of concepts"
+      (let [q (str "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>"
+                   "SELECT (COUNT (?concept) AS ?num) {"
+                   "  ?concept skos:inScheme <" codelist-uri "> ."
+                   "}")
+            {:keys [num] :as binding} (first (eager-select repo q))]
+        (is (= 2 num))))
+    
+    ))

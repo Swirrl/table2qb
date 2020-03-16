@@ -1,5 +1,6 @@
 (ns table2qb.csv
   (:require [clojure.data.csv :as csv]
+            [clojure.string :as s]
             [clojure.java.io :as io])
   (:import [org.apache.commons.io.input BOMInputStream]))
 
@@ -9,7 +10,8 @@
 (defn csv-rows
   "Returns a lazy sequence of CSV row records given a header row, data row and row heading->key name mapping."
   [header-row data-rows header-mapping]
-  (let [header-keys (map header-mapping header-row)]
+  (let [trimmed-header-row (into [] (map s/trim header-row))
+        header-keys (map header-mapping trimmed-header-row)]
     (csv-records header-keys data-rows)))
 
 (defn read-csv

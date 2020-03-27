@@ -177,7 +177,7 @@ A multi-measure cube is one where each observation has one or more associated me
 * At least one column in the observations data has a `component_attachment` of `qb:measure`
 * All of the columns in the observations have a non-empty `component_attachment` i.e. no `Value` column is present.
 
-The [multi-measure example observations file](../examples/validate/csv/multi-measure-cube.csv) defines a multi-measure cube where:
+The [multi-measure example observations file](../examples/validation/csv/multi-measure-cube.csv) defines a multi-measure cube where:
 
 * There are no columns with a `property_template` of `http://purl.org/linked-data/cube#measureType` - this identifies the cube as multi-measure.
 * There are two columns, 'Count' and 'GBP Total' which have a `component_attachment` of `qb:measure` in the columns configuration.

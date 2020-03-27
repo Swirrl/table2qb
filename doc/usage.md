@@ -155,7 +155,7 @@ only supports the "measure dimension" approach but support for multi-measure cub
 ### Measure dimension cubes
 
 A 'measure dimension' cube is one where each observation has a single measure and a `qb:measureType` dimension indicating which measure the observation corresponds to. If the cube contains multiple measures this means there
-should be multiple observations for each combination of dimension values in the observations data (note `table2qb` does validate this requirement, see [validation](#validation) for validating generated cubes).
+should be multiple observations for each combination of dimension values in the observations data (note `table2qb` does not validate this requirement, see [validation](#validation) for validating generated cubes).
 `table2qb` requires the following constraints are met by the observations data:
 
 * A single column exists with a `property_template` of `http://purl.org/linked-data/cube#measureType`. Note this is the literal value which must be used; the compact form of `qb:measureType` is not accepted.

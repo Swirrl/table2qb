@@ -5,6 +5,7 @@
 * [Creating codelists](#creating-codelists)
 * [Creating cubes](#creating-cubes)
     * [Measure-dimension cubes](#measure-dimension-cubes)
+    * [Multi-measure cubes](#multi-measure-cubes)
     * [Running the cube pipeline](#running-the-cube-pipeline)
 * [URIs](#uris)
     * [URI templates](#uri-templates)
@@ -149,8 +150,7 @@ for additional columns that do not exist. This means that all known columns for 
 
 Observations within a cube are distinguished by the set of dimension values, but may have multiple associated measures. The [data cube specification](https://www.w3.org/TR/vocab-data-cube/#dsd-mm) suggests two 
 approaches to handling multiple measures. One is to associate a single measure value with each observation and to include an explicit "measure type" dimension which indicates which measure is being used. Such 
-cubes are henceforth referred to as ["measure dimension" cubes](#measure-dimension-cubes). The other approach ("multi-measure" cubes) associates a value for each measure to each observation. `table2qb` currently
-only supports the "measure dimension" approach but support for multi-measure cubes [is planned for a future release](https://github.com/Swirrl/table2qb/issues/23).
+cubes are henceforth referred to as ["measure dimension" cubes](#measure-dimension-cubes). The other approach - ["multi-measure" cubes](#multi-measure-cubes) -  associates a value for each measure to each observation.
 
 ### Measure dimension cubes
 
@@ -167,6 +167,32 @@ The [employment example observation file](../examples/employment/input.csv) defi
 * The `Measure Type` column has a `property_template` of `http://purl.org/linked-data/cube#measureType`.
 * The values in the `Measure Type` column reference the corresponding `qb:measure` column corresponding to the measure (by its `title` property). There is only a single measure used in the cube (i.e. the `Count` measure).
 * The `Value` column contains the measure value. The configuration for this column has an empty `component_attachment`.
+
+### Multi-measure cubes
+
+A multi-measure cube is one where each observation has one or more associated measure properties and therefore no `qb:measureType` property to indicate the measure type (since they are all associated with the observation).
+`table2qb` uses the absence of a `Measure Type` column in the observations CSV to identify a cube as multi-measure. In that case, the columns configuration and input observations CSV must meet the following constraints:
+
+* No columns in the observations CSV are configured with a `property_template` of `http://purl.org/linked-data/cube#measureType` in the columns configuration
+* At least one column in the observations data has a `component_attachment` of `qb:measure`
+* All of the columns in the observations have a non-empty `component_attachment` i.e. no `Value` column is present.
+
+The [multi-measure example observations file](../examples/validate/csv/multi-measure-cube.csv) defines a multi-measure cube where:
+
+* There are no columns with a `property_template` of `http://purl.org/linked-data/cube#measureType` - this identifies the cube as multi-measure.
+* There are two columns, 'Count' and 'GBP Total' which have a `component_attachment` of `qb:measure` in the columns configuration.
+* There are no `Value` columns (Date, Geography and Flow are `qb:dimension` columns)
+
+In the resulting cube, each `qb:Observation` will have two associated measure properties defined by the `property_template` of the corresponding
+column definitions e.g.
+
+```turtle
+<http://example.com/data/test/2011/gb/import> a qb:Observation;
+  qb:dataSet <http://example.com/data/test>;
+  <http://gss-data.org.uk/def/measure/count> 1.0E3;
+  <http://gss-data.org.uk/def/measure/gbp-total> 2.0E4;
+  ...
+```
 
 ### Running the cube-pipeline
 

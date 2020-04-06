@@ -63,10 +63,6 @@ _:row10185 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 
 <http://gss-data.org.uk/def/concept-scheme/services> skos:hasTopConcept <http://gss-data.org.uk/def/concept/services/manufacturing-and-maintenance-services> .
 
-_:row10185 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
-
-<http://gss-data.org.uk/def/concept-scheme/services> skos:member <http://gss-data.org.uk/def/concept/services/manufacturing-and-maintenance-services> .
-
 _:row10185 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/services/manufacturing-and-maintenance-services> .
 
 <http://gss-data.org.uk/def/concept-scheme/services> <http://www.w3.org/ns/csvw#row> _:row10187 .
@@ -97,10 +93,6 @@ _:row10187 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 _:row10187 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
 
 <http://gss-data.org.uk/def/concept-scheme/services> skos:hasTopConcept <http://gss-data.org.uk/def/concept/services/transport> .
-
-_:row10187 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
-
-<http://gss-data.org.uk/def/concept-scheme/services> skos:member <http://gss-data.org.uk/def/concept/services/transport> .
 
 _:row10187 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/services/transport> .
 
@@ -133,10 +125,6 @@ _:row10189 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 
 <http://gss-data.org.uk/def/concept-scheme/services> skos:hasTopConcept <http://gss-data.org.uk/def/concept/services/travel> .
 
-_:row10189 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
-
-<http://gss-data.org.uk/def/concept-scheme/services> skos:member <http://gss-data.org.uk/def/concept/services/travel> .
-
 _:row10189 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/services/travel> .
 
 <http://gss-data.org.uk/def/concept-scheme/services> <http://www.w3.org/ns/csvw#row> _:row10191 .
@@ -167,10 +155,6 @@ _:row10191 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 _:row10191 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
 
 <http://gss-data.org.uk/def/concept-scheme/services> skos:hasTopConcept <http://gss-data.org.uk/def/concept/services/construction> .
-
-_:row10191 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
-
-<http://gss-data.org.uk/def/concept-scheme/services> skos:member <http://gss-data.org.uk/def/concept/services/construction> .
 
 _:row10191 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/services/construction> .
 
@@ -203,10 +187,6 @@ _:row10193 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 
 <http://gss-data.org.uk/def/concept-scheme/services> skos:hasTopConcept <http://gss-data.org.uk/def/concept/services/insurance-and-pension-services> .
 
-_:row10193 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
-
-<http://gss-data.org.uk/def/concept-scheme/services> skos:member <http://gss-data.org.uk/def/concept/services/insurance-and-pension-services> .
-
 _:row10193 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/services/insurance-and-pension-services> .
 
 <http://gss-data.org.uk/def/concept-scheme/services> <http://www.w3.org/ns/csvw#row> _:row10195 .
@@ -237,10 +217,6 @@ _:row10195 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 _:row10195 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
 
 <http://gss-data.org.uk/def/concept-scheme/services> skos:hasTopConcept <http://gss-data.org.uk/def/concept/services/financial> .
-
-_:row10195 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
-
-<http://gss-data.org.uk/def/concept-scheme/services> skos:member <http://gss-data.org.uk/def/concept/services/financial> .
 
 _:row10195 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/services/financial> .
 
@@ -273,10 +249,6 @@ _:row10197 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 
 <http://gss-data.org.uk/def/concept-scheme/services> skos:hasTopConcept <http://gss-data.org.uk/def/concept/services/intellectual-property> .
 
-_:row10197 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
-
-<http://gss-data.org.uk/def/concept-scheme/services> skos:member <http://gss-data.org.uk/def/concept/services/intellectual-property> .
-
 _:row10197 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/services/intellectual-property> .
 
 <http://gss-data.org.uk/def/concept-scheme/services> <http://www.w3.org/ns/csvw#row> _:row10199 .
@@ -307,10 +279,6 @@ _:row10199 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 _:row10199 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
 
 <http://gss-data.org.uk/def/concept-scheme/services> skos:hasTopConcept <http://gss-data.org.uk/def/concept/services/telecommunication-computer-and-information-services> .
-
-_:row10199 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
-
-<http://gss-data.org.uk/def/concept-scheme/services> skos:member <http://gss-data.org.uk/def/concept/services/telecommunication-computer-and-information-services> .
 
 _:row10199 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/services/telecommunication-computer-and-information-services> .
 
@@ -343,10 +311,6 @@ _:row10201 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 
 <http://gss-data.org.uk/def/concept-scheme/services> skos:hasTopConcept <http://gss-data.org.uk/def/concept/services/other-business> .
 
-_:row10201 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
-
-<http://gss-data.org.uk/def/concept-scheme/services> skos:member <http://gss-data.org.uk/def/concept/services/other-business> .
-
 _:row10201 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/services/other-business> .
 
 <http://gss-data.org.uk/def/concept-scheme/services> <http://www.w3.org/ns/csvw#row> _:row10203 .
@@ -377,10 +341,6 @@ _:row10203 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 _:row10203 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
 
 <http://gss-data.org.uk/def/concept-scheme/services> skos:hasTopConcept <http://gss-data.org.uk/def/concept/services/personal-cultural-and-recreational-services> .
-
-_:row10203 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
-
-<http://gss-data.org.uk/def/concept-scheme/services> skos:member <http://gss-data.org.uk/def/concept/services/personal-cultural-and-recreational-services> .
 
 _:row10203 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/services/personal-cultural-and-recreational-services> .
 
@@ -413,10 +373,6 @@ _:row10205 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 
 <http://gss-data.org.uk/def/concept-scheme/services> skos:hasTopConcept <http://gss-data.org.uk/def/concept/services/government> .
 
-_:row10205 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
-
-<http://gss-data.org.uk/def/concept-scheme/services> skos:member <http://gss-data.org.uk/def/concept/services/government> .
-
 _:row10205 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/services/government> .
 
 <http://gss-data.org.uk/def/concept-scheme/services> <http://www.w3.org/ns/csvw#row> _:row10207 .
@@ -447,9 +403,5 @@ _:row10207 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 _:row10207 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
 
 <http://gss-data.org.uk/def/concept-scheme/services> skos:hasTopConcept <http://gss-data.org.uk/def/concept/services/total> .
-
-_:row10207 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/services> .
-
-<http://gss-data.org.uk/def/concept-scheme/services> skos:member <http://gss-data.org.uk/def/concept/services/total> .
 
 _:row10207 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/services/total> .

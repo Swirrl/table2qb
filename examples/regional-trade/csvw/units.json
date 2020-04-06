@@ -33,11 +33,6 @@
       "how-to-make-this-only-apply-when-parent-is-null?": "perhaps reasoning?",
       "virtual": true
     },{
-      "propertyUrl": "skos:member",
-      "aboutUrl": "http://gss-data.org.uk/def/concept-scheme/units",
-      "valueUrl": "http://gss-data.org.uk/def/concept/{notation}",
-      "virtual": true
-    },{
       "propertyUrl": "skos:prefLabel",
       "value": "{label}",
       "virtual": true

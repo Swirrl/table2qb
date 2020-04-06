@@ -22,8 +22,6 @@
    dc:title "Flow Directions"@en;
    skos:hasTopConcept <http://statistics.data.gov.uk/def/concept/flow-directions/import>,
      <http://statistics.data.gov.uk/def/concept/flow-directions/export>;
-   skos:member <http://statistics.data.gov.uk/def/concept/flow-directions/import>,
-     <http://statistics.data.gov.uk/def/concept/flow-directions/export>;
    csvw:row [
      a csvw:Row;
      csvw:describes <http://statistics.data.gov.uk/def/concept-scheme/flow-directions>,

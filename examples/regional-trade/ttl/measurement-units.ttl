@@ -22,8 +22,6 @@
    dc:title "Measurement Units"@en;
    skos:hasTopConcept <http://statistics.data.gov.uk/def/concept/measurement-units/gbp-million>,
      <http://statistics.data.gov.uk/def/concept/measurement-units/tonnes>;
-   skos:member <http://statistics.data.gov.uk/def/concept/measurement-units/gbp-million>,
-     <http://statistics.data.gov.uk/def/concept/measurement-units/tonnes>;
    csvw:row [
      a csvw:Row;
      csvw:describes <http://statistics.data.gov.uk/def/concept/measurement-units/tonnes>,

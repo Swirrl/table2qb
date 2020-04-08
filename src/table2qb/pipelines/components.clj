@@ -5,7 +5,8 @@
             [table2qb.csv :refer [write-csv-rows reader]]
             [grafter.extra.cell.uri :as gecu]
             [table2qb.configuration.uris :as uri-config]
-            [table2qb.csv :as csv])
+            [table2qb.csv :as csv]
+            [table2qb.configuration.csvw :refer [csv2rdf-config]])
   (:import [java.io File]))
 
 (defn components-metadata [csv-url domain-def]
@@ -103,7 +104,6 @@
   (let [data (csv/read-csv-records reader csv-columns)]
     (map annotate-component data)))
 
-
 (defn components->csvw
   "Annotates an input component CSV file and writes the result to the specified destination file."
   [components-csv dest-file]
@@ -111,9 +111,6 @@
               writer (io/writer dest-file)]
     (let [component-columns [:label :description :component_type :codelist :notation :component_type_slug :property_slug :class_slug :parent_property]]
       (write-csv-rows writer component-columns (components reader)))))
-
-;;TODO: merge CSV2RDF configs
-(def csv2rdf-config {:mode :standard})
 
 (defn components->csvw->rdf
   "Annotates an input components CSV file and uses it to generate RDF."

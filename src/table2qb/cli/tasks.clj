@@ -2,8 +2,8 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as string]
             [clojure.tools.cli :as cli]
-            [grafter.rdf.io :as gio]
-            [grafter.rdf :as rdf]
+            [grafter-2.rdf4j.io :as gio]
+            [grafter-2.rdf.protocols :as pr]
             [table2qb.configuration.columns :as column-config]
             [clojure.set :as set])
   (:import [java.net URI]))
@@ -185,11 +185,11 @@
   (let [args (mapv (fn [param] (get options (keyword (:name param)))) parameters)
         format (if graph :trig :ttl)]
     (with-open [os (io/output-stream output-file)]
-      (let [s (gio/rdf-serializer os :format format)]
+      (let [s (gio/rdf-writer os :format format)]
         (when graph
-          (rdf/add s graph (apply var args)))
+          (pr/add s graph (apply var args)))
         (when-not graph
-          (rdf/add s (apply var args)))))
+          (pr/add s (apply var args)))))
     nil))
 
 (defn- parse-and-validate-pipeline-arguments [params args]

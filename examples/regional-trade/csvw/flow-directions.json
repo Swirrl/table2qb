@@ -1,0 +1,63 @@
+{
+  "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
+  "@id": "http://gss-data.org.uk/def/concept-scheme/flow-directions",
+  "url": "flow-directions-codelist.csv",
+  "dc:title": "Flow Directions Codelist",
+  "rdfs:label": "Flow Directions Codelist",
+  "rdf:type": { "@id": "skos:ConceptScheme" },
+  "tableSchema": {
+    "aboutUrl": "http://gss-data.org.uk/def/concept/flow-directions/{notation}",
+    "columns": [{
+      "name": "label",
+      "titles": "label",
+      "datatype": "string",
+      "propertyUrl": "rdfs:label"
+    },{
+      "name": "notation",
+      "titles": "notation",
+      "datatype": "string",
+      "propertyUrl": "skos:notation"
+    },{
+      "name": "parent_notation",
+      "titles": "parent_notation",
+      "datatype": "string",
+      "propertyUrl": "skos:broader",
+      "valueUrl": "http://gss-data.org.uk/def/concept/flow-directions/{parent_notation}"
+    },{
+      "name": "sort_priority",
+      "titles": "sort_priority",
+      "datatype": "integer",
+      "propertyUrl": "http://www.w3.org/ns/ui#sortPriority"
+    },{
+      "name": "description",
+      "titles": "description",
+      "datatype": "string",
+      "propertyUrl": "rdfs:comment"
+    },{
+      "name": "top_concept_of",
+      "titles": "top_concept_of",
+      "propertyUrl": "skos:topConceptOf",
+      "valueUrl": "http://gss-data.org.uk/def/concept-scheme/flow-directions"
+    },{
+      "name": "has_top_concept",
+      "titles" "has_top_concept",
+      "aboutUrl": "http://gss-data.org.uk/def/concept-scheme/flow-directions",
+      "propertyUrl": "skos:hasTopConcept",
+      "valueUrl": "http://gss-data.org.uk/def/concept/flow-directions/{notation}"
+    },
+    {
+      "name": "pref_label",
+      "titles": "pref_label",
+      "propertyUrl": "skos:prefLabel"
+    },
+    {
+      "propertyUrl": "skos:inScheme",
+      "valueUrl": "http://gss-data.org.uk/def/concept-scheme/flow-directions",
+      "virtual": true
+    },{
+      "propertyUrl": "rdf:type",
+      "valueUrl": "skos:Concept",
+      "virtual": true
+    }]
+  }
+}

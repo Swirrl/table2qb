@@ -1,5 +1,18 @@
 # Using table2qb
 
+* [Running and getting help](#running-and-getting-help)
+* [Creating components](#creating-components)
+* [Creating codelists](#creating-codelists)
+* [Creating cubes](#creating-cubes)
+    * [Measure-dimension cubes](#measure-dimension-cubes)
+    * [Multi-measure cubes](#multi-measure-cubes)
+    * [Running the cube pipeline](#running-the-cube-pipeline)
+* [URIs](#uris)
+    * [URI templates](#uri-templates)
+    * [Transforms](#transforms)
+* [Things to check](#things-to-check)
+* [Validation](#validation)
+
 `table2qb` is a utility for specifying and generating elements of an [RDF Data Cube](https://www.w3.org/TR/vocab-data-cube/). A data cube contains
 a collection of homogeneous statistical observations along with a definition of their structure. Each observation is identified by a collection of
 _dimension_ values corresponding to one or more observed _measure_ values along with an optional set of _attributes_ which allow further interpretation 
@@ -137,13 +150,12 @@ for additional columns that do not exist. This means that all known columns for 
 
 Observations within a cube are distinguished by the set of dimension values, but may have multiple associated measures. The [data cube specification](https://www.w3.org/TR/vocab-data-cube/#dsd-mm) suggests two 
 approaches to handling multiple measures. One is to associate a single measure value with each observation and to include an explicit "measure type" dimension which indicates which measure is being used. Such 
-cubes are henceforth referred to as ["measure dimension" cubes](#measure-dimension-cubes). The other approach ("multi-measure" cubes) associates a value for each measure to each observation. `table2qb` currently
-only supports the "measure dimension" approach but support for multi-measure cubes [is planned for a future release](https://github.com/Swirrl/table2qb/issues/23).
+cubes are henceforth referred to as ["measure dimension" cubes](#measure-dimension-cubes). The other approach - ["multi-measure" cubes](#multi-measure-cubes) -  associates a value for each measure to each observation.
 
 ### Measure dimension cubes
 
 A 'measure dimension' cube is one where each observation has a single measure and a `qb:measureType` dimension indicating which measure the observation corresponds to. If the cube contains multiple measures this means there
-should be multiple observations for each combination of dimension values in the observations data (note `table2qb` does validate this requirement, see [validation](#validation) for validating generated cubes).
+should be multiple observations for each combination of dimension values in the observations data (note `table2qb` does not validate this requirement, see [validation](#validation) for validating generated cubes).
 `table2qb` requires the following constraints are met by the observations data:
 
 * A single column exists with a `property_template` of `http://purl.org/linked-data/cube#measureType`. Note this is the literal value which must be used; the compact form of `qb:measureType` is not accepted.
@@ -155,6 +167,32 @@ The [employment example observation file](../examples/employment/input.csv) defi
 * The `Measure Type` column has a `property_template` of `http://purl.org/linked-data/cube#measureType`.
 * The values in the `Measure Type` column reference the corresponding `qb:measure` column corresponding to the measure (by its `title` property). There is only a single measure used in the cube (i.e. the `Count` measure).
 * The `Value` column contains the measure value. The configuration for this column has an empty `component_attachment`.
+
+### Multi-measure cubes
+
+A multi-measure cube is one where each observation has one or more associated measure properties and therefore no `qb:measureType` property to indicate the measure type (since they are all associated with the observation).
+`table2qb` uses the absence of a `Measure Type` column in the observations CSV to identify a cube as multi-measure. In that case, the columns configuration and input observations CSV must meet the following constraints:
+
+* No columns in the observations CSV are configured with a `property_template` of `http://purl.org/linked-data/cube#measureType` in the columns configuration
+* At least one column in the observations data has a `component_attachment` of `qb:measure`
+* All of the columns in the observations have a non-empty `component_attachment` i.e. no `Value` column is present.
+
+The [multi-measure example observations file](../examples/validation/csv/multi-measure-cube.csv) defines a multi-measure cube where:
+
+* There are no columns with a `property_template` of `http://purl.org/linked-data/cube#measureType` - this identifies the cube as multi-measure.
+* There are two columns, 'Count' and 'GBP Total' which have a `component_attachment` of `qb:measure` in the columns configuration.
+* There are no `Value` columns (Date, Geography and Flow are `qb:dimension` columns)
+
+In the resulting cube, each `qb:Observation` will have two associated measure properties defined by the `property_template` of the corresponding
+column definitions e.g.
+
+```turtle
+<http://example.com/data/test/2011/gb/import> a qb:Observation;
+  qb:dataSet <http://example.com/data/test>;
+  <http://gss-data.org.uk/def/measure/count> 1.0E3;
+  <http://gss-data.org.uk/def/measure/gbp-total> 2.0E4;
+  ...
+```
 
 ### Running the cube-pipeline
 
@@ -240,6 +278,27 @@ The `classize` transformation is defined as:
 For example the text "date of birth" is converted into `DateOfBirth`.
 
 Note this transformation is only used internally for generating some URIs and is not a valid value for the `value_transformation` in the data cube columns configuration.
+
+## Things to check
+
+The component, codelist and cube pipelines are run independently but resources created in one may be referenced in another.
+Below are some areas where care should be taken to ensure URIs generated by one pipeline match those referenced by another.
+
+1. If a component codelist is generated by the codelist pipeline, the corresponding codelist URI in the input provided
+   to the codelist pipeline should match. By default codelist URIs generated by the codelist pipeline have the form
+   `{base-uri}/def/concept-scheme/{codelist-slug}` where `codelist-slug` is a parameter to the codelist pipeline.
+2. Within a columns configuration file provided to the cube pipeline, components are referenced via the `property_template`
+   column. If a column refers to a component generated by the `components-pipeline` the component will by default have a URI
+   of the form `{base-uri}/def/(dimension|measure|attribute)/{component-slug}` where `component-slug` is the [slugized](#slugize)
+   version of the component label.
+3. URI values for observation dimension and measures are specified by the `value_template` of the column within `column-config`
+   provided to the `cube-pipeline`. If the values should exist in a codelist which was generated by the `codelist-pipline` then
+   by default the `value_template` should have the form `{base-uri}/def/concept/{codelist-slug}{column_name}` where `codelist-slug`
+   was the slug provided to the `codelist-pipeline` and `column_name` is the `name` specified for the column in the
+   columns configuration (i.e. the value in the `name` column in the corresponding row in `columns.csv`). The values for the
+   column in the observations CSV file should match the `notation` of the corresponding codelist entry defined in the 
+   codelist definition provided to the `codelist-pipeline`. It may be required to apply the `slugize` transformation to cell
+   values to match them to the defined notation.
 
 ## Validation
 

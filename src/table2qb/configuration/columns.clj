@@ -30,10 +30,6 @@
   (with-open [r (csv/reader source)]
     (mapv column/normalise-column-record (csv/read-csv-records r column/csv-columns))))
 
-(defn- is-qb-measure-type-column? [column]
-  ;;TODO: should only return true for dimension columns?
-  (= "http://purl.org/linked-data/cube#measureType" (column/property-template column)))
-
 (defn load-column-configuration
   [source]
   (let [columns (load-columns source)
@@ -45,4 +41,4 @@
      :attributes      (->key-set attribute)
      :values          (->key-set value)
      :measures        (->key-set measure) ;; as yet unused, will be needed for multi-measure cubes (note this includes single-measure ones not using the measure-dimension approach)
-     :measure-types   (->key-set (filter is-qb-measure-type-column? columns))}))
+     :measure-types   (->key-set (filter column/is-qb-measure-type-column? columns))}))

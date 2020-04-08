@@ -35,6 +35,13 @@
         :measure "qb:measure"}
        (:type column)))
 (def property-template :property_template)
+(def value-transformation :value_transformation)
+
+(defn value-column? [column]
+  (= :value (:type column)))
+
+(defn dimension-column? [column]
+  (= :dimension (:type column)))
 
 (defn- replace-symbols [s]
   (string/replace s #"£" "GBP"))
@@ -100,3 +107,9 @@
                 m))
             row
             optional-keys)))
+
+(defn is-qb-measure-type-column?
+  "Whether the given column represents a qb:measureType dimension"
+  [column]
+  (and (dimension-column? column)
+       (= "http://purl.org/linked-data/cube#measureType" (property-template column))))

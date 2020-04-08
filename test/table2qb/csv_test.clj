@@ -5,7 +5,7 @@
 (deftest bom-disposal-test
   (testing "The reader should remove a leading BOM if present"
     (let [data (read-all-csv-maps "test/resources/bom-example.csv")]
-      (contains? (first data) :Label))))
+      (is (contains? (first data) :Label)))))
 
 (deftest get-cell-default-test
   (testing "Literal default"

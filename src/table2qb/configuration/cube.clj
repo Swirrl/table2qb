@@ -7,47 +7,47 @@
             [clojure.data.csv :as csv]
             [clojure.string :as string]
             [clojure.set :as set]
-            [grafter.extra.cell.string :as gecs]))
+            [grafter.extra.cell.string :as gecs]
+            [table2qb.configuration.column :as column]
+            [table2qb.util :as util]))
 
 ;;TODO: move into configuration.columns namespace?
-(defn- resolve-component-names
+(defn- resolve-columns
   "Returns a sequence of component names of the corresponding observation column titles."
   [titles column-config]
-  (let [title-name-pairs (map (fn [t] [t (column-config/title->key column-config t)]) titles)
-        invalid-titles (map first (filter (fn [[_t n]] (nil? n)) title-name-pairs))]
+  (let [title-column (map (fn [t] [t (column-config/title->column column-config t)]) titles)
+        invalid-titles (map first (filter (fn [[_t n]] (nil? n)) title-column))]
     (if (seq invalid-titles)
       (throw (RuntimeException. (str "Unknown column titles: " (string/join ", " invalid-titles))))
-      (mapv second title-name-pairs))))
+      (mapv second title-column))))
 
-(defn- throw-multiple-columns [component-names column-config column-type error-key]
-  (let [titles (mapv #(column-config/component-name->title column-config %) component-names)
-        msg (format "Found multiple %s columns: %s. Exactly one %s column should be defined."
-                    column-type
-                    (string/join titles)
-                    column-type)]
-    (throw (ex-info msg {error-key titles}))))
-
-(defn- get-measure-type-component-name
+(defn- get-measure-type-column-name
   "Finds the named column which corresponds to the qb:measureType given a set of observation column names
-   and a columns configuration. Exactly one qb:measureType column should exist - if no column or multiple
-   columns exist, an exception will be thrown."
-  [title-component-names column-config]
-  (let [measure-types (set/intersection title-component-names (column-config/measure-types column-config))]
-    (case (count measure-types)
-      0 (throw (ex-info "No measure type column" {:measure-type-columns-found nil}))
-      1 (first measure-types)
-      (throw-multiple-columns measure-types column-config "qb:measureType" :measure-type-columns))))
+   and a columns configuration. At most one qb:measureType column should exist - if multiple columns
+   exist, an exception will be thrown."
+  [columns]
+  (let [measure-type-columns (vec (filter column/is-qb-measure-type-column? columns))]
+    (case (count measure-type-columns)
+      0 nil
+      1 (column/column-key (first measure-type-columns))
+      (let [mt-column-titles (map column/column-title measure-type-columns)
+            msg (format "Found multiple qb:measureType columns: %s. At most one qb:measureType column should be defined."
+                        (string/join ", " ))]
+        (throw (ex-info msg {:measure-type-columns mt-column-titles}))))))
 
 (defn- get-value-component-name
   "Finds the named column containing observation values given a set of observation columns names and
   a columns configuration. Exactly one value column should exist - if no column or multiple columns
   exist, an exception will be thrown."
-  [title-component-names column-config]
-  (let [values (set/intersection title-component-names (column-config/values column-config))]
-    (case (count values)
-      0 (throw (ex-info "No value column" {}))
-      1 (first values)
-      (throw-multiple-columns values column-config "value" :value-columns))))
+  [columns]
+  (let [value-columns (vec (filter column/value-column? columns))]
+    (case (count value-columns)
+      0 (throw (ex-info "No value column defined" {}))
+      1 (column/column-key (first value-columns))
+      (let [value-column-titles (map column/column-title value-columns)
+            msg (format "Found multiple value columns: %s. Exactly one value column should be defined."
+                        value-column-titles)]
+        (throw (ex-info msg {:value-columns value-column-titles}))))))
 
 (defn- throw-invalid-measure
   "Throws an exception indicating a column referenced within a cube's qb:measureType column is not a qb:measure."
@@ -85,24 +85,65 @@
                         (string/join ", " measure-titles))]
         (throw (ex-info msg {}))))))
 
-(defn- parse-cube-configuration-rows [titles data-rows column-config]
-  (let [header-component-names (resolve-component-names titles column-config)
-        name-set (set header-component-names)
-        mt-component-name (get-measure-type-component-name name-set column-config)
-        measures (resolve-measures mt-component-name (tcsv/csv-maps header-component-names data-rows) column-config)
-        component-names (concat header-component-names measures)
+(defn- create-title->name [columns]
+  (into {} (map (juxt column/column-title column/column-key) columns)))
+
+(defn- get-dimensions [column-names column-config]
+  (let [dimensions (set/intersection column-names (column-config/dimensions column-config))]
+    (if (seq dimensions)
+      dimensions
+      (throw (ex-info "No dimension columns found. At least one dimension must be specified." {})))))
+
+(defn- parse-multi-measure-cube-configuration [columns column-config]
+  (let [header-column-names (map column/column-key columns)
+        name-set (set header-column-names)
+        measures (set/intersection name-set (column-config/measures column-config))
+        values (set/intersection name-set (column-config/values column-config))
+        attributes (set/intersection name-set (column-config/attributes column-config))
+        name->column (util/map-by column/column-key columns)]
+    (when (empty? measures)
+      (throw (ex-info "Multi-measure cube must contain at least one measure column" {})))
+
+    (when (seq values)
+      (let [value-titles (map #(column-config/component-name->title column-config %) values)
+            msg (format "Columns %s represent observation values. Multi-measure cubes should define measure values in the corresponding measure columns."
+                        (string/join ", " value-titles))]
+        (throw (ex-info msg {:value-columns value-titles}))))
+
+    {:titles (mapv column/column-title columns)
+     :names header-column-names
+     :type :multi-measure
+     :title->name (create-title->name columns)
+     :name->component name->column
+     :dimensions (get-dimensions name-set column-config)
+     :attributes attributes
+     :measures measures}))
+
+(defn- parse-measure-type-cube-configuration [columns mt-column-name data-rows column-config]
+  (let [column-keys (map column/column-key columns)
+        name-set (set column-keys)
+        measures (resolve-measures mt-column-name data-rows column-config)
+        component-names (concat column-keys measures)
         name->component (select-keys (column-config/name->component column-config) component-names)]
     (validate-no-measure-columns name-set column-config)
-    {:titles                 titles
-     :names                  header-component-names
+    {:titles                 (mapv column/column-title columns)
+     :names                  column-keys
      :type                   :measure-dimension
-     :title->name            (into {} (map (juxt :title (comp keyword :name)) (vals name->component))) ;;TODO: add namespace for components?
+     :title->name            (create-title->name columns)
      :name->component        name->component
-     :dimensions             (set/intersection name-set (column-config/dimensions column-config))
+     :dimensions             (get-dimensions name-set column-config)
      :attributes             (set/intersection name-set (column-config/attributes column-config))
      :measures               measures
-     :measure-type-component mt-component-name
-     :value-component        (get-value-component-name name-set column-config)}))
+     :measure-type-component mt-column-name
+     :value-component        (get-value-component-name columns)}))
+
+(defn- parse-cube-configuration-rows [titles data-rows column-config]
+  (let [header-columns (resolve-columns titles column-config)
+        mt-column-name (get-measure-type-column-name header-columns)]
+    (if (nil? mt-column-name)
+      (parse-multi-measure-cube-configuration header-columns column-config)
+      (let [header-keys (map column/column-key header-columns)]
+        (parse-measure-type-cube-configuration header-columns mt-column-name (tcsv/csv-maps header-keys data-rows) column-config)))))
 
 (defn get-cube-configuration
   "Returns a cube configuration for a source of observations and a columns configuration. Every column within
@@ -115,10 +156,15 @@
         (parse-cube-configuration-rows (first lines) (rest lines) column-config)
         (throw (RuntimeException. "No header row found in observations source"))))))
 
-(defn values
-  "Returns a set of the cube columns which represent observation values."
-  [cube-config]
+(defmulti values
+          "Returns a set of the cube columns which represent observation values."
+          (fn [cube-config] (:type cube-config)))
+
+(defmethod values :measure-dimension [cube-config]
   #{(:value-component cube-config)})
+
+(defmethod values :multi-measure [_cube-config]
+  #{})
 
 (defn dimension-attribute-measure-columns
   "Returns a sequence of columns for the dimensions, attributes and measures defined within
@@ -127,19 +173,18 @@
   (map name->component (concat dimensions attributes measures)))
 
 (defn ordered-columns
-  "Returns columns for the associated cube in the order they appear in the obseravtions header row."
+  "Returns columns for the associated cube in the order they appear in the observations header row."
   [{:keys [name->component names] :as cube-config}]
   (map name->component names))
 
 (defn find-header-transformers
   "Returns a map of {column name -> transform fn} for each column in a cube configuration
    which declares a transformation to be applied to cells in the corresponding column."
-  [{:keys [name->component] :as cube-config}]
-  (let [components (map name->component (:names cube-config))]
-    (->> components
-         (filter (fn [comp] (some? (:value_transformation comp))))
-         (map (juxt (comp keyword :name) :value_transformation))
-         (into {}))))
+  [cube-config]
+  (->> (ordered-columns cube-config)
+       (filter (fn [col] (some? (column/value-transformation col))))
+       (map (juxt column/column-key :value_transformation))
+       (into {})))
 
 (defn- validate-dimensions
   "Ensures that dimension columns have no missing values"
@@ -177,8 +222,7 @@
   (tcsv/write-csv-rows writer (:names cube-config) records))
 
 (defn get-ordered-dimension-names
-  "Returns an ordered list of dimension names given an ordered list of components and a predicate indicating
-   when the specified name corresponds to a dimension."
+  "Returns an ordered list of dimension column names"
   [{:keys [names dimensions name->component] :as cube-config}]
   (let [ordered-dim-names (keep dimensions names)]
-    (map :name (map name->component ordered-dim-names))))
+    (map column/column-name (map name->component ordered-dim-names))))

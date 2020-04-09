@@ -3,7 +3,9 @@
   (:require [clojure.spec.alpha :as s]
             [clojure.string :as string]
             [grafter.extra.cell.uri :as gecu]
-            [table2qb.csv :as csv]))
+            [table2qb.csv :as csv]
+            [csv2rdf.xml.datatype :as datatype]
+            [csv2rdf.uri-template :as uri-template]))
 
 ;;TODO: make these more specific
 (s/def ::URITemplate string?)
@@ -71,9 +73,17 @@
     (csv/throw-cell-validation-error row column "csvw:name cannot contain hyphens (use underscores instead)" {})
     value))
 
-(defn- validate-csvw-datatype [row column value]
-  ;;TODO: validate valid CSVW datatype
-  value)
+(defn validate-csvw-datatype [row column value]
+  (if (contains? datatype/type-names value)
+    value
+    (csv/throw-cell-validation-error row column (format "Invalid XML datatype name: '%s'" value) {})))
+
+(defn uri-template
+  "Validates the given cell value contains a valid URI template."
+  [row column value]
+  (if-let [_template (uri-template/try-parse-template value)]
+    value
+    (csv/throw-cell-validation-error row column (format "Could not parse %s as a URI template" value) {})))
 
 (def csv-columns [{:title    "title"
                    :key      :title
@@ -88,10 +98,10 @@
                    :transform validate-column-type}
                   {:title "property_template"
                    :key :property_template
-                   :transform (csv/optional csv/uri-template)}
+                   :transform (csv/optional uri-template)}
                   {:title "value_template"
                    :key :value_template
-                   :transform (csv/optional csv/uri-template)}
+                   :transform (csv/optional uri-template)}
                   {:title "datatype"
                    :key :datatype
                    :transform (csv/optional validate-csvw-datatype)}

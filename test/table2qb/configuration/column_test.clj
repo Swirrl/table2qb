@@ -22,3 +22,18 @@
 
   (testing "Invalid"
     (is (thrown? Exception (validate-column-type 1 {:title "component_attachment"} "invalid")))))
+
+(deftest validate-csvw-datatype-test
+  (testing "Valid"
+    (is (= "datetime" (validate-csvw-datatype 2 {:title "datatype"} "datetime"))))
+
+  (testing "Invalid"
+    (is (thrown? Exception (validate-csvw-datatype 2 {:title "datatype"} "stonks")))))
+
+(deftest uri-template-test
+  (testing "Valid"
+    (let [template "http://example.com/{/path}{#frag}"]
+      (is (= template (uri-template 1 {:title "property_template"} template)))))
+
+  (testing "Invalid"
+    (is (thrown? Exception (uri-template 1 {:title "property_template"} "http://example.com/{unclosed_var")))))

@@ -191,12 +191,6 @@
        default
        (validator row column s)))))
 
-(defn uri-template
-  "Validates the given cell value contains a valid URI template."
-  [row column value]
-  ;;TODO: validate value is a valid URI template
-  value)
-
 (defn validate-one-of
   "Returns a validator which checks the cell value is a member of the specified set of permitted values."
   [options]

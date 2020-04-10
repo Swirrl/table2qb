@@ -1,5 +1,4 @@
 {
-  "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
   "url": "regional-trade.slugged.normalised.csv",
   "dc:title": "Regional Trade Component Specifications",
   "tableSchema": {

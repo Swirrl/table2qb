@@ -1,14 +1,13 @@
 (ns table2qb.pipelines.codelist
   (:require [table2qb.configuration.uris :as uri-config]
-            [csv2rdf.csvw :as csvw]
             [clojure.java.io :as io]
             [table2qb.csv :refer [write-csv-rows reader]]
             [table2qb.util :refer [create-metadata-source tempfile]]
             [clojure.string :as string]
             [grafter.extra.cell.uri :as gecu]
             [table2qb.csv :as csv]
-            [table2qb.configuration.csvw :refer [csv2rdf-config]])
-  (:import [java.io File]))
+            [table2qb.configuration.csvw :refer [csv2rdf-config]]
+            [table2qb.util :as util]))
 
 (defn codelist-metadata [csv-url domain-def codelist-name codelist-slug]
   (let [codelist-uri (str domain-def "concept-scheme/" codelist-slug)
@@ -114,18 +113,15 @@
     (let [output-columns [:label :notation :parent_notation :sort_priority :description :top_concept_of :has_top_concept :pref_label]]
       (write-csv-rows writer output-columns (codes reader)))))
 
-(defn codelist->csvw->rdf
-  "Annotates an input codelist CSV file and uses it to generate RDF for the given codelist name and slug."
-  [codelist-csv domain-def codelist-name codelist-slug ^File intermediate-file]
-  (codelist->csvw codelist-csv intermediate-file)
-  (let [codelist-meta (codelist-metadata (.toURI intermediate-file) domain-def codelist-name codelist-slug)]
-    (csvw/csv->rdf intermediate-file (create-metadata-source codelist-csv codelist-meta) csv2rdf-config)))
-
 (defn codelist-pipeline
-  "Generates RDF for the given codelist CSV file"
-  [codelist-csv codelist-name codelist-slug base-uri]
-  (let [domain-def (uri-config/domain-def base-uri)
-        intermediate-file (tempfile codelist-slug ".csv")]
-    (codelist->csvw->rdf codelist-csv domain-def codelist-name codelist-slug intermediate-file)))
+  "Generates a codelist from a CSV file describing its members"
+  [output-directory {:keys [codelist-csv codelist-name codelist-slug base-uri]}]
+  (let [metadata-file (io/file output-directory "metadata.json")
+        domain-def (uri-config/domain-def base-uri)
+        output-csv (io/file output-directory "codelist.csv")
+        metadata (codelist-metadata (.toURI output-csv) domain-def codelist-name codelist-slug)]
+    (codelist->csvw codelist-csv output-csv)
+    (util/write-json-file metadata-file metadata)
+    {:metadata-file metadata-file}))
 
 (derive ::codelist-pipeline :table2qb.pipelines/pipeline)

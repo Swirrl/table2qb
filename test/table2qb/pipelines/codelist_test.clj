@@ -1,8 +1,9 @@
 (ns table2qb.pipelines.codelist-test
   (:require [clojure.test :refer :all]
             [table2qb.csv :refer [reader]]
-            [table2qb.pipelines.codelist :refer :all]
-            [table2qb.pipelines.test-common :refer [example-csvw example-csv maps-match? test-domain-def eager-select]]
+            [table2qb.pipelines.codelist :refer :all :as codelist]
+            [table2qb.pipelines.test-common :refer [example-csvw example-csv maps-match? test-domain-def eager-select
+                                                    add-csvw]]
             [table2qb.util :as util]
             [grafter-2.rdf4j.repository :as repo]
             [grafter-2.rdf.protocols :as pr])
@@ -52,7 +53,10 @@
         codelist-uri "http://example.com/def/concept-scheme/flow-directions"
         repo (repo/sail-repo)]
     (with-open [conn (repo/->connection repo)]
-      (pr/add conn (codelist-pipeline codelist-csv codelist-name codelist-slug base-uri)))
+      (add-csvw conn codelist/codelist-pipeline {:codelist-csv codelist-csv
+                                    :codelist-name             codelist-name
+                                    :codelist-slug             codelist-slug
+                                    :base-uri                  base-uri}))
 
     (testing "codelist title and label"
       (let [q (str "PREFIX dc: <http://purl.org/dc/terms/>"

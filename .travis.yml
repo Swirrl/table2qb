@@ -15,8 +15,6 @@ install:
 
 script:
   - ./bin/kaocha --reporter documentation --fail-fast
-
-after_success:
   - lein uberjar
   - mkdir "target/table2qb-$TRAVIS_BRANCH"
   - cp target/table2qb.jar "target/table2qb-$TRAVIS_BRANCH"

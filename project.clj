@@ -12,5 +12,6 @@
                        :lein-tools-deps/config {:aliases [:with-logging]}}
              :dev {:lein-tools-deps/config {:aliases [:with-logging]}}
              :test {:lein-tools-deps/config {:aliases [:test, :with-logging]}}}
+  :aliases { "kaocha" ["with-profile" "+test" "run" "-m" "kaocha.runner"]}
   :main table2qb.main
   :min-lein-version "2.9.1")

@@ -12,7 +12,7 @@
  :aliases
  {:test
   {:extra-paths ["test" "test/resources" "examples"]
-   :extra-deps {lambdaisland/kaocha {:mvn/version "0.0-343"}}}
+   :extra-deps {lambdaisland/kaocha {:mvn/version "1.0-612"}}}
   :with-logging
   {:extra-paths ["env/logging/resources"]
    :extra-deps {org.apache.logging.log4j/log4j-api {:mvn/version "2.11.0"}

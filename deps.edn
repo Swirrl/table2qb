@@ -10,10 +10,11 @@
         commons-io/commons-io {:mvn/version "2.4"}}
  :paths ["src" "resources"]
  :aliases
- {:test {:extra-paths ["test" "test/resources" "examples"]
-         :extra-deps {lambdaisland/kaocha {:mvn/version "0.0-343"}}}
+ {:test
+  {:extra-paths ["test" "test/resources" "examples"]
+   :extra-deps {lambdaisland/kaocha {:mvn/version "0.0-343"}}}
   :with-logging
-  {:extra-deps
-   {org.apache.logging.log4j/log4j-api {:mvn/version "2.11.0"}
-    org.apache.logging.log4j/log4j-core {:mvn/version "2.11.0"}
-    org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.11.0"}}}}}
+  {:extra-paths ["env/logging/resources"]
+   :extra-deps {org.apache.logging.log4j/log4j-api {:mvn/version "2.11.0"}
+                org.apache.logging.log4j/log4j-core {:mvn/version "2.11.0"}
+                org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.11.0"}}}}}

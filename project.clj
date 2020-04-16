@@ -9,8 +9,8 @@
   :profiles {:uberjar {:main table2qb.main
                        :aot :all
                        :uberjar-name "table2qb.jar"
-                       :lein-tools-deps/config {:resolve-aliases [:with-logging]}}
-             :dev {:lein-tools-deps/config {:resolve-aliases [:with-logging]}
-                   :resource-paths ["test/resources"]}}
+                       :lein-tools-deps/config {:aliases [:with-logging]}}
+             :dev {:lein-tools-deps/config {:aliases [:with-logging]}}
+             :test {:lein-tools-deps/config {:aliases [:test, :with-logging]}}}
   :main table2qb.main
   :min-lein-version "2.9.1")

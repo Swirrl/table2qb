@@ -86,7 +86,8 @@
                                (keep (fn [kvp] (when (> (val kvp) 1)
                                                  (key kvp)))))
         missing-required (set/difference required declared-columns)
-        unknown (set/difference declared-columns titles)]
+        unknown (set/difference declared-columns titles)
+        quote-list (fn [headings] (string/join "," (map (fn [col-name] (str \" col-name \")) headings)))]
 
     (when (seq duplicate-columns)
       (throw (ex-info (str "Duplicate column headers: " (string/join ", " duplicate-columns))
@@ -94,12 +95,14 @@
                        :duplicate-columns duplicate-columns})))
 
     (when (seq missing-required)
-      (throw (ex-info (str "Missing required columns: " (string/join ", " missing-required))
+      (throw (ex-info (format "Missing required columns: %s.%nFound columns: %s"
+                              (string/join ", " missing-required)
+                              (quote-list header-row))
                       {:type :missing-csv-columns
                        :missing-columns missing-required})))
 
     (when (seq unknown)
-      (throw (ex-info (str "Unexpected columns: " (string/join ", " unknown))
+      (throw (ex-info (str "Unexpected columns: " (quote-list unknown))
                       {:type :unknown-csv-columns
                        :unknown-columns unknown})))
 
@@ -161,7 +164,7 @@
 
 ;;validators
 (defn- cell-validation-message [row-number {:keys [title] :as column} msg]
-  (format "Invalid cell in column %s row %d: %s" title row-number msg))
+  (format "Invalid cell in column \"%s\", row %d: %s" title row-number msg))
 
 (defn throw-cell-validation-error [row-number column msg data]
   (throw (ex-info (cell-validation-message row-number column msg) data)))

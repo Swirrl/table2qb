@@ -7,7 +7,8 @@
             [table2qb.configuration.uris :as uri-config]
             [table2qb.csv :as csv]
             [table2qb.configuration.csvw :refer [csv2rdf-config]]
-            [table2qb.util :as util])
+            [table2qb.util :as util]
+            [integrant.core :as ig])
   (:import [java.io File]))
 
 (defn components-metadata [csv-url domain-def]
@@ -122,4 +123,9 @@
     (util/write-json-file metadata-file (components-metadata (.toURI components-csv) domain-def))
     {:metadata-file metadata-file}))
 
-(derive ::components-pipeline :table2qb.pipelines/pipeline)
+(defmethod ig/init-key :table2qb.pipelines.components/components-pipeline [_ opts]
+  (assoc opts
+         :table2qb/pipeline-fn components-pipeline
+         :description (:doc (meta #'components-pipeline))))
+
+(derive :table2qb.pipelines.components/components-pipeline :table2qb.pipelines/pipeline)

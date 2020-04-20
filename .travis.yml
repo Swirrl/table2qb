@@ -1,4 +1,5 @@
-language: generic  # Main thing we need from generic over minimal is the JVM
+language: java
+dist: xenial
 
 cache:
   directories:
@@ -7,7 +8,6 @@ cache:
     - ~/.cache
     - ~/.gitlibs
 
-
 install:
   - sudo apt-get install -y rlwrap
   - "travis/install_clojure.sh"
@@ -15,8 +15,6 @@ install:
 
 script:
   - ./bin/kaocha --reporter documentation --fail-fast
-
-after_success:
   - lein uberjar
   - mkdir "target/table2qb-$TRAVIS_BRANCH"
   - cp target/table2qb.jar "target/table2qb-$TRAVIS_BRANCH"

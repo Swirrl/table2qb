@@ -8,7 +8,8 @@
             [clojure.string :as string]
             [table2qb.configuration.uris :as uri-config]
             [table2qb.configuration.column :as column]
-            [table2qb.configuration.csvw :refer [csv2rdf-config]])
+            [table2qb.configuration.csvw :refer [csv2rdf-config]]
+            [integrant.core :as ig])
   (:import [java.io File]))
 
 (defn suppress-value-column
@@ -235,4 +236,9 @@
                      component-specifications-csv observations-csv
                      cube-config base-uri)))
 
-(derive ::cube-pipeline :table2qb.pipelines/pipeline)
+(defmethod ig/init-key :table2qb.pipelines.cube/cube-pipeline [_ opts]
+  (assoc opts
+         :table2qb/pipeline-fn cube-pipeline
+         :description (:doc (meta #'cube-pipeline))))
+
+(derive :table2qb.pipelines.cube/cube-pipeline :table2qb.pipelines/pipeline)

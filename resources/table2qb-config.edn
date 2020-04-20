@@ -1,5 +1,6 @@
 {
- :table2qb.pipelines.cube/cube-pipeline {:parameters [{:name input-csv
+ :table2qb.pipelines.cube/cube-pipeline {:name cube-pipeline
+                                         :parameters [{:name input-csv
                                                        :description "File containing observations"
                                                        :type :file
                                                        :example "input.csv"}
@@ -19,7 +20,9 @@
                                                        :description "Base URI for generated URIs"
                                                        :type :string
                                                        :example "http://example.com/dataset/"}]}
- :table2qb.pipelines.components/components-pipeline {:parameters [{:name input-csv
+
+ :table2qb.pipelines.components/components-pipeline {:name components-pipeline
+                                                     :parameters [{:name input-csv
                                                                    :description "File containing component definitions"
                                                                    :type :file
                                                                    :example "components.csv"}
@@ -27,7 +30,9 @@
                                                                    :description "Base URI for generated URIs"
                                                                    :type :string
                                                                    :example "http://example.com/dataset/"}]}
- :table2qb.pipelines.codelist/codelist-pipeline {:parameters [{:name codelist-csv
+
+ :table2qb.pipelines.codelist/codelist-pipeline {:name codelist-pipeline
+                                                 :parameters [{:name codelist-csv
                                                                :description "File containing codelist data"
                                                                :type :file
                                                                :example "codelist.csv"}
@@ -44,9 +49,9 @@
                                                                :type :string
                                                                :example "http://example.com/dataset/"}]}
 
- :table2qb.pipelines/pipelines [#ig/ref :table2qb.pipelines.cube/cube-pipeline
-                                #ig/ref :table2qb.pipelines.components/components-pipeline
-                                #ig/ref :table2qb.pipelines.codelist/codelist-pipeline]
+ ;; All pipelines should derive from :table2qb.pipelines/pipeline
+ :table2qb.pipelines/pipelines #ig/refset [:table2qb.pipelines/pipeline]
+
  :table2qb.pipelines/pipeline-runner {:pipelines #ig/ref :table2qb.pipelines/pipelines}
  :table2qb.main/tasks [{:name :help}
                        {:name :list

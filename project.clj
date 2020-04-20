@@ -10,7 +10,7 @@
                        :aot :all
                        :uberjar-name "table2qb.jar"
                        :lein-tools-deps/config {:aliases [:with-logging]}}
-             :dev {:lein-tools-deps/config {:aliases [:with-logging]}}
+             :dev {:lein-tools-deps/config {:aliases [:test, :with-logging]}}
              :test {:lein-tools-deps/config {:aliases [:test, :with-logging]}}}
   :aliases { "kaocha" ["with-profile" "+test" "run" "-m" "kaocha.runner"]}
   :main table2qb.main

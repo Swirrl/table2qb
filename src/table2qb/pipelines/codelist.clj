@@ -7,7 +7,8 @@
             [clojure.string :as string]
             [grafter.extra.cell.uri :as gecu]
             [table2qb.csv :as csv]
-            [table2qb.configuration.csvw :refer [csv2rdf-config]])
+            [table2qb.configuration.csvw :refer [csv2rdf-config]]
+            [integrant.core :as ig])
   (:import [java.io File]))
 
 (defn codelist-metadata [csv-url domain-def codelist-name codelist-slug]
@@ -128,4 +129,9 @@
         intermediate-file (tempfile codelist-slug ".csv")]
     (codelist->csvw->rdf codelist-csv domain-def codelist-name codelist-slug intermediate-file)))
 
-(derive ::codelist-pipeline :table2qb.pipelines/pipeline)
+(defmethod ig/init-key :table2qb.pipelines.codelist/codelist-pipeline [_ opts]
+  (assoc opts
+         :table2qb/pipeline-fn codelist-pipeline
+         :description (:doc (meta #'codelist-pipeline))))
+
+(derive :table2qb.pipelines.codelist/codelist-pipeline :table2qb.pipelines/pipeline)

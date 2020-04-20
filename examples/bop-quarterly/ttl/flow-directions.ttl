@@ -63,10 +63,6 @@ _:row10178 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 
 <http://gss-data.org.uk/def/concept-scheme/flow-directions> skos:hasTopConcept <http://gss-data.org.uk/def/concept/flow-directions/export> .
 
-_:row10178 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/flow-directions> .
-
-<http://gss-data.org.uk/def/concept-scheme/flow-directions> skos:member <http://gss-data.org.uk/def/concept/flow-directions/export> .
-
 _:row10178 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/flow-directions/export> .
 
 <http://gss-data.org.uk/def/concept-scheme/flow-directions> <http://www.w3.org/ns/csvw#row> _:row10180 .
@@ -98,10 +94,6 @@ _:row10180 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 
 <http://gss-data.org.uk/def/concept-scheme/flow-directions> skos:hasTopConcept <http://gss-data.org.uk/def/concept/flow-directions/import> .
 
-_:row10180 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/flow-directions> .
-
-<http://gss-data.org.uk/def/concept-scheme/flow-directions> skos:member <http://gss-data.org.uk/def/concept/flow-directions/import> .
-
 _:row10180 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/flow-directions/import> .
 
 <http://gss-data.org.uk/def/concept-scheme/flow-directions> <http://www.w3.org/ns/csvw#row> _:row10182 .
@@ -132,9 +124,5 @@ _:row10182 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/con
 _:row10182 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/flow-directions> .
 
 <http://gss-data.org.uk/def/concept-scheme/flow-directions> skos:hasTopConcept <http://gss-data.org.uk/def/concept/flow-directions/balance> .
-
-_:row10182 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept-scheme/flow-directions> .
-
-<http://gss-data.org.uk/def/concept-scheme/flow-directions> skos:member <http://gss-data.org.uk/def/concept/flow-directions/balance> .
 
 _:row10182 <http://www.w3.org/ns/csvw#describes> <http://gss-data.org.uk/def/concept/flow-directions/balance> .

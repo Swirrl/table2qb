@@ -45,10 +45,6 @@ _:row165 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/c
 
 <http://statistics.gov.scot/def/concept/gender/all> skos:inScheme <http://statistics.gov.scot/def/concept-scheme/gender> .
 
-_:row165 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept-scheme/gender> .
-
-<http://statistics.gov.scot/def/concept-scheme/gender> skos:member <http://statistics.gov.scot/def/concept/gender/all> .
-
 _:row165 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept/gender/all> .
 
 <http://statistics.gov.scot/def/concept-scheme/gender> <http://www.w3.org/ns/csvw#row> _:row167 .
@@ -72,10 +68,6 @@ _:row167 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/c
 
 <http://statistics.gov.scot/def/concept/gender/female> skos:inScheme <http://statistics.gov.scot/def/concept-scheme/gender> .
 
-_:row167 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept-scheme/gender> .
-
-<http://statistics.gov.scot/def/concept-scheme/gender> skos:member <http://statistics.gov.scot/def/concept/gender/female> .
-
 _:row167 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept/gender/female> .
 
 <http://statistics.gov.scot/def/concept-scheme/gender> <http://www.w3.org/ns/csvw#row> _:row169 .
@@ -98,9 +90,5 @@ _:row169 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/c
 _:row169 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept/gender/male> , <http://statistics.gov.scot/def/concept/gender/male> , <http://statistics.gov.scot/def/concept/gender/male> , <http://statistics.gov.scot/def/concept-scheme/gender> , <http://statistics.gov.scot/def/concept/gender/male> .
 
 <http://statistics.gov.scot/def/concept/gender/male> skos:inScheme <http://statistics.gov.scot/def/concept-scheme/gender> .
-
-_:row169 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept-scheme/gender> .
-
-<http://statistics.gov.scot/def/concept-scheme/gender> skos:member <http://statistics.gov.scot/def/concept/gender/male> .
 
 _:row169 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept/gender/male> .

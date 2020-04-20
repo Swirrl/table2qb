@@ -45,8 +45,4 @@ _:row165 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/c
 
 <http://statistics.gov.scot/def/concept/measurement-units/people> skos:inScheme <http://statistics.gov.scot/def/concept-scheme/measurement-units> .
 
-_:row165 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept-scheme/measurement-units> .
-
-<http://statistics.gov.scot/def/concept-scheme/measurement-units> skos:member <http://statistics.gov.scot/def/concept/measurement-units/people> .
-
 _:row165 <http://www.w3.org/ns/csvw#describes> <http://statistics.gov.scot/def/concept/measurement-units/people> .

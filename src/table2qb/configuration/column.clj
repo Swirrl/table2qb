@@ -63,7 +63,7 @@
 (defn validate-column-type [row column value]
   (if (string/blank? value)
     :value
-    (let [type (get attachment->type (string/trim value) ::missing)]
+    (let [type (get attachment->type value ::missing)]
       (if (= ::missing type)
         (csv/throw-cell-validation-error row column "Value must be blank or one of qb:dimension, qb:measure or qb:attribute" {})
         type))))

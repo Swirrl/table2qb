@@ -21,7 +21,9 @@
       "qb:measure" :measure))
 
   (testing "Invalid"
-    (is (thrown? Exception (validate-column-type 1 {:title "component_attachment"} "invalid")))))
+    (is (thrown? Exception (validate-column-type 1 {:title "component_attachment"} "invalid")))
+    (is (thrown-with-msg? Exception #"Value must be blank or one of qb:dimension, qb:measure or qb:attribute"
+                          (validate-column-type 1 {:title "component_attachment"} "qb:dimension  ")))))
 
 (deftest validate-csvw-datatype-test
   (testing "Valid"

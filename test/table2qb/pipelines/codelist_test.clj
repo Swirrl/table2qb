@@ -5,7 +5,8 @@
             [table2qb.pipelines.test-common :refer [example-csvw example-csv maps-match? test-domain-def eager-select]]
             [table2qb.util :as util]
             [grafter-2.rdf4j.repository :as repo]
-            [grafter-2.rdf.protocols :as pr])
+            [grafter-2.rdf.protocols :as pr]
+            [clojure.java.io :as io])
   (:import [java.net URI]))
 
 (defn- read-codes [csv-source]
@@ -35,14 +36,22 @@
         (testing "column for sort-priority"
           (is (= "0" (-> codes first :sort_priority))))
         (testing "column for description"
-          (is (= "lorem ipsum" (-> codes first :description)))))
-      (testing "json metadata"
-        (maps-match? (util/read-json (example-csvw "regional-trade" "sitc-sections.json"))
-                     (codelist-metadata
-                       "sitc-sections-codelist.csv"
-                       test-domain-def
-                       "SITC Sections Codelist"
-                       "sitc-sections"))))))
+          (is (= "lorem ipsum" (-> codes first :description))))))
+    (testing "json metadata"
+      (maps-match? (util/read-json (example-csvw "regional-trade" "sitc-sections.json"))
+                   (codelist-metadata
+                    "sitc-sections-codelist.csv"
+                    test-domain-def
+                    "SITC Sections Codelist"
+                    "sitc-sections"))))
+
+  (testing "input validation"
+    (testing "required columns"
+      (is
+        (= #{"Label"}
+           (try
+             (codes (io/reader (char-array "column-a\nvalue-1")))
+             (catch Exception e (:missing-columns (ex-data e)))))))))
 
 (deftest codelist-pipeline-test
   (let [codelist-csv (example-csv "regional-trade" "flow-directions.csv")

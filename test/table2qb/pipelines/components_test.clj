@@ -3,7 +3,8 @@
             [table2qb.csv :refer [reader]]
             [table2qb.pipelines.components :refer :all]
             [table2qb.pipelines.test-common :refer [first-by maps-match? example-csv example-csvw test-domain-def]]
-            [clojure.data.json :as json]))
+            [clojure.data.json :as json]
+            [clojure.java.io :as io]))
 
 (deftest components-test
   (testing "csv table"
@@ -15,7 +16,7 @@
           (testing "flow"
             (let [flow (first-by :label "Flow" components)]
               (are [attribute value] (= value (attribute flow))
-                   :notation "flow"
+                :notation "flow"
                 :description "Direction in which trade is measured"
                 :component_type "qb:DimensionProperty"
                 :component_type_slug "dimension"
@@ -26,7 +27,7 @@
           (testing "gbp total"
             (let [gbp-total (first-by :label "GBP Total" components)]
               (are [attribute value] (= value (attribute gbp-total))
-                   :notation "gbp-total"
+                :notation "gbp-total"
                 :component_type "qb:MeasureProperty"
                 :component_type_slug "measure"
                 :property_slug "gbpTotal"
@@ -35,4 +36,12 @@
   (testing "json metadata"
     (with-open [target-reader (reader (example-csvw "regional-trade" "components.json"))]
       (maps-match? (json/read target-reader)
-                   (components-metadata "components.csv" test-domain-def)))))
+                   (components-metadata "components.csv" test-domain-def))))
+
+  (testing "input validation"
+    (testing "required columns"
+      (is
+        (= #{"Label" "Component Type"}
+           (try
+             (components (io/reader (char-array "column-a\nvalue-1")))
+             (catch Exception e (:missing-columns (ex-data e)))))))))

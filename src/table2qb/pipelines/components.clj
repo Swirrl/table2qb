@@ -91,9 +91,7 @@
                    :required true
                    :validate [csv/validate-not-blank]}
                   {:title "Description"
-                   :key :description
-                   :required true
-                   :validate [csv/validate-not-blank]}
+                   :key :description}
                   {:title "Component Type"
                    :key :component_type
                    :required true

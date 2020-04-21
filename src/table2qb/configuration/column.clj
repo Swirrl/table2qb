@@ -98,6 +98,7 @@
                    :transform validate-column-type}
                   {:title "property_template"
                    :key :property_template
+                   :required true
                    :transform (csv/optional uri-template)}
                   {:title "value_template"
                    :key :value_template

@@ -122,7 +122,7 @@
 (defn- parse-measure-type-cube-configuration [columns mt-column-name data-rows column-config]
   (let [column-keys (map column/column-key columns)
         name-set (set column-keys)
-        measures (resolve-measures mt-column-name (tcsv/csv-records column-keys data-rows) column-config)
+        measures (resolve-measures mt-column-name data-rows column-config)
         component-names (concat column-keys measures)
         name->component (select-keys (column-config/name->component column-config) component-names)]
     (validate-no-measure-columns name-set column-config)
@@ -142,7 +142,8 @@
         mt-column-name (get-measure-type-column-name header-columns)]
     (if (nil? mt-column-name)
       (parse-multi-measure-cube-configuration header-columns column-config)
-      (parse-measure-type-cube-configuration header-columns mt-column-name data-rows column-config))))
+      (let [header-keys (map column/column-key header-columns)]
+        (parse-measure-type-cube-configuration header-columns mt-column-name (tcsv/csv-maps header-keys data-rows) column-config)))))
 
 (defn get-cube-configuration
   "Returns a cube configuration for a source of observations and a columns configuration. Every column within
@@ -172,7 +173,7 @@
   (map name->component (concat dimensions attributes measures)))
 
 (defn ordered-columns
-  "Returns columns for the associated cube in the order they appear in the obseravtions header row."
+  "Returns columns for the associated cube in the order they appear in the observations header row."
   [{:keys [name->component names] :as cube-config}]
   (map name->component names))
 
@@ -207,7 +208,7 @@
   [reader cube-config]
   (let [csv-records (csv/read-csv reader)
         data-records (rest csv-records)
-        csv-records (tcsv/csv-records (:names cube-config) data-records)
+        csv-records (tcsv/csv-maps (:names cube-config) data-records)
         column-transforms (find-header-transformers cube-config)]
     (map (fn [record]
            (-> record

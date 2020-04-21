@@ -2,9 +2,11 @@
   (:require [table2qb.configuration.uris :as uri-config]
             [csv2rdf.csvw :as csvw]
             [clojure.java.io :as io]
-            [table2qb.csv :refer [write-csv-rows read-csv reader]]
+            [table2qb.csv :refer [write-csv-rows reader]]
             [table2qb.util :refer [create-metadata-source tempfile]]
             [clojure.string :as string]
+            [grafter.extra.cell.uri :as gecu]
+            [table2qb.csv :as csv]
             [table2qb.configuration.csvw :refer [csv2rdf-config]]
             [integrant.core :as ig])
   (:import [java.io File]))
@@ -79,12 +81,30 @@
       (add-code-hierarchy-fields)
       (add-pref-label)))
 
+(defn- valid-integer? [row column s]
+  (try
+    (Integer/parseInt s)
+    (catch NumberFormatException _ex
+      (csv/throw-cell-validation-error row column (str "Invalid integer " s) {:value s}))))
+
+(def csv-columns [{:title "Label"
+                   :key :label
+                   :required true}
+                  {:title    "Notation"
+                   :key      :notation
+                   :validate [csv/validate-not-blank]
+                   :default  (fn [row] (gecu/slugize (:label row)))}
+                  {:title "Parent Notation"
+                   :key :parent_notation
+                   :default ""}
+                  {:title "Description"
+                   :key :description}
+                  {:title "Sort Priority"
+                   :key :sort_priority
+                   :validate [(csv/optional valid-integer?)]}])
+
 (defn codes [reader]
-  (let [data (read-csv reader {"Label" :label
-                               "Notation" :notation
-                               "Parent Notation", :parent_notation
-                               "Sort Priority", :sort_priority
-                               "Description" :description})]
+  (let [data (csv/read-csv-records reader csv-columns)]
     (map annotate-code data)))
 
 (defn codelist->csvw

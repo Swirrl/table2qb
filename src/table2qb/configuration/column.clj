@@ -3,7 +3,9 @@
   (:require [clojure.spec.alpha :as s]
             [clojure.string :as string]
             [grafter.extra.cell.uri :as gecu]
-            [table2qb.util :as util]))
+            [table2qb.csv :as csv]
+            [csv2rdf.xml.datatype :as datatype]
+            [csv2rdf.uri-template :as uri-template]))
 
 ;;TODO: make these more specific
 (s/def ::URITemplate string?)
@@ -54,60 +56,68 @@
   {"slugize" gecu/slugize
    "unitize" unitize})
 
-(defn- resolve-value-transformation
-  "Resolves the value_transformation cell of a configuration row to the corresponding transform function. Returns
-   an exception if the function cannot be resolved."
-  [transform]
-  (if-let [tf (get column-transformers transform)]
-    tf
-    (let [msg (format "Invalid value_transformation function %s. Valid transformations: %s"
-                      transform
-                      (string/join ", " (keys column-transformers)))]
-      (throw (ex-info msg {:type      :invalid-transform
-                           :transform transform})))))
+(def ^:private attachment->type {"qb:dimension" :dimension
+                                 "qb:measure" :measure
+                                 "qb:attribute" :attribute})
 
-(defn- validate-title [title]
-  (when (string/blank? title)
-    (throw (ex-info "Title cannot be blank" {:type :blank-title}))))
+(defn validate-column-type [row column value]
+  (if (string/blank? value)
+    :value
+    (let [type (get attachment->type value ::missing)]
+      (if (= ::missing type)
+        (csv/throw-cell-validation-error row column "Value must be blank or one of qb:dimension, qb:measure or qb:attribute" {})
+        type))))
 
-(defn- validate-column-name [column-name]
-  (when (string/blank? column-name)
-    (throw (ex-info "csvw:name cannot be blank" {:type :blank-name})))
+(defn validate-name [row column value]
+  (if (string/includes? value "-")
+    (csv/throw-cell-validation-error row column "csvw:name cannot contain hyphens (use underscores instead)" {})
+    value))
 
-  (when (string/includes? column-name "-")
-    (throw (ex-info (format "csvw:name %s cannot contain hyphens (use underscores instead): " column-name)
-                    {:type :invalid-name
-                     :name column-name}))))
+(defn validate-csvw-datatype [row column value]
+  (if (contains? datatype/type-names value)
+    value
+    (csv/throw-cell-validation-error row column (format "Invalid XML datatype name: '%s'" value) {})))
 
-(def ^:private column-attachment->type
-  {"qb:dimension" :dimension
-   "qb:measure" :measure
-   "qb:attribute" :attribute
-   nil :value})
+(defn uri-template
+  "Validates the given cell value contains a valid URI template."
+  [row column value]
+  (if-let [_template (uri-template/try-parse-template value)]
+    value
+    (csv/throw-cell-validation-error row column (format "Could not parse %s as a URI template" value) {})))
 
-(defn- get-column-type
-  "Infers the type of a column from its component_attachment."
-  [component-attachment]
-  (if-let [type (get column-attachment->type component-attachment)]
-    type
-    (let [msg (format "Invalid component attachment: '%s'" component-attachment)]
-      (throw (ex-info msg {:type                 :invalid-component-attachment
-                           :component-attachment component-attachment})))))
+(def csv-columns [{:title    "title"
+                   :key      :title
+                   :validate [csv/validate-not-blank]
+                   :required true}
+                  {:title "name"
+                   :key :name
+                   :required true
+                   :validate [csv/validate-not-blank validate-name]}
+                  {:title     "component_attachment"
+                   :key       :type
+                   :transform validate-column-type}
+                  {:title "property_template"
+                   :key :property_template
+                   :required true
+                   :transform (csv/optional uri-template)}
+                  {:title "value_template"
+                   :key :value_template
+                   :transform (csv/optional uri-template)}
+                  {:title "datatype"
+                   :key :datatype
+                   :transform (csv/optional validate-csvw-datatype)}
+                  {:title "value_transformation"
+                   :key :value_transformation
+                   :transform (csv/optional (csv/validate-mapping column-transformers))}])
 
-(def required-input-keys #{:title :name :component_attachment})
-
-(defn parse-column [{:keys [title name] :as row}]
-  (validate-title title)
-  (validate-column-name name)
-  (let [{vt :value_transformation :as normalised} (util/map-values row util/blank->nil)
-        optional-keys [:property_template :value_template :datatype :value_transformation]]
-    (merge
-      {:title                title
-       :name                 name
-       :type                 (get-column-type (:component_attachment normalised))}
-      (util/filter-vals some? (select-keys normalised optional-keys))
-      (when vt
-        {:value_transformation (resolve-value-transformation vt)}))))
+(defn remove-optional-columns [row]
+  (let [optional-keys [:property_template :value_template :datatype :value_transformation]]
+    (reduce (fn [m opt-key]
+              (if (nil? (get row opt-key))
+                (dissoc m opt-key)
+                m))
+            row
+            optional-keys)))
 
 (defn is-qb-measure-type-column?
   "Whether the given column represents a qb:measureType dimension"

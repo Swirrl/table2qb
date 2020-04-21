@@ -1,6 +1,7 @@
 (ns table2qb.pipelines.cube-test
   (:require [clojure.test :refer :all]
-            [table2qb.csv :refer [reader read-csv] :as csv]
+            [table2qb.csv :refer [reader] :as csv]
+            [clojure.data.csv :as ccsv]
             [table2qb.pipelines.cube :refer :all]
             [table2qb.pipelines.test-common :refer [default-config first-by example-csvw example-csv test-domain-data
                                                     maps-match? title->name eager-select]]
@@ -11,14 +12,19 @@
   (:import [java.io StringWriter]
            [java.net URI]))
 
-(defmacro is-metadata-compatible [input-csv schema]
-  `(testing "column sequence matches"
-     (with-open [rdr# (reader ~input-csv)]
-       (let [csv-columns# (-> rdr# (read-csv title->name) first keys ((partial map name)))
-             meta-columns# (->> (get-in ~schema ["tableSchema" "columns"])
-                                (remove #(get % "virtual" false))
-                                (map #(get % "name")))]
-         (is (= csv-columns# meta-columns#))))))
+(defn- table-metadata-non-virtual-column-names
+  "Returns an ordered sequence of CSV table metadata column names."
+  [metadata]
+  (->> (get-in metadata ["tableSchema" "columns"])
+       (remove #(get % "virtual" false))
+       (map #(get % "name"))))
+
+(defn- csv-column-names
+  "Returns an ordered sequence of columns names for an input CSV data source."
+  [csv-source]
+  (let [header-row (with-open [r (reader csv-source)]
+                     (first (ccsv/read-csv r)))]
+    (map (fn [title] (name (title->name title))) header-row)))
 
 (deftest suppress-value-column-test
   (testing "value column"
@@ -52,7 +58,7 @@
           (is (= component_property "http://purl.org/linked-data/sdmx/2009/dimension#refArea"))))
       (testing "compare with component-specifications.csv"
         (testing "parsed contents match"
-          (let [expected-records (csv/read-all-csv-records (example-csvw "regional-trade" "component-specifications.csv"))]
+          (let [expected-records (csv/read-all-csv-maps (example-csvw "regional-trade" "component-specifications.csv"))]
             (is (= (set expected-records)
                    (set component-specifications)))))
         (testing "serialised contents match"
@@ -144,8 +150,7 @@
       (let [obs-source (example-csv "overseas-trade" "ots-cn-sample.csv")
             cube-config (cube-config/get-cube-configuration obs-source default-config)
             obs-meta (observations-metadata "ignore-me.csv" test-domain-data "overseas-trade" cube-config)]
-        (is-metadata-compatible (example-csv "overseas-trade" "ots-cn-sample.csv")
-                                obs-meta)))))
+        (is (= (table-metadata-non-virtual-column-names obs-meta) (csv-column-names (example-csv "overseas-trade" "ots-cn-sample.csv"))))))))
 
 (deftest used-codes-test
   (testing "codelists metadata"

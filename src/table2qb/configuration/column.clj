@@ -109,7 +109,7 @@
                    :key :value_transformation
                    :transform (csv/optional (csv/validate-mapping column-transformers))}])
 
-(defn normalise-column-record [row]
+(defn remove-optional-columns [row]
   (let [optional-keys [:property_template :value_template :datatype :value_transformation]]
     (reduce (fn [m opt-key]
               (if (nil? (get row opt-key))

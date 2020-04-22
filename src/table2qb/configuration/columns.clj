@@ -28,7 +28,7 @@
 
 (defn- load-columns [source]
   (with-open [r (csv/reader source)]
-    (mapv column/normalise-column-record (csv/read-csv-records r column/csv-columns))))
+    (mapv column/remove-optional-columns (csv/read-csv-records r column/csv-columns))))
 
 (defn load-column-configuration
   [source]

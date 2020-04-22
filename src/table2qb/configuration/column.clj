@@ -63,7 +63,7 @@
 (defn validate-column-type [row column value]
   (if (string/blank? value)
     :value
-    (let [type (get attachment->type (string/trim value) ::missing)]
+    (let [type (get attachment->type value ::missing)]
       (if (= ::missing type)
         (csv/throw-cell-validation-error row column "Value must be blank or one of qb:dimension, qb:measure or qb:attribute" {})
         type))))
@@ -98,6 +98,7 @@
                    :transform validate-column-type}
                   {:title "property_template"
                    :key :property_template
+                   :required true
                    :transform (csv/optional uri-template)}
                   {:title "value_template"
                    :key :value_template
@@ -109,7 +110,7 @@
                    :key :value_transformation
                    :transform (csv/optional (csv/validate-mapping column-transformers))}])
 
-(defn normalise-column-record [row]
+(defn remove-optional-columns [row]
   (let [optional-keys [:property_template :value_template :datatype :value_transformation]]
     (reduce (fn [m opt-key]
               (if (nil? (get row opt-key))

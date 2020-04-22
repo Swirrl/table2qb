@@ -247,21 +247,21 @@
                     {:error-lines ["Usage: table2qb describe pipeline-name"]}))))
 
 (defmethod exec-task :csvw [{:keys [pipelines] :as csvw-task} _all-tasks args]
-  (let [{:keys [function] :as pipeline} (args-pipeline pipelines args)
+  (let [{:keys [table2qb/pipeline-fn] :as pipeline} (args-pipeline pipelines args)
         params (get-pipeline-csvw-parameters pipeline)
         {:keys [output-directory] :as arguments} (parse-pipeline-arguments params (rest args))]
     (.mkdirs output-directory)
-    (let [{:keys [metadata-file]} (function output-directory arguments)]
+    (let [{:keys [metadata-file]} (pipeline-fn output-directory arguments)]
       (println "To generate RDF with csv2rdf run the following command:")
       (printf "java -jar csv2rdf.jar -u %s -m annotated -o output.ttl%n" (.getAbsolutePath metadata-file)))))
 
 (defmethod exec-task :exec [{:keys [pipelines] :as exec-task} all-tasks args]
-  (let [{:keys [function] :as pipeline} (args-pipeline pipelines args)
+  (let [{:keys [table2qb/pipeline-fn] :as pipeline} (args-pipeline pipelines args)
         params (get-pipeline-parameters pipeline)
         arguments (parse-pipeline-arguments params (rest args))
         csvw-dir (.toFile (Files/createTempDirectory "table2qb" (make-array FileAttribute 0)))]
     (try
-      (let [{:keys [metadata-file]} (function csvw-dir arguments)]
+      (let [{:keys [metadata-file]} (pipeline-fn csvw-dir arguments)]
         (write-csvw-rdf metadata-file arguments))
       (finally
         (FileUtils/deleteDirectory csvw-dir)))))

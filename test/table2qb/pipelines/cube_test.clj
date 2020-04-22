@@ -45,7 +45,20 @@
         dimension-names ["year" "flow" "code"]]
     (is (= "http://example.com/data/test/{+year}/{+flow}/{+code}" (observation-template domain-data-prefix dataset-slug dimension-names)))))
 
-(deftest read-component-specifications-test
+(defn- example-csvw-schema-part [example-directory part-name]
+  "Extracts a table schema from the json metadata that covers the whole cube"
+  (let [metadata-file (example-csvw example-directory (str example-directory "-metadata.json"))
+        schema (util/read-json metadata-file)
+        part-number (case part-name
+                      "dataset" 0
+                      "data-structure-defintion" 1
+                      "component-specifications" 2
+                      "used-codes-codelists" 3
+                      "used-codes-codes" 4
+                      "observations" 5)]
+    (-> schema (get "tables") (nth part-number))))
+
+(deftest component-specification-records-test
   (testing "returns a dataset of component-specifications"
     (let [cube-config (cube-config/get-cube-configuration (example-csv "regional-trade" "input.csv") default-config)
           component-specifications (component-specification-records cube-config)]
@@ -63,41 +76,41 @@
                    (set component-specifications)))))
         (testing "serialised contents match"
           (let [string-writer (StringWriter.)]
-            (csv/write-csv string-writer (sort-by :component_slug component-specifications))
+            (csv/write-csv string-writer component-specifications)
             (is (= (slurp (example-csvw "regional-trade" "component-specifications.csv"))
                    (str string-writer))))))
       (testing "compare with component-specifications.json"
         (testing "parsed contents match"
-          (maps-match? (util/read-json (example-csvw "regional-trade" "component-specifications.json"))
+          (maps-match? (example-csvw-schema-part "regional-trade" "component-specifications")
                        (component-specification-schema
-                         "regional-trade.slugged.normalised.csv"
-                         test-domain-data
-                         "Regional Trade Component Specifications"
-                         "regional-trade"))))))
+                        "component-specifications.csv"
+                        test-domain-data
+                        "Regional Trade"
+                        "regional-trade"))))))
   (testing "name is optional"
     (let [metadata (component-specification-schema "components.csv" test-domain-data "" "ds-slug")]
       (is (= nil (get metadata "dc:title"))))))
 
 (deftest dataset-test
   (testing "compare with dataset.json"
-    (maps-match? (util/read-json (example-csvw "regional-trade" "dataset.json"))
+    (maps-match? (example-csvw-schema-part "regional-trade" "dataset")
                  (dataset-schema
-                   "regional-trade.slugged.normalised.csv"
-                   test-domain-data
-                   "Regional Trade"
-                   "regional-trade")))
- (testing "name is optional"
-   (let [metadata (dataset-schema "components.csv" test-domain-data "" "ds-slug")]
-     (is (= nil (get metadata "rdfs:label"))))))
+                  "component-specifications.csv"
+                  test-domain-data
+                  "Regional Trade"
+                  "regional-trade")))
+  (testing "name is optional"
+    (let [metadata (dataset-schema "components.csv" test-domain-data "" "ds-slug")]
+      (is (= nil (get metadata "rdfs:label"))))))
 
 (deftest data-structure-definition-test
   (testing "compare with data-structure-definition.json"
-    (maps-match? (util/read-json (example-csvw "regional-trade" "data-structure-definition.json"))
+    (maps-match? (example-csvw-schema-part "regional-trade" "data-structure-defintion")
                  (data-structure-definition-schema
-                   "regional-trade.slugged.normalised.csv"
-                   test-domain-data
-                   "Regional Trade"
-                   "regional-trade")))
+                  "component-specifications.csv"
+                  test-domain-data
+                  "Regional Trade"
+                  "regional-trade")))
   (testing "name is optional"
     (let [metadata (data-structure-definition-schema "components.csv" test-domain-data "" "ds-slug")]
       (is (= nil (get metadata "rdfs:label"))))))
@@ -119,7 +132,7 @@
           (is (= 7 (count observation))))
         (testing "slugged columns"
           (are [expected actual] (= expected actual)
-               "gbp-total" (:measure_type observation)
+            "gbp-total" (:measure_type observation)
             "gbp-million" (:unit observation)
             "0-food-and-live-animals" (:sitc_section observation)
             "export" (:flow observation)))))
@@ -132,7 +145,7 @@
           (is (= 7 (count observation))))
         (testing "slugged columns"
           (are [expected actual] (= expected actual)
-               "gbp-total" (:measure_type observation)
+            "gbp-total" (:measure_type observation)
             "gbp-million" (:unit observation)
             "cn#cn8_28399000" (:combined_nomenclature observation)
             "export" (:flow observation))))))
@@ -141,10 +154,10 @@
       (let [obs-source (example-csv "regional-trade" "input.csv")
             cube-config (cube-config/get-cube-configuration obs-source default-config)
             obs-meta (observations-schema "observations.csv"
-                                         test-domain-data
-                                         "regional-trade"
-                                         cube-config)]
-        (maps-match? (util/read-json (example-csvw "regional-trade" "observations.json"))
+                                          test-domain-data
+                                          "regional-trade"
+                                          cube-config)]
+        (maps-match? (example-csvw-schema-part "regional-trade" "observations")
                      obs-meta)))
     (testing "overseas trade example"
       (let [obs-source (example-csv "overseas-trade" "ots-cn-sample.csv")
@@ -154,19 +167,19 @@
 
 (deftest used-codes-test
   (testing "codelists metadata"
-    (maps-match? (util/read-json (example-csvw "regional-trade" "used-codes-codelists.json"))
-                 (used-codes-codelists-schema "regional-trade.slugged.normalised.csv"
-                                             test-domain-data
-                                             "regional-trade")))
+    (maps-match? (example-csvw-schema-part "regional-trade" "used-codes-codelists")
+                 (used-codes-codelists-schema "component-specifications.csv"
+                                              test-domain-data
+                                              "regional-trade")))
   (testing "codes metadata"
     (let [obs-source (example-csv "regional-trade" "input.csv")
           cube-config (cube-config/get-cube-configuration obs-source default-config)
-          expected-json (util/read-json (example-csvw "regional-trade" "used-codes-codes.json"))]
+          expected-json (example-csvw-schema-part "regional-trade" "used-codes-codes")]
       (maps-match? expected-json
-                   (used-codes-codes-schema "regional-trade.slugged.csv"
-                                           test-domain-data
-                                           "regional-trade"
-                                           cube-config)))))
+                   (used-codes-codes-schema "observations.csv"
+                                            test-domain-data
+                                            "regional-trade"
+                                            cube-config)))))
 
 (deftest cube-pipeline-test
   (let [dataset-name "Regional Trade"

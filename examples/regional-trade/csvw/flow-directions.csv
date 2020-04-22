@@ -1,3 +1,3 @@
-Label,Notation,Parent Notation
-Export,export,
-Import,import,
+label,notation,parent_notation,sort_priority,description,top_concept_of,has_top_concept,pref_label
+Export,export,,,,yes,yes,Export
+Import,import,,,,yes,yes,Import

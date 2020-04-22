@@ -23,7 +23,7 @@
     (testing "json metadata"
       (maps-match? (util/read-json (example-csvw "regional-trade" "flow-directions.json"))
                    (codelist-schema
-                     "flow-directions-codelist.csv"
+                     "flow-directions.csv"
                      test-domain-def
                      "Flow Directions Codelist"
                      "flow-directions"))))
@@ -41,7 +41,7 @@
     (testing "json metadata"
       (maps-match? (util/read-json (example-csvw "regional-trade" "sitc-sections.json"))
                    (codelist-schema
-                    "sitc-sections-codelist.csv"
+                    "sitc-sections.csv"
                     test-domain-def
                     "SITC Sections Codelist"
                     "sitc-sections"))))

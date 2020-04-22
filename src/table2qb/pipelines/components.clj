@@ -115,10 +115,11 @@
   "Generates component specifications."
   [output-dir {:keys [input-csv base-uri]}]
   (let [components-csv (io/file output-dir "components.csv")
-        metadata-file (io/file output-dir "metadata.json")
+        csv-url (util/csvw-url output-dir "components.csv")
+        metadata-file (io/file output-dir "components.json")
         domain-def (uri-config/domain-def base-uri)]
     (components->csvw input-csv components-csv)
-    (util/write-json-file metadata-file (components-schema (.toURI components-csv) domain-def))
+    (util/write-json-file metadata-file (components-schema csv-url domain-def))
     {:metadata-file metadata-file}))
 
 (defmethod ig/init-key :table2qb.pipelines.components/components-pipeline [_ opts]

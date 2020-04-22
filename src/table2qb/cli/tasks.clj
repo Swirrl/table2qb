@@ -253,7 +253,8 @@
     (.mkdirs output-directory)
     (let [{:keys [metadata-file]} (pipeline-fn output-directory arguments)]
       (println "To generate RDF with csv2rdf run the following command:")
-      (printf "java -jar csv2rdf.jar -u %s -m annotated -o output.ttl%n" (.getAbsolutePath metadata-file)))))
+      (printf "java -jar csv2rdf.jar -u %s -m annotated -o output.ttl%n" (.getAbsolutePath metadata-file))
+      (flush))))
 
 (defmethod exec-task :exec [{:keys [pipelines] :as exec-task} all-tasks args]
   (let [{:keys [table2qb/pipeline-fn] :as pipeline} (args-pipeline pipelines args)

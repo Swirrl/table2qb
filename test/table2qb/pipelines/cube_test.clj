@@ -48,7 +48,7 @@
 (deftest read-component-specifications-test
   (testing "returns a dataset of component-specifications"
     (let [cube-config (cube-config/get-cube-configuration (example-csv "regional-trade" "input.csv") default-config)
-          component-specifications (read-component-specifications cube-config)]
+          component-specifications (component-specification-records cube-config)]
       (testing "one row per component"
         (is (= 8 (count component-specifications))))
       (testing "geography component"
@@ -69,37 +69,37 @@
       (testing "compare with component-specifications.json"
         (testing "parsed contents match"
           (maps-match? (util/read-json (example-csvw "regional-trade" "component-specifications.json"))
-                       (component-specification-metadata-table
+                       (component-specification-schema
                          "regional-trade.slugged.normalised.csv"
                          test-domain-data
                          "Regional Trade Component Specifications"
                          "regional-trade"))))))
   (testing "name is optional"
-    (let [metadata (component-specification-metadata-table "components.csv" test-domain-data "" "ds-slug")]
+    (let [metadata (component-specification-schema "components.csv" test-domain-data "" "ds-slug")]
       (is (= nil (get metadata "dc:title"))))))
 
 (deftest dataset-test
   (testing "compare with dataset.json"
     (maps-match? (util/read-json (example-csvw "regional-trade" "dataset.json"))
-                 (dataset-metadata-table
+                 (dataset-schema
                    "regional-trade.slugged.normalised.csv"
                    test-domain-data
                    "Regional Trade"
                    "regional-trade")))
  (testing "name is optional"
-   (let [metadata (dataset-metadata-table "components.csv" test-domain-data "" "ds-slug")]
+   (let [metadata (dataset-schema "components.csv" test-domain-data "" "ds-slug")]
      (is (= nil (get metadata "rdfs:label"))))))
 
 (deftest data-structure-definition-test
   (testing "compare with data-structure-definition.json"
     (maps-match? (util/read-json (example-csvw "regional-trade" "data-structure-definition.json"))
-                 (data-structure-definition-table
+                 (data-structure-definition-schema
                    "regional-trade.slugged.normalised.csv"
                    test-domain-data
                    "Regional Trade"
                    "regional-trade")))
   (testing "name is optional"
-    (let [metadata (data-structure-definition-table "components.csv" test-domain-data "" "ds-slug")]
+    (let [metadata (data-structure-definition-schema "components.csv" test-domain-data "" "ds-slug")]
       (is (= nil (get metadata "rdfs:label"))))))
 
 (defn get-observations
@@ -140,7 +140,7 @@
     (testing "regional trade example"
       (let [obs-source (example-csv "regional-trade" "input.csv")
             cube-config (cube-config/get-cube-configuration obs-source default-config)
-            obs-meta (observations-table "observations.csv"
+            obs-meta (observations-schema "observations.csv"
                                          test-domain-data
                                          "regional-trade"
                                          cube-config)]
@@ -149,13 +149,13 @@
     (testing "overseas trade example"
       (let [obs-source (example-csv "overseas-trade" "ots-cn-sample.csv")
             cube-config (cube-config/get-cube-configuration obs-source default-config)
-            obs-meta (observations-table "ignore-me.csv" test-domain-data "overseas-trade" cube-config)]
+            obs-meta (observations-schema "ignore-me.csv" test-domain-data "overseas-trade" cube-config)]
         (is (= (table-metadata-non-virtual-column-names obs-meta) (csv-column-names (example-csv "overseas-trade" "ots-cn-sample.csv"))))))))
 
 (deftest used-codes-test
   (testing "codelists metadata"
     (maps-match? (util/read-json (example-csvw "regional-trade" "used-codes-codelists.json"))
-                 (used-codes-codelists-table "regional-trade.slugged.normalised.csv"
+                 (used-codes-codelists-schema "regional-trade.slugged.normalised.csv"
                                              test-domain-data
                                              "regional-trade")))
   (testing "codes metadata"
@@ -163,7 +163,7 @@
           cube-config (cube-config/get-cube-configuration obs-source default-config)
           expected-json (util/read-json (example-csvw "regional-trade" "used-codes-codes.json"))]
       (maps-match? expected-json
-                   (used-codes-codes-table "regional-trade.slugged.csv"
+                   (used-codes-codes-schema "regional-trade.slugged.csv"
                                            test-domain-data
                                            "regional-trade"
                                            cube-config)))))

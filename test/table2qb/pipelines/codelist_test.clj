@@ -12,7 +12,7 @@
 
 (defn- read-codes [csv-source]
   (with-open [r (reader csv-source)]
-    (doall (codes r))))
+    (doall (code-records r))))
 
 (deftest codelists-test
   (testing "minimum case"
@@ -22,7 +22,7 @@
           (is (= 2 (count codes))))))
     (testing "json metadata"
       (maps-match? (util/read-json (example-csvw "regional-trade" "flow-directions.json"))
-                   (codelist-metadata
+                   (codelist-schema
                      "flow-directions-codelist.csv"
                      test-domain-def
                      "Flow Directions Codelist"
@@ -40,7 +40,7 @@
           (is (= "lorem ipsum" (-> codes first :description))))))
     (testing "json metadata"
       (maps-match? (util/read-json (example-csvw "regional-trade" "sitc-sections.json"))
-                   (codelist-metadata
+                   (codelist-schema
                     "sitc-sections-codelist.csv"
                     test-domain-def
                     "SITC Sections Codelist"
@@ -51,7 +51,7 @@
       (is
         (= #{"Label"}
            (try
-             (codes (io/reader (char-array "column-a\nvalue-1")))
+             (code-records (io/reader (char-array "column-a\nvalue-1")))
              (catch Exception e (:missing-columns (ex-data e)))))))))
 
 (deftest codelist-pipeline-test

@@ -27,7 +27,7 @@
       (assoc col "valueUrl" value_template)
       col)))
 
-(defn used-codes-codes-table [csv-url domain-data dataset-slug cube-config]
+(defn used-codes-codes-schema [csv-url domain-data dataset-slug cube-config]
   (let [components (cube-config/ordered-columns cube-config)
         columns (mapv (fn [comp]
                         (-> comp
@@ -60,7 +60,7 @@
                        (map #(str "/{+" % "}")))]
     (str domain-data-prefix dataset-slug (string/join uri-parts))))
 
-(defn observations-table [csv-url domain-data dataset-slug cube-config]
+(defn observations-schema [csv-url domain-data dataset-slug cube-config]
   (let [components (cube-config/ordered-columns cube-config)
         component-columns (map component->column components)
         columns (concat component-columns [observation-type-column (dataset-link-column domain-data dataset-slug)])
@@ -70,7 +70,7 @@
                 {"columns" (vec columns)
                  "aboutUrl" (observation-template domain-data dataset-slug dimension-names)}}))
 
-(defn used-codes-codelists-table [csv-url domain-data dataset-slug]
+(defn used-codes-codelists-schema [csv-url domain-data dataset-slug]
   (let [codelist-uri (str domain-data dataset-slug "/codes-used/{component_slug}")]
     {"url" (str csv-url)
      "tableSchema"
@@ -102,7 +102,7 @@
   (when-let [dataset-name (util/blank->nil dataset-name)]
     (str dataset-name " (Data Structure Definition)")))
 
-(defn data-structure-definition-table [csv-url domain-data dataset-name dataset-slug]
+(defn data-structure-definition-schema [csv-url domain-data dataset-name dataset-slug]
   (let [dsd-uri (str domain-data dataset-slug "/structure")
         dsd-label (derive-dsd-label dataset-name)]
     {"@id" dsd-uri,
@@ -127,7 +127,7 @@
                    "suppressOutput" true}],
       "aboutUrl" dsd-uri}}))
 
-(defn component-specification-metadata-table [csv-url domain-data dataset-name dataset-slug]
+(defn component-specification-schema [csv-url domain-data dataset-name dataset-slug]
   {"url" (str csv-url)
    "dc:title" (util/blank->nil dataset-name)
    "tableSchema"
@@ -155,7 +155,7 @@
                             "valueUrl" (str domain-data dataset-slug "/codes-used/{component_slug}")}],
                "aboutUrl" (component-specification-template domain-data dataset-slug)}})
 
-(defn dataset-metadata-table [csv-url domain-data dataset-name dataset-slug]
+(defn dataset-schema [csv-url domain-data dataset-name dataset-slug]
   (let [ds-uri (str domain-data dataset-slug)
         dsd-uri (str ds-uri "/structure")
         ds-label (util/blank->nil dataset-name)]
@@ -172,7 +172,7 @@
                   {"name" "structure","virtual" true,"propertyUrl" "qb:structure","valueUrl" dsd-uri}],
       "aboutUrl" ds-uri}}))
 
-(defn read-component-specifications [cube-config]
+(defn component-specification-records [cube-config]
   (map (fn [column]
          {:component_slug (column/column-name column)
           :component_attachment (column/component-attachment column)
@@ -184,7 +184,7 @@
    observations CSV file"
   [output-csv cube-config]
   (with-open [writer (io/writer output-csv)]
-    (write-csv-rows writer [:component_slug :component_attachment :component_property] (read-component-specifications cube-config))))
+    (write-csv-rows writer [:component_slug :component_attachment :component_property] (component-specification-records cube-config))))
 
 (defn- observations->csvw
   "Writes an intermediate observations CSV file for a given column configuration to the specified location."
@@ -209,12 +209,12 @@
     (util/write-json-file
       metadata-file
       {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}]
-       "tables" [(dataset-metadata-table (.toURI component-specifications-csv) domain-data dataset-name dataset-slug)
-                 (data-structure-definition-table (.toURI component-specifications-csv) domain-data dataset-name dataset-slug)
-                 (component-specification-metadata-table (.toURI component-specifications-csv) domain-data dataset-name dataset-slug)
-                 (used-codes-codelists-table (.toURI component-specifications-csv) domain-data dataset-slug)
-                 (used-codes-codes-table (.toURI observations-csv) domain-data dataset-slug cube-config)
-                 (observations-table (.toURI observations-csv) domain-data dataset-slug cube-config)]})
+       "tables" [(dataset-schema (.toURI component-specifications-csv) domain-data dataset-name dataset-slug)
+                 (data-structure-definition-schema (.toURI component-specifications-csv) domain-data dataset-name dataset-slug)
+                 (component-specification-schema (.toURI component-specifications-csv) domain-data dataset-name dataset-slug)
+                 (used-codes-codelists-schema (.toURI component-specifications-csv) domain-data dataset-slug)
+                 (used-codes-codes-schema (.toURI observations-csv) domain-data dataset-slug cube-config)
+                 (observations-schema (.toURI observations-csv) domain-data dataset-slug cube-config)]})
 
     {:metadata-file metadata-file}))
 

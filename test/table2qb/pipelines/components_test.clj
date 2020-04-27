@@ -9,7 +9,7 @@
 (deftest components-test
   (testing "csv table"
     (with-open [input-reader (reader (example-csv "regional-trade" "components.csv"))]
-      (let [components (doall (components input-reader))]
+      (let [components (doall (component-records input-reader))]
         (testing "one row per component"
           (is (= 4 (count components))))
         (testing "one column per attribute"
@@ -36,12 +36,12 @@
   (testing "json metadata"
     (with-open [target-reader (reader (example-csvw "regional-trade" "components.json"))]
       (maps-match? (json/read target-reader)
-                   (components-metadata "components.csv" test-domain-def))))
+                   (components-schema "components.csv" test-domain-def))))
 
   (testing "input validation"
     (testing "required columns"
       (is
         (= #{"Label" "Component Type"}
            (try
-             (components (io/reader (char-array "column-a\nvalue-1")))
+             (component-records (io/reader (char-array "column-a\nvalue-1")))
              (catch Exception e (:missing-columns (ex-data e)))))))))

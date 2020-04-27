@@ -58,6 +58,8 @@
                         :pipelines #ig/ref :table2qb.pipelines/pipelines}
                        {:name :describe
                         :pipelines #ig/ref :table2qb.pipelines/pipelines}
+                       {:name :csvw
+                        :pipelines #ig/ref :table2qb.pipelines/pipelines}
                        {:name :exec
                         :pipelines #ig/ref :table2qb.pipelines/pipelines}]
  }

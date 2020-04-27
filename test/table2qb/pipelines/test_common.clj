@@ -4,7 +4,11 @@
             [clojure.data :refer [diff]]
             [table2qb.configuration.columns :as column-config]
             [table2qb.configuration.uris :as uri-config]
-            [grafter-2.rdf4j.repository :as repo]))
+            [grafter-2.rdf4j.repository :as repo]
+            [csv2rdf.csvw :as csvw])
+  (:import [java.nio.file Files]
+           [java.nio.file.attribute FileAttribute]
+           [org.apache.commons.io FileUtils]))
 
 (defn- load-test-configuration []
   (column-config/load-column-configuration (io/file "test/resources/columns.csv")))
@@ -41,3 +45,11 @@
   [repo select-query]
   (with-open [conn (repo/->connection repo)]
     (doall (repo/query conn select-query))))
+
+(defn add-csvw [dest csvw-f arguments]
+  (let [temp-dir (.toFile (Files/createTempDirectory "table2qb-test" (make-array FileAttribute 0)))]
+    (try
+      (let [{:keys [metadata-file]} (csvw-f temp-dir arguments)]
+        (csvw/csv->rdf->destination nil metadata-file dest {:mode :annotated}))
+      (finally
+        (FileUtils/deleteDirectory temp-dir)))))

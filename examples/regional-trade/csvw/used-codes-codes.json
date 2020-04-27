@@ -1,5 +1,4 @@
 {
-  "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
   "url": "regional-trade.slugged.csv",
   "tableSchema": {
     "columns": [{

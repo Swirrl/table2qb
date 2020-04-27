@@ -1,11 +1,10 @@
 (ns table2qb.pipelines.integration-test
   (:require [clojure.test :refer :all]
             [clojure.java.io :as io]
-            [table2qb.pipelines.test-common :refer [test-domain test-domain-data default-config]]
-            [table2qb.pipelines.components :refer [components-pipeline]]
-            [table2qb.pipelines.codelist :refer [codelist-pipeline]]
-            [table2qb.pipelines.cube :refer [cube-pipeline]]
-            [grafter-2.rdf.protocols :as pr]
+            [table2qb.pipelines.test-common :refer [test-domain test-domain-data default-config add-csvw]]
+            [table2qb.pipelines.components :as components]
+            [table2qb.pipelines.codelist :as codelist]
+            [table2qb.pipelines.cube :as cube]
             [grafter-2.rdf4j.repository :refer [query] :as repo]
             [grafter.extra.repository :refer [with-repository]]
             [grafter.extra.validation.pmd :as pmd]
@@ -20,19 +19,35 @@
                                (io/resource "vocabularies/qb.ttl")
                                (io/resource "overseas-trade/vocabularies/2012.rdf")
                                (io/resource "overseas-trade/vocabularies/CN_2015_20180206_105537.ttl"))]
-        (let [stmts (concat
-                     ;; Existing reference data
-                     (codelist-pipeline (io/resource "regional-trade/csv/flow-directions.csv") "Flow Directions" "flow-directions" test-domain)
-                     (codelist-pipeline (io/resource "regional-trade/csv/sitc-sections.csv") "Flow Directions" "sitc-sections" test-domain)
-                     (codelist-pipeline (io/resource "regional-trade/csv/units.csv") "Measurement Units" "measurement-units" test-domain)
-                     (components-pipeline (io/resource "regional-trade/csv/components.csv") test-domain)
+                       (with-open [conn (repo/->connection repo)]
+                         (add-csvw conn codelist/codelist-pipeline {:codelist-csv (io/resource "regional-trade/csv/flow-directions.csv")
+                                                       :codelist-name             "Flow Directions"
+                                                       :codelist-slug             "flow-directions"
+                                                       :base-uri                  test-domain})
+                         (add-csvw conn codelist/codelist-pipeline {:codelist-csv (io/resource "regional-trade/csv/sitc-sections.csv")
+                                                       :codelist-name             "SITC Sections"
+                                                       :codelist-slug             "sitc-sections"
+                                                       :base-uri                  test-domain})
+                         (add-csvw conn codelist/codelist-pipeline {:codelist-csv (io/resource "regional-trade/csv/units.csv")
+                                                       :codelist-name             "Measurement Units"
+                                                       :codelist-slug             "measurement-units"
+                                                       :base-uri                  test-domain})
+                         (add-csvw conn components/components-pipeline {:input-csv (io/resource "regional-trade/csv/components.csv")
+                                                         :base-uri                 test-domain})
 
-                                     ;; This dataset
-                                     (codelist-pipeline (io/resource "overseas-trade/csv/countries.csv") "Countries" "countries" test-domain)
-                                     (components-pipeline (io/resource "overseas-trade/csv/components.csv") test-domain)
-                                     (cube-pipeline (io/resource "overseas-trade/csv/ots-cn-sample.csv") "Overseas Trade Sample" "overseas-trade-sample" default-config test-domain))]
-                         (with-open [conn (repo/->connection repo)]
-                           (pr/add conn stmts)))
+                         ;;this dataset
+                         (add-csvw conn codelist/codelist-pipeline {:codelist-csv (io/resource "overseas-trade/csv/countries.csv")
+                                                       :codelist-name             "Countries"
+                                                       :codelist-slug             "countries"
+                                                       :base-uri                  test-domain})
+                         (add-csvw conn components/components-pipeline {:input-csv (io/resource "overseas-trade/csv/components.csv")
+                                                         :base-uri                 test-domain})
+                         (add-csvw conn cube/cube-pipeline {:input-csv (io/resource "overseas-trade/csv/ots-cn-sample.csv")
+                                                   :dataset-name       "Overseas Trade Sample"
+                                                   :dataset-slug       "overseas-trade-sample"
+                                                   :column-config      default-config
+                                                   :base-uri           test-domain}))
+
                        (testing "PMD Validation"
                          (is (empty? (pmd/errors repo))))
                        (testing "PMD Dataset Validation"

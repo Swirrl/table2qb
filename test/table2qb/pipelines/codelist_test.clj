@@ -1,8 +1,9 @@
 (ns table2qb.pipelines.codelist-test
   (:require [clojure.test :refer :all]
             [table2qb.csv :refer [reader]]
-            [table2qb.pipelines.codelist :refer :all]
-            [table2qb.pipelines.test-common :refer [example-csvw example-csv maps-match? test-domain-def eager-select]]
+            [table2qb.pipelines.codelist :refer :all :as codelist]
+            [table2qb.pipelines.test-common :refer [example-csvw example-csv maps-match? test-domain-def eager-select
+                                                    add-csvw]]
             [table2qb.util :as util]
             [grafter-2.rdf4j.repository :as repo]
             [grafter-2.rdf.protocols :as pr]
@@ -11,7 +12,7 @@
 
 (defn- read-codes [csv-source]
   (with-open [r (reader csv-source)]
-    (doall (codes r))))
+    (doall (code-records r))))
 
 (deftest codelists-test
   (testing "minimum case"
@@ -21,7 +22,7 @@
           (is (= 2 (count codes))))))
     (testing "json metadata"
       (maps-match? (util/read-json (example-csvw "regional-trade" "flow-directions.json"))
-                   (codelist-metadata
+                   (codelist-schema
                      "flow-directions-codelist.csv"
                      test-domain-def
                      "Flow Directions Codelist"
@@ -39,7 +40,7 @@
           (is (= "lorem ipsum" (-> codes first :description))))))
     (testing "json metadata"
       (maps-match? (util/read-json (example-csvw "regional-trade" "sitc-sections.json"))
-                   (codelist-metadata
+                   (codelist-schema
                     "sitc-sections-codelist.csv"
                     test-domain-def
                     "SITC Sections Codelist"
@@ -50,7 +51,7 @@
       (is
         (= #{"Label"}
            (try
-             (codes (io/reader (char-array "column-a\nvalue-1")))
+             (code-records (io/reader (char-array "column-a\nvalue-1")))
              (catch Exception e (:missing-columns (ex-data e)))))))))
 
 (deftest codelist-pipeline-test
@@ -61,7 +62,10 @@
         codelist-uri "http://example.com/def/concept-scheme/flow-directions"
         repo (repo/sail-repo)]
     (with-open [conn (repo/->connection repo)]
-      (pr/add conn (codelist-pipeline codelist-csv codelist-name codelist-slug base-uri)))
+      (add-csvw conn codelist/codelist-pipeline {:codelist-csv codelist-csv
+                                    :codelist-name             codelist-name
+                                    :codelist-slug             codelist-slug
+                                    :base-uri                  base-uri}))
 
     (testing "codelist title and label"
       (let [q (str "PREFIX dc: <http://purl.org/dc/terms/>"

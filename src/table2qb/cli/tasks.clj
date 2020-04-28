@@ -2,17 +2,29 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as string]
             [clojure.tools.cli :as cli]
-            [grafter.rdf.io :as gio]
-            [grafter.rdf :as rdf]
+            [grafter-2.rdf4j.io :as gio]
+            [grafter-2.rdf.protocols :as pr]
             [table2qb.configuration.columns :as column-config]
             [table2qb.configuration.uris :as uri-config]
             [clojure.set :as set]
+            [csv2rdf.csvw :as csvw]
             [table2qb.util :as util])
-  (:import [java.net URI]))
+  (:import [java.net URI]
+           [java.nio.file Files]
+           [java.nio.file.attribute FileAttribute]
+           [org.apache.commons.io FileUtils]))
 
 (defn display-lines [lines]
   (doseq [line lines]
     (println line)))
+
+(defn- display-pipelines-lines [pipelines]
+  (concat ["Available pipelines"
+           ""]
+          (map (fn [p] (name (:name p))) pipelines)))
+
+(defn display-pipelines [pipelines]
+  (display-lines (display-pipelines-lines pipelines)))
 
 (defn- display-tasks-lines [tasks]
   (concat ["Available tasks are:"
@@ -31,14 +43,6 @@
 (defn find-task [tasks task-name]
   (first (filter (fn [task] (= task-name (name (:name task)))) tasks)))
 
-(defn- display-pipelines-lines [pipelines]
-  (concat ["Available pipelines"
-           ""]
-          (map (fn [p] (name (:name p))) pipelines)))
-
-(defn display-pipelines [pipelines]
-  (display-lines (display-pipelines-lines pipelines)))
-
 (defmulti exec-task (fn [task all-tasks args] (:name task)))
 
 (defmulti describe-task (fn [task] (:name task)))
@@ -54,6 +58,10 @@
 (defmethod describe-task :describe [_task]
   (println "Describes a named pipeline")
   (println "Usage: table2qb describe pipeline-name"))
+
+(defmethod describe-task :csvw [_task]
+  (println "Executes a named pipeline and outputs CSVW")
+  (println "Usage table2qb csvw pipeline-name args"))
 
 (defmethod describe-task :exec [_task]
   (println "Executes a named pipeline")
@@ -93,6 +101,9 @@
 (defmethod parse-arg :file [_type arg-string]
   (io/file arg-string))
 
+(defmethod parse-arg :directory [_type arg-string]
+  (io/file arg-string))
+
 (defmethod parse-arg :uri [_type arg-string]
   (URI. arg-string))
 
@@ -117,6 +128,12 @@
     :example     "http://example.com/graph/dataset"
     :optional?   true}])
 
+(def shared-csvw-parameters
+  [{:name 'output-directory
+    :description "Directory to write CSVW to"
+    :type :directory
+    :example "csvw"}])
+
 (defn- is-optional? [param]
   (= true (:optional? param)))
 
@@ -126,18 +143,28 @@
 (defn- get-pipeline-parameters [pipeline]
   (concat (:parameters pipeline) shared-pipeline-parameters))
 
+(defn- get-pipeline-csvw-parameters [pipeline]
+  (concat (:parameters pipeline) shared-csvw-parameters))
+
 (defn- example-pipeline-argument [{param-name :name example :example :as param}]
   (let [example (or example (string/upper-case param-name))]
     (if (is-optional? param)
       (format "[--%s %s]" param-name example)
       (format "--%s %s" param-name example))))
 
-(defn- get-example-exec-command-line [pipeline]
-  (let [params (get-pipeline-parameters pipeline)
-        required-params (remove is-optional? params)
+(defn- get-example-pipeline-task-command-line [task-name pipeline-name params]
+  (let [required-params (remove is-optional? params)
         optional-params (filter is-optional? params)
         args (map (fn [param] (example-pipeline-argument param)) (concat required-params optional-params))]
-    (format "table2qb exec %s %s" (name (:name pipeline)) (string/join " " args))))
+    (format "table2qb %s %s %s" task-name (name pipeline-name) (string/join " " args))))
+
+(defn- get-example-exec-command-line [pipeline]
+  (let [params (get-pipeline-parameters pipeline)]
+    (get-example-pipeline-task-command-line "exec" (:name pipeline) params)))
+
+(defn- get-example-csvw-command-line [pipeline]
+  (let [params (get-pipeline-csvw-parameters pipeline)]
+    (get-example-pipeline-task-command-line "csvw" (:name pipeline) params)))
 
 (defn- get-example-uris-command-line [pipeline]
   (format "table2qb uris %s" (name (:name pipeline))))
@@ -204,24 +231,26 @@
         (println "To describe pipeline URIs:")
         (println (get-example-uris-command-line pipeline))
         (println)
+        (println "To generate pipeline CSVW:")
+        (println (get-example-csvw-command-line pipeline))
+        (println)
         (println "To execute pipeline:")
         (println (get-example-exec-command-line pipeline)))
       (unknown-pipeline pipelines pipeline-name))
     (throw (ex-info "Pipeline name required"
                     {:error-lines ["Usage: table2qb describe pipeline-name"]}))))
 
-(defn- exec-pipeline [{:keys [parameters var] :as pipeline} {:keys [output-file graph] :as options}]
-  (let [args (mapv (fn [param] (get options (keyword (:name param)))) parameters)
-        format (if graph :trig :ttl)]
-    (with-open [os (io/output-stream output-file)]
-      (let [s (gio/rdf-serializer os :format format)]
-        (when graph
-          (rdf/add s graph (apply var args)))
-        (when-not graph
-          (rdf/add s (apply var args)))))
-    nil))
+(defn- write-csvw-rdf [metadata-file {:keys [output-file graph] :as options}]
+  (with-open [os (io/output-stream output-file)]
+    (let [s (gio/rdf-writer os :format (if graph :trig :ttl))
+          csvw-opts {:mode :annotated}]
+      (when graph
+        (pr/add s graph (csvw/csv->rdf nil metadata-file csvw-opts)))
+      (when-not graph
+        (pr/add s (csvw/csv->rdf nil metadata-file csvw-opts)))))
+  nil)
 
-(defn- parse-and-validate-pipeline-arguments [params args]
+(defn- parse-pipeline-arguments [params args]
   (let [param-specs (mapv pipeline-parameter->cli-desc params)
         {:keys [options errors]} (cli/parse-opts args param-specs)
         required-params (filter is-required? params)
@@ -231,22 +260,41 @@
                                             required-params))
         required-keys (set (keys required-id->opt-name))
         missing-keys (set/difference required-keys (set (keys options)))
-        missing-args-errors (map (fn [k] (format "Missing required argument %s" (get required-id->opt-name k))) missing-keys)]
-    {:options options
-     :errors (concat errors missing-args-errors)}))
+        missing-args-errors (map (fn [k] (format "Missing required argument %s" (get required-id->opt-name k))) missing-keys)
+        errors (concat errors missing-args-errors)]
+    (if (seq errors)
+      (throw (ex-info "Invalid pipeline arguments:"
+                      {:error-lines (vec errors)}))
+      options)))
 
-(defmethod exec-task :exec [{:keys [pipelines] :as exec-task} all-tasks args]
+(defn- args-pipeline [pipelines args]
   (if-let [pipeline-name (first args)]
     (if-let [pipeline (find-pipeline pipelines pipeline-name)]
-      (let [params (get-pipeline-parameters pipeline)
-            {:keys [options errors]} (parse-and-validate-pipeline-arguments params (rest args))]
-        (if (seq errors)
-          (throw (ex-info "Invalid pipeline arguments:"
-                          {:error-lines (vec errors)}))
-          (exec-pipeline pipeline options)))
+      pipeline
       (unknown-pipeline pipelines pipeline-name))
     (throw (ex-info "Pipeline name required"
                     {:error-lines ["Usage: table2qb describe pipeline-name"]}))))
+
+(defmethod exec-task :csvw [{:keys [pipelines] :as csvw-task} _all-tasks args]
+  (let [{:keys [table2qb/pipeline-fn] :as pipeline} (args-pipeline pipelines args)
+        params (get-pipeline-csvw-parameters pipeline)
+        {:keys [output-directory] :as arguments} (parse-pipeline-arguments params (rest args))]
+    (.mkdirs output-directory)
+    (let [{:keys [metadata-file]} (pipeline-fn output-directory arguments)]
+      (println "To generate RDF with csv2rdf run the following command:")
+      (printf "java -jar csv2rdf.jar -u %s -m annotated -o output.ttl%n" (.getAbsolutePath metadata-file))
+      (flush))))
+
+(defmethod exec-task :exec [{:keys [pipelines] :as exec-task} all-tasks args]
+  (let [{:keys [table2qb/pipeline-fn] :as pipeline} (args-pipeline pipelines args)
+        params (get-pipeline-parameters pipeline)
+        arguments (parse-pipeline-arguments params (rest args))
+        csvw-dir (.toFile (Files/createTempDirectory "table2qb" (make-array FileAttribute 0)))]
+    (try
+      (let [{:keys [metadata-file]} (pipeline-fn csvw-dir arguments)]
+        (write-csvw-rdf metadata-file arguments))
+      (finally
+        (FileUtils/deleteDirectory csvw-dir)))))
 
 (defn- indent
   "Wraps the given function with one which pads the result strings with the specified number of spaces"

@@ -1,10 +1,13 @@
 (ns table2qb.pipelines.codelist
-  (:require [csv2rdf.csvw :as csvw]
+  (:require [table2qb.configuration.uris :as uri-config]
             [clojure.java.io :as io]
-            [table2qb.csv :refer [write-csv-rows read-csv reader]]
+            [table2qb.csv :refer [write-csv-rows reader]]
             [table2qb.util :refer [create-metadata-source tempfile] :as util]
             [clojure.string :as string]
-            [table2qb.configuration.uris :as uri-config])
+            [grafter.extra.cell.uri :as gecu]
+            [table2qb.csv :as csv]
+            [table2qb.configuration.csvw :refer [csv2rdf-config]]
+            [integrant.core :as ig])
   (:import [java.io File]))
 
 (defn resolve-uris [uri-defs base-uri codelist-slug]
@@ -15,7 +18,7 @@
   (let [uri-map (util/read-edn (io/resource "uris/codelist-pipeline-uris.edn"))]
     (resolve-uris uri-map base-uri codelist-slug)))
 
-(defn codelist-metadata [csv-url codelist-name {:keys [codelist-uri code-uri parent-uri] :as column-config}]
+(defn codelist-schema [csv-url codelist-name {:keys [codelist-uri code-uri parent-uri] :as column-config}]
   {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
    "@id" codelist-uri,
    "url" (str csv-url)
@@ -61,10 +64,6 @@
                 {"propertyUrl" "skos:inScheme",
                  "valueUrl" codelist-uri,
                  "virtual" true}
-                {"propertyUrl" "skos:member",
-                 "aboutUrl" codelist-uri,
-                 "valueUrl" code-uri,
-                 "virtual" true}
                 {"propertyUrl" "rdf:type"
                  "valueUrl" "skos:Concept"
                  "virtual" true}]}})
@@ -86,12 +85,30 @@
       (add-code-hierarchy-fields)
       (add-pref-label)))
 
-(defn codes [reader]
-  (let [data (read-csv reader {"Label" :label
-                               "Notation" :notation
-                               "Parent Notation", :parent_notation
-                               "Sort Priority", :sort_priority
-                               "Description" :description})]
+(defn- valid-integer? [row column s]
+  (try
+    (Integer/parseInt s)
+    (catch NumberFormatException _ex
+      (csv/throw-cell-validation-error row column (str "Invalid integer " s) {:value s}))))
+
+(def csv-columns [{:title "Label"
+                   :key :label
+                   :required true}
+                  {:title    "Notation"
+                   :key      :notation
+                   :validate [csv/validate-not-blank]
+                   :default  (fn [row] (gecu/slugize (:label row)))}
+                  {:title "Parent Notation"
+                   :key :parent_notation
+                   :default ""}
+                  {:title "Description"
+                   :key :description}
+                  {:title "Sort Priority"
+                   :key :sort_priority
+                   :validate [(csv/optional valid-integer?)]}])
+
+(defn code-records [reader]
+  (let [data (csv/read-csv-records reader csv-columns)]
     (map annotate-code data)))
 
 (defn codelist->csvw
@@ -100,26 +117,23 @@
   (with-open [reader (reader codelist-csv)
               writer (io/writer dest-file)]
     (let [output-columns [:label :notation :parent_notation :sort_priority :description :top_concept_of :has_top_concept :pref_label]]
-      (write-csv-rows writer output-columns (codes reader)))))
-
-;;TODO: merge CSV2RDF configs
-(def csv2rdf-config {:mode :standard})
-
-(defn codelist->csvw->rdf
-  "Annotates an input codelist CSV file and uses it to generate RDF for the given codelist name and slug."
-  [codelist-csv codelist-name ^File intermediate-file uris]
-  (codelist->csvw codelist-csv intermediate-file)
-  (let [codelist-meta (codelist-metadata (.toURI intermediate-file) codelist-name uris)]
-    (csvw/csv->rdf intermediate-file (create-metadata-source codelist-csv codelist-meta) csv2rdf-config)))
+      (write-csv-rows writer output-columns (code-records reader)))))
 
 (defn codelist-pipeline
-  "Generates RDF for the given codelist CSV file"
-  ([codelist-csv codelist-name codelist-slug base-uri]
-    (codelist-pipeline codelist-csv codelist-name codelist-slug base-uri nil))
-  ([codelist-csv codelist-name codelist-slug base-uri uris-file]
-   (let [intermediate-file (tempfile codelist-slug ".csv")
-         uri-defs (uri-config/resolve-uri-defs (io/resource "uris/codelist-pipeline-uris.edn") uris-file)
-         uris (resolve-uris uri-defs base-uri codelist-slug)]
-     (codelist->csvw->rdf codelist-csv codelist-name intermediate-file uris))))
+  "Generates a codelist from a CSV file describing its members"
+  [output-directory {:keys [codelist-csv codelist-name codelist-slug base-uri uris-file]}]
+  (let [metadata-file (io/file output-directory "metadata.json")
+        output-csv (io/file output-directory "codelist.csv")
+        uri-defs (uri-config/resolve-uri-defs (io/resource "uris/codelist-pipeline-uris.edn") uris-file)
+        uris (resolve-uris uri-defs base-uri codelist-slug)
+        metadata (codelist-schema (.toURI output-csv) codelist-name uris)]
+    (codelist->csvw codelist-csv output-csv)
+    (util/write-json-file metadata-file metadata)
+    {:metadata-file metadata-file}))
 
-(derive ::codelist-pipeline :table2qb.pipelines/pipeline)
+(defmethod ig/init-key :table2qb.pipelines.codelist/codelist-pipeline [_ opts]
+  (assoc opts
+         :table2qb/pipeline-fn codelist-pipeline
+         :description (:doc (meta #'codelist-pipeline))))
+
+(derive :table2qb.pipelines.codelist/codelist-pipeline :table2qb.pipelines/pipeline)

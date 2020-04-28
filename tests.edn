@@ -1,0 +1,18 @@
+#kaocha/v1
+{:tests [{:type :kaocha.type/clojure.test
+          :id   :unit
+          :source-paths  ["src"]
+          :test-paths    ["test"]
+          :ns-patterns   ["-test$"]
+          :skip-meta [:integration]}
+         {:type :kaocha.type/clojure.test
+          :id   :integration
+          :source-paths  ["src"]
+          :test-paths    ["test"]
+          :ns-patterns   ["-test$"]
+          :focus-meta [:integration]}]
+ :reporter kaocha.report/documentation
+ ;;:plugins [kaocha.plugin/profiling]
+ :plugins [:kaocha.plugin/print-invocations
+           :kaocha.plugin/profiling]
+ }

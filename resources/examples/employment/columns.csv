@@ -1,8 +1,0 @@
-title,name,component_attachment,property_template,value_template,datatype,value_transformation
-Geography,geography,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refArea,http://statistics.data.gov.uk/id/statistical-geography/{geography},string,
-Quarter,quarter,qb:dimension,http://purl.org/linked-data/sdmx/2009/dimension#refPeriod,http://reference.data.gov.uk/id/quarter/{quarter},string,
-Gender,gender,qb:dimension,http://statistics.gov.scot/def/dimension/gender,http://statistics.gov.scot/def/concept/gender/{gender},string,slugize
-Measure Type,measure_type,qb:dimension,http://purl.org/linked-data/cube#measureType,http://statistics.gov.scot/def/measure/{measure_type},string,slugize
-Unit,unit,qb:attribute,http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure,http://statistics.gov.scot/def/concept/measure-units/{unit},string,unitize
-Value,value,,http://statistics.gov.scot/def/measure/{measure_type},,number,
-Count,count,qb:measure,http://statistics.gov.scot/def/measure/count,,string,

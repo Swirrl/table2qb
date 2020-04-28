@@ -2,9 +2,12 @@
   (:require [table2qb.util :refer [tempfile create-metadata-source] :as util]
             [csv2rdf.csvw :as csvw]
             [clojure.java.io :as io]
-            [table2qb.csv :refer [write-csv-rows read-csv reader]]
+            [table2qb.csv :refer [write-csv-rows reader]]
             [grafter.extra.cell.uri :as gecu]
-            [table2qb.configuration.uris :as uri-config])
+            [table2qb.configuration.uris :as uri-config]
+            [table2qb.csv :as csv]
+            [table2qb.configuration.csvw :refer [csv2rdf-config]]
+            [integrant.core :as ig])
   (:import [java.io File]))
 
 (defn- resolve-uris [uri-defs base-uri]
@@ -14,7 +17,7 @@
   (let [uri-map (util/read-edn (io/resource "uris/components-pipeline-uris.edn"))]
     (resolve-uris uri-map base-uri)))
 
-(defn components-metadata [csv-url {:keys [ontology-uri component-uri component-class-uri] :as uris}]
+(defn components-schema [csv-url {:keys [ontology-uri component-uri component-class-uri] :as uris}]
   {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
    "@id" ontology-uri,
    "url" (str csv-url)
@@ -69,6 +72,10 @@
                 "valueUrl" "rdf:Property"}],
     "aboutUrl" component-uri}})
 
+(def component-type-mapping {"Dimension" "qb:DimensionProperty"
+                             "Measure"   "qb:MeasureProperty"
+                             "Attribute" "qb:AttributeProperty"})
+
 (defn annotate-component
   "Derives extra column data for a component row"
   [{:keys [label component_type] :as row}]
@@ -78,47 +85,51 @@
                                     "Measure" "measure"
                                     "Attribute" "attribute"}
                                     component_type))
+      (update :component_type component-type-mapping)
       (assoc :property_slug (gecu/propertize label))
       (assoc :class_slug (gecu/classize label))
-      (update :component_type {"Dimension" "qb:DimensionProperty"
-                               "Measure" "qb:MeasureProperty"
-                               "Attribute" "qb:AttributeProperty"})
       (assoc :parent_property (if (= "Measure" component_type)
                                 "http://purl.org/linked-data/sdmx/2009/measure#obsValue"))))
 
-(defn components [reader]
-  (let [data (read-csv reader {"Label" :label
-                               "Description" :description
-                               "Component Type" :component_type
-                               "Codelist" :codelist})]
+(def csv-columns [{:title    "Label"
+                   :key      :label
+                   :required true
+                   :validate [csv/validate-not-blank]}
+                  {:title "Description"
+                   :key :description}
+                  {:title "Component Type"
+                   :key :component_type
+                   :required true
+                   :validate [(csv/validate-one-of (set (keys component-type-mapping)))]}
+                  {:title "Codelist"
+                   :key :codelist}])
+
+(defn component-records [reader]
+  (let [data (csv/read-csv-records reader csv-columns)]
     (map annotate-component data)))
 
-
-(defn components->csvw
+(defn- components->csvw
   "Annotates an input component CSV file and writes the result to the specified destination file."
   [components-csv dest-file]
   (with-open [reader (reader components-csv)
               writer (io/writer dest-file)]
     (let [component-columns [:label :description :component_type :codelist :notation :component_type_slug :property_slug :class_slug :parent_property]]
-      (write-csv-rows writer component-columns (components reader)))))
-
-;;TODO: merge CSV2RDF configs
-(def csv2rdf-config {:mode :standard})
-
-(defn components->csvw->rdf
-  "Annotates an input components CSV file and uses it to generate RDF."
-  [components-csv ^File intermediate-file uris]
-  (components->csvw components-csv intermediate-file)
-  (let [components-meta (components-metadata (.toURI intermediate-file) uris)]
-    (csvw/csv->rdf intermediate-file (create-metadata-source components-csv components-meta) csv2rdf-config)))
+      (write-csv-rows writer component-columns (component-records reader)))))
 
 (defn components-pipeline
-  "Generates RDF for the given components CSV file."
-  ([input-csv base-uri] (components-pipeline input-csv base-uri nil))
-  ([input-csv base-uri uris-file]
-   (let [components-csv (tempfile "components" ".csv")
-         uri-defs (uri-config/resolve-uri-defs (io/resource "uris/components-pipeline-uris.edn") uris-file)
-         uris (resolve-uris uri-defs base-uri)]
-     (components->csvw->rdf input-csv components-csv uris))))
+  "Generates component specifications."
+  [output-dir {:keys [input-csv base-uri uris-file]}]
+  (let [components-csv (io/file output-dir "components.csv")
+        metadata-file (io/file output-dir "metadata.json")
+        uri-defs (uri-config/resolve-uri-defs (io/resource "uris/components-pipeline-uris.edn") uris-file)
+        uris (resolve-uris uri-defs base-uri)]
+    (components->csvw input-csv components-csv)
+    (util/write-json-file metadata-file (components-schema (.toURI components-csv) uris))
+    {:metadata-file metadata-file}))
 
-(derive ::components-pipeline :table2qb.pipelines/pipeline)
+(defmethod ig/init-key :table2qb.pipelines.components/components-pipeline [_ opts]
+  (assoc opts
+         :table2qb/pipeline-fn components-pipeline
+         :description (:doc (meta #'components-pipeline))))
+
+(derive :table2qb.pipelines.components/components-pipeline :table2qb.pipelines/pipeline)

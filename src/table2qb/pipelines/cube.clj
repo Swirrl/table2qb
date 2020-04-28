@@ -1,13 +1,14 @@
 (ns table2qb.pipelines.cube
   (:require [table2qb.util :refer [tempfile create-metadata-source] :as util]
             [table2qb.configuration.cube :as cube-config]
-            [table2qb.csv :refer [write-csv-rows csv-records reader]]
+            [table2qb.csv :refer [write-csv-rows reader]]
             [clojure.java.io :as io]
-            [csv2rdf.csvw :as csvw]
             [csv2rdf.util :refer [liberal-concat]]
             [clojure.string :as string]
             [table2qb.configuration.uris :as uri-config]
-            [table2qb.configuration.column :as column])
+            [table2qb.configuration.column :as column]
+            [table2qb.configuration.csvw :refer [csv2rdf-config]]
+            [integrant.core :as ig])
   (:import [java.io File]))
 
 (defn suppress-value-column
@@ -26,7 +27,7 @@
       (assoc col "valueUrl" value_template)
       col)))
 
-(defn used-codes-codes-metadata [csv-url cube-config {:keys [used-codes-codes-codelist-uri] :as uri-config}]
+(defn used-codes-codes-schema [csv-url cube-config {:keys [used-codes-codes-codelist-uri] :as uri-config}]
   (let [components (cube-config/ordered-columns cube-config)
         columns (mapv (fn [comp]
                         (-> comp
@@ -34,8 +35,7 @@
                             (assoc "propertyUrl" "skos:member")
                             (suppress-value-column (cube-config/values cube-config))))
                       components)]
-    {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
-     "url" (str csv-url)
+    {"url" (str csv-url)
      "tableSchema" {"columns" columns
                     "aboutUrl" used-codes-codes-codelist-uri}}))
 
@@ -58,13 +58,12 @@
                        (map #(str "/{+" % "}")))]
     (str domain-data-prefix dataset-slug (string/join uri-parts))))
 
-(defn observations-metadata [csv-url domain-data dataset-slug cube-config {:keys [dataset-uri] :as uri-config}]
+(defn observations-schema [csv-url domain-data dataset-slug cube-config {:keys [dataset-uri] :as uri-config}]
   (let [components (cube-config/ordered-columns cube-config)
         component-columns (map component->column components)
         columns (concat component-columns [observation-type-column (dataset-link-column dataset-uri)])
         dimension-names (cube-config/get-ordered-dimension-names cube-config)]
-    {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
-     "url" (str csv-url)
+    {"url" (str csv-url)
      "tableSchema"
                 {"columns" (vec columns)
                  "aboutUrl" (observation-template domain-data dataset-slug dimension-names)}}))
@@ -78,9 +77,8 @@
   (let [base-defs (util/read-edn (io/resource "uris/cube-pipeline-uris.edn"))]
     (resolve-uris base-defs base-uri dataset-slug)))
 
-(defn used-codes-codelists-metadata [csv-url {:keys [codelist-uri] :as uri-config}]
-  {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
-   "url" (str csv-url)
+(defn used-codes-codelists-schema [csv-url {:keys [codelist-uri] :as uri-config}]
+  {"url" (str csv-url)
    "tableSchema"
               {"columns"
                           [{"name" "component_slug",
@@ -101,20 +99,19 @@
                             "valueUrl" "skos:Collection"}],
                "aboutUrl" codelist-uri}})
 
-(defn- derive-dsd-label
+(defn derive-dsd-label
   "Derives the DataSet Definition label from the dataset name"
   [dataset-name]
   (when-let [dataset-name (util/blank->nil dataset-name)]
     (str dataset-name " (Data Structure Definition)")))
 
-(defn data-structure-definition-metadata [csv-url dataset-name {:keys [dsd-uri component-specification-template] :as uri-config}]
+(defn data-structure-definition-schema [csv-url dataset-name {:keys [dsd-uri component-specification-template] :as uri-config}]
   (let [dsd-label (derive-dsd-label dataset-name)]
-    {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
-     "@id" dsd-uri,
+    {"@id" dsd-uri
      "url" (str csv-url)
-     "dc:title" dsd-label,
-     "rdf:type" {"@id" "qb:DataStructureDefinition"},
-     "rdfs:label" dsd-label,
+     "dc:title" dsd-label
+     "rdf:type" {"@id" "qb:DataStructureDefinition"}
+     "rdfs:label" dsd-label
      "tableSchema"
      {"columns"
                  [{"name" "component_slug",
@@ -132,9 +129,8 @@
                    "suppressOutput" true}],
       "aboutUrl" dsd-uri}}))
 
-(defn component-specification-metadata [csv-url dataset-name {:keys [component-specification-template codelist-uri]}]
-  {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
-   "url" (str csv-url)
+(defn component-specification-schema [csv-url dataset-name {:keys [component-specification-template codelist-uri]}]
+  {"url" (str csv-url)
    "dc:title" (util/blank->nil dataset-name)
    "tableSchema"
               {"columns"
@@ -161,10 +157,9 @@
                             "valueUrl" codelist-uri}],
                "aboutUrl" component-specification-template}})
 
-(defn dataset-metadata [csv-url dataset-name {:keys [dataset-uri dsd-uri]}]
+(defn dataset-schema [csv-url dataset-name {:keys [dataset-uri dsd-uri]}]
   (let [ds-label (util/blank->nil dataset-name)]
-    {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
-     "@id" dataset-uri,
+    {"@id" dataset-uri,
      "url" (str csv-url)
      "dc:title" ds-label
      "rdfs:label" ds-label
@@ -177,7 +172,7 @@
                   {"name" "structure","virtual" true,"propertyUrl" "qb:structure","valueUrl" dsd-uri}],
       "aboutUrl" dataset-uri}}))
 
-(defn read-component-specifications [cube-config]
+(defn component-specification-records [cube-config]
   (map (fn [column]
          {:component_slug (column/column-name column)
           :component_attachment (column/component-attachment column)
@@ -189,7 +184,7 @@
    observations CSV file"
   [output-csv cube-config]
   (with-open [writer (io/writer output-csv)]
-    (write-csv-rows writer [:component_slug :component_attachment :component_property] (read-component-specifications cube-config))))
+    (write-csv-rows writer [:component_slug :component_attachment :component_property] (component-specification-records cube-config))))
 
 (defn- observations->csvw
   "Writes an intermediate observations CSV file for a given column configuration to the specified location."
@@ -198,46 +193,36 @@
               writer (io/writer output-csv)]
     (cube-config/write-observation-records writer (cube-config/observation-records reader cube-config) cube-config)))
 
-(defn cube->csvw
-  "Writes intermediate CSV files for component specifications and observations to component-specifications-csv and
-   observations-csv respectively given a column configuration and input observations CSV file."
-  [input-csv component-specifications-csv observations-csv cube-config]
-  (components->csvw component-specifications-csv cube-config)
-  (observations->csvw input-csv observations-csv cube-config))
-
-(def csv2rdf-config {:mode :standard})
-
-(defn cube->csvw->rdf [input-csv dataset-name dataset-slug ^File component-specifications-csv observations-csv cube-config base-uri uris]
-  (cube->csvw input-csv component-specifications-csv observations-csv cube-config)
-
-  (let [domain-data (uri-config/domain-data base-uri)
-        component-specifications-uri (.toURI component-specifications-csv)
-        component-specification-metadata-meta (component-specification-metadata component-specifications-uri dataset-name uris)
-        dataset-metadata-meta (dataset-metadata component-specifications-uri dataset-name uris)
-        dsd-metadata-meta (data-structure-definition-metadata component-specifications-uri dataset-name uris)
-        observations-metadata-meta (observations-metadata (.toURI observations-csv) domain-data dataset-slug cube-config uris)
-        used-codes-codelists-metadata-meta (used-codes-codelists-metadata component-specifications-uri uris)
-        used-codes-codes-metadata-meta (used-codes-codes-metadata (.toURI observations-csv) cube-config uris)]
-    (liberal-concat
-      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv component-specification-metadata-meta) csv2rdf-config)
-      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv dataset-metadata-meta) csv2rdf-config)
-      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv dsd-metadata-meta) csv2rdf-config)
-      (csvw/csv->rdf observations-csv (create-metadata-source input-csv observations-metadata-meta) csv2rdf-config)
-      (csvw/csv->rdf component-specifications-csv (create-metadata-source input-csv used-codes-codelists-metadata-meta) csv2rdf-config)
-      (csvw/csv->rdf observations-csv (create-metadata-source input-csv used-codes-codes-metadata-meta) csv2rdf-config))))
-
 (defn cube-pipeline
   "Generates cube RDF for the given input CSV with dataset name and slug."
-  ([input-csv dataset-name dataset-slug column-config base-uri]
-    (cube-pipeline input-csv dataset-name dataset-slug column-config base-uri nil))
-  ([input-csv dataset-name dataset-slug column-config base-uri uris-file]
-   (let [uri-defs (uri-config/resolve-uri-defs (io/resource "uris/cube-pipeline-uris.edn") uris-file)
-         uris (resolve-uris uri-defs base-uri dataset-slug)
-         cube-config (cube-config/get-cube-configuration input-csv column-config)
-         component-specifications-csv (tempfile "component-specifications" ".csv")
-         observations-csv (tempfile "observations" ".csv")]
-     (cube->csvw->rdf input-csv dataset-name dataset-slug
-                      component-specifications-csv observations-csv
-                      cube-config base-uri uris))))
+  [output-directory {:keys [input-csv dataset-name dataset-slug column-config base-uri uris-file]}]
+  (let [uri-defs (uri-config/resolve-uri-defs (io/resource "uris/cube-pipeline-uris.edn") uris-file)
+        uris (resolve-uris uri-defs base-uri dataset-slug)
+        cube-config (cube-config/get-cube-configuration input-csv column-config)
+        domain-data (uri-config/domain-data base-uri)
+        metadata-file (io/file output-directory "metadata.json")
 
-(derive ::cube-pipeline :table2qb.pipelines/pipeline)
+        component-specifications-csv (io/file output-directory "component-specifications.csv")
+        observations-csv (io/file output-directory "observations.csv")]
+    ;;write csv files
+    (components->csvw component-specifications-csv cube-config)
+    (observations->csvw input-csv observations-csv cube-config)
+
+    (util/write-json-file
+      metadata-file
+      {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}]
+       "tables" [(dataset-schema (.toURI component-specifications-csv) dataset-name uris)
+                 (data-structure-definition-schema (.toURI component-specifications-csv) dataset-name uris)
+                 (component-specification-schema (.toURI component-specifications-csv) dataset-name uris)
+                 (used-codes-codelists-schema (.toURI component-specifications-csv) uris)
+                 (used-codes-codes-schema (.toURI observations-csv) cube-config uris)
+                 (observations-schema (.toURI observations-csv) domain-data dataset-slug cube-config uris)]})
+
+    {:metadata-file metadata-file}))
+
+(defmethod ig/init-key :table2qb.pipelines.cube/cube-pipeline [_ opts]
+  (assoc opts
+         :table2qb/pipeline-fn cube-pipeline
+         :description (:doc (meta #'cube-pipeline))))
+
+(derive :table2qb.pipelines.cube/cube-pipeline :table2qb.pipelines/pipeline)

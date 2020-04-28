@@ -39,6 +39,10 @@
 (defn tempfile [filename extension]
   (File/createTempFile filename extension))
 
+(defn write-json-file [output-file x]
+  (with-open [w (io/writer output-file)]
+    (json/write x w)))
+
 (defn read-json
   "Reads a JSON document from an io/IOFactory source"
   [json-source]

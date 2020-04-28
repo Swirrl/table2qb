@@ -1,0 +1,34 @@
+{
+  "url": "regional-trade.slugged.normalised.csv",
+  "dc:title": "Regional Trade Component Specifications",
+  "tableSchema": {
+    "columns": [{
+      "name": "component_slug",
+      "titles": "component_slug",
+      "datatype": "string",
+      "suppressOutput": true
+    },{
+      "name": "component_attachment",
+      "titles": "component_attachment",
+      "datatype": "string",
+      "suppressOutput": true
+    },{
+      "name": "component_property",
+      "titles": "component_property",
+      "datatype": "string",
+      "propertyUrl": "{+component_attachment}",
+      "valueUrl": "{+component_property}"
+    },{
+      "name": "type",
+      "virtual": true,
+      "propertyUrl": "rdf:type",
+      "valueUrl": "qb:ComponentSpecification"
+    },{
+      "name": "codes_used",
+      "virtual": true,
+      "propertyUrl": "http://publishmydata.com/def/qb/codesUsed",
+      "valueUrl": "http://gss-data.org.uk/data/regional-trade/codes-used/{component_slug}"
+    }],
+    "aboutUrl": "http://gss-data.org.uk/data/regional-trade/component/{component_slug}"
+  }
+}

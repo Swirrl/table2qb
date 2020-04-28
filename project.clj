@@ -6,6 +6,7 @@
   :plugins [[lein-tools-deps "0.4.5"]]
   :middleware [lein-tools-deps.plugin/resolve-dependencies-with-deps-edn]
   :lein-tools-deps/config {:config-files [:install :user :project]}
+  :source-paths [] :resource-paths [] ;; explicitly empty so leiningen doesn't set a default which combined with the values from tools.deps would mean duplicates on the classpath
   :profiles {:uberjar {:main table2qb.main
                        :aot :all
                        :uberjar-name "table2qb.jar"

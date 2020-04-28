@@ -198,10 +198,11 @@
   [output-directory {:keys [input-csv dataset-name dataset-slug column-config base-uri]}]
   (let [cube-config (cube-config/get-cube-configuration input-csv column-config)
         domain-data (uri-config/domain-data base-uri)
-        metadata-file (io/file output-directory "metadata.json")
-
+        metadata-file (io/file output-directory (str dataset-slug "-metadata.json"))
         component-specifications-csv (io/file output-directory "component-specifications.csv")
-        observations-csv (io/file output-directory "observations.csv")]
+        component-specifications-url (util/csvw-url output-directory "component-specifications.csv")
+        observations-csv (io/file output-directory "observations.csv")
+        observations-url (util/csvw-url output-directory "observations.csv")]
     ;;write csv files
     (components->csvw component-specifications-csv cube-config)
     (observations->csvw input-csv observations-csv cube-config)
@@ -209,12 +210,12 @@
     (util/write-json-file
       metadata-file
       {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}]
-       "tables" [(dataset-schema (.toURI component-specifications-csv) domain-data dataset-name dataset-slug)
-                 (data-structure-definition-schema (.toURI component-specifications-csv) domain-data dataset-name dataset-slug)
-                 (component-specification-schema (.toURI component-specifications-csv) domain-data dataset-name dataset-slug)
-                 (used-codes-codelists-schema (.toURI component-specifications-csv) domain-data dataset-slug)
-                 (used-codes-codes-schema (.toURI observations-csv) domain-data dataset-slug cube-config)
-                 (observations-schema (.toURI observations-csv) domain-data dataset-slug cube-config)]})
+       "tables" [(dataset-schema component-specifications-url domain-data dataset-name dataset-slug)
+                 (data-structure-definition-schema component-specifications-url domain-data dataset-name dataset-slug)
+                 (component-specification-schema component-specifications-url domain-data dataset-name dataset-slug)
+                 (used-codes-codelists-schema component-specifications-url domain-data dataset-slug)
+                 (used-codes-codes-schema observations-url domain-data dataset-slug cube-config)
+                 (observations-schema observations-url domain-data dataset-slug cube-config)]})
 
     {:metadata-file metadata-file}))
 

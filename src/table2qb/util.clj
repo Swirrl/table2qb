@@ -21,6 +21,14 @@
 (defn map-by [f s]
   (into {} (map (fn [v] [(f v) v]) s)))
 
+(defn csvw-url [output-directory output-filename]
+  "Returns a URI for the csv file that is specified relatively or absolutely
+   depending on how the output directory is specified. Absolute URIs include
+   the 'file:/' scheme part."
+  (if (.isAbsolute (io/file output-directory))
+    (.toURI (io/file output-directory output-filename))
+    (java.net.URI. output-filename)))
+
 (defn csv-file->metadata-uri [csv-file-str]
   (let [meta-file (str csv-file-str "meta.json")]
     (URI. meta-file)))

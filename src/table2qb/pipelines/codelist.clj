@@ -118,11 +118,13 @@
 (defn codelist-pipeline
   "Generates a codelist from a CSV file describing its members"
   [output-directory {:keys [codelist-csv codelist-name codelist-slug base-uri]}]
-  (let [metadata-file (io/file output-directory "metadata.json")
+  (let [metadata-file (io/file output-directory (str codelist-slug ".json"))
         domain-def (uri-config/domain-def base-uri)
-        output-csv (io/file output-directory "codelist.csv")
-        metadata (codelist-schema (.toURI output-csv) domain-def codelist-name codelist-slug)]
-    (codelist->csvw codelist-csv output-csv)
+        output-filename (str codelist-slug ".csv")
+        output-file (io/file output-directory output-filename)
+        csv-url (util/csvw-url output-directory output-filename)
+        metadata (codelist-schema csv-url domain-def codelist-name codelist-slug)]
+    (codelist->csvw codelist-csv output-file)
     (util/write-json-file metadata-file metadata)
     {:metadata-file metadata-file}))
 

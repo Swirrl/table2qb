@@ -20,7 +20,7 @@
                                                        :description "Base URI for generated URIs"
                                                        :type :string
                                                        :example "http://example.com/dataset/"}
-                                                      {:name uris
+                                                      {:name uris-file
                                                        :description "EDN file containing named URI template definitions"
                                                        :type :file
                                                        :example "uris.edn"
@@ -39,7 +39,7 @@
                                                                    :description "Base URI for generated URIs"
                                                                    :type :string
                                                                    :example "http://example.com/dataset/"}
-                                                                  {:name uris
+                                                                  {:name uris-file
                                                                    :description "EDN file containing named URI template definitions"
                                                                    :type :file
                                                                    :example "uris.edn"
@@ -71,7 +71,7 @@
                                                                :description "Base URI for generated URIs"
                                                                :type :string
                                                                :example "http://example.com/dataset/"}
-                                                              {:name uris
+                                                              {:name uris-file
                                                                :description "EDN file containing named URI template definitions"
                                                                :type :file
                                                                :example "uris.edn"

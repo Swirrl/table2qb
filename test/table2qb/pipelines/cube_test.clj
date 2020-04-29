@@ -1,16 +1,26 @@
 (ns table2qb.pipelines.cube-test
-  (:require [clojure.test :refer :all]
-            [table2qb.csv :refer [reader] :as csv]
-            [clojure.data.csv :as ccsv]
-            [table2qb.pipelines.cube :refer :all]
-            [table2qb.pipelines.test-common :refer [default-config first-by example-csvw example-csv test-domain-data test-domain
-                                                    maps-match? title->name eager-select add-csvw]]
-            [table2qb.util :as util]
-            [table2qb.configuration.cube :as cube-config]
+  (:require [clojure.data.csv :as ccsv]
+            [clojure.test :refer :all]
             [grafter-2.rdf4j.repository :as repo]
-            [grafter-2.rdf.protocols :as pr])
-  (:import [java.io StringWriter]
-           [java.net URI]))
+            [table2qb.configuration.columns :as column-config]
+            [table2qb.configuration.cube :as cube-config]
+            [table2qb.csv :as csv :refer [reader]]
+            [table2qb.pipelines.cube :refer :all]
+            [table2qb.pipelines.test-common
+             :refer
+             [add-csvw
+              default-config
+              eager-select
+              example
+              example-csv
+              example-csvw
+              first-by
+              maps-match?
+              test-domain
+              test-domain-data
+              title->name]]
+            [table2qb.util :as util])
+  (:import java.io.StringWriter))
 
 (defn- table-metadata-non-virtual-column-names
   "Returns an ordered sequence of CSV table metadata column names."
@@ -169,48 +179,78 @@
                                             (get-uris test-domain "regional-trade"))))))
 
 (deftest cube-pipeline-test
-  (let [dataset-name "Regional Trade"
-        dataset-slug "regional-trade"
-        base-uri "http://example.com/"
-        dataset-uri "http://example.com/data/regional-trade"
-        dsd-uri (str dataset-uri "/structure")
-        repo (repo/sail-repo)]
-    (with-open [conn (repo/->connection repo)]
-      (add-csvw conn cube-pipeline {:input-csv (example-csv "regional-trade" "input.csv")
-                                    :dataset-name dataset-name
-                                    :dataset-slug dataset-slug
-                                    :column-config default-config
-                                    :base-uri base-uri}))
+  (testing "regional-trade example"
+    (let [dataset-name "Regional Trade"
+          dataset-slug "regional-trade"
+          base-uri "http://example.com/"
+          dataset-uri "http://example.com/data/regional-trade"
+          dsd-uri (str dataset-uri "/structure")
+          repo (repo/sail-repo)]
+      (with-open [conn (repo/->connection repo)]
+        (add-csvw conn cube-pipeline {:input-csv (example-csv "regional-trade" "input.csv")
+                                      :dataset-name dataset-name
+                                      :dataset-slug dataset-slug
+                                      :column-config default-config
+                                      :base-uri base-uri}))
 
-    (testing "Dataset title and label"
-      (let [q (str "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
-                   "PREFIX dc: <http://purl.org/dc/terms/>"
-                   "SELECT ?title ?label WHERE {"
-                   "  <" dataset-uri "> dc:title ?title ;"
-                   "                    rdfs:label ?label ."
-                   "}")
-            {:keys [title label] :as binding} (first (eager-select repo q))]
-        (is (= dataset-name (str title)))
-        (is (= dataset-name (str label)))))
+      (testing "Dataset title and label"
+        (let [q (str "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+                     "PREFIX dc: <http://purl.org/dc/terms/>"
+                     "SELECT ?title ?label WHERE {"
+                     "  <" dataset-uri "> dc:title ?title ;"
+                     "                    rdfs:label ?label ."
+                     "}")
+              {:keys [title label] :as binding} (first (eager-select repo q))]
+          (is (= dataset-name (str title)))
+          (is (= dataset-name (str label)))))
 
-    (testing "DSD title and label"
-      (let [dsd-label (derive-dsd-label dataset-name)
-            q (str "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
-                   "PREFIX dc: <http://purl.org/dc/terms/>"
-                   "SELECT ?title ?label WHERE {"
-                   "  <" dsd-uri "> dc:title ?title ;"
-                   "                    rdfs:label ?label ."
-                   "}")
-            {:keys [title label] :as binding} (first (eager-select repo q))]
-        (is (= dsd-label (str title)))
-        (is (= dsd-label (str label)))))
+      (testing "DSD title and label"
+        (let [dsd-label (derive-dsd-label dataset-name)
+              q (str "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
+                     "PREFIX dc: <http://purl.org/dc/terms/>"
+                     "SELECT ?title ?label WHERE {"
+                     "  <" dsd-uri "> dc:title ?title ;"
+                     "                    rdfs:label ?label ."
+                     "}")
+              {:keys [title label] :as binding} (first (eager-select repo q))]
+          (is (= dsd-label (str title)))
+          (is (= dsd-label (str label)))))
 
-    (testing "DSD type"
-      (let [q (str "PREFIX qb: <http://purl.org/linked-data/cube#>"
-                   "ASK WHERE {"
-                   "  <" dsd-uri "> a qb:DataStructureDefinition ."
-                   "}")]
-        (with-open [conn (repo/->connection repo)]
-          (is (repo/query conn q)))))))
+      (testing "DSD type"
+        (let [q (str "PREFIX qb: <http://purl.org/linked-data/cube#>"
+                     "ASK WHERE {"
+                     "  <" dsd-uri "> a qb:DataStructureDefinition ."
+                     "}")]
+          (with-open [conn (repo/->connection repo)]
+            (is (repo/query conn q)))))))
+
+  (testing "custom-uris example"
+    (let [input-csv (example-csv "customising-uris" "observations.csv")
+          dataset-name "kubus luchtemissies"
+          dataset-slug "luchtemissies"
+          base-uri "https://id.milieuinfo.be/"
+          uris-file (example "uri" "customising-uris" "cube.edn")
+          repo (repo/sail-repo)]
+      (with-open [conn (repo/->connection repo)]
+        (add-csvw conn cube-pipeline {:input-csv (example-csv "customising-uris" "observations.csv")
+                                      :dataset-name dataset-name
+                                      :dataset-slug dataset-slug
+                                      :column-config (column-config/load-column-configuration (example "." "customising-uris" "columns.csv"))
+                                      :base-uri base-uri
+                                      :uris-file uris-file}))
+
+      (testing "uri patterns match"
+        (let [q (str "SELECT DISTINCT * WHERE {"
+                     "  ?uri a ?type ."
+                     "}")
+              resources (eager-select repo q)]
+          (let [uris-with-type (fn [type] (->> resources
+                                               (filter #(= type (-> % :type str)))
+                                               (map (comp str :uri))))
+                qb (partial str "http://purl.org/linked-data/cube#")]
+            (are [type uri] (contains? (set (uris-with-type type)) uri)
+              (qb "DataSet") "https://id.milieuinfo.be/imjv/kubus/luchtemissies#id"
+              (qb "DataStructureDefinition") "https://id.milieuinfo.be/imjv/dsd/luchtemissies#id" ;; the true URI is not pluralised
+              )))))))
 
 ;; TODO: Need to label components and their used-code codelists if dataset-name is not blank

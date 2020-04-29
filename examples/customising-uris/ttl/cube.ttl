@@ -1,0 +1,76 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sdmx-attribute: <http://purl.org/linked-data/sdmx/2009/attribute#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sdmx-concept: <http://purl.org/linked-data/sdmx/2009/concept#> .
+
+
+<https://id.milieuinfo.be/imjv/kubus/luchtemisses#id> a qb:DataSet;
+  dcterms:title "kubus luchtemissies"@en;
+  qb:structure <https://id.milieuinfo.be/imjv/dsd/luchtemisses#id>;
+  rdfs:label "kubus luchtemissies"@en .
+
+<https://id.milieuinfo.be/imjv/dsd/luchtemisses#id> a qb:DataStructureDefinition;
+  dcterms:title "kubus luchtemissies (Data Structure Definition)"@en;
+  qb:component <https://id.milieuinfo.be/data/luchtemisses/component/eenheid>, <https://id.milieuinfo.be/data/luchtemisses/component/hoeveelheid>,
+    <https://id.milieuinfo.be/data/luchtemisses/component/label>, <https://id.milieuinfo.be/data/luchtemisses/component/referentiegebied>,
+    <https://id.milieuinfo.be/data/luchtemisses/component/substantie>, <https://id.milieuinfo.be/data/luchtemisses/component/tijdsperiode>;
+  rdfs:label "kubus luchtemissies (Data Structure Definition)"@en .
+
+<https://id.milieuinfo.be/data/luchtemisses/component/referentiegebied> a qb:ComponentSpecification;
+  <http://publishmydata.com/def/qb/codesUsed> <https://id.milieuinfo.be/data/luchtemisses/codes-used/referentiegebied>;
+  qb:dimension <https://id.milieuinfo.be/def#referentiegebied> .
+
+<https://id.milieuinfo.be/data/luchtemisses/component/tijdsperiode> a qb:ComponentSpecification;
+  <http://publishmydata.com/def/qb/codesUsed> <https://id.milieuinfo.be/data/luchtemisses/codes-used/tijdsperiode>;
+  qb:dimension <https://id.milieuinfo.be/def#tijdsperiode> .
+
+<https://id.milieuinfo.be/data/luchtemisses/component/substantie> a qb:ComponentSpecification;
+  <http://publishmydata.com/def/qb/codesUsed> <https://id.milieuinfo.be/data/luchtemisses/codes-used/substantie>;
+  qb:dimension <https://id.milieuinfo.be/def#substantie> .
+
+<https://id.milieuinfo.be/data/luchtemisses/component/eenheid> a qb:ComponentSpecification;
+  <http://publishmydata.com/def/qb/codesUsed> <https://id.milieuinfo.be/data/luchtemisses/codes-used/eenheid>;
+  qb:attribute sdmx-attribute:unitMeasure .
+
+<https://id.milieuinfo.be/data/luchtemisses/component/label> a qb:ComponentSpecification;
+  <http://publishmydata.com/def/qb/codesUsed> <https://id.milieuinfo.be/data/luchtemisses/codes-used/label>;
+  qb:attribute rdfs:label .
+
+<https://id.milieuinfo.be/data/luchtemisses/component/hoeveelheid> a qb:ComponentSpecification;
+  <http://publishmydata.com/def/qb/codesUsed> <https://id.milieuinfo.be/data/luchtemisses/codes-used/hoeveelheid>;
+  qb:measure <https://id.milieuinfo.be/def#hoeveelheid> .
+
+<https://id.milieuinfo.be/data/luchtemisses/codes-used/referentiegebied> a skos:Collection;
+  skos:member <https://id.milieuinfo.be/imjv/emissiepunt/00119266000190/2804#id> .
+
+<https://id.milieuinfo.be/data/luchtemisses/codes-used/tijdsperiode> a skos:Collection;
+  skos:member "2012" .
+
+<https://id.milieuinfo.be/data/luchtemisses/codes-used/substantie> a skos:Collection;
+  skos:member <https://id.milieuinfo.be/vocab/imjv/concept/substantie/CID280#id> .
+
+<https://id.milieuinfo.be/data/luchtemisses/codes-used/eenheid> a skos:Collection;
+  skos:member <https://id.milieuinfo.be/vocab/imjv/concept/eenheid/Ton_per_jaar#id> .
+
+<https://id.milieuinfo.be/data/luchtemisses/codes-used/label> a skos:Collection;
+  skos:member "Observatie CO2 2012" .
+
+<https://id.milieuinfo.be/data/luchtemisses/codes-used/hoeveelheid> a skos:Collection;
+  skos:member 9.07E2 .
+
+<https://id.milieuinfo.be/data/luchtemisses/CID280/00119266000190/2804/2012> a qb:Observation;
+  qb:dataSet <https://id.milieuinfo.be/imjv/kubus/luchtemisses#id>;
+  sdmx-attribute:unitMeasure <https://id.milieuinfo.be/vocab/imjv/concept/eenheid/Ton_per_jaar#id>;
+  rdfs:label "Observatie CO2 2012";
+  <https://id.milieuinfo.be/def#hoeveelheid> 9.07E2;
+  <https://id.milieuinfo.be/def#referentiegebied> <https://id.milieuinfo.be/imjv/emissiepunt/00119266000190/2804#id>;
+  <https://id.milieuinfo.be/def#substantie> <https://id.milieuinfo.be/vocab/imjv/concept/substantie/CID280#id>;
+  <https://id.milieuinfo.be/def#tijdsperiode> "2012" .

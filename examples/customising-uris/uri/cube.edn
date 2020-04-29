@@ -1,0 +1,2 @@
+{:dataset-uri "$(base-uri)/imjv/kubus/$(dataset-slug)#id"
+ :dsd-uri "$(base-uri)/imjv/dsd/$(dataset-slug)#id"}

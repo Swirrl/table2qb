@@ -24,3 +24,12 @@ $TABLE2QB exec components-pipeline \
 --base-uri $BASE_URI \
 --uris-file uri/components.edn \
 --output-file ttl/components.ttl
+
+$TABLE2QB exec cube-pipeline \
+--input-csv csv/observations.csv \
+--dataset-name "kubus luchtemissies" \
+--dataset-slug "luchtemisses" \
+--column-config columns.csv \
+--base-uri $BASE_URI \
+--uris-file uri/cube.edn \
+--output-file ttl/cube.ttl

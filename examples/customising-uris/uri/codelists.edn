@@ -1,0 +1,3 @@
+{:codelist-uri "https://id.milieuinfo.be/vocab/imjv/conceptscheme/$(codelist-slug)s#id"
+ :code-uri "https://id.milieuinfo.be/vocab/imjv/concept/$(codelist-slug)/{notation}#id"
+ :parent-uri "https://id.milieuinfo.be/vocab/imjv/concept/$(codelist-slug)/{parent_notation}#id"}

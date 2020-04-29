@@ -94,10 +94,10 @@
 (def csv-columns [{:title "Label"
                    :key :label
                    :required true}
-                  {:title    "Notation"
-                   :key      :notation
+                  {:title "Notation"
+                   :key :notation
                    :validate [csv/validate-not-blank]
-                   :default  (fn [row] (gecu/slugize (:label row)))}
+                   :default (fn [row] (gecu/slugize (:label row)))}
                   {:title "Parent Notation"
                    :key :parent_notation
                    :default ""}

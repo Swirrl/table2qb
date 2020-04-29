@@ -47,6 +47,7 @@
                                                      :uris-resource "uris/components-pipeline-uris.edn"
                                                      :template-vars {base-uri "Base URI"}
                                                      :csvw-vars {label "Component label"
+                                                                 notation "An optional slug, defaults to the slugised label"
                                                                  description "Component description"
                                                                  component_type "Component property e.g. qb:Dimension, qb:Measure"
                                                                  codelist "Optional codelist URI"

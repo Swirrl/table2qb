@@ -1,0 +1,46 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sdmx-attribute: <http://purl.org/linked-data/sdmx/2009/attribute#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sdmx-concept: <http://purl.org/linked-data/sdmx/2009/concept#> .
+
+
+<https://id.milieuinfo.be/def#> a owl:Ontology;
+  dcterms:title "Components Ontology"@en;
+  rdfs:label "Components Ontology"@en .
+
+<https://id.milieuinfo.be/def#substantie> a qb:DimensionProperty, rdf:Property;
+  dcterms:description "De naam van de verontreinigende stof (te kiezen uit een vaste lijst)";
+  rdfs:isDefinedBy <https://id.milieuinfo.be/def#>;
+  rdfs:label "VerontreinigendeStof";
+  rdfs:range <https://id.milieuinfo.be/def#Verontreinigendestof>;
+  skos:notation "substantie" .
+
+<https://id.milieuinfo.be/def#referentiegebied> a qb:DimensionProperty, rdf:Property;
+  dcterms:description "locatie/gebied waar de observatie gemeten is";
+  rdfs:isDefinedBy <https://id.milieuinfo.be/def#>;
+  rdfs:label "referentiegebied";
+  rdfs:range <https://id.milieuinfo.be/def#Referentiegebied>;
+  skos:notation "referentiegebied" .
+
+<https://id.milieuinfo.be/def#tijdsperiode> a qb:DimensionProperty, rdf:Property;
+  dcterms:description "periode in de tijd waarop de observatie slaat";
+  rdfs:isDefinedBy <https://id.milieuinfo.be/def#>;
+  rdfs:label "periode in de tijd";
+  rdfs:range <https://id.milieuinfo.be/def#PeriodeInDeTijd>;
+  skos:notation "tijdsperiode" .
+
+<https://id.milieuinfo.be/def#hoeveelheid> a qb:MeasureProperty, rdf:Property;
+  dcterms:description "Emissie hoeveelheid op te geven in t/jr of mg TEQ/jr. Optioneel kan ook de meetmethode opgegeven worden (door hier het ID van de meetmethode op te geven) -- xs:decimal met minInclusive = 0\" , \"Bijvoorbeeld: Emissie hoeveelheid op te geven in t/jr of mg TEQ/jr. Optioneel kan ook de meetmethode opgegeven worden (door hier het ID van de meetmethode op te geven) -- xs:decimal met minInclusive = 0\\nMaar wordt ook gebruikt in andere types zoals Capaciteit.";
+  rdfs:isDefinedBy <https://id.milieuinfo.be/def#>;
+  rdfs:label "Hoeveelheid";
+  rdfs:range <https://id.milieuinfo.be/def#Hoeveelheid>;
+  rdfs:subPropertyOf <http://purl.org/linked-data/sdmx/2009/measure#obsValue>;
+  skos:notation "hoeveelheid" .

@@ -1,10 +1,20 @@
 (ns table2qb.pipelines.components-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.data.json :as json]
+            [clojure.java.io :as io]
+            [clojure.test :refer :all]
+            [grafter-2.rdf4j.repository :as repo]
             [table2qb.csv :refer [reader]]
             [table2qb.pipelines.components :refer :all]
-            [table2qb.pipelines.test-common :refer [first-by maps-match? example-csv example-csvw test-domain]]
-            [clojure.data.json :as json]
-            [clojure.java.io :as io]))
+            [table2qb.pipelines.test-common
+             :refer
+             [add-csvw
+              eager-select
+              example
+              example-csv
+              example-csvw
+              first-by
+              maps-match?
+              test-domain]]))
 
 (deftest components-test
   (testing "csv table"
@@ -45,3 +55,30 @@
            (try
              (component-records (io/reader (char-array "column-a\nvalue-1")))
              (catch Exception e (:missing-columns (ex-data e)))))))))
+
+(deftest components-pipeline-test
+  (testing "custom-uris example"
+    (let [input-csv (example-csv "customising-uris" "components.csv")
+          base-uri "https://id.milieuinfo.be/"
+          uris-file (example "uri" "customising-uris" "components.edn")
+          repo (repo/sail-repo)]
+
+      (with-open [conn (repo/->connection repo)]
+        (add-csvw conn components-pipeline {:input-csv input-csv
+                                            :base-uri base-uri
+                                            :uris-file uris-file}))
+
+      (testing "uri patterns match"
+        (let [q (str "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+                     "SELECT * WHERE {"
+                     "  ?comp a rdf:Property ."
+                     "}")
+              components (->> (eager-select repo q)
+                              (map (comp str :comp))
+                              set)]
+
+          (are [uri] (contains? components uri)
+            "https://id.milieuinfo.be/def#referentiegebied"
+            "https://id.milieuinfo.be/def#hoeveelheid"
+            "https://id.milieuinfo.be/def#substantie"
+            "https://id.milieuinfo.be/def#tijdsperiode"))))))

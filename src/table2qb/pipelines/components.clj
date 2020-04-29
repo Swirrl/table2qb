@@ -80,20 +80,24 @@
   "Derives extra column data for a component row"
   [{:keys [label component_type] :as row}]
   (-> row
-      (assoc :notation (gecu/slugize label))
       (assoc :component_type_slug ({"Dimension" "dimension"
                                     "Measure" "measure"
                                     "Attribute" "attribute"}
-                                    component_type))
+                                   component_type))
       (update :component_type component-type-mapping)
       (assoc :property_slug (gecu/propertize label))
       (assoc :class_slug (gecu/classize label))
       (assoc :parent_property (if (= "Measure" component_type)
                                 "http://purl.org/linked-data/sdmx/2009/measure#obsValue"))))
 
-(def csv-columns [{:title    "Label"
-                   :key      :label
+(def csv-columns [{:title "Label"
+                   :key :label
                    :required true
+                   :validate [csv/validate-not-blank]}
+                  {:title "Notation"
+                   :key :notation
+                   :required false
+                   :default (fn [row] (gecu/slugize (:label row)))
                    :validate [csv/validate-not-blank]}
                   {:title "Description"
                    :key :description}

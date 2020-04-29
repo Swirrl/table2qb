@@ -18,3 +18,9 @@ $TABLE2QB exec codelist-pipeline \
 --uris-file uri/codelists.edn \
 --output-file ttl/substanties.ttl
 #--output-directory "$CSVW_DIR"
+
+$TABLE2QB exec components-pipeline \
+--input-csv csv/components.csv \
+--base-uri $BASE_URI \
+--uris-file uri/components.edn \
+--output-file ttl/components.ttl

@@ -27,7 +27,7 @@
       (assoc col "valueUrl" value_template)
       col)))
 
-(defn used-codes-codes-schema [csv-url cube-config {:keys [used-codes-codes-codelist-uri] :as uri-config}]
+(defn used-codes-codes-schema [csv-url cube-config {:keys [used-codes-codelist-uri-from-observation] :as uri-config}]
   (let [components (cube-config/ordered-columns cube-config)
         columns (mapv (fn [comp]
                         (-> comp
@@ -37,7 +37,7 @@
                       components)]
     {"url" (str csv-url)
      "tableSchema" {"columns" columns
-                    "aboutUrl" used-codes-codes-codelist-uri}}))
+                    "aboutUrl" used-codes-codelist-uri-from-observation}}))
 
 (defn dataset-link-column [dataset-uri]
   {"name"        "DataSet"
@@ -77,7 +77,7 @@
   (let [base-defs (util/read-edn (io/resource "uris/cube-pipeline-uris.edn"))]
     (resolve-uris base-defs base-uri dataset-slug)))
 
-(defn used-codes-codelists-schema [csv-url {:keys [codelist-uri] :as uri-config}]
+(defn used-codes-codelists-schema [csv-url {:keys [used-codes-codelist-uri-from-component] :as uri-config}]
   {"url" (str csv-url)
    "tableSchema"
               {"columns"
@@ -97,7 +97,7 @@
                             "virtual" true,
                             "propertyUrl" "rdf:type",
                             "valueUrl" "skos:Collection"}],
-               "aboutUrl" codelist-uri}})
+               "aboutUrl" used-codes-codelist-uri-from-component}})
 
 (defn derive-dsd-label
   "Derives the DataSet Definition label from the dataset name"
@@ -129,7 +129,7 @@
                    "suppressOutput" true}],
       "aboutUrl" dsd-uri}}))
 
-(defn component-specification-schema [csv-url dataset-name {:keys [component-specification-uri codelist-uri]}]
+(defn component-specification-schema [csv-url dataset-name {:keys [component-specification-uri used-codes-codelist-uri-from-component]}]
   {"url" (str csv-url)
    "dc:title" (util/blank->nil dataset-name)
    "tableSchema"
@@ -154,7 +154,7 @@
                            {"name" "codes_used",
                             "virtual" true,
                             "propertyUrl" "http://publishmydata.com/def/qb/codesUsed",
-                            "valueUrl" codelist-uri}],
+                            "valueUrl" used-codes-codelist-uri-from-component}],
                "aboutUrl" component-specification-uri}})
 
 (defn dataset-schema [csv-url dataset-name {:keys [dataset-uri dsd-uri]}]

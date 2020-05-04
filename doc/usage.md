@@ -376,6 +376,17 @@ The codelist-pipeline will, by deafult, create codelists with URIs of the form `
 
 For example, if you were to use the codelist-pipeline to create a codelist with the `codelist-slug` of `sitc-sections` you could call the `components-pipeline` with a `codelist` of `http://example.com/def/concept-scheme/sitc-sections`.
 
+### Codes-used codelist URI needs to match
+
+You only need to worry about this if you're customising the used-codes codelist URI.
+
+The cube-pipeline generates an `skos:Collection` enumerating the codes that are used in each dimension. We create the `skos:Collection` itself and then populate it with `skos:member` triples in different parts of the pipeline.
+
+The collection is created in the context of the csvw files that have one row per component. The template for the URI is configured with `used-codes-codelist-uri-from-component` defaulting to `$(base-uri)/data/$(dataset-slug)/codes-used/{component_slug}`.
+
+The collection is populated in the context of the csvw files that have one row per observation. The template for the URI is configured with `used-codes-codelist-uri-from-observation` defaulting to `$(base-uri)/data/$(dataset-slug)/codes-used/{_name}` (note that `_name` refers to the columns name).
+
+If you customise one or other of these templates, you need to ensure that they match.
 
 ## Validation
 

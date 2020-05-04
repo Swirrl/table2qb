@@ -2,4 +2,4 @@
  :used-codes-codes-codelist-uri "$(base-uri)/data/$(dataset-slug)/codes-used/{_name}"
  :dataset-uri "$(base-uri)/data/$(dataset-slug)"
  :dsd-uri "$(base-uri)/data/$(dataset-slug)/structure"
- :component-specification-template "$(base-uri)/data/$(dataset-slug)/component/{component_slug}"}
+ :component-specification-uri "$(base-uri)/data/$(dataset-slug)/component/{component_slug}"}

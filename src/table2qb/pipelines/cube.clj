@@ -105,7 +105,7 @@
   (when-let [dataset-name (util/blank->nil dataset-name)]
     (str dataset-name " (Data Structure Definition)")))
 
-(defn data-structure-definition-schema [csv-url dataset-name {:keys [dsd-uri component-specification-template] :as uri-config}]
+(defn data-structure-definition-schema [csv-url dataset-name {:keys [dsd-uri component-specification-uri] :as uri-config}]
   (let [dsd-label (derive-dsd-label dataset-name)]
     {"@id" dsd-uri
      "url" (str csv-url)
@@ -118,7 +118,7 @@
                    "titles" "component_slug",
                    "datatype" "string",
                    "propertyUrl" "qb:component",
-                   "valueUrl" component-specification-template}
+                   "valueUrl" component-specification-uri}
                   {"name" "component_attachment",
                    "titles" "component_attachment",
                    "datatype" "string",
@@ -129,7 +129,7 @@
                    "suppressOutput" true}],
       "aboutUrl" dsd-uri}}))
 
-(defn component-specification-schema [csv-url dataset-name {:keys [component-specification-template codelist-uri]}]
+(defn component-specification-schema [csv-url dataset-name {:keys [component-specification-uri codelist-uri]}]
   {"url" (str csv-url)
    "dc:title" (util/blank->nil dataset-name)
    "tableSchema"
@@ -155,7 +155,7 @@
                             "virtual" true,
                             "propertyUrl" "http://publishmydata.com/def/qb/codesUsed",
                             "valueUrl" codelist-uri}],
-               "aboutUrl" component-specification-template}})
+               "aboutUrl" component-specification-uri}})
 
 (defn dataset-schema [csv-url dataset-name {:keys [dataset-uri dsd-uri]}]
   (let [ds-label (util/blank->nil dataset-name)]

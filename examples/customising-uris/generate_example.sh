@@ -2,34 +2,34 @@
 
 set -e
 
-PROJECT_DIR=$(dirname $(dirname "$0"))
-JAR="$PROJECT_DIR/../../target/table2qb.jar"
+SCRIPT_PATH=$(realpath "$0")
+EXAMPLE_DIR=$(dirname $SCRIPT_PATH)
+PROJECT_DIR=$(dirname $(dirname $EXAMPLE_DIR))
+JAR="$PROJECT_DIR/target/table2qb.jar"
 TABLE2QB="java -jar $JAR"
-EXAMPLE_DIR=$PROJECT_DIR
-CSVW_DIR="$EXAMPLE_DIR/csvw"
 
 BASE_URI="https://id.milieuinfo.be/"
 
 $TABLE2QB exec codelist-pipeline \
---codelist-csv csv/substanties.csv \
+--codelist-csv $EXAMPLE_DIR/csv/substanties.csv \
 --codelist-name "substanties (IMJV)" \
 --codelist-slug "substantie" \
 --base-uri $BASE_URI \
---uri-templates templates/codelists.edn \
---output-file ttl/substanties.ttl
-#--output-directory "$CSVW_DIR"
+--uri-templates $EXAMPLE_DIR/templates/codelists.edn \
+--output-file $EXAMPLE_DIR/ttl/substanties.ttl
+#--output-directory "csvw"
 
 $TABLE2QB exec components-pipeline \
---input-csv csv/components.csv \
+--input-csv $EXAMPLE_DIR/csv/components.csv \
 --base-uri $BASE_URI \
---uri-templates templates/components.edn \
---output-file ttl/components.ttl
+--uri-templates $EXAMPLE_DIR/templates/components.edn \
+--output-file $EXAMPLE_DIR/ttl/components.ttl
 
 $TABLE2QB exec cube-pipeline \
---input-csv csv/observations.csv \
+--input-csv $EXAMPLE_DIR/csv/observations.csv \
 --dataset-name "kubus luchtemissies" \
 --dataset-slug "luchtemisses" \
---column-config columns.csv \
+--column-config $EXAMPLE_DIR/columns.csv \
 --base-uri $BASE_URI \
---uri-templates templates/cube.edn \
---output-file ttl/cube.ttl
+--uri-templates $EXAMPLE_DIR/templates/cube.edn \
+--output-file $EXAMPLE_DIR/ttl/cube.ttl

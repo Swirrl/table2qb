@@ -2,67 +2,71 @@
   (:require [table2qb.configuration.uris :as uri-config]
             [clojure.java.io :as io]
             [table2qb.csv :refer [write-csv-rows reader]]
-            [table2qb.util :refer [create-metadata-source tempfile]]
+            [table2qb.util :refer [create-metadata-source tempfile] :as util]
             [clojure.string :as string]
             [grafter.extra.cell.uri :as gecu]
             [table2qb.csv :as csv]
             [table2qb.configuration.csvw :refer [csv2rdf-config]]
-            [table2qb.util :as util]
             [integrant.core :as ig])
   (:import [java.io File]))
 
-(defn codelist-schema [csv-url domain-def codelist-name codelist-slug]
-  (let [codelist-uri (str domain-def "concept-scheme/" codelist-slug)
-        code-uri (str domain-def "concept/" codelist-slug "/{notation}")
-        parent-uri (str domain-def "concept/" codelist-slug "/{parent_notation}")]
-    {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
-     "@id" codelist-uri,
-     "url" (str csv-url)
-     "dc:title" codelist-name,
-     "rdfs:label" codelist-name,
-     "rdf:type" {"@id" "skos:ConceptScheme"},
-     "tableSchema"
-     {"aboutUrl" code-uri,
-      "columns"
-      [{"name" "label",
-        "titles" "label",
-        "datatype" "string",
-        "propertyUrl" "rdfs:label"}
-       {"name" "notation",
-        "titles" "notation",
-        "datatype" "string",
-        "propertyUrl" "skos:notation"}
-       {"name" "parent_notation",
-        "titles" "parent_notation",
-        "datatype" "string",
-        "propertyUrl" "skos:broader",
-        "valueUrl" parent-uri}
-       {"name" "sort_priority"
-        "titles" "sort_priority"
-        "datatype" "integer"
-        "propertyUrl" "http://www.w3.org/ns/ui#sortPriority"}
-       {"name" "description"
-        "titles" "description"
-        "datatype" "string"
-        "propertyUrl" "rdfs:comment"}
-       {"name" "top_concept_of"
-        "titles" "top_concept_of"
-        "propertyUrl" "skos:topConceptOf"
-        "valueUrl" codelist-uri}
-       {"name" "has_top_concept"
-        "titles" "has_top_concept"
-        "aboutUrl" codelist-uri
-        "propertyUrl" "skos:hasTopConcept"
-        "valueUrl" code-uri}
-       {"name" "pref_label"
-        "titles" "pref_label"
-        "propertyUrl" "skos:prefLabel"}
-       {"propertyUrl" "skos:inScheme",
-        "valueUrl" codelist-uri,
-        "virtual" true}
-       {"propertyUrl" "rdf:type"
-        "valueUrl" "skos:Concept"
-        "virtual" true}]}}))
+(defn resolve-uris [uri-defs base-uri codelist-slug]
+  (let [vars {:base-uri (uri-config/strip-trailing-path-separator base-uri) :codelist-slug codelist-slug}]
+    (uri-config/expand-uris uri-defs vars)))
+
+(defn get-uris [base-uri codelist-slug]
+  (let [uri-map (util/read-edn (io/resource "templates/codelist-pipeline-uris.edn"))]
+    (resolve-uris uri-map base-uri codelist-slug)))
+
+(defn codelist-schema [csv-url codelist-name {:keys [codelist-uri code-uri parent-uri] :as column-config}]
+  {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
+   "@id" codelist-uri,
+   "url" (str csv-url)
+   "dc:title" codelist-name,
+   "rdfs:label" codelist-name,
+   "rdf:type" {"@id" "skos:ConceptScheme"},
+   "tableSchema"
+   {"aboutUrl" code-uri,
+    "columns"
+               [{"name" "label",
+                 "titles" "label",
+                 "datatype" "string",
+                 "propertyUrl" "rdfs:label"}
+                {"name" "notation",
+                 "titles" "notation",
+                 "datatype" "string",
+                 "propertyUrl" "skos:notation"}
+                {"name" "parent_notation",
+                 "titles" "parent_notation",
+                 "datatype" "string",
+                 "propertyUrl" "skos:broader",
+                 "valueUrl" parent-uri}
+                {"name" "sort_priority"
+                 "titles" "sort_priority"
+                 "datatype" "integer"
+                 "propertyUrl" "http://www.w3.org/ns/ui#sortPriority"}
+                {"name" "description"
+                 "titles" "description"
+                 "datatype" "string"
+                 "propertyUrl" "rdfs:comment"}
+                {"name" "top_concept_of"
+                 "titles" "top_concept_of"
+                 "propertyUrl" "skos:topConceptOf"
+                 "valueUrl" codelist-uri}
+                {"name" "has_top_concept"
+                 "titles" "has_top_concept"
+                 "aboutUrl" codelist-uri
+                 "propertyUrl" "skos:hasTopConcept"
+                 "valueUrl" code-uri}
+                {"name" "pref_label"
+                 "titles" "pref_label"
+                 "propertyUrl" "skos:prefLabel"}
+                {"propertyUrl" "skos:inScheme",
+                 "valueUrl" codelist-uri,
+                 "virtual" true}
+                {"propertyUrl" "rdf:type"
+                 "valueUrl" "skos:Concept"
+                 "virtual" true}]}})
 
 (defn add-code-hierarchy-fields [{:keys [parent_notation] :as row}]
   "if there is no parent notation, the current notation is a top
@@ -90,10 +94,10 @@
 (def csv-columns [{:title "Label"
                    :key :label
                    :required true}
-                  {:title    "Notation"
-                   :key      :notation
+                  {:title "Notation"
+                   :key :notation
                    :validate [csv/validate-not-blank]
-                   :default  (fn [row] (gecu/slugize (:label row)))}
+                   :default (fn [row] (gecu/slugize (:label row)))}
                   {:title "Parent Notation"
                    :key :parent_notation
                    :default ""}
@@ -117,11 +121,12 @@
 
 (defn codelist-pipeline
   "Generates a codelist from a CSV file describing its members"
-  [output-directory {:keys [codelist-csv codelist-name codelist-slug base-uri]}]
+  [output-directory {:keys [codelist-csv codelist-name codelist-slug base-uri uri-templates]}]
   (let [metadata-file (io/file output-directory "metadata.json")
-        domain-def (uri-config/domain-def base-uri)
         output-csv (io/file output-directory "codelist.csv")
-        metadata (codelist-schema (.toURI output-csv) domain-def codelist-name codelist-slug)]
+        uri-defs (uri-config/resolve-uri-defs (io/resource "templates/codelist-pipeline-uris.edn") uri-templates)
+        uris (resolve-uris uri-defs base-uri codelist-slug)
+        metadata (codelist-schema (.toURI output-csv) codelist-name uris)]
     (codelist->csvw codelist-csv output-csv)
     (util/write-json-file metadata-file metadata)
     {:metadata-file metadata-file}))

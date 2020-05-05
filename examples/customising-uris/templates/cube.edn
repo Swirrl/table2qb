@@ -1,0 +1,4 @@
+{:dataset-uri "$(base-uri)/imjv/kubus/$(dataset-slug)#id"
+ :dsd-uri "$(base-uri)/imjv/dsd/$(dataset-slug)#id"
+ :used-codes-codelist-uri-from-component "$(base-uri)/data/$(dataset-slug)/codes-used/{component_slug}"
+ :used-codes-codelist-uri-from-observation "$(base-uri)/data/$(dataset-slug)/codes-used/{_name}"}

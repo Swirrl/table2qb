@@ -1,0 +1,40 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sdmx-attribute: <http://purl.org/linked-data/sdmx/2009/attribute#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sdmx-concept: <http://purl.org/linked-data/sdmx/2009/concept#> .
+
+
+<https://id.milieuinfo.be/vocab/imjv/conceptscheme/substanties#id> a skos:ConceptScheme;
+  dcterms:title "substanties (IMJV)"@en;
+  rdfs:label "substanties (IMJV)"@en;
+  skos:hasTopConcept <https://id.milieuinfo.be/vocab/imjv/concept/substantie/CID280#id>,
+    <https://id.milieuinfo.be/vocab/imjv/concept/substantie/CID281#id>, <https://id.milieuinfo.be/vocab/imjv/concept/substantie/CID3032552#id> .
+
+<https://id.milieuinfo.be/vocab/imjv/concept/substantie/CID280#id> a skos:Concept;
+  rdfs:label "Kooldioxide";
+  skos:inScheme <https://id.milieuinfo.be/vocab/imjv/conceptscheme/substanties#id>;
+  skos:notation "CID280";
+  skos:prefLabel "Kooldioxide";
+  skos:topConceptOf <https://id.milieuinfo.be/vocab/imjv/conceptscheme/substanties#id> .
+
+<https://id.milieuinfo.be/vocab/imjv/concept/substantie/CID281#id> a skos:Concept;
+  rdfs:label "Koolmonoxide";
+  skos:inScheme <https://id.milieuinfo.be/vocab/imjv/conceptscheme/substanties#id>;
+  skos:notation "CID281";
+  skos:prefLabel "Koolmonoxide";
+  skos:topConceptOf <https://id.milieuinfo.be/vocab/imjv/conceptscheme/substanties#id> .
+
+<https://id.milieuinfo.be/vocab/imjv/concept/substantie/CID3032552#id> a skos:Concept;
+  rdfs:label "Stikstofdioxide";
+  skos:inScheme <https://id.milieuinfo.be/vocab/imjv/conceptscheme/substanties#id>;
+  skos:notation "CID3032552";
+  skos:prefLabel "Stikstofdioxide";
+  skos:topConceptOf <https://id.milieuinfo.be/vocab/imjv/conceptscheme/substanties#id> .

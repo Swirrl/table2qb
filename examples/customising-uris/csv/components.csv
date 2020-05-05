@@ -1,0 +1,5 @@
+Label,Notation,Description,Component Type,Codelist
+VerontreinigendeStof,substantie,De naam van de verontreinigende stof (te kiezen uit een vaste lijst),Dimension,
+referentiegebied,referentiegebied,locatie/gebied waar de observatie gemeten is,Dimension,
+periode in de tijd,tijdsperiode,periode in de tijd waarop de observatie slaat,Dimension,
+Hoeveelheid,hoeveelheid,"Emissie hoeveelheid op te geven in t/jr of mg TEQ/jr. Optioneel kan ook de meetmethode opgegeven worden (door hier het ID van de meetmethode op te geven) -- xs:decimal met minInclusive = 0"" , ""Bijvoorbeeld: Emissie hoeveelheid op te geven in t/jr of mg TEQ/jr. Optioneel kan ook de meetmethode opgegeven worden (door hier het ID van de meetmethode op te geven) -- xs:decimal met minInclusive = 0\nMaar wordt ook gebruikt in andere types zoals Capaciteit.",Measure,

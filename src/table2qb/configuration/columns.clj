@@ -1,5 +1,6 @@
 (ns table2qb.configuration.columns
-  (:require [table2qb.util :refer [map-values exception? blank->nil]]
+  (:require [clojure.string :as string]
+            [table2qb.util :refer [map-values exception? blank->nil]]
             [table2qb.csv :as csv]
             [table2qb.configuration.column :as column]
             [table2qb.util :as util]))

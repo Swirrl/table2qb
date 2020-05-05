@@ -1,0 +1,7 @@
+title,name,component_attachment,property_template,value_template,datatype,value_transformation
+Label,label,qb:attribute,http://www.w3.org/2000/01/rdf-schema#label,,string,
+Eenheid,eenheid,qb:attribute,http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure,https://id.milieuinfo.be/vocab/imjv/concept/eenheid/{eenheid}#id,string,
+Substantie,substantie,qb:dimension,https://id.milieuinfo.be/def#substantie,https://id.milieuinfo.be/vocab/imjv/concept/substantie/{substantie}#id,string,
+Hoeveelheid,hoeveelheid,qb:measure,https://id.milieuinfo.be/def#hoeveelheid,,number,
+Referentiegebied,referentiegebied,qb:dimension,https://id.milieuinfo.be/def#referentiegebied,https://id.milieuinfo.be/imjv/emissiepunt/{referentiegebied}#id,string,
+Tijdsperiode,tijdsperiode,qb:dimension,https://id.milieuinfo.be/def#tijdsperiode,,string,

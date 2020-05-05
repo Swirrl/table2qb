@@ -2,16 +2,23 @@
   (:require [csv2rdf.source :as source]
             [clojure.java.io :as io]
             [clojure.data.json :as json]
-            [clojure.string :as string])
-  (:import [java.io File]
+            [clojure.string :as string]
+            [clojure.edn :as edn])
+  (:import [java.io File PushbackReader Reader]
            [java.net URI]))
 
 (defn exception? [x] (instance? Exception x))
 
 (defn map-values
   "Transforms each value within a map with the given transform function. Returns a new map."
-  [m f]
+  [f m]
   (into {} (map (fn [[k v]] [k (f v)]) m)))
+
+(defn map-keys
+  "Transforms each key within a map with the given transformation function. If multiple keys
+  in the input are mapped to the same value it is undefined which value will be kept in the output map."
+  [f m]
+  (into {} (map (fn [[k v]] [(f k) v]) m)))
 
 (defn filter-vals
   "Filters a map according to the given predicate on values."
@@ -41,6 +48,22 @@
   [json-source]
   (with-open [r (io/reader json-source)]
     (json/read r)))
+
+(defn- ^PushbackReader ensure-pushback-reader [^Reader reader]
+  (if (instance? PushbackReader reader)
+    reader
+    (PushbackReader. reader)))
+
+(defn ^PushbackReader ->pushback-reader
+  "Opens the given IOFactory source as a PushbackReader."
+  [io-source]
+  (-> io-source io/reader ensure-pushback-reader))
+
+(defn read-edn
+  "Reads EDN from an IOFactory source."
+  [edn-source]
+  (with-open [r (->pushback-reader edn-source)]
+    (edn/read r)))
 
 (defn blank->nil
   "Returns the input value if it is not blank, otherwise nil."

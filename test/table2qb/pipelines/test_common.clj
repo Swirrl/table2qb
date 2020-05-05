@@ -22,7 +22,6 @@
                     {:known-columns (column-config/known-titles default-config)}))))
 
 (def test-domain "http://gss-data.org.uk/")
-(def test-domain-def (uri-config/domain-def test-domain))
 (def test-domain-data (uri-config/domain-data test-domain))
 
 (defn first-by [attr val coll]

@@ -19,7 +19,16 @@
                                                       {:name base-uri
                                                        :description "Base URI for generated URIs"
                                                        :type :string
-                                                       :example "http://example.com/dataset/"}]}
+                                                       :example "http://example.com/dataset/"}
+                                                      {:name uri-templates
+                                                       :description "EDN file containing named URI template definitions"
+                                                       :type :file
+                                                       :example "uri-templates.edn"
+                                                       :optional? true}]
+                                         :uris-resource "templates/cube-pipeline-uris.edn"
+                                         :template-vars {base-uri "Base URI"
+                                                         dataset-slug "Provided slug for the dataset"}
+                                         :csvw-vars {}}
 
  :table2qb.pipelines.components/components-pipeline {:name components-pipeline
                                                      :parameters [{:name input-csv
@@ -29,7 +38,22 @@
                                                                   {:name base-uri
                                                                    :description "Base URI for generated URIs"
                                                                    :type :string
-                                                                   :example "http://example.com/dataset/"}]}
+                                                                   :example "http://example.com/dataset/"}
+                                                                  {:name uri-templates
+                                                                   :description "EDN file containing named URI template definitions"
+                                                                   :type :file
+                                                                   :example "uri-templates.edn"
+                                                                   :optional? true}]
+                                                     :uris-resource "templates/components-pipeline-uris.edn"
+                                                     :template-vars {base-uri "Base URI"}
+                                                     :csvw-vars {label "Component label"
+                                                                 notation "An optional slug, defaults to the slugised label"
+                                                                 description "Component description"
+                                                                 component_type "Component property e.g. qb:Dimension, qb:Measure"
+                                                                 codelist "Optional codelist URI"
+                                                                 component_type_slug "Slugized version of Component Type input value"
+                                                                 property_slug "Propertized version of the component Label"
+                                                                 class_slug "Classized version of the component Label"}}
 
  :table2qb.pipelines.codelist/codelist-pipeline {:name codelist-pipeline
                                                  :parameters [{:name codelist-csv
@@ -47,7 +71,20 @@
                                                               {:name base-uri
                                                                :description "Base URI for generated URIs"
                                                                :type :string
-                                                               :example "http://example.com/dataset/"}]}
+                                                               :example "http://example.com/dataset/"}
+                                                              {:name uri-templates
+                                                               :description "EDN file containing named URI template definitions"
+                                                               :type :file
+                                                               :example "uri-templates.edn"
+                                                               :optional? true}]
+                                                 :uris-resource "templates/codelist-pipeline-uris.edn"
+                                                 :template-vars {base-uri "Base URI"
+                                                                 codelist-slug "Provided slug for the codelist"}
+                                                 :csvw-vars {label "Code Label"
+                                                             notation "Code Notation"
+                                                             parent_notation "Optional parent code"
+                                                             sort_priority "Optional code Sort Priority"
+                                                             description "Optional code Description"}}
 
  ;; All pipelines should derive from :table2qb.pipelines/pipeline
  :table2qb.pipelines/pipelines #ig/refset [:table2qb.pipelines/pipeline]
@@ -61,5 +98,7 @@
                        {:name :csvw
                         :pipelines #ig/ref :table2qb.pipelines/pipelines}
                        {:name :exec
+                        :pipelines #ig/ref :table2qb.pipelines/pipelines}
+                       {:name :uris
                         :pipelines #ig/ref :table2qb.pipelines/pipelines}]
  }

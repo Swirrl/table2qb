@@ -27,25 +27,23 @@
       (assoc col "valueUrl" value_template)
       col)))
 
-(defn used-codes-codes-schema [csv-url domain-data dataset-slug cube-config]
+(defn used-codes-codes-schema [csv-url cube-config {:keys [used-codes-codelist-uri-from-observation] :as uri-config}]
   (let [components (cube-config/ordered-columns cube-config)
         columns (mapv (fn [comp]
                         (-> comp
                             (component->column)
                             (assoc "propertyUrl" "skos:member")
                             (suppress-value-column (cube-config/values cube-config))))
-                      components)
-        codelist-uri (str domain-data dataset-slug "/codes-used/{_name}")]
+                      components)]
     {"url" (str csv-url)
      "tableSchema" {"columns" columns
-                    "aboutUrl" codelist-uri}}))
+                    "aboutUrl" used-codes-codelist-uri-from-observation}}))
 
-(defn dataset-link-column [domain-data dataset-slug]
-  (let [ds-uri (str domain-data dataset-slug)]
-    {"name" "DataSet"
-     "virtual" true
-     "propertyUrl" "qb:dataSet"
-     "valueUrl" ds-uri}))
+(defn dataset-link-column [dataset-uri]
+  {"name"        "DataSet"
+   "virtual"     true
+   "propertyUrl" "qb:dataSet"
+   "valueUrl"    dataset-uri})
 
 (def observation-type-column
   {"name" "Observation"
@@ -60,41 +58,45 @@
                        (map #(str "/{+" % "}")))]
     (str domain-data-prefix dataset-slug (string/join uri-parts))))
 
-(defn observations-schema [csv-url domain-data dataset-slug cube-config]
+(defn observations-schema [csv-url domain-data dataset-slug cube-config {:keys [dataset-uri] :as uri-config}]
   (let [components (cube-config/ordered-columns cube-config)
         component-columns (map component->column components)
-        columns (concat component-columns [observation-type-column (dataset-link-column domain-data dataset-slug)])
+        columns (concat component-columns [observation-type-column (dataset-link-column dataset-uri)])
         dimension-names (cube-config/get-ordered-dimension-names cube-config)]
     {"url" (str csv-url)
      "tableSchema"
                 {"columns" (vec columns)
                  "aboutUrl" (observation-template domain-data dataset-slug dimension-names)}}))
 
-(defn used-codes-codelists-schema [csv-url domain-data dataset-slug]
-  (let [codelist-uri (str domain-data dataset-slug "/codes-used/{component_slug}")]
-    {"url" (str csv-url)
-     "tableSchema"
-     {"columns"
-      [{"name" "component_slug",
-        "titles" "component_slug",
-        "datatype" "string",
-        "suppressOutput" true}
-       {"name" "component_attachment",
-        "titles" "component_attachment",
-        "datatype" "string",
-        "suppressOutput" true}
-       {"name" "component_property",
-        "titles" "component_property",
-        "datatype" "string",
-        "suppressOutput" true}
-       {"name" "type",
-        "virtual" true,
-        "propertyUrl" "rdf:type",
-        "valueUrl" "skos:Collection"}],
-      "aboutUrl" codelist-uri}}))
+(defn- resolve-uris [uri-defs base-uri dataset-slug]
+  (let [vars {:base-uri (uri-config/strip-trailing-path-separator base-uri) :dataset-slug dataset-slug}]
+    (uri-config/expand-uris uri-defs vars)))
 
-(defn component-specification-template [domain-data dataset-slug]
-  (str domain-data dataset-slug "/component/{component_slug}"))
+(defn get-uris [base-uri dataset-slug]
+  (let [base-defs (util/read-edn (io/resource "templates/cube-pipeline-uris.edn"))]
+    (resolve-uris base-defs base-uri dataset-slug)))
+
+(defn used-codes-codelists-schema [csv-url {:keys [used-codes-codelist-uri-from-component] :as uri-config}]
+  {"url" (str csv-url)
+   "tableSchema"
+              {"columns"
+                          [{"name" "component_slug",
+                            "titles" "component_slug",
+                            "datatype" "string",
+                            "suppressOutput" true}
+                           {"name" "component_attachment",
+                            "titles" "component_attachment",
+                            "datatype" "string",
+                            "suppressOutput" true}
+                           {"name" "component_property",
+                            "titles" "component_property",
+                            "datatype" "string",
+                            "suppressOutput" true}
+                           {"name" "type",
+                            "virtual" true,
+                            "propertyUrl" "rdf:type",
+                            "valueUrl" "skos:Collection"}],
+               "aboutUrl" used-codes-codelist-uri-from-component}})
 
 (defn derive-dsd-label
   "Derives the DataSet Definition label from the dataset name"
@@ -102,21 +104,20 @@
   (when-let [dataset-name (util/blank->nil dataset-name)]
     (str dataset-name " (Data Structure Definition)")))
 
-(defn data-structure-definition-schema [csv-url domain-data dataset-name dataset-slug]
-  (let [dsd-uri (str domain-data dataset-slug "/structure")
-        dsd-label (derive-dsd-label dataset-name)]
-    {"@id" dsd-uri,
+(defn data-structure-definition-schema [csv-url dataset-name {:keys [dsd-uri component-specification-uri] :as uri-config}]
+  (let [dsd-label (derive-dsd-label dataset-name)]
+    {"@id" dsd-uri
      "url" (str csv-url)
-     "dc:title" dsd-label,
-     "rdf:type" {"@id" "qb:DataStructureDefinition"},
-     "rdfs:label" dsd-label,
+     "dc:title" dsd-label
+     "rdf:type" {"@id" "qb:DataStructureDefinition"}
+     "rdfs:label" dsd-label
      "tableSchema"
      {"columns"
                  [{"name" "component_slug",
                    "titles" "component_slug",
                    "datatype" "string",
                    "propertyUrl" "qb:component",
-                   "valueUrl" (component-specification-template domain-data dataset-slug)}
+                   "valueUrl" component-specification-uri}
                   {"name" "component_attachment",
                    "titles" "component_attachment",
                    "datatype" "string",
@@ -127,7 +128,7 @@
                    "suppressOutput" true}],
       "aboutUrl" dsd-uri}}))
 
-(defn component-specification-schema [csv-url domain-data dataset-name dataset-slug]
+(defn component-specification-schema [csv-url dataset-name {:keys [component-specification-uri used-codes-codelist-uri-from-component]}]
   {"url" (str csv-url)
    "dc:title" (util/blank->nil dataset-name)
    "tableSchema"
@@ -152,14 +153,12 @@
                            {"name" "codes_used",
                             "virtual" true,
                             "propertyUrl" "http://publishmydata.com/def/qb/codesUsed",
-                            "valueUrl" (str domain-data dataset-slug "/codes-used/{component_slug}")}],
-               "aboutUrl" (component-specification-template domain-data dataset-slug)}})
+                            "valueUrl" used-codes-codelist-uri-from-component}],
+               "aboutUrl" component-specification-uri}})
 
-(defn dataset-schema [csv-url domain-data dataset-name dataset-slug]
-  (let [ds-uri (str domain-data dataset-slug)
-        dsd-uri (str ds-uri "/structure")
-        ds-label (util/blank->nil dataset-name)]
-    {"@id" ds-uri,
+(defn dataset-schema [csv-url dataset-name {:keys [dataset-uri dsd-uri]}]
+  (let [ds-label (util/blank->nil dataset-name)]
+    {"@id" dataset-uri,
      "url" (str csv-url)
      "dc:title" ds-label
      "rdfs:label" ds-label
@@ -170,7 +169,7 @@
                   {"name" "component_property", "titles" "component_property", "suppressOutput" true}
                   {"name" "type","virtual" true,"propertyUrl" "rdf:type","valueUrl" "qb:DataSet"}
                   {"name" "structure","virtual" true,"propertyUrl" "qb:structure","valueUrl" dsd-uri}],
-      "aboutUrl" ds-uri}}))
+      "aboutUrl" dataset-uri}}))
 
 (defn component-specification-records [cube-config]
   (map (fn [column]
@@ -195,8 +194,10 @@
 
 (defn cube-pipeline
   "Generates cube RDF for the given input CSV with dataset name and slug."
-  [output-directory {:keys [input-csv dataset-name dataset-slug column-config base-uri]}]
-  (let [cube-config (cube-config/get-cube-configuration input-csv column-config)
+  [output-directory {:keys [input-csv dataset-name dataset-slug column-config base-uri uri-templates]}]
+  (let [uri-defs (uri-config/resolve-uri-defs (io/resource "templates/cube-pipeline-uris.edn") uri-templates)
+        uris (resolve-uris uri-defs base-uri dataset-slug)
+        cube-config (cube-config/get-cube-configuration input-csv column-config)
         domain-data (uri-config/domain-data base-uri)
         metadata-file (io/file output-directory "metadata.json")
 
@@ -209,12 +210,12 @@
     (util/write-json-file
       metadata-file
       {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}]
-       "tables" [(dataset-schema (.toURI component-specifications-csv) domain-data dataset-name dataset-slug)
-                 (data-structure-definition-schema (.toURI component-specifications-csv) domain-data dataset-name dataset-slug)
-                 (component-specification-schema (.toURI component-specifications-csv) domain-data dataset-name dataset-slug)
-                 (used-codes-codelists-schema (.toURI component-specifications-csv) domain-data dataset-slug)
-                 (used-codes-codes-schema (.toURI observations-csv) domain-data dataset-slug cube-config)
-                 (observations-schema (.toURI observations-csv) domain-data dataset-slug cube-config)]})
+       "tables" [(dataset-schema (.toURI component-specifications-csv) dataset-name uris)
+                 (data-structure-definition-schema (.toURI component-specifications-csv) dataset-name uris)
+                 (component-specification-schema (.toURI component-specifications-csv) dataset-name uris)
+                 (used-codes-codelists-schema (.toURI component-specifications-csv) uris)
+                 (used-codes-codes-schema (.toURI observations-csv) cube-config uris)
+                 (observations-schema (.toURI observations-csv) domain-data dataset-slug cube-config uris)]})
 
     {:metadata-file metadata-file}))
 

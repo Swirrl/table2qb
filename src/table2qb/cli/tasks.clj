@@ -5,8 +5,10 @@
             [grafter-2.rdf4j.io :as gio]
             [grafter-2.rdf.protocols :as pr]
             [table2qb.configuration.columns :as column-config]
+            [table2qb.configuration.uris :as uri-config]
             [clojure.set :as set]
-            [csv2rdf.csvw :as csvw])
+            [csv2rdf.csvw :as csvw]
+            [table2qb.util :as util])
   (:import [java.net URI]
            [java.nio.file Files]
            [java.nio.file.attribute FileAttribute]
@@ -15,6 +17,14 @@
 (defn display-lines [lines]
   (doseq [line lines]
     (println line)))
+
+(defn- display-pipelines-lines [pipelines]
+  (concat ["Available pipelines"
+           ""]
+          (map (fn [p] (name (:name p))) pipelines)))
+
+(defn display-pipelines [pipelines]
+  (display-lines (display-pipelines-lines pipelines)))
 
 (defn- display-tasks-lines [tasks]
   (concat ["Available tasks are:"
@@ -55,7 +65,15 @@
 
 (defmethod describe-task :exec [_task]
   (println "Executes a named pipeline")
-  (println "Usage table2qb exec pipeline-name args"))
+  (println "Usage: table2qb exec pipeline-name args"))
+
+(defmethod describe-task :uris [{:keys [pipelines] :as uris-task}]
+  (println "Usage: table2qb uris pipeline-name [uri-templates]")
+  (println)
+  (println "Lists and describes the URI templates used by a named pipeline")
+  (println "If an EDN file containing overriding URI definitions is provided, the resolved URIs that would be used by the pipeline will be displayed")
+  (println)
+  (display-pipelines pipelines))
 
 (defmethod exec-task :help [_help-task all-tasks args]
   (if-let [task-name (first args)]
@@ -64,14 +82,6 @@
       (throw (ex-info (str "Unknown task name " task-name)
                       {:error-lines (display-tasks-lines all-tasks)})))
     (usage all-tasks)))
-
-(defn- display-pipelines-lines [pipelines]
-  (concat ["Available pipelines"
-           ""]
-          (map (fn [p] (name (:name p))) pipelines)))
-
-(defn display-pipelines [pipelines]
-  (display-lines (display-pipelines-lines pipelines)))
 
 (defmethod exec-task :list [{:keys [pipelines] :as list-task} all-tasks args]
   (display-pipelines pipelines)
@@ -156,6 +166,9 @@
   (let [params (get-pipeline-csvw-parameters pipeline)]
     (get-example-pipeline-task-command-line "csvw" (:name pipeline) params)))
 
+(defn- get-example-uris-command-line [pipeline]
+  (format "table2qb uris %s" (name (:name pipeline))))
+
 (defn- unknown-pipeline [pipelines pipeline-name]
   (throw (ex-info (str "Unknown pipeline " pipeline-name)
                   {:error-lines (display-pipelines-lines pipelines)})))
@@ -184,6 +197,16 @@
 (defn- row->string [row]
   (string/join " " row))
 
+(defn- display-table
+  "Displays the table with given data rows and optional header. Nothing is displayed if rows is empty, if
+  header is provided it will be displayed before the rows."
+  ([rows] (display-table rows nil))
+  ([rows header]
+   (when (seq rows)
+     (let [rows (if header (cons header rows) rows)]
+       (doseq [row (pad-rows rows)]
+         (println (row->string row)))))))
+
 (defn- parameter-summary-row [{param-name :name description :description :as param}]
   [(format "--%s %s" param-name (string/upper-case (name param-name)))
    (if (is-optional? param) "optional" "required")
@@ -191,16 +214,22 @@
 
 (defmethod exec-task :describe [{:keys [pipelines] :as describe-task} _all-tasks args]
   (if-let [pipeline-name (first args)]
-    (if-let [{:keys [name description] :as pipeline} (find-pipeline pipelines pipeline-name)]
+    (if-let [{:keys [name description uris-resource] :as pipeline} (find-pipeline pipelines pipeline-name)]
       (let [params (get-pipeline-parameters pipeline)
-            summary-rows (map parameter-summary-row params)
-            padded-rows (pad-rows summary-rows)]
+            uris (util/read-edn (io/resource uris-resource))
+            summary-rows (map parameter-summary-row params)]
         (println name)
         (println description)
         (println)
         (println "Parameters:")
-        (doseq [row padded-rows]
-          (println "  " (row->string row)))
+        (display-table summary-rows)
+
+        (println)
+        (println "URIs:")
+        (display-table (map (fn [[key uri]] [(str "  " key) uri]) uris) ["" "Default"])
+        (println)
+        (println "To describe pipeline URIs:")
+        (println (get-example-uris-command-line pipeline))
         (println)
         (println "To generate pipeline CSVW:")
         (println (get-example-csvw-command-line pipeline))
@@ -266,3 +295,34 @@
         (write-csvw-rdf metadata-file arguments))
       (finally
         (FileUtils/deleteDirectory csvw-dir)))))
+
+(defn- indent
+  "Wraps the given function with one which pads the result strings with the specified number of spaces"
+  [num-spaces f]
+  (let [padding (String. (char-array num-spaces \space))]
+    (fn [x] (str padding (f x)))))
+
+(defn- format-csvw-variable [var-sym]
+  (str "{" (name var-sym) "}"))
+
+(defn- format-template-variable [var-sym]
+  (str "$(" (name var-sym) ")"))
+
+(defmethod exec-task :uris [{:keys [pipelines] :as uri-task} _all-tasks [pipeline-name uri-templates & _ignored]]
+  (if (some? pipeline-name)
+    (if-let [{:keys [uris-resource template-vars csvw-vars] :as pipeline} (find-pipeline pipelines pipeline-name)]
+      (if (some? uri-templates)
+        (let [resolved-uris (uri-config/resolve-uri-defs (io/resource uris-resource) (io/file uri-templates))]
+          (display-table (map (fn [[key uri]] [(str "  " key) uri]) resolved-uris) ["Name" "Template"]))
+
+        (let [uris (util/read-edn (io/resource uris-resource))]
+          (println "URIs:")
+          (display-table (util/map-keys (indent 4 identity) uris) ["Name" "Default"])
+          (println)
+          (println "Template variables:")
+          (display-table (util/map-keys (indent 4 format-template-variable) template-vars) ["Name" "Description"])
+          (println)
+          (println "CSVW variables:")
+          (display-table (util/map-keys (indent 4 format-csvw-variable) csvw-vars) ["Name" "Description"])))
+      (unknown-pipeline pipelines pipeline-name))
+    (describe-task uri-task)))

@@ -73,8 +73,7 @@
     (uri-config/expand-uris uri-defs vars)))
 
 (defn get-uris [base-uri dataset-slug]
-  ;;TODO: rename templates to end with template e.g. codelist-uri-template or codelist-template
-  (let [base-defs (util/read-edn (io/resource "uris/cube-pipeline-uris.edn"))]
+  (let [base-defs (util/read-edn (io/resource "templates/cube-pipeline-uris.edn"))]
     (resolve-uris base-defs base-uri dataset-slug)))
 
 (defn used-codes-codelists-schema [csv-url {:keys [used-codes-codelist-uri-from-component] :as uri-config}]
@@ -195,8 +194,8 @@
 
 (defn cube-pipeline
   "Generates cube RDF for the given input CSV with dataset name and slug."
-  [output-directory {:keys [input-csv dataset-name dataset-slug column-config base-uri uris-file]}]
-  (let [uri-defs (uri-config/resolve-uri-defs (io/resource "uris/cube-pipeline-uris.edn") uris-file)
+  [output-directory {:keys [input-csv dataset-name dataset-slug column-config base-uri uri-templates]}]
+  (let [uri-defs (uri-config/resolve-uri-defs (io/resource "templates/cube-pipeline-uris.edn") uri-templates)
         uris (resolve-uris uri-defs base-uri dataset-slug)
         cube-config (cube-config/get-cube-configuration input-csv column-config)
         domain-data (uri-config/domain-data base-uri)

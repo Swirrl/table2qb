@@ -14,7 +14,7 @@
   (uri-config/expand-uris uri-defs {:base-uri (uri-config/strip-trailing-path-separator base-uri)}))
 
 (defn get-uris [base-uri]
-  (let [uri-map (util/read-edn (io/resource "uris/components-pipeline-uris.edn"))]
+  (let [uri-map (util/read-edn (io/resource "templates/components-pipeline-uris.edn"))]
     (resolve-uris uri-map base-uri)))
 
 (defn components-schema [csv-url {:keys [ontology-uri component-uri component-class-uri] :as uris}]
@@ -122,10 +122,10 @@
 
 (defn components-pipeline
   "Generates component specifications."
-  [output-dir {:keys [input-csv base-uri uris-file]}]
+  [output-dir {:keys [input-csv base-uri uri-templates]}]
   (let [components-csv (io/file output-dir "components.csv")
         metadata-file (io/file output-dir "metadata.json")
-        uri-defs (uri-config/resolve-uri-defs (io/resource "uris/components-pipeline-uris.edn") uris-file)
+        uri-defs (uri-config/resolve-uri-defs (io/resource "templates/components-pipeline-uris.edn") uri-templates)
         uris (resolve-uris uri-defs base-uri)]
     (components->csvw input-csv components-csv)
     (util/write-json-file metadata-file (components-schema (.toURI components-csv) uris))

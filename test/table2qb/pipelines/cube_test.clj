@@ -229,7 +229,7 @@
           dataset-name "kubus luchtemissies"
           dataset-slug "luchtemissies"
           base-uri "https://id.milieuinfo.be/"
-          uris-file (example "uri" "customising-uris" "cube.edn")
+          uri-templates (example "templates" "customising-uris" "cube.edn")
           repo (repo/sail-repo)]
       (with-open [conn (repo/->connection repo)]
         (add-csvw conn cube-pipeline {:input-csv (example-csv "customising-uris" "observations.csv")
@@ -237,7 +237,7 @@
                                       :dataset-slug dataset-slug
                                       :column-config (column-config/load-column-configuration (example "." "customising-uris" "columns.csv"))
                                       :base-uri base-uri
-                                      :uris-file uris-file}))
+                                      :uri-templates uri-templates}))
 
       (testing "uri patterns match"
         (let [q (str "SELECT DISTINCT * WHERE {"

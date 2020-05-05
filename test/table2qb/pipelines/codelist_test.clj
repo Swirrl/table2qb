@@ -95,7 +95,7 @@
           codelist-name "substanties (IMJV)"
           codelist-slug "substantie"
           base-uri "https://id.milieuinfo.be/"
-          uris-file (example "uri" "customising-uris" "codelists.edn")
+          uri-templates (example "templates" "customising-uris" "codelists.edn")
           repo (repo/sail-repo)]
 
       (with-open [conn (repo/->connection repo)]
@@ -103,7 +103,7 @@
                                                    :codelist-name codelist-name
                                                    :codelist-slug codelist-slug
                                                    :base-uri base-uri
-                                                   :uris-file uris-file}))
+                                                   :uri-templates uri-templates}))
 
       (testing "uri patterns match"
         (let [q (str "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>"

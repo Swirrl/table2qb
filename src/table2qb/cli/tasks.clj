@@ -68,7 +68,7 @@
   (println "Usage: table2qb exec pipeline-name args"))
 
 (defmethod describe-task :uris [{:keys [pipelines] :as uris-task}]
-  (println "Usage: table2qb uris pipeline-name [uris-file]")
+  (println "Usage: table2qb uris pipeline-name [uri-templates]")
   (println)
   (println "Lists and describes the URI templates used by a named pipeline")
   (println "If an EDN file containing overriding URI definitions is provided, the resolved URIs that would be used by the pipeline will be displayed")
@@ -308,11 +308,11 @@
 (defn- format-template-variable [var-sym]
   (str "$(" (name var-sym) ")"))
 
-(defmethod exec-task :uris [{:keys [pipelines] :as uri-task} _all-tasks [pipeline-name uris-file & _ignored]]
+(defmethod exec-task :uris [{:keys [pipelines] :as uri-task} _all-tasks [pipeline-name uri-templates & _ignored]]
   (if (some? pipeline-name)
     (if-let [{:keys [uris-resource template-vars csvw-vars] :as pipeline} (find-pipeline pipelines pipeline-name)]
-      (if (some? uris-file)
-        (let [resolved-uris (uri-config/resolve-uri-defs (io/resource uris-resource) (io/file uris-file))]
+      (if (some? uri-templates)
+        (let [resolved-uris (uri-config/resolve-uri-defs (io/resource uris-resource) (io/file uri-templates))]
           (display-table (map (fn [[key uri]] [(str "  " key) uri]) resolved-uris) ["Name" "Template"]))
 
         (let [uris (util/read-edn (io/resource uris-resource))]

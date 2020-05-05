@@ -60,13 +60,13 @@
   (testing "custom-uris example"
     (let [input-csv (example-csv "customising-uris" "components.csv")
           base-uri "https://id.milieuinfo.be/"
-          uris-file (example "uri" "customising-uris" "components.edn")
+          uri-templates (example "templates" "customising-uris" "components.edn")
           repo (repo/sail-repo)]
 
       (with-open [conn (repo/->connection repo)]
         (add-csvw conn components-pipeline {:input-csv input-csv
                                             :base-uri base-uri
-                                            :uris-file uris-file}))
+                                            :uri-templates uri-templates}))
 
       (testing "uri patterns match"
         (let [q (str "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"

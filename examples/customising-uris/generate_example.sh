@@ -15,14 +15,14 @@ $TABLE2QB exec codelist-pipeline \
 --codelist-name "substanties (IMJV)" \
 --codelist-slug "substantie" \
 --base-uri $BASE_URI \
---uris-file uri/codelists.edn \
+--uri-templates templates/codelists.edn \
 --output-file ttl/substanties.ttl
 #--output-directory "$CSVW_DIR"
 
 $TABLE2QB exec components-pipeline \
 --input-csv csv/components.csv \
 --base-uri $BASE_URI \
---uris-file uri/components.edn \
+--uri-templates templates/components.edn \
 --output-file ttl/components.ttl
 
 $TABLE2QB exec cube-pipeline \
@@ -31,5 +31,5 @@ $TABLE2QB exec cube-pipeline \
 --dataset-slug "luchtemisses" \
 --column-config columns.csv \
 --base-uri $BASE_URI \
---uris-file uri/cube.edn \
+--uri-templates templates/cube.edn \
 --output-file ttl/cube.ttl

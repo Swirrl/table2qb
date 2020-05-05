@@ -20,12 +20,12 @@
                                                        :description "Base URI for generated URIs"
                                                        :type :string
                                                        :example "http://example.com/dataset/"}
-                                                      {:name uris-file
+                                                      {:name uri-templates
                                                        :description "EDN file containing named URI template definitions"
                                                        :type :file
-                                                       :example "uris.edn"
+                                                       :example "uri-templates.edn"
                                                        :optional? true}]
-                                         :uris-resource "uris/cube-pipeline-uris.edn"
+                                         :uris-resource "templates/cube-pipeline-uris.edn"
                                          :template-vars {base-uri "Base URI"
                                                          dataset-slug "Provided slug for the dataset"}
                                          :csvw-vars {}}
@@ -39,12 +39,12 @@
                                                                    :description "Base URI for generated URIs"
                                                                    :type :string
                                                                    :example "http://example.com/dataset/"}
-                                                                  {:name uris-file
+                                                                  {:name uri-templates
                                                                    :description "EDN file containing named URI template definitions"
                                                                    :type :file
-                                                                   :example "uris.edn"
+                                                                   :example "uri-templates.edn"
                                                                    :optional? true}]
-                                                     :uris-resource "uris/components-pipeline-uris.edn"
+                                                     :uris-resource "templates/components-pipeline-uris.edn"
                                                      :template-vars {base-uri "Base URI"}
                                                      :csvw-vars {label "Component label"
                                                                  notation "An optional slug, defaults to the slugised label"
@@ -72,12 +72,12 @@
                                                                :description "Base URI for generated URIs"
                                                                :type :string
                                                                :example "http://example.com/dataset/"}
-                                                              {:name uris-file
+                                                              {:name uri-templates
                                                                :description "EDN file containing named URI template definitions"
                                                                :type :file
-                                                               :example "uris.edn"
+                                                               :example "uri-templates.edn"
                                                                :optional? true}]
-                                                 :uris-resource "uris/codelist-pipeline-uris.edn"
+                                                 :uris-resource "templates/codelist-pipeline-uris.edn"
                                                  :template-vars {base-uri "Base URI"
                                                                  codelist-slug "Provided slug for the codelist"}
                                                  :csvw-vars {label "Code Label"

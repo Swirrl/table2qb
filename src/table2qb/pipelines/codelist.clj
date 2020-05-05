@@ -15,7 +15,7 @@
     (uri-config/expand-uris uri-defs vars)))
 
 (defn get-uris [base-uri codelist-slug]
-  (let [uri-map (util/read-edn (io/resource "uris/codelist-pipeline-uris.edn"))]
+  (let [uri-map (util/read-edn (io/resource "templates/codelist-pipeline-uris.edn"))]
     (resolve-uris uri-map base-uri codelist-slug)))
 
 (defn codelist-schema [csv-url codelist-name {:keys [codelist-uri code-uri parent-uri] :as column-config}]
@@ -121,10 +121,10 @@
 
 (defn codelist-pipeline
   "Generates a codelist from a CSV file describing its members"
-  [output-directory {:keys [codelist-csv codelist-name codelist-slug base-uri uris-file]}]
+  [output-directory {:keys [codelist-csv codelist-name codelist-slug base-uri uri-templates]}]
   (let [metadata-file (io/file output-directory "metadata.json")
         output-csv (io/file output-directory "codelist.csv")
-        uri-defs (uri-config/resolve-uri-defs (io/resource "uris/codelist-pipeline-uris.edn") uris-file)
+        uri-defs (uri-config/resolve-uri-defs (io/resource "templates/codelist-pipeline-uris.edn") uri-templates)
         uris (resolve-uris uri-defs base-uri codelist-slug)
         metadata (codelist-schema (.toURI output-csv) codelist-name uris)]
     (codelist->csvw codelist-csv output-csv)

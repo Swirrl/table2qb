@@ -250,7 +250,8 @@
                 qb (partial str "http://purl.org/linked-data/cube#")]
             (are [type uri] (contains? (set (uris-with-type type)) uri)
               (qb "DataSet") "https://id.milieuinfo.be/imjv/kubus/luchtemissies#id"
-              (qb "DataStructureDefinition") "https://id.milieuinfo.be/imjv/dsd/luchtemissies#id" ;; the true URI is not pluralised
-              )))))))
+              (qb "DataStructureDefinition") "https://id.milieuinfo.be/imjv/dsd/luchtemissies#id"))))))) ;; the true URI is not pluralised
+              ;;(qb "Observation") "https://id.milieuinfo.be/imjv/observatie/00119266000190/2804/em/11/obs/13/2012#id"
+              
 
 ;; TODO: Need to label components and their used-code codelists if dataset-name is not blank

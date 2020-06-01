@@ -122,18 +122,37 @@
 
 (defn components-pipeline
   "Generates component specifications."
-  [output-dir {:keys [input-csv base-uri uri-templates]}]
-  (let [components-csv (io/file output-dir "components.csv")
-        metadata-file (io/file output-dir "metadata.json")
-        uri-defs (uri-config/resolve-uri-defs (io/resource "templates/components-pipeline-uris.edn") uri-templates)
-        uris (resolve-uris uri-defs base-uri)]
-    (components->csvw input-csv components-csv)
-    (util/write-json-file metadata-file (components-schema (.toURI components-csv) uris))
-    {:metadata-file metadata-file}))
+  [output-dir {:keys [input-csv output/components-csv uris output/metadata-file] :as opts}]
+  (components->csvw input-csv components-csv)
+  (util/write-json-file metadata-file (components-schema (.toURI components-csv) uris))
+  {:metadata-file metadata-file})
+
+(defmethod ig/init-key :table2qb.pipelines.components/pipeline [_ {:keys [output-dir] :as opts}]
+  (components-pipeline output-dir opts))
+
+(defn- with-defaults
+  "Generate some values on the basis of others based upon some
+  conventions etc."
+  [{:keys [input-csv base-uri output-dir uri-templates] :as opts}]
+  (letfn [(default-file [default-fname f] (io/file (or f (io/file output-dir default-fname))))]
+    (-> opts
+        (update :output/components-csv #(default-file "components.csv" %))
+        (update :output/metadata-file #(default-file "metadata.json" %))
+        (cond->
+            (nil? (:uris opts))
+            (assoc :uris
+                   (let [uri-defs (uri-config/resolve-uri-defs (io/resource "templates/components-pipeline-uris.edn")
+                                                               uri-templates)]
+                     (resolve-uris uri-defs base-uri)))))))
+
+(defn components-pipeline-with-defaults
+  "Generates component specifications."
+  [output-dir opts]
+  (components-pipeline output-dir (with-defaults opts)))
 
 (defmethod ig/init-key :table2qb.pipelines.components/components-pipeline [_ opts]
   (assoc opts
-         :table2qb/pipeline-fn components-pipeline
+         :table2qb/pipeline-fn components-pipeline-with-defaults
          :description (:doc (meta #'components-pipeline))))
 
 (derive :table2qb.pipelines.components/components-pipeline :table2qb.pipelines/pipeline)

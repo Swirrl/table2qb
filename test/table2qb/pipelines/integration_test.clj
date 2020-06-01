@@ -32,16 +32,16 @@
                                                      :codelist-name             "Measurement Units"
                                                      :codelist-slug             "measurement-units"
                                                      :base-uri                  test-domain})
-          (add-csvw conn components/components-pipeline {:input-csv (io/resource "regional-trade/csv/components.csv")
-                                                         :base-uri                 test-domain})
+          (add-csvw conn components/components-pipeline-with-defaults {:input-csv (io/resource "regional-trade/csv/components.csv")
+                                                                       :base-uri                 test-domain})
 
           ;;this dataset
           (add-csvw conn codelist/codelist-pipeline {:codelist-csv (io/resource "overseas-trade/csv/countries.csv")
                                                      :codelist-name             "Countries"
                                                      :codelist-slug             "countries"
                                                      :base-uri                  test-domain})
-          (add-csvw conn components/components-pipeline {:input-csv (io/resource "overseas-trade/csv/components.csv")
-                                                         :base-uri                 test-domain})
+          (add-csvw conn components/components-pipeline-with-defaults {:input-csv (io/resource "overseas-trade/csv/components.csv")
+                                                                       :base-uri                 test-domain})
           (add-csvw conn cube/cube-pipeline {:input-csv (io/resource "overseas-trade/csv/ots-cn-sample.csv")
                                              :dataset-name       "Overseas Trade Sample"
                                              :dataset-slug       "overseas-trade-sample"

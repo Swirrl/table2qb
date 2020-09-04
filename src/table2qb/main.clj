@@ -2,7 +2,11 @@
   (:gen-class)
   (:require [clojure.java.io :as io]
             [integrant.core :as ig]
-            [table2qb.cli.tasks :refer [exec-task find-task usage-lines display-lines]])
+            [table2qb.cli.tasks :refer [exec-task find-task usage-lines display-lines]]
+            [table2qb.pipelines]
+            [table2qb.pipelines.cube]
+            [table2qb.pipelines.components]
+            [table2qb.pipelines.codelist])
   (:import [clojure.lang ExceptionInfo]))
 
 (defn get-config []
@@ -17,7 +21,6 @@
 
 (defn inner-main [args]
   (let [config (get-config)
-        _loaded-namespaces (ig/load-namespaces config)
         system (ig/init config)
         tasks (::tasks system)
         task-name (or (first args) "help")]

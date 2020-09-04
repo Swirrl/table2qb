@@ -31,7 +31,7 @@
         stdout (java.io.PrintWriter. out-sw)
         ret (binding [*err* stderr
                       *out* stdout]
-              (sut/inner-main args))]
+              (sut/cli-main args))]
     {:status ret
      :err (str err-sw)
      :out (str out-sw)}))
@@ -110,10 +110,10 @@
 
 (comment
 
-  (sut/inner-main ["exec" "cube-pipeline" ])
+  (sut/cli-main ["exec" "cube-pipeline" ])
 
-  (sut/inner-main ["exec" "codelist-pipeline" "--codelist-csv" "./examples/employment/csv/gender.csv" "--codelist-name" "gender" "--output-file" "output.ttl" "--codelist-slug" "gender" "--base-uri" "http://base/uri"])
+  (sut/cli-main ["exec" "codelist-pipeline" "--codelist-csv" "./examples/employment/csv/gender.csv" "--codelist-name" "gender" "--output-file" "output.ttl" "--codelist-slug" "gender" "--base-uri" "http://base/uri"])
 
-  (sut/inner-main ["exec" "components-pipeline" "--output-file" "comp-output.ttl" "--base-uri" "http://foo.bar/base/" "--input-csv" "./examples/employment/csv/components.csv"])
+  (sut/cli-main ["exec" "components-pipeline" "--output-file" "comp-output.ttl" "--base-uri" "http://foo.bar/base/" "--input-csv" "./examples/employment/csv/components.csv"])
 
   )

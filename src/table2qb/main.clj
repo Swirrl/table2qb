@@ -25,8 +25,7 @@
         tasks (::tasks system)
         task-name (or (first args) "help")]
     (if-let [task (find-task tasks task-name)]
-      (do (println "table2qb exec")
-          (exec-task task tasks (rest args)))
+      (exec-task task tasks (rest args))
       (throw (ex-info "Unknown task"
                       {:error ::unknown-task
                        ::task-name task-name

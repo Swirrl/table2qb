@@ -11,7 +11,12 @@
           substitutions))
 
 (defn expand-uris [uris substitutions]
-  (util/map-values (fn [t] (expand-uri-template t substitutions)) uris))
+  (letfn [(expand-template [t] (expand-uri-template t substitutions))]
+    (util/map-values (fn [v]
+                       (if (coll? v)
+                         (into (empty v) (map expand-template v))
+                         (expand-template v)))
+                     uris)))
 
 (defn strip-trailing-path-separator [uri-str]
   (if (.endsWith uri-str "/")

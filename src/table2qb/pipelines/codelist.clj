@@ -7,8 +7,7 @@
             [grafter.extra.cell.uri :as gecu]
             [table2qb.csv :as csv]
             [table2qb.configuration.csvw :refer [csv2rdf-config]]
-            [integrant.core :as ig])
-  (:import [java.io File]))
+            [integrant.core :as ig]))
 
 (defn resolve-uris [uri-defs base-uri codelist-slug]
   (let [vars {:base-uri (uri-config/strip-trailing-path-separator base-uri) :codelist-slug codelist-slug}]
@@ -18,55 +17,57 @@
   (let [uri-map (util/read-edn (io/resource "templates/codelist-pipeline-uris.edn"))]
     (resolve-uris uri-map base-uri codelist-slug)))
 
-(defn codelist-schema [csv-url codelist-name {:keys [codelist-uri code-uri parent-uri] :as column-config}]
-  {"@context" ["http://www.w3.org/ns/csvw" {"@language" "en"}],
-   "@id" codelist-uri,
-   "url" (str csv-url)
-   "dc:title" codelist-name,
-   "rdfs:label" codelist-name,
-   "rdf:type" {"@id" "skos:ConceptScheme"},
-   "tableSchema"
-   {"aboutUrl" code-uri,
-    "columns"
-               [{"name" "label",
-                 "titles" "label",
-                 "datatype" "string",
-                 "propertyUrl" "rdfs:label"}
-                {"name" "notation",
-                 "titles" "notation",
-                 "datatype" "string",
-                 "propertyUrl" "skos:notation"}
-                {"name" "parent_notation",
-                 "titles" "parent_notation",
-                 "datatype" "string",
-                 "propertyUrl" "skos:broader",
-                 "valueUrl" parent-uri}
-                {"name" "sort_priority"
-                 "titles" "sort_priority"
-                 "datatype" "integer"
-                 "propertyUrl" "http://www.w3.org/ns/ui#sortPriority"}
-                {"name" "description"
-                 "titles" "description"
-                 "datatype" "string"
-                 "propertyUrl" "rdfs:comment"}
-                {"name" "top_concept_of"
-                 "titles" "top_concept_of"
-                 "propertyUrl" "skos:topConceptOf"
-                 "valueUrl" codelist-uri}
-                {"name" "has_top_concept"
-                 "titles" "has_top_concept"
-                 "aboutUrl" codelist-uri
-                 "propertyUrl" "skos:hasTopConcept"
-                 "valueUrl" code-uri}
-                {"name" "pref_label"
-                 "titles" "pref_label"
-                 "propertyUrl" "skos:prefLabel"}
-                {"propertyUrl" "skos:inScheme",
-                 "valueUrl" codelist-uri,
-                 "virtual" true}
-                {"propertyUrl" "rdf:type"
-                 "valueUrl" "skos:Concept"
-                 "virtual" true}]}})
+(defn- type-column [type]
+  {"propertyUrl" "rdf:type"
+   "valueUrl" type
+   "virtual" true})
+
+(defn codelist-schema [csv-url codelist-name {:keys [codelist-uri code-uri parent-uri concept-types] :as column-config}]
+  (let [base-columns [{"name"        "label",
+                       "titles"      "label",
+                       "datatype"    "string",
+                       "propertyUrl" "rdfs:label"}
+                      {"name"        "notation",
+                       "titles"      "notation",
+                       "datatype"    "string",
+                       "propertyUrl" "skos:notation"}
+                      {"name"        "parent_notation",
+                       "titles"      "parent_notation",
+                       "datatype"    "string",
+                       "propertyUrl" "skos:broader",
+                       "valueUrl"    parent-uri}
+                      {"name"        "sort_priority"
+                       "titles"      "sort_priority"
+                       "datatype"    "integer"
+                       "propertyUrl" "http://www.w3.org/ns/ui#sortPriority"}
+                      {"name"        "description"
+                       "titles"      "description"
+                       "datatype"    "string"
+                       "propertyUrl" "rdfs:comment"}
+                      {"name"        "top_concept_of"
+                       "titles"      "top_concept_of"
+                       "propertyUrl" "skos:topConceptOf"
+                       "valueUrl"    codelist-uri}
+                      {"name"        "has_top_concept"
+                       "titles"      "has_top_concept"
+                       "aboutUrl"    codelist-uri
+                       "propertyUrl" "skos:hasTopConcept"
+                       "valueUrl"    code-uri}
+                      {"name"        "pref_label"
+                       "titles"      "pref_label"
+                       "propertyUrl" "skos:prefLabel"}
+                      {"propertyUrl" "skos:inScheme",
+                       "valueUrl"    codelist-uri,
+                       "virtual"     true}]
+        type-columns (map type-column concept-types)]
+    {"@context"   ["http://www.w3.org/ns/csvw" {"@language" "en"}],
+     "@id"        codelist-uri
+     "url"        (str csv-url)
+     "dc:title"   codelist-name
+     "rdfs:label" codelist-name
+     "rdf:type"   {"@id" "skos:ConceptScheme"},
+     "tableSchema" {"aboutUrl" code-uri,
+                    "columns" (vec (concat base-columns type-columns))}}))
 
 (defn add-code-hierarchy-fields [{:keys [parent_notation] :as row}]
   "if there is no parent notation, the current notation is a top

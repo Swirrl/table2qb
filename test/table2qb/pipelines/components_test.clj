@@ -56,7 +56,7 @@
              (component-records (io/reader (char-array "column-a\nvalue-1")))
              (catch Exception e (:missing-columns (ex-data e)))))))))
 
-(deftest components-pipeline-test
+(deftest components-pipeline-with-defaults-test
   (testing "custom-uris example"
     (let [input-csv (example-csv "customising-uris" "components.csv")
           base-uri "https://id.milieuinfo.be/"
@@ -64,9 +64,9 @@
           repo (repo/sail-repo)]
 
       (with-open [conn (repo/->connection repo)]
-        (add-csvw conn components-pipeline {:input-csv input-csv
-                                            :base-uri base-uri
-                                            :uri-templates uri-templates}))
+        (add-csvw conn components-pipeline-with-defaults {:input-csv input-csv
+                                                          :base-uri base-uri
+                                                          :uri-templates uri-templates}))
 
       (testing "uri patterns match"
         (let [q (str "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"

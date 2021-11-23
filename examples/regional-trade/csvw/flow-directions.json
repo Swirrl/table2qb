@@ -24,6 +24,13 @@
       "propertyUrl": "skos:broader",
       "valueUrl": "http://gss-data.org.uk/def/concept/flow-directions/{parent_notation}"
     },{
+      "name": "parent_notation2",
+      "titles": "parent_notation2",
+      "datatype": "string",
+      "aboutUrl": "http://gss-data.org.uk/def/concept/flow-directions/{parent_notation}"
+      "propertyUrl": "skos:narrower",
+      "valueUrl": "http://gss-data.org.uk/def/concept/flow-directions/{notation}"
+    },{
       "name": "sort_priority",
       "titles": "sort_priority",
       "datatype": "integer",

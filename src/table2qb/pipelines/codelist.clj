@@ -41,6 +41,12 @@
                  "datatype" "string",
                  "propertyUrl" "skos:broader",
                  "valueUrl" parent-uri}
+                {"name" "parent_notation2"
+                 "titles" "parent_notation2"
+                 "datatype" "string"
+                 "aboutUrl" parent-uri
+                 "propertyUrl" "skos:narrower"
+                 "valueUrl" code-uri}
                 {"name" "sort_priority"
                  "titles" "sort_priority"
                  "datatype" "integer"
@@ -68,20 +74,25 @@
                  "valueUrl" "skos:Concept"
                  "virtual" true}]}})
 
+(defn add-parent-notation-copy [{:keys [parent_notation] :as row}]
+  (assoc row :parent_notation2 parent_notation))
+
 (defn add-code-hierarchy-fields [{:keys [parent_notation] :as row}]
   "if there is no parent notation, the current notation is a top
   concept of the scheme. This is indicated by a non-empty value in the
   top_concept_of and has_top_concept columns. The actual value is not
   significant since it is not referenced in cell URI templates."
   (let [tc (if (string/blank? parent_notation) "yes" "")]
-    (assoc row :top_concept_of tc :has_top_concept tc)))
+    (assoc row
+           :top_concept_of tc
+           :has_top_concept tc)))
 
 (defn add-pref-label [{:keys [label] :as row}]
   (assoc row :pref_label label))
 
-
 (defn annotate-code [row]
   (-> row
+      (add-parent-notation-copy)
       (add-code-hierarchy-fields)
       (add-pref-label)))
 
@@ -116,7 +127,7 @@
   [codelist-csv dest-file]
   (with-open [reader (reader codelist-csv)
               writer (io/writer dest-file)]
-    (let [output-columns [:label :notation :parent_notation :sort_priority :description :top_concept_of :has_top_concept :pref_label]]
+    (let [output-columns [:label :notation :parent_notation :parent_notation2 :sort_priority :description :top_concept_of :has_top_concept :pref_label]]
       (write-csv-rows writer output-columns (code-records reader)))))
 
 (defn codelist-pipeline

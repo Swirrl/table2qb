@@ -1,6 +1,6 @@
 # table2qb <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Tesseract-1K.gif/240px-Tesseract-1K.gif" align="right" height="139" alt="tesseract animation"/>
 
-[![Build Status](https://travis-ci.com/Swirrl/table2qb.svg?branch=master)](https://travis-ci.com/Swirrl/table2qb)
+[![Build Status](https://travis-ci.com/Swirrl/table2qb.svg?branch=master)](https://travis-ci.com/github/Swirrl/table2qb)
 
 ## Build Statistical Linked-Data with CSV-on-the-Web
 

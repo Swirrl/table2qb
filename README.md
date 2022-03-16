@@ -1,24 +1,44 @@
-# table2qb
+# table2qb <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Tesseract-1K.gif/240px-Tesseract-1K.gif" align="right" height="139" alt="tesseract animation"/>
 
-[![Build Status](https://travis-ci.com/Swirrl/table2qb.svg?branch=master)](https://travis-ci.com/Swirrl/table2qb)
+[![Build Status](https://travis-ci.com/Swirrl/table2qb.svg?branch=master)](https://travis-ci.com/github/Swirrl/table2qb)
 
-![animated tesseract](https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Tesseract-1K.gif/240px-Tesseract-1K.gif)
+## Build Statistical Linked-Data with CSV-on-the-Web
 
-## Overview
+Create statistical linked-data by deriving CSV-on-the-Web annotations for your data tables using the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/).
 
-Table2qb (pronounced 'table to cube') is designed for representation of statistical data as Linked Data, using the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/). It is aimed at users who understand statistical data and are comfortable with common data processing tools, but it does not require programming skills or detailed knowledge of RDF.
+Build up a knowledge graph from spreadsheets without advanced programming skills or RDF modelling knowledge.
 
-Choices of predicates and URI design are encapsulated in a configuration file that can be prepared once and used for all datasets in a collection.
+Simply prepare CSV inputs according to the templates and `table2qb` will output standards-compliant CSVW or RDF.
 
-Table2qb separates out the three main aspects of data in a data-cube structure: the observations, components (dimensions, measures, attributes) and the codelists that define possible values of the components.
+Once you're happy with the results you can adjust the configuration to tailor the URI patterns to your heart's content.
 
-The input to table2qb takes the form of a CSV file in the ['tidy data'](http://vita.had.co.nz/papers/tidy-data.pdf) structure.  The interpretation of the columns in the input data is defined by the configuration file and follows set conventions, described in more detail below.
+## Turn Data Tables into Data Cubes 
 
-The implementation makes use of the W3C [Tabular Data and Metadata on the Web](https://www.w3.org/TR/tabular-data-model/) standards, in particular [csv2rdf](https://www.w3.org/TR/csv2rdf/).  It incorporates this open source [csv2rdf processing library](https://github.com/swirrl/csv2rdf).  Behind the scenes there is a two step process, first converting the defined tabular inputs into an updated table and accompanying JSON metadata as defined by the csv2rdf standard, then using the standard csv2rdf processor to create the final outputs. A future version of table2qb will allow the option of outputting the JSON metadata and accompanying table for the csv2rdf representation.
+Table2qb expects three types of CSV tables as input:
 
-The output of table2qb is RDF in [Turtle](https://www.w3.org/TR/turtle/) format. Future versions will allow alternative RDF serialisations as an option.
+- observations: a ['tidy data'](http://vita.had.co.nz/papers/tidy-data.pdf) table with one statistic per row (what the standard calls an _observation_)
+- components: another table defining the columns used to describe observations (what the standard calls _component properties_ such as _dimensions_, _measures_, and _attributes_)
+- codelists: a further set of tables that enumerate and describe the values used in cells of the observation table (what the standard calls _codes_, grouped into _codelists_)
 
-## How to install table2qb
+For example, [the ONS says](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/articles/overviewoftheukpopulation/january2021) that:
+
+> In mid-2019, the population of the UK reached an estimated 66.8 million
+
+This is a single observation value (66.8 million) with two dimensions (date and place) which respectively have two code values (mid-2019 and UK), a single measure (population estimate), and implicitly an attribute for the unit (people).
+
+The [regional-trade example](https://github.com/Swirrl/table2qb/tree/master/examples/regional-trade) goes into more depth. The [colour-coded spreadsheet](./all-colour-coded.ods) should help illustrate how the three types of table come together to describe a cube.
+
+Each of these inputs is processed by it's own pipeline which will output [CSVW](https://w3c.github.io/csvw/metadata/) - i.e. a processed version of the CSV table along with a JSON metadata annotation which describes the translation into RDF. Optionally you can also ask `table2qb` to perform the translation outputting RDF directly that can be loaded into a graph database and queried with SPARQL.
+
+Table2qb also relies on a fourth CSV table for configuration:
+
+- columns: this describes how the observations table should be interpreted - i.e. which components and codelists should be used for each column in the observation tables
+
+This configuration is designed to be used for multiple data cubes across a data collection (so that you can re-use e.g. a "Year" column without having to configure anew it each time) to encourage harmonisation and alignment of identifiers.
+
+Ultimately `table2qb` provides a foundation to help you build a collection of interoperable statistical linked open data.
+
+## Install table2qb
 
 ### Github release
 

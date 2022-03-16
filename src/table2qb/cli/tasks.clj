@@ -226,7 +226,7 @@
 
         (println)
         (println "URIs:")
-        (display-table (map (fn [[key uri]] [(str "  " key) uri]) uris) ["" "Default"])
+        (display-table (map (fn [[key uri]] [(str "  " key) uri]) (uri-config/format-uris uris)) ["Name" "Default"])
         (println)
         (println "To describe pipeline URIs:")
         (println (get-example-uris-command-line pipeline))
@@ -317,7 +317,7 @@
 
         (let [uris (util/read-edn (io/resource uris-resource))]
           (println "URIs:")
-          (display-table (util/map-keys (indent 4 identity) uris) ["Name" "Default"])
+          (display-table (util/map-keys (indent 4 identity) (uri-config/format-uris uris)) ["Name" "Default"])
           (println)
           (println "Template variables:")
           (display-table (util/map-keys (indent 4 format-template-variable) template-vars) ["Name" "Description"])

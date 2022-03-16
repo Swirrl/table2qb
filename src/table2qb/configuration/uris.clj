@@ -33,3 +33,8 @@
   (let [base-uris (util/read-edn base-source)
         user-uris (when user-source (util/read-edn user-source))]
     (merge-uris base-uris user-uris)))
+
+(defn format-uris
+  "Formats the values of a URI map as strings suitable for display in the UI"
+  [uris]
+  (util/map-values pr-str uris))

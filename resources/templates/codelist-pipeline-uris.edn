@@ -1,3 +1,4 @@
 {:codelist-uri "$(base-uri)/def/concept-scheme/$(codelist-slug)"
  :code-uri "$(base-uri)/def/concept/$(codelist-slug)/{notation}"
- :parent-uri "$(base-uri)/def/concept/$(codelist-slug)/{parent_notation}"}
+ :parent-uri "$(base-uri)/def/concept/$(codelist-slug)/{parent_notation}"
+ :concept-types ["skos:Concept"]}

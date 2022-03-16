@@ -11,7 +11,12 @@
           substitutions))
 
 (defn expand-uris [uris substitutions]
-  (util/map-values (fn [t] (expand-uri-template t substitutions)) uris))
+  (letfn [(expand-template [t] (expand-uri-template t substitutions))]
+    (util/map-values (fn [v]
+                       (if (coll? v)
+                         (into (empty v) (map expand-template v))
+                         (expand-template v)))
+                     uris)))
 
 (defn strip-trailing-path-separator [uri-str]
   (if (.endsWith uri-str "/")
@@ -28,3 +33,8 @@
   (let [base-uris (util/read-edn base-source)
         user-uris (when user-source (util/read-edn user-source))]
     (merge-uris base-uris user-uris)))
+
+(defn format-uris
+  "Formats the values of a URI map as strings suitable for display in the UI"
+  [uris]
+  (util/map-values pr-str uris))

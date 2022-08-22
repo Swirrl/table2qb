@@ -26,7 +26,7 @@ For example, [the ONS says](https://www.ons.gov.uk/peoplepopulationandcommunity/
 
 This is a single observation value (66.8 million) with two dimensions (date and place) which respectively have two code values (mid-2019 and UK), a single measure (population estimate), and implicitly an attribute for the unit (people).
 
-The [regional-trade example](https://github.com/Swirrl/table2qb/tree/master/examples/regional-trade) goes into more depth. The [colour-coded spreadsheet](./all-colour-coded.ods) should help illustrate how the three types of table come together to describe a cube.
+The [regional-trade example](https://github.com/Swirrl/table2qb/tree/master/examples/regional-trade) goes into more depth. The [colour-coded spreadsheet](https://github.com/Swirrl/table2qb/blob/master/examples/regional-trade/all-colour-coded.ods) should help illustrate how the three types of table come together to describe a cube.
 
 Each of these inputs is processed by it's own pipeline which will output [CSVW](https://w3c.github.io/csvw/metadata/) - i.e. a processed version of the CSV table along with a JSON metadata annotation which describes the translation into RDF. Optionally you can also ask `table2qb` to perform the translation outputting RDF directly that can be loaded into a graph database and queried with SPARQL.
 

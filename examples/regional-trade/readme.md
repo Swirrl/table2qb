@@ -12,7 +12,7 @@ The [csv](csv) folder contains the inputs:
 - observation data:
   - [input.csv](./csv/input.csv)
 
-This is premised on configuration in [/resources/columns.csv](/resources/columns.csv). This will need changing to support further examples. It should ultimately be extracted from a database so that adding components makes them available as columns that can be provided in observation csv.
+This is premised on configuration in [columns.csv](./columns.csv). This will need changing to support further examples. It should ultimately be extracted from a database so that adding components makes them available as columns that can be provided in observation csv.
 
 The [csvw](./csvw) folder contains the outputs from table2qb and the [ttl](./ttl) folder shows the resulting RDF translation. The [vocabularies](./vocabularies) folder provides additional vocabularies required to make the example work.
 

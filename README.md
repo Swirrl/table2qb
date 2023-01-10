@@ -63,9 +63,9 @@ Clojure now distributes `clojure` and `cli` command-line programs for running cl
 ```clojure
 {:deps {swirrl/table2qb {:git/url "https://github.com/Swirrl/table2qb.git"
                          :sha "8c4b22778db0c160b06f2f3b0b3df064d8f8452b"}
-        org.apache.logging.log4j/log4j-api {:mvn/version "2.11.0"}
-        org.apache.logging.log4j/log4j-core {:mvn/version "2.11.0"}
-        org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.11.0"}}
+        org.apache.logging.log4j/log4j-api {:mvn/version "2.17.1"}
+        org.apache.logging.log4j/log4j-core {:mvn/version "2.17.1"}
+        org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.17.1"}}
  :aliases
  {:table2qb
   {:main-opts ["-m" "table2qb.main"]}}}

@@ -15,28 +15,28 @@
 
 `table2qb` is a utility for specifying and generating elements of an [RDF Data Cube](https://www.w3.org/TR/vocab-data-cube/). A data cube contains
 a collection of homogeneous statistical observations along with a definition of their structure. Each observation is identified by a collection of
-_dimension_ values corresponding to one or more observed _measure_ values along with an optional set of _attributes_ which allow further interpretation 
+_dimension_ values corresponding to one or more observed _measure_ values along with an optional set of _attributes_ which allow further interpretation
 of the observed value(s). `table2qb` exposes a number of 'pipelines' which generate the various elements that comprise a cube. A pipeline is a command
 which takes a number of named arguments and outputs RDF data either to a file or to the standard output stream. This RDF data can then be inserted into
 an RDF data store for further processing.
 
 ## Running and getting help
 
-Once installed, `table2qb` can be run with the `table2qb` command:
+Once installed, `table2qb` can be run via the `cli` alias:
 
-    table2qb
-    
+    clojure -M:cli
+
 Running without any further arguments outputs a brief help message which describes the tasks that `table2qb` provides. A task is a sub-command
 exposing some functionality with its own arguments. For example the `help` task displays the help for a particular task e.g.
 
-    table2qb help list
-    
+    clojure -M:cli help list
+
 describes how to use the `list` task.
 
 ## Creating components
 
 An observation consists of a number of dimensions, one or more measures and an optional set of attributes - collectively these are referred to
-as _components_. Before being referenced by an observation, these components must be defined. Some components you wish to reference 
+as _components_. Before being referenced by an observation, these components must be defined. Some components you wish to reference
 (e.g. [sdmx-dimension:refArea](http://purl.org/linked-data/sdmx/2009/dimension#refArea)) may already be defined by existing vocabularies, but
 you may have additional components specific to your organisation you wish to define. These can be created using the `components-pipeline`.
 Components are defined by the rows of a CSV file containing the following columns:
@@ -51,8 +51,8 @@ The [employment example](../examples/employment/README.md) contains a [component
 dimension and a count measure. The `components-pipeline` is run by providing the components file along with a base URI used to construct the URIs for the generated components
 and their properties. This will usually be some sub-path of the linked data domain you will be hosting your cubes under. The `components-pipeline` is run using the `exec` task:
 
-    table2qb exec components-pipeline --input-csv path/to/components.csv --base-uri http://example.com/ --output-file components.ttl
-    
+    clojure -M:cli exec components-pipeline --input-csv path/to/components.csv --base-uri http://example.com/ --output-file components.ttl
+
 Running with the employment example components results in two components being defined in the output `components.ttl` file. Within `components.ttl`
 the `Gender` dimension is defined with the following properties:
 
@@ -74,7 +74,7 @@ There are a few things to note about the resulting component:
   a URI of `http://example.com/def/dimension/gender`, the count measure `http://example.com/def/measure/count`, a `Trade Currency` attribute would be
   `http://example.com/def/attribute/trade-currency` etc.
 * An `rdf:type` property is defined as `qb:DimensionProperty`, `qb:MeasureProperty` or `qb:AttributeProperty` depending on whether the `Component Type` is
-  `Dimension`, `Measure` or `Attribute` respectively.  
+  `Dimension`, `Measure` or `Attribute` respectively.
 * The value of the `skos:notation` property is the slugized version of the label.
 * The value of the `rdfs:range` property is derived from the base URI and the [classized](#classizing) version of the label.
   The resulting value URI is `{base-uri}/def/{classized-label}`.
@@ -97,12 +97,12 @@ file defining the values and (where present) the hierarchical structure of the c
 * `Description`: Textual description of the concept.
 * `Sort Priority`: Optional numeric value indicating the position of the value within the code list. Some user interfaces may use this value
   to sort the code list values for display purposes.
-  
+
 The [employment example](../examples/employment/README.md) contains a [gender codelist](../examples/employment/csv/gender.csv). Note that the optional `Description` and `Sort Priority` columns
 are missing. This file can be used to generate the codelist with `codelist-pipeline`:
 
-    table2qb exec codelist-pipeline --codelist-csv path/to/gender-codelist.csv --codelist-name Gender --codelist-slug gender --base-uri http://example.com/ --output-file gender.ttl
-    
+    clojure -M:cli exec codelist-pipeline --codelist-csv path/to/gender-codelist.csv --codelist-name Gender --codelist-slug gender --base-uri http://example.com/ --output-file gender.ttl
+
 This generates a `skos:ConceptScheme` for gender containing members for the `All`, `Female` and `Male` members within the codelist CSV file. The codelist is defined as:
 
 ```turtle
@@ -125,13 +125,13 @@ column within the codelist CSV file. Member URIs have a prefix of the containing
 <http://example.com/def/concept-scheme/gender> skos:member <http://example.com/def/concept/gender/female> .
 ```
 
-The member is connected to its containing scheme through the `skos:inScheme` and `skos:member` properties. Since the `Female` member has a `Parent Notation` of `all` it has a 
+The member is connected to its containing scheme through the `skos:inScheme` and `skos:member` properties. Since the `Female` member has a `Parent Notation` of `all` it has a
 `skos:broader` relationship with the corresponding `all` member within the scheme.
 
 ## Creating cubes
 
-After defining components and any associated codelists, data cubes can be created by the `cube-pipeline` given a file containing observation data. The observation table should be arranged 
-in [tidy data format](http://vita.had.co.nz/papers/tidy-data.pdf) i.e. one row per observation with one column per component (dimension, attribute or measure). An example observation file can 
+After defining components and any associated codelists, data cubes can be created by the `cube-pipeline` given a file containing observation data. The observation table should be arranged
+in [tidy data format](http://vita.had.co.nz/papers/tidy-data.pdf) i.e. one row per observation with one column per component (dimension, attribute or measure). An example observation file can
 be seen in the [employment example](../examples/employment/csv/input.csv). Along with the observations data, the `cube-pipeline` requires a configuration file which describes the meaning of each
 column in the data and how to process the cells within. This configuration file should contain the following columns:
 
@@ -148,8 +148,8 @@ for additional columns that do not exist. This means that all known columns for 
 
 ### Cube types
 
-Observations within a cube are distinguished by the set of dimension values, but may have multiple associated measures. The [data cube specification](https://www.w3.org/TR/vocab-data-cube/#dsd-mm) suggests two 
-approaches to handling multiple measures. One is to associate a single measure value with each observation and to include an explicit "measure type" dimension which indicates which measure is being used. Such 
+Observations within a cube are distinguished by the set of dimension values, but may have multiple associated measures. The [data cube specification](https://www.w3.org/TR/vocab-data-cube/#dsd-mm) suggests two
+approaches to handling multiple measures. One is to associate a single measure value with each observation and to include an explicit "measure type" dimension which indicates which measure is being used. Such
 cubes are henceforth referred to as ["measure dimension" cubes](#measure-dimension-cubes). The other approach - ["multi-measure" cubes](#multi-measure-cubes) -  associates a value for each measure to each observation.
 
 ### Measure dimension cubes
@@ -198,8 +198,8 @@ column definitions e.g.
 
 Given an observations file and a columns configuration file, the `cube-pipeline` can be run:
 
-    table2qb exec cube-pipeline --input-csv path/to/input.csv --dataset-name Dataset --dataset-slug dataset --column-config path/to/column-configuration.csv --base-uri http://example.com/ --output-file cube.ttl
-    
+    clojure -M:cli exec cube-pipeline --input-csv path/to/input.csv --dataset-name Dataset --dataset-slug dataset --column-config path/to/column-configuration.csv --base-uri http://example.com/ --output-file cube.ttl
+
 The URI of the generated cube will have the form `{base-uri}/data/{dataset-slug}` where `dataset-slug` is the value of the parameter provided `cube-pipeline`. The cube will have a title matching the `dataset-name` parameter.
 A `qb:Observation` is generated for each row in the observations CSV data. The observation corresponding to the first row of the observations within the [employment example](../examples/employment/csv/input.csv) is:
 
@@ -224,7 +224,7 @@ of `slugize` so observation values are converted into URI slugs before being inc
 <http://example.com/data/employment/S12000039/2017-Q1/female/count> <http://statistics.gov.scot/def/dimension/gender> <http://statistics.gov.scot/def/concept/gender/female> .
 ```
 
-shown above. If a codelist has been generated by the `codelist-pipeline`, care must be taken to ensure the `value_template` for the associated dimension matches the format of the URI for generated members. 
+shown above. If a codelist has been generated by the `codelist-pipeline`, care must be taken to ensure the `value_template` for the associated dimension matches the format of the URI for generated members.
 
 ## URIs
 
@@ -238,7 +238,7 @@ The format of these templates are defined by [RFC 6570 - URI Templates](https://
 features. The most common usage is to parameterise URIs by the values of various columns e.g.
 
     http://example/def/concept/gender/{gender}
-    
+
 This references the `gender` column, which should be defined within the columns configuration. Note referencing columns within URI templates is done by the column `name`
 and not its `title` (i.e. `gender` instead of `Gender`).
 
@@ -296,12 +296,12 @@ Note this transformation is only used internally for generating some URIs and is
 Table2qb defines default conventions for the structure of URIs for generated resources, for example the default structure of a component URI was shown above:
 
     {base-uri}/def/{component-type}/{slugged-label}
-    
+
 Each pipeline defines their own set of named URI templates which it uses when defining resources such as components and codelists. The default
 URI templates can be displayed using the `uris` task, e.g.
 
-    table2qb uris components-pipeline
-    
+    clojure -M:cli uris components-pipeline
+
 This displays the default structure of the URIs defined within the `components-pipeline`. Each entry has a name and template containing two types of variable - template
 variables and CSVW variables.
 
@@ -312,12 +312,12 @@ input parameters. The result of this exapansion should be a valid URI or URI tem
 for the URIs of generated components:
 
     :component-uri       $(base-uri)/def/{component_type_slug}/{notation}
-    
-`base-uri` is a required parameter for the `components-pipeline` so the resulting `:component-uri` template will be the result of replacing `$(base-uri)` with the 
+
+`base-uri` is a required parameter for the `components-pipeline` so the resulting `:component-uri` template will be the result of replacing `$(base-uri)` with the
 provided `base-uri` parameter value when invoking the pipeline e.g.
 
-    table2qb exec components-pipeline --base-uri http://my-linked-domain ...
-    
+    clojure -M:cli exec components-pipeline --base-uri http://my-linked-domain ...
+
 will result in `:component-uri` being expanded to `http://my-linked-domain/def/{component_type_slug}/{notation}`.
 
 ### CSVW variables
@@ -338,13 +338,13 @@ this file could be defined as:
 No all URIs for a pipeline need to be defined within the file, any not specified will use the default value. The effective URI templates for the pipeline
 can be output by providing this file to the `uris` task e.g.
 
-    table2qb uris components-pipeline custom_uris.edn
-    
+    clojure -M:cli uris components-pipeline custom_uris.edn
+
 This displays the URI templates that would be used by the pipeline on execution if the specified URIs file was provided.
 
 If you are happy with the resulting URI structure, you can run the pipeline by specifying the optional `--uris` parameter e.g.
 
-    table2qb exec components-pipeline --base-uri http://example.com --uris custom_uris.edn ... 
+    clojure -M:cli exec components-pipeline --base-uri http://example.com --uris custom_uris.edn ...
 
 ## Things to check
 

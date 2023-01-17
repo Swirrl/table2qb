@@ -1,0 +1,2 @@
+export JAVA_HOME=~/.jabba/jdk/17-zulu-38.21/
+export PATH=$JAVA_HOME/bin:$PATH

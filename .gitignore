@@ -10,3 +10,5 @@ pom.xml.asc
 .DS_Store
 table2qb.iml
 .cpcache
+/test-results/
+/.envrc

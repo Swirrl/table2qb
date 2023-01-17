@@ -1,5 +1,5 @@
 (ns table2qb.pipelines.codelist-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.test :refer [deftest testing is]]
             [table2qb.csv :refer [reader]]
             [table2qb.pipelines.codelist :refer :all :as codelist]
             [table2qb.pipelines.test-common :refer [example-csvw
@@ -11,9 +11,7 @@
                                                     add-csvw]]
             [table2qb.util :as util]
             [grafter-2.rdf4j.repository :as repo]
-            [grafter-2.rdf.protocols :as pr]
-            [clojure.java.io :as io])
-  (:import [java.net URI]))
+            [clojure.java.io :as io]))
 
 (defn- read-codes [csv-source]
   (with-open [r (reader csv-source)]

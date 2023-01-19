@@ -1,4 +1,4 @@
-{:deps {org.clojure/clojure {:mvn/version "1.10.1"}
+{:deps {org.clojure/clojure {:mvn/version "1.11.1"}
         io.github.swirrl/grafter.repository {:mvn/version "3.0.0"}
         io.github.swirrl/grafter-extra {:git/sha "e75c7cc3b36cff887ef58708ac013f4892a8f0f9"}
         io.github.swirrl/csv2rdf {:git/sha "50a456fc214b8f8fd39fd1649e058a5384f452f8"}

@@ -12,7 +12,10 @@
           :ns-patterns   ["-test$"]
           :focus-meta [:integration]}]
  :reporter kaocha.report/documentation
- ;;:plugins [kaocha.plugin/profiling]
+
+ :kaocha.plugin.junit-xml/target-file "test-results/kaocha/results.xml"
+
  :plugins [:kaocha.plugin/print-invocations
-           :kaocha.plugin/profiling]
+           :kaocha.plugin/profiling
+           :kaocha.plugin/junit-xml]
  }

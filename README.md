@@ -12,7 +12,7 @@ Simply prepare CSV inputs according to the templates and `table2qb` will output 
 
 Once you're happy with the results you can adjust the configuration to tailor the URI patterns to your heart's content.
 
-## Turn Data Tables into Data Cubes 
+## Turn Data Tables into Data Cubes
 
 Table2qb expects three types of CSV tables as input:
 
@@ -42,30 +42,24 @@ Ultimately `table2qb` provides a foundation to help you build a collection of in
 
 ### Github release
 
-Download the release from [https://github.com/Swirrl/table2qb/releases](https://github.com/Swirrl/table2qb/releases). 
+Download the release from [https://github.com/Swirrl/table2qb/releases](https://github.com/Swirrl/table2qb/releases).
 
 Currently the latest is 0.3.0.
 
 Once downloaded, unzip.  The main 'table2qb' executable is in the directory `./target/table2qb-0.3.0` You can add this directory to your `PATH` environment variable, or just run it with the full file path on your system.
 
-To get help on the available commands, type `table2qb help`.
-
-To see the available pipelines (described in more detail below), type `table2qb list`.
-
-To see the required command structure for one of the pipelines (for example the cube-pipeline), type `table2qb describe cube-pipeline`
-
 ### Clojure CLI
 
 Clojure now distributes `clojure` and `cli` command-line programs for running clojure programs. To run `table2qb` through the `clojure` command, first
-[install the Clojure CLI tools](https://clojure.org/guides/getting_started). Then create a file `deps.edn` containing the following:   
+[install the Clojure CLI tools](https://clojure.org/guides/getting_started). Then create a file `deps.edn` containing the following:
 
 **deps.edn**
 ```clojure
 {:deps {swirrl/table2qb {:git/url "https://github.com/Swirrl/table2qb.git"
                          :sha "8c4b22778db0c160b06f2f3b0b3df064d8f8452b"}
-        org.apache.logging.log4j/log4j-api {:mvn/version "2.17.1"}
-        org.apache.logging.log4j/log4j-core {:mvn/version "2.17.1"}
-        org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.17.1"}}
+        org.apache.logging.log4j/log4j-api {:mvn/version "2.19.0"}
+        org.apache.logging.log4j/log4j-core {:mvn/version "2.19.0"}
+        org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.19.0"}}
  :aliases
  {:table2qb
   {:main-opts ["-m" "table2qb.main"]}}}
@@ -74,20 +68,22 @@ Clojure now distributes `clojure` and `cli` command-line programs for running cl
 You can then run `table2qb` using
 
     clojure -A:table2qb
-    
+
 More details about the `clojure` CLI and the format of the `deps.edn` file can be found [on the Clojure website](https://clojure.org/reference/deps_and_cli)
 
-## Compiling table2qb
+## Running table2qb
 
-Table2qb is written in Clojure and can be built using [Leiningen](https://leiningen.org/). It is recommended you use [Java 8](https://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html) or later.
+Table2qb is written in Clojure and uses [tools.deps](https://clojure.org/guides/deps_and_cli). It is recommended you use [JDK 17](https://adoptium.net/en-GB/) or later.
 
-`table2qb` can be run through `leiningen` with `lein run` e.g.
+`table2qb` can be run via the clojure CLI tools through the `:cli` alias:
 
-    lein run list
-    
-Alternatively it can be run from an uberjar built with `lein uberjar`. The resulting .jar file in the `target` directory can then be run:
+    clojure -M:cli list
 
-    java -jar target/table2qb.jar list
+To get help on the available commands, type `clojure -M:cli help`.
+
+To see the available pipelines (described in more detail below), type `clojure -M:cli list`.
+
+To see the required command structure for one of the pipelines (for example the cube-pipeline), type `clojure -M:cli describe cube-pipeline`
 
 ## How to run table2qb
 

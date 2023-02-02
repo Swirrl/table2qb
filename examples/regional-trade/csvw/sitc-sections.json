@@ -27,7 +27,7 @@
       "name": "parent_notation2",
       "titles": "parent_notation2",
       "datatype": "string",
-      "aboutUrl": "http://gss-data.org.uk/def/concept/sitc-sections/{parent_notation}"
+      "aboutUrl": "http://gss-data.org.uk/def/concept/sitc-sections/{parent_notation}",
       "propertyUrl": "skos:narrower",
       "valueUrl": "http://gss-data.org.uk/def/concept/sitc-sections/{notation}"
     },{

@@ -1,7 +1,7 @@
-{:deps {org.clojure/clojure {:mvn/version "1.10.1"}
-        grafter/grafter {:mvn/version "2.1.7"}
-        grafter/extra {:mvn/version "0.3.0"}
-        swirrl/csv2rdf {:mvn/version "0.4.3"}
+{:deps {org.clojure/clojure {:mvn/version "1.11.1"}
+        io.github.swirrl/grafter.repository {:mvn/version "3.0.0"}
+        io.github.swirrl/grafter-extra {:git/sha "e75c7cc3b36cff887ef58708ac013f4892a8f0f9"}
+        io.github.swirrl/csv2rdf {:git/sha "50a456fc214b8f8fd39fd1649e058a5384f452f8"}
         ;; swirrl/csv2rdf {:git/url "https://github.com/Swirrl/csv2rdf.git"
         ;;                 :sha "81dfe855db7349a4b8468d99f65206672bb1f8c6"}
         org.clojure/data.csv {:mvn/version "1.0.0"}
@@ -10,11 +10,17 @@
         commons-io/commons-io {:mvn/version "2.4"}}
  :paths ["src" "resources"]
  :aliases
- {:test
+ {:cli {:main-opts ["-m" "table2qb.main"]
+        :extra-paths ["env/logging/resources"]
+        :extra-deps {org.apache.logging.log4j/log4j-api {:mvn/version "2.19.0"}
+                     org.apache.logging.log4j/log4j-core {:mvn/version "2.19.0"}
+                     org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.19.0"}}}
+  :test
   {:extra-paths ["test" "test/resources" "examples"]
-   :extra-deps {lambdaisland/kaocha {:mvn/version "1.0-612"}}}
-  :with-logging
-  {:extra-paths ["env/logging/resources"]
-   :extra-deps {org.apache.logging.log4j/log4j-api {:mvn/version "2.17.1"}
-                org.apache.logging.log4j/log4j-core {:mvn/version "2.17.1"}
-                org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.17.1"}}}}}
+   :extra-deps {lambdaisland/kaocha {:mvn/version "1.60.977"}
+                lambdaisland/kaocha-junit-xml {:mvn/version "1.17.101"}
+                org.apache.logging.log4j/log4j-api {:mvn/version "2.19.0"}
+                org.apache.logging.log4j/log4j-core {:mvn/version "2.19.0"}
+                org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.19.0"}}}
+
+  }}

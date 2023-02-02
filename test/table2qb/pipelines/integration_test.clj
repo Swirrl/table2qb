@@ -53,7 +53,8 @@
                        (testing "PMD Dataset Validation"
                          (is (empty? (remove #{"is missing a reference area dimension"
                                                "is not a pmd:Dataset"
-                                               "is missing a pmd:graph"}
+                                               "is missing a pmd:graph"
+                                               "has codes missing labels, e.g. https://trade.ec.europa.eu/def/cn%23cn8_28399000"}
                                              (pmdd/errors repo (str test-domain-data "overseas-trade-sample"))))))
                        (testing "Sort Priority"
                          (with-open [conn (repo/->connection repo)]
